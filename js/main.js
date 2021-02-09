@@ -2,8 +2,7 @@ import fetchData from "/js/modules/universalFunctions.js";
 import { cleanHru, getHru, updateHru } from "/js/modules/hru_dataFunctions.js";
 import cleanPlant from "/js/modules/plantFunctions.js";
 import cleanLanduse from "/js/modules/landuseFunctions.js";
-import   shpToGeoJSON   from "/js/modules/mapFunctions.js";
-
+import   shpToGeoJSON   from "/js/modules/mapFunctions.js"
 
 // hru-data.hru:
 // Fetch unclean dataset...

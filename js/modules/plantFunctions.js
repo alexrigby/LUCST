@@ -1,3 +1,4 @@
+import d3 from "d3";
 // plant.ini//
 
 // Return an object array from cleaned TSV data with D3.tsvParse for plant.ini

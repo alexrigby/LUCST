@@ -1,0 +1,24 @@
+{
+  "name": "swat",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexrigby/SWAT.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alexrigby/SWAT/issues"
+  },
+  "homepage": "https://github.com/alexrigby/SWAT#readme",
+  "dependencies": {
+    "d3": "^6.5.0",
+    "leaflet": "^1.7.1"
+  }
+}

@@ -6,7 +6,7 @@ import   shpToGeoJSON   from "/js/modules/mapFunctions.js"
 
 // hru-data.hru:
 // Fetch unclean dataset...
-fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/hru-data.hru')
+fetchData('/data/TxtInOut/hru-data.hru')
     .then(data => {
         // Clean the dataset...
         const cleanHruData = cleanHru(data);
@@ -19,7 +19,7 @@ fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/hru-data.hru')
 
 // landuse.lum:
 // Fetch unclean dataset...
-fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/landuse.lum')
+fetchData('/data/TxtInOut/landuse.lum')
     .then(data => {
         // Clean the dataset...
         const cleanLanduseData = cleanLanduse(data);
@@ -33,7 +33,7 @@ fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/landuse.lum')
 
 // plant.ini:
 // Fetch unclean dataset...
-fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/plant.ini')
+fetchData('/data/TxtInOut/plant.ini')
     .then(data => {
         // Clean the dataset...
         const cleanPlantData = cleanPlant(data);
@@ -105,79 +105,3 @@ var overlayMaps = {
 L.control.layers(baseMaps, overlayMaps).addTo(mymap);
 
 
-
-
-var selectfeature;
-    var selected_features;	
-	var latlng_area = [];
-	var bounds;
-
-
-
-// delete areas
-	$("#delete-button").click(function(){
-	  selectfeature.removeLastArea();
-	});
-	$("#delete-button-all").click(function(){
-	  selectfeature.removeAllArea();
-	});
-
-	// disable select areafeature
-	$("#disable-button").click(function(){
-	  selectfeature.disable(); 
-	});
-
-	// get the layers of type polygon
-	$("#get-button-features-polygon").click(function(){
-	  selected_features = selectfeature.getFeaturesSelected( 'circle' );
-	  selected_features = selectfeature.getFeaturesSelected( 'polygon' );
-	selected_features = selectfeature.getFeaturesSelected( 'polyline' );
-	  selected_features = selectfeature.getFeaturesSelected( 'rectangle' );
-	  selected_features = selectfeature.getFeaturesSelected( 'marker' );
-	 });
-
-     // set colors for the selected polygon features
-	 $("#set-color").click(function(){
-	  if ( selected_features.length != 0 && selected_features.length >= 1 ) {
-		for (i=0; i < selected_features.length; i++ ) {
-	      selected_features[i].setStyle({fillColor: 'green', fillOpacity: 1 });
-		  selected_features[i].setOpacity( 0.4 );
-		selected_features[i].setStyle({ weight: 4 });
-		}  
-	  }	
-	});
-    
-	//getlatlng of area
-	$("#get-button-latlng").click(function(){
-	  latlng_area = selectfeature.getAreaLatLng( );
-	 });
-	//showlatlng of area
-	$("#show-button-latlng").click(function(){
-	  alert(latlng_area);
-	 });
-
-	 
-	// get the layers
-	$("#get-button-features").click(function(){
-	  selected_features = selectfeature.getFeaturesSelected( 'all' );
-      console.log(selected_features);
-	 });
-
-	 // set the weight of the selected features if it is a lline
-	 $("#set-line-weight").click(function(){
-	  if ( selected_features.length != 0 && selected_features.length >= 1  ) {
-		for (i=0; i < selected_features.length; i++ ) {
-		  if (  selected_features[i] instanceof L.Polyline && !(selected_features[i] instanceof L.Polygon) && !(selected_features[i] instanceof L.Rectangle ) ){
-	        selected_features[i].setStyle({ weight: 4 });
-		  }	
-		}  
-	  }	
-	});
-	
-	// enalbe plugin
-	$("#enable-button").click(function(){
-	  selectfeature = mymap.selectAreaFeature.enable();
-	  
-	  selectfeature.options.color = '#663399' ;
-	  selectfeature.options.weight = 3 ;
-	});

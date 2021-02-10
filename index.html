@@ -20,11 +20,9 @@
     <!-- leaflets plugins for reading Shapefiles-->
     <script src="/js/plugins/catiline.js"></script>
     <script src="/js/plugins/leaflet.shpfile.js"></script>
-    <script src="/js/plugins/jquerySelectAreaFeatures.js"></script>
-    <script src="/js/plugins/Leaflet.SelectAreaFeature.js"></script>
     <!--d3.js plugin for converting txt files to objects-->
-    <!-- <script src="https://d3js.org/d3.v6.min.js"></script> -->
-    <!-- <script src="https://d3js.org/d3-dsv.v1.min.js"></script> -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
     <!--main js-->
     <script defer async type='module' src="js/main.js"></script>
 </head>
@@ -43,23 +41,7 @@
     <main>
         <div class="flex1">
             <div id="mymap"></div>
-            <div style="width: 200px; height: 290px; margin:15px; float:left">
-                <button id="enable-button" class="btn2">enable</button>
-                <button id="disable-button" class="btn">disable</button><br /><br />
-                <button style="width: 200px" id="get-button-features-polygon" class="btn3">get polygon features</button>
-                <button style="width: 200px" id="set-color" class="btn3">set fill color to selected
-                    polygons</button><br /><br />
-                <button style="width: 200px" id="get-button-features" class="btn3">get all features</button>
-                <button style="width: 200px" id="set-line-weight" class="btn3">set weight 4 if feature is a
-                    line</button><br /><br />
-                <button style="width: 200px" id="get-button-latlng" class="btn3">get latlng of latest area
-                    drawn</button>
-                <button style="width: 200px" id="show-button-latlng" class="btn3">show latlng of latest area
-                    drawn</button><br /><br />
-                <button style="width: 200px" id="delete-button" class="btn3">delete last area drawn</button>
-                <button style="width: 200px" id="delete-button-all" class="btn3">delete all area(s)
-                    drawn</button><br /><br />
-            </div>
+           
             <div class="landuse-form">
                 <form title="New Landuse">New Landuse Type<br><br>
                     <label for="Name">Name</label><br>

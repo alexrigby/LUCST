@@ -7,7 +7,7 @@ import   shpToGeoJSON   from "/js/modules/mapFunctions.js";
 
 // hru-data.hru:
 // Fetch unclean dataset...
-fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/hru-data.hru')
+fetchData('/data/TxtInOut/hru-data.hru')
     .then(data => {
         // Clean the dataset...
         const cleanHruData = cleanHru(data);
@@ -20,7 +20,7 @@ fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/hru-data.hru')
 
 // landuse.lum:
 // Fetch unclean dataset...
-fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/landuse.lum')
+fetchData('/data/TxtInOut/landuse.lum')
     .then(data => {
         // Clean the dataset...
         const cleanLanduseData = cleanLanduse(data);
@@ -34,7 +34,7 @@ fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/landuse.lum')
 
 // plant.ini:
 // Fetch unclean dataset...
-fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/plant.ini')
+fetchData('/data/TxtInOut/plant.ini')
     .then(data => {
         // Clean the dataset...
         const cleanPlantData = cleanPlant(data);

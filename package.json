@@ -18,7 +18,10 @@
   },
   "homepage": "https://github.com/alexrigby/SWAT#readme",
   "dependencies": {
+    "catiline": "^2.9.3",
     "d3": "^6.5.0",
-    "leaflet": "^1.7.1"
+    "jquery": "^3.5.1",
+    "leaflet": "^1.7.1",
+    "shpjs": "^3.6.3"
   }
 }

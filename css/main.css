@@ -54,20 +54,14 @@ header a:hover{
 
 /*Main*/
 /*map*/
-.btn {
-  background-color:orange;
-  cursor:pointer;
-}
-.btn2 {
-  background-color:lightblue;
-  cursor:pointer;
-}
-.btn3 {
-  background-color:lightgrey;
-  cursor:pointer;
+
+#sidebar {
+  margin-left: 10px;
 }
 
-#mymap {
+
+#map {
+  
  flex: 7;
 }
 /*map*/

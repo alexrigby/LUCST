@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Testing CSS4</title>
+    <title>SWAT</title>
     <meta name="Authour" content="Alex Rigby">
     <meta name="description" content="a test of how to use CSS">
     <meta name="keywords" content="CSS, HTML, Learning">
@@ -17,6 +17,8 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin=""></script>
+         <!--leaflets plugin to lasso objects on map-->
+    <script src="https://unpkg.com/leaflet-lasso@2.2.3/dist/leaflet-lasso.umd.min.js"></script>
     <!-- leaflets plugins for reading Shapefiles-->
     <script src="/js/plugins/catiline.js"></script>
     <script src="/js/plugins/leaflet.shpfile.js"></script>
@@ -40,12 +42,24 @@
     </header>
     <main>
         <div class="flex1">
-            <div id="mymap"></div>
-           
+            <div id="map"></div>
+            <!-- sidebar containing leafletlasso controls-->
+            <div id="sidebar">
+                <div>
+                    <!--<button id="toggleLasso" type="button" class="btn btn-primary btn-sm">Toggle Lasso</button>-->
+                    <br><br>
+                    <label><input type="radio" name="containOrIntersect" id="contain" checked> Contain</label>
+                    <label class="ml-2"><input type="radio" name="containOrIntersect" id="intersect"> Intersect</label>
+                </div>
+                <br>
+                <div id="lassoEnabled">Disabled</div>
+                <br>
+                <div id="lassoResult"></div>
+            </div>
             <div class="landuse-form">
                 <form title="New Landuse">New Landuse Type<br><br>
                     <label for="Name">Name</label><br>
-                    <input type="text" id="name" name="name"> <br>
+                    <input type="text" id="landuseName" name="name"> <br>
                     <lable for="cal group">Calibration Group</lable><br>
                     <input list="cal group" name="calGroup">
                     <datalist id="calGroup">
@@ -88,7 +102,7 @@
             <div class="plant-form">
                 <form title="New plant_comm">New plant Comunity<br><br>
                     <label for="Name">Name (_comm)</label><br>
-                    <input type="text" id="name" name="name"> <br>
+                    <input type="text" id="plantName" name="name"> <br>
                     <label for="plt_cnt">Plant Count</label><br>
                     <input type="number" id="plt_cnt" name="plt_cnt"> <br>
                     <label for="rot_yr_ini">Rotation Begining</label><br>

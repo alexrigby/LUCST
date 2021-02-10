@@ -1,6 +1,5 @@
-
-
-export function shpToGeoJSON(url){
+//using leaflets.shpfiles plugin to convert .shapefiles.zip to geoJSON
+export function shpToGeoJSON(url) {
     return new L.Shapefile(url, {
         onEachFeature: function (feature, layer) {
             if (feature.properties) {
@@ -14,11 +13,37 @@ export function shpToGeoJSON(url){
     });
 }
 
+//using leaflet to make a map tile
+export function makeSatelliteMap() {
+    return L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/satellite-v9',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'pk.eyJ1IjoiYWxleHJpZ2J5IiwiYSI6ImNra3V6ZHUxdjRkdGIycHF0OWY2MmY1MGoifQ.huw3PRhwLPINPzih4CGrhQ'
+    });
+}
+
+export function makeStreetMap() {
+    return L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'pk.eyJ1IjoiYWxleHJpZ2J5IiwiYSI6ImNra3V6ZHUxdjRkdGIycHF0OWY2MmY1MGoifQ.huw3PRhwLPINPzih4CGrhQ'
+    });
+}
 
 
-export default   shpToGeoJSON
+export default {
+    shpToGeoJSON,
+    makeSatelliteMap,
+    makeStreetMap,
+}
 
- 
+
 
 //Trying to make the diffrent HRUs different colors, come back to later
 // export function getColor(d) {

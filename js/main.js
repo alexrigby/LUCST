@@ -2,7 +2,7 @@ import fetchData from "/js/modules/universalFunctions.js";
 import { cleanHru, getHru, updateHru } from "/js/modules/hru_dataFunctions.js";
 import cleanPlant from "/js/modules/plantFunctions.js";
 import cleanLanduse from "/js/modules/landuseFunctions.js";
-import { makeSatelliteMap, shpToGeoJSON, makeStreetMap } from "/js/modules/mapFunctions.js"
+import { makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js"
 
 // hru-data.hru:
 // Fetch unclean dataset...
@@ -120,7 +120,7 @@ function setSelectedLayers(layers) {
             layer.setStyle({ color: '#ff4620' });
         }
     });
-console.log(layers)
+    console.log(onMapSelection(layers));
     lassoResult.innerHTML = layers.length ? `Selected ${layers.length} layers` : '';
 }
 

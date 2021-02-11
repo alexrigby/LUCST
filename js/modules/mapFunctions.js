@@ -8,15 +8,13 @@ export function shpToGeoJSON(url) {
                     return k + ": " + feature.properties[k];
                 }).join("<br />"), {
                     maxHeight: 200
-                    
                 });
-                console.log(layer)
+        
             }
         }
-        
-    });
-    
+    }); 
 }
+
 
 //using leaflet to make a map tile
 export function makeSatelliteMap() {
@@ -52,11 +50,39 @@ export function resetSelectedState() {
 }
 
 
+export function onMapSelection(layers){
+    // var selectedLayers = selections.filter(properties);
+    // return selectedLayers[0].HRUS
+
+    console.log("Selected layers", layers);
+
+    const selectedHRULayerIDs = [];
+    const selectedRiverLayerIDs = [];
+
+    layers.forEach(layer => {
+        if(layer.feature.properties.hasOwnProperty("HRUS")) {
+            selectedHRULayerIDs.push(layer.feature.properties.HRUS);
+            // If a layer isn't an HRU, it is a river
+        } else if(layer.feature.properties.hasOwnProperty("ChannelR")) {
+            // Do something with rivers
+            // FIX THIS ------------------------------------------vvvvvv
+            selectedRiverLayerIDs.push(layer.feature.properties.ChannelR);
+        }
+    });
+
+    return {
+        hrus: selectedHRULayerIDs,
+        rivers: selectedRiverLayerIDs
+    };
+}
+
+
 export default {
     shpToGeoJSON,
     makeSatelliteMap,
     makeStreetMap,
     resetSelectedState,
+    onMapSelection,
 }
 
 

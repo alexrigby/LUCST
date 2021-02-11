@@ -85,6 +85,7 @@ var overlayMaps = {
 L.control.layers(baseMaps, overlayMaps).addTo(map);
 
 // using lasso plugin to select shapfile/hrus
+
 //const mapElement = document.querySelector('#map');
 //const toggleLasso = document.querySelector('#toggleLasso');
 const contain = document.querySelector('#contain');
@@ -152,3 +153,7 @@ contain.addEventListener('change', () => {
 intersect.addEventListener('change', () => {
     lassoControl.setOptions({ intersect: intersect.checked });
 });
+
+
+
+

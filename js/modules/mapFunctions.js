@@ -8,10 +8,14 @@ export function shpToGeoJSON(url) {
                     return k + ": " + feature.properties[k];
                 }).join("<br />"), {
                     maxHeight: 200
+                    
                 });
+                console.log(layer)
             }
         }
+        
     });
+    
 }
 
 //using leaflet to make a map tile
@@ -37,11 +41,22 @@ export function makeStreetMap() {
     });
 }
 
+export function resetSelectedState() {
+    L.eachLayer(function(layer) {
+        if (layer instanceof L.Marker) {
+            layer.setIcon(new L.Icon.Default());
+        } else if (layer instanceof L.Path) {
+            layer.setStyle({ color: '#3388ff' });
+        }
+    });
+}
+
 
 export default {
     shpToGeoJSON,
     makeSatelliteMap,
     makeStreetMap,
+    resetSelectedState,
 }
 
 

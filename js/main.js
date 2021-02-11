@@ -96,8 +96,11 @@ const lassoResult = document.querySelector('#lassoResult');
 const lassoControl = L.control.lasso().addTo(map);
 
 
+
+
+
 function resetSelectedState() {
-    map.eachLayer(layer => {
+    map.eachLayer(function(layer) {
         if (layer instanceof L.Marker) {
             layer.setIcon(new L.Icon.Default());
         } else if (layer instanceof L.Path) {
@@ -117,9 +120,11 @@ function setSelectedLayers(layers) {
             layer.setStyle({ color: '#ff4620' });
         }
     });
-
+console.log(layers)
     lassoResult.innerHTML = layers.length ? `Selected ${layers.length} layers` : '';
 }
+
+
 //reset selection when mouse is pressed
 map.on('mousedown', () => {
     resetSelectedState();
@@ -130,12 +135,12 @@ map.on('lasso.finished', event => {
 });
 //writes 'enabled' to signify lasso enabled
 map.on('lasso.enabled', () => {
-    lassoEnabled.innerHTML = 'Enabled';
+    lassoEnabled.innerHTML = 'Selection Enabled';
     resetSelectedState();
 });
 //writes 'dissabled' to signify lasso disabled
 map.on('lasso.disabled', () => {
-    lassoEnabled.innerHTML = 'Disabled';
+    lassoEnabled.innerHTML = 'SelectionDisabled';
 });
 //activates toggle Lasso button 
 // toggleLasso.addEventListener('click', () => {
@@ -145,6 +150,7 @@ map.on('lasso.disabled', () => {
 //         lassoControl.enabled();
 //     }
 // });
+
 //gets lasso button to 'listen' for selection type 'contain'       
 contain.addEventListener('change', () => {
     lassoControl.setOptions({ intersect: intersect.checked });

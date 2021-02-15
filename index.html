@@ -28,7 +28,7 @@
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
     <!--main js-->
-    
+
     <script defer async type='module' src="js/main.js"></script>
 </head>
 
@@ -59,7 +59,7 @@
                 <br>
                 <div id="lassoResult"></div>
             </div>
-            <div class="landuse-form">
+            <!-- <div class="landuse-form">
                 <form title="New Landuse">New Landuse Type<br><br>
                     <label for="Name">Name</label><br>
                     <input type="text" id="landuseName" name="name"> <br>
@@ -132,7 +132,7 @@
                     <input type="number" id="rsd_init" name="rsd_init"> <br> <br>
                     <button type="button" onclick="alert ('Writing New Plant Community')">Make</button>
                 </form>
-            </div>
+            </div> -->
             <div class="run-LULC">
                 <div class="LULC-form">
                     <form name=lulc title="LULC Scenario" id='LULC'>LULC Chanage <br><br>
@@ -152,40 +152,19 @@
                         <button type="button" id='lulcButton'>Apply</button>
                         </input>
                     </form>
+                    <div id= container1></div>
                 </div>
                 <div class="changes">
-                    <Table>
-                        <tr>
-                            <th>#</th>
-                            <th>Landuse change</th>
-                            <th>Area</th>
-                        </tr>
-                        <tr>
-                            <th>#</th>
-                            <th>chnage</th>
-                            <th>latlong</th>
-                        </tr>
-                        <tr>
-                            <th>#</th>
-                            <th>.</th>
-                            <th>.</th>
-                        </tr>
-                        <tr>
-                            <th>#</th>
-                            <th>.</th>
-                            <th>.</th>
-                        </tr>
-                        <tr>
-                            <th>#</th>
-                            <th>.</th>
-                            <th>.</th>
-                        </tr>
-                        <tr>
-                            <th>#</th>
-                            <th>.</th>
-                            <th>.</th>
-                        </tr>
-                    </Table>
+                    <table id="hruTable">
+                        <thead>
+                          <tr>
+                            <th>HRUs</th>
+                            <th>Landuse</th>
+                          </tr>
+                        </thead>
+                        <tbody></tbody>
+                      </table>
+                      
                 </div>
                 <div class="run">
                     <form title="run SWAT"> Run SWAT <br><br>

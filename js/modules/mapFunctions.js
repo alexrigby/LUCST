@@ -39,7 +39,7 @@ export function makeStreetMap() {
     });
 }
 
-export function resetSelectedState() {
+export function resetSelectedState(layer) {
     L.eachLayer(function(layer) {
         if (layer instanceof L.Marker) {
             layer.setIcon(new L.Icon.Default());
@@ -54,30 +54,38 @@ export function onMapSelection(layers){
     // var selectedLayers = selections.filter(properties);
     // return selectedLayers[0].HRUS
 
-    console.log("Selected layers", layers);
+    //console.log("Selected layers", layers);
 
     const selectedHRULayerIDs = [];
-    const selectedRiverLayerIDs = [];
+    //const selectedRiverLayerIDs = [];
+    //const selectedHRULanduses =[];
 
     layers.forEach(layer => {
+        //if layer has property 'HRUS' it is a HRU
         if(layer.feature.properties.hasOwnProperty("HRUS")) {
             selectedHRULayerIDs.push(layer.feature.properties.HRUS);
-            // If a layer isn't an HRU, it is a river
-        } else if(layer.feature.properties.hasOwnProperty("ChannelR")) {
-            // Do something with rivers
-            // FIX THIS ------------------------------------------vvvvvv
-            selectedRiverLayerIDs.push(layer.feature.properties.ChannelR);
+            //selectedHRULanduses.push(layer.feature.properties.Landuse);
+    
+            // If a layer isn't an HRU (or if it has ChannelR- for use if ), it is a river
+        // } else if(layer.feature.properties.hasOwnProperty("ChannelR")) {
+        //     // Do something with rivers
+        //     //use Channel NOT ChannelR as the identifier for rivers 
+        //     selectedRiverLayerIDs.push(layer.feature.properties.ChannelR);
         }
     });
 
     return {
-        hrus: selectedHRULayerIDs,
-        rivers: selectedRiverLayerIDs
+        //landuse:selectedHRULanduses,
+        hrus: selectedHRULayerIDs 
+        // rivers: selectedRiverLayerIDs
     };
 }
 
 
+
+
 export default {
+    
     shpToGeoJSON,
     makeSatelliteMap,
     makeStreetMap,

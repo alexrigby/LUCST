@@ -81,11 +81,39 @@ export function onMapSelection(layers){
     };
 }
 
+export function populateTable(data) {
 
+    const rowCount = data.hrus.length;
+    let table = "";
+
+    for (let i = 0; i < rowCount; i++) {
+        table += `
+            <tr>
+                <td>${data.hrus[i]}</td>
+                <td>${data.landuse[i]}</td>
+                <td><button class="lulc-edit-button" data-hru=${data.hrus[i]}>Edit</button></td>
+            </tr>`;
+    }
+
+    document.getElementById("result").innerHTML = table;
+
+    const lulcEditButtons = document.querySelectorAll(".lulc-edit-button");
+
+    lulcEditButtons.forEach((el, i, arr) => {
+        el.addEventListener("click", () => {
+            // console.log(el.dataset.hru)
+            const newLanduse = window.prompt(`Update Landuse for HRU: ${el.dataset.hru}`);
+            console.log(newLanduse);
+            // UPDATE THE DATASET
+            window.LLYFNIData[el.dataset.hru - 1].lu_mgt = `${newLanduse.toLowerCase()}_lum`;
+            console.log(window.LLYFNIData);
+        })
+    })
+}
 
 
 export default {
-    
+    populateTable,
     shpToGeoJSON,
     makeSatelliteMap,
     makeStreetMap,

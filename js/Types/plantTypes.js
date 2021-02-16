@@ -254,3 +254,5 @@ const planTypes = {
     WINTWER_WHEAT100: "wwht100",
     WINTER_WHEAT110: "wwht110"
 };
+
+export default plantTypes;

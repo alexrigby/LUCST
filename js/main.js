@@ -2,8 +2,8 @@ import fetchData from "/js/modules/universalFunctions.js";
 import { cleanHru, getHru, updateHru } from "/js/modules/hru_dataFunctions.js";
 import cleanPlant from "/js/modules/plantFunctions.js";
 import cleanLanduse from "/js/modules/landuseFunctions.js";
-import { makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js"
-
+import {populateTable, makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js"
+// import plantTypes from "Types/plantTypes";
 
 // hru-data.hru:
 // Fetch unclean dataset...
@@ -13,6 +13,9 @@ fetchData('/data/TxtInOut/hru-data.hru')
         const cleanHruData = cleanHru(data);
         // Saving a copy of the dataset
         const cleanHruDataCopy = [...cleanHruData];
+
+        // Replace this with a state management solution
+        window.LLYFNIData = [...cleanHruData];
 
         console.log(updateHru(cleanHruDataCopy, 2, 'rnge_lum'))
     });
@@ -40,7 +43,6 @@ fetchData('/data/TxtInOut/plant.ini')
         const cleanPlantData = cleanPlant(data);
         // Saving a copy of the dataset
         const cleanPlantDataCopy = [...cleanPlantData];
-
         // Do something with the result...
         console.log(cleanPlantDataCopy);
     });
@@ -49,7 +51,6 @@ fetchData('/data/TxtInOut/plant.ini')
 
 
 // leaflet.js
-
 // Initialize the map and set its view to chosen coordinates, zoom, default layers
 var map = L.map('map').setView([53.046775, -4.286951], 12, [streets]);
 // adding a satelite layer using function form mapFunctions
@@ -61,7 +62,6 @@ var streets = makeStreetMap().addTo(map);
 var hrus = shpToGeoJSON('data/shpfiles/hru2.zip', { color: 'red' })
 var rivers = shpToGeoJSON('data/shpfiles/rivs1.zip')
 // adding the converted geoJSON files to the map#
-
 hrus.addTo(map);
 hrus.once("data:loaded", function () {
     hrus.setStyle({ color: '#b0c4de', weight: 1.5 })
@@ -125,116 +125,18 @@ function setSelectedLayers(layers) {
     var hrus = onMapSelection(layers)
     console.log(hrus)
 
-// //   trying to add HRUS to list- ERROR MESSAGE 'hrus.forEach is not a function'
-//     var id = document.querySelector('#list')
-//     hrus.forEach((hrus)=>{
-//         var newDiv=document.createElement('div') 
-//         newDiv.innerHTML = hrus
-//         id.appendChild(newDiv)
-//     })
 
-    
-//      var hruTbody = document.querySelector("#hruTable tbody");
-//     addDataToTbody(hruTbody, hrus);
 
     populateTable(hrus)
-
+    console.log(hrus)
     lassoResult.innerHTML = layers.length ? `Selected ${layers.length} layers` : '';
 }
 
 
-// function populateTable(data){
-
-//     for (var i=0; i< data.lenght; i++){
-//         outputHTML += data[i];
-//     }
-//     var outputHTML ="";
-//     document.getElementById('hru').innerHTML = outputHTML;
-// }
-
-
-function populateTable(data) {
-    var table = "";
-    for (var i in data) {
-        table += "<tr>"
-        table += "<td>"
-            + data[i] + "</td>";
-        // table += "<td>"
-        //     + data[i] + "</td>";
-        table += "</tr>";
-    }
-
-    document.getElementById("result").innerHTML = table;
-}
-
-//ERRORMESSAGE-table.insertRow()is not a function 
-// function populateTable(data) {
-//     const table = document.getElementById("result").innerHTML;
-//     data.forEach(i=> {
-//         let row = table.insertRow();
-//         let cell =row.insertCell(0);
-//         cell.innerHTML = i.cell;
-//     });
-// }
-
-
-// ERROR MESSAGE 'data.forEach is not a function'
-// function addDataToTbody(nl, data) { // nl -> NodeList, data -> array with objects
-//        data.forEach((d, i) => {
-//       var tr = nl.insertRow(i);
-//       Object.keys(d).forEach((k, j) => { // Keys from object represent th.innerHTML
-//         var cell = tr.insertCell(j);
-//         cell.innerHTML = d[k]; // Assign object values to cells   
-//       });
-//       nl.appendChild(tr);
-//     })
-//   }
-  
-  
-  
-  
-
-// function populateTable3(data) {
-//   // (B) CREATE HTML TABLE OBJECT
-//   var perrow = 2, // 2 CELLS PER ROW
-//       table = document.createElement("table"),
-//       row = table.insertRow();
-
-//   // LOOP THROUGH ARRAY AND ADD TABLE CELLS
-//   for (var i = 0; i < data.length; i++) {
-//     // ADD "BASIC" CELL
-//     var cell = row.insertCell();
-//     cell.innerHTML = data[i];
-
-//     // ATTACH A RUNNING NUMBER OR CUSTOM DATA
-//     // cell.dataset.id = i;
- 
-//     /* ATTACH ONCLICK LISTENER IF REQUIRED
-//     cell.addEventListener("click", function(){
-//       console.log(this.dataset.id); 
-//     });
-//     */
-
-//     // BREAK INTO NEXT ROW
-//     var next = i + 1;
-//     if (next%perrow==0 && next!=data.length) {
-//       row = table.insertRow();
-//     }
-//   }
-
-//   // (C) ATTACH TABLE TO CONTAINER
-//   document.getElementById("container1").appendChild(table);
-// };
 
 
 
-
-
-
-
-
-
-
+   
 
 
 

@@ -58,13 +58,13 @@ export function onMapSelection(layers){
 
     const selectedHRULayerIDs = [];
     //const selectedRiverLayerIDs = [];
-    //const selectedHRULanduses =[];
+    const selectedHRULanduses =[];
 
     layers.forEach(layer => {
         //if layer has property 'HRUS' it is a HRU
         if(layer.feature.properties.hasOwnProperty("HRUS")) {
             selectedHRULayerIDs.push(layer.feature.properties.HRUS);
-            //selectedHRULanduses.push(layer.feature.properties.Landuse);
+            selectedHRULanduses.push(layer.feature.properties.Landuse);
     
             // If a layer isn't an HRU (or if it has ChannelR- for use if ), it is a river
         // } else if(layer.feature.properties.hasOwnProperty("ChannelR")) {
@@ -75,7 +75,7 @@ export function onMapSelection(layers){
     });
 
     return {
-        //landuse:selectedHRULanduses,
+        landuse:selectedHRULanduses,
         hrus: selectedHRULayerIDs 
         // rivers: selectedRiverLayerIDs
     };

@@ -125,23 +125,70 @@ function setSelectedLayers(layers) {
     var hrus = onMapSelection(layers)
     console.log(hrus)
 
-    var hruTbody = document.querySelector("#hruTable tbody");
-    addDataToTbody(hruTbody, hrus);
+// //   trying to add HRUS to list- ERROR MESSAGE 'hrus.forEach is not a function'
+//     var id = document.querySelector('#list')
+//     hrus.forEach((hrus)=>{
+//         var newDiv=document.createElement('div') 
+//         newDiv.innerHTML = hrus
+//         id.appendChild(newDiv)
+//     })
+
+    
+//      var hruTbody = document.querySelector("#hruTable tbody");
+//     addDataToTbody(hruTbody, hrus);
+
+    populateTable(hrus)
 
     lassoResult.innerHTML = layers.length ? `Selected ${layers.length} layers` : '';
 }
 
 
-function addDataToTbody(nl, data) { // nl -> NodeList, data -> array with objects
-    data.forEach((d, i) => {
-      var tr = nl.insertRow(i);
-      Object.keys(d).forEach((k, j) => { // Keys from object represent th.innerHTML
-        var cell = tr.insertCell(j);
-        cell.innerHTML = d[k]; // Assign object values to cells   
-      });
-      nl.appendChild(tr);
-    })
-  }
+// function populateTable(data){
+
+//     for (var i=0; i< data.lenght; i++){
+//         outputHTML += data[i];
+//     }
+//     var outputHTML ="";
+//     document.getElementById('hru').innerHTML = outputHTML;
+// }
+
+
+function populateTable(data) {
+    var table = "";
+    for (var i in data) {
+        table += "<tr>"
+        table += "<td>"
+            + data[i] + "</td>";
+        // table += "<td>"
+        //     + data[i] + "</td>";
+        table += "</tr>";
+    }
+
+    document.getElementById("result").innerHTML = table;
+}
+
+//ERRORMESSAGE-table.insertRow()is not a function 
+// function populateTable(data) {
+//     const table = document.getElementById("result").innerHTML;
+//     data.forEach(i=> {
+//         let row = table.insertRow();
+//         let cell =row.insertCell(0);
+//         cell.innerHTML = i.cell;
+//     });
+// }
+
+
+// ERROR MESSAGE 'data.forEach is not a function'
+// function addDataToTbody(nl, data) { // nl -> NodeList, data -> array with objects
+//        data.forEach((d, i) => {
+//       var tr = nl.insertRow(i);
+//       Object.keys(d).forEach((k, j) => { // Keys from object represent th.innerHTML
+//         var cell = tr.insertCell(j);
+//         cell.innerHTML = d[k]; // Assign object values to cells   
+//       });
+//       nl.appendChild(tr);
+//     })
+//   }
   
   
   
@@ -184,17 +231,7 @@ function addDataToTbody(nl, data) { // nl -> NodeList, data -> array with object
 
 
 
-function populateTable(data) {
-    var table = "";
-    for (var i in data) {
-        table += "<tr>"
-        table += "<td>"
-            + data [i] + "</td>"
-        table += "</tr>";
-    }
 
-    document.getElementById("result").innerHTML = table;
-}
 
 
 

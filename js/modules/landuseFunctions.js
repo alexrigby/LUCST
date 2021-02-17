@@ -15,5 +15,17 @@ export function cleanLanduse(data) {
     );
   }
 
+ 
+
+  export function getLanduseTypes(data) {
+    const landuses = data.map(record => record.name);
+    console.log(landuses);
+  return landuses
+  }
+ 
   //exports functions
-  export default cleanLanduse
+  export default {
+    cleanLanduse,
+    getLanduseTypes
+  }
+

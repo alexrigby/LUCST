@@ -39,22 +39,9 @@ export function makeStreetMap() {
     });
 }
 
-export function resetSelectedState(layer) {
-    L.eachLayer(function(layer) {
-        if (layer instanceof L.Marker) {
-            layer.setIcon(new L.Icon.Default());
-        } else if (layer instanceof L.Path) {
-            layer.setStyle({ color: '#3388ff' });
-        }
-    });
-}
 
 
 export function onMapSelection(layers){
-    // var selectedLayers = selections.filter(properties);
-    // return selectedLayers[0].HRUS
-
-    //console.log("Selected layers", layers);
 
     const selectedHRULayerIDs = [];
     //const selectedRiverLayerIDs = [];
@@ -65,7 +52,6 @@ export function onMapSelection(layers){
         if(layer.feature.properties.hasOwnProperty("HRUS")) {
             selectedHRULayerIDs.push(layer.feature.properties.HRUS);
             selectedHRULanduses.push(layer.feature.properties.Landuse);
-    
             // If a layer isn't an HRU (or if it has ChannelR- for use if ), it is a river
         // } else if(layer.feature.properties.hasOwnProperty("ChannelR")) {
         //     // Do something with rivers
@@ -81,43 +67,12 @@ export function onMapSelection(layers){
     };
 }
 
-export function populateTable(data) {
-
-    const rowCount = data.hrus.length;
-    let table = "";
-
-    for (let i = 0; i < rowCount; i++) {
-        table += `
-            <tr>
-                <td>${data.hrus[i]}</td>
-                <td>${data.landuse[i]}</td>
-                <td><button class="lulc-edit-button" data-hru=${data.hrus[i]}>Edit</button></td>
-            </tr>`;
-    }
-
-    document.getElementById("result").innerHTML = table;
-
-    const lulcEditButtons = document.querySelectorAll(".lulc-edit-button");
-
-    lulcEditButtons.forEach((el, i, arr) => {
-        el.addEventListener("click", () => {
-            // console.log(el.dataset.hru)
-            const newLanduse = window.prompt(`Update Landuse for HRU: ${el.dataset.hru}`);
-            console.log(newLanduse);
-            // UPDATE THE DATASET
-            window.LLYFNIData[el.dataset.hru - 1].lu_mgt = `${newLanduse.toLowerCase()}_lum`;
-            console.log(window.LLYFNIData);
-        })
-    })
-}
 
 
 export default {
-    populateTable,
     shpToGeoJSON,
     makeSatelliteMap,
     makeStreetMap,
-    resetSelectedState,
     onMapSelection,
 }
 

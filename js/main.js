@@ -1,8 +1,8 @@
 import fetchData from "/js/modules/universalFunctions.js";
-import { cleanHru, getHru, updateHru } from "/js/modules/hru_dataFunctions.js";
+import { populateTable, cleanHru, getHru, updateHru } from "/js/modules/hru_dataFunctions.js";
 import cleanPlant from "/js/modules/plantFunctions.js";
-import cleanLanduse from "/js/modules/landuseFunctions.js";
-import {populateTable, makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js"
+import {cleanLanduse, getLanduseTypes} from "/js/modules/landuseFunctions.js";
+import { makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js"
 // import plantTypes from "Types/plantTypes";
 
 // hru-data.hru:
@@ -16,8 +16,8 @@ fetchData('/data/TxtInOut/hru-data.hru')
 
         // Replace this with a state management solution
         window.LLYFNIData = [...cleanHruData];
-
-        console.log(updateHru(cleanHruDataCopy, 2, 'rnge_lum'))
+         
+        console.log(cleanHruDataCopy)
     });
 
 
@@ -25,13 +25,14 @@ fetchData('/data/TxtInOut/hru-data.hru')
 // Fetch unclean dataset...
 fetchData('/data/TxtInOut/landuse.lum')
     .then(data => {
-        // Clean the dataset...
         const cleanLanduseData = cleanLanduse(data);
-        // Saving a copy of the dataset
         const cleanLanduseDataCopy = [...cleanLanduseData];
 
-        // Do something with the result...
         console.log(cleanLanduseDataCopy);
+
+        const landuseTypes = getLanduseTypes(cleanLanduseData);
+
+        window.LLYFNILanduse = [...landuseTypes];
     });
 
 
@@ -39,11 +40,8 @@ fetchData('/data/TxtInOut/landuse.lum')
 // Fetch unclean dataset...
 fetchData('/data/TxtInOut/plant.ini')
     .then(data => {
-        // Clean the dataset...
         const cleanPlantData = cleanPlant(data);
-        // Saving a copy of the dataset
         const cleanPlantDataCopy = [...cleanPlantData];
-        // Do something with the result...
         console.log(cleanPlantDataCopy);
     });
 
@@ -53,9 +51,7 @@ fetchData('/data/TxtInOut/plant.ini')
 // leaflet.js
 // Initialize the map and set its view to chosen coordinates, zoom, default layers
 var map = L.map('map').setView([53.046775, -4.286951], 12, [streets]);
-// adding a satelite layer using function form mapFunctions
 var satellite = makeSatelliteMap();
-// adding a streetmap layer using function from mapFunctions
 var streets = makeStreetMap().addTo(map);
 //calling function from mapFunctions.js to convert the ziped shape files into geoJSON files  
 // only add HRUs2 (1 is 'Actual HRUs')
@@ -88,7 +84,6 @@ var overlayMaps = {
 L.control.layers(baseMaps, overlayMaps).addTo(map);
 
 // using lasso plugin to select shapfile/hrus
-
 //const mapElement = document.querySelector('#map');
 //const toggleLasso = document.querySelector('#toggleLasso');
 const contain = document.querySelector('#contain');
@@ -100,15 +95,13 @@ const lassoControl = L.control.lasso().addTo(map);
 
 
 function resetSelectedState() {
-    map.eachLayer(function (layer) {
+    map.eachLayer((layer) => {
         if (layer instanceof L.Marker) {
             layer.setIcon(new L.Icon.Default());
         } else if (layer instanceof L.Path) {
             layer.setStyle({ color: '#b0c4de' });
         }
     });
-
-
     lassoResult.innerHTML = '';
 }
 
@@ -123,20 +116,12 @@ function setSelectedLayers(layers) {
     });
 
     var hrus = onMapSelection(layers)
-    console.log(hrus)
-
-
 
     populateTable(hrus)
     console.log(hrus)
     lassoResult.innerHTML = layers.length ? `Selected ${layers.length} layers` : '';
 }
 
-
-
-
-
-   
 
 
 

@@ -2,20 +2,21 @@
 
 html {
   font-family: sans-serif;
-  background-image: radial-gradient(rgb(234, 234, 240), grey);
 }
+
 
 /*header */
 
 header{
   height: 80px;
   line-height: 80px;
-  background-color: rgb(136, 136, 253);
+  background-color:#0068C1;
   font-weight: 450;
   font-size: 20pt;
   box-shadow: 0px 8px 8px 0px;
   margin: 12px;
 }
+
 
 .logo{
   float: left;
@@ -32,15 +33,17 @@ Nav ul{
   list-style-type: none;
 }
 
-Nav li{
+Nav a{
   float: left;
   padding: 0px 15px;
 }
 
-nav li:hover{
-  background-color: white;
+#download{
+ font-size: 13pt;
+ line-height: 20px;
+ margin-top: 20px;
+ text-align:right;
 }
-
 
 header a {
   text-decoration: none;
@@ -49,10 +52,16 @@ header a {
 
 header a:hover{
   background-color: white;
-  color: rgb(136, 136,253);
+  color:#0068C1;
 }
 
 /*Main*/
+
+.background {
+background: linear-gradient(to bottom, #fff, #ceefef);
+border-bottom: 1px solid rgba(5,176,228,0.3);
+}
+
 /*map*/
 
 #sidebar {
@@ -114,9 +123,7 @@ form > input:focus{
   flex:1;
 }
 
-.changes{
-  flex:1;
-}
+
 
 .run{
   flex: 2;
@@ -130,6 +137,16 @@ form > input:focus{
 }
 
 
+::-webkit-scrollbar{
+
+}
+
+.changes{
+  display: block;
+  overflow-y: auto;
+  max-height: 600px;
+}
+
 
 table{
   font-weight: 500;
@@ -138,8 +155,9 @@ table{
   border: 2px solid black;
   border-radius: 8px;
   margin: 10px;
-  padding: 5px;
 }
+
+
 
 table, th, td{
   border-radius: 8px;
@@ -151,6 +169,9 @@ th, td{
   padding:8px
 }
 
+a{
+  text-decoration: none;
+}
 
 /*footer*/
 

@@ -42,7 +42,7 @@ fetchData('/data/TxtInOut/plant.ini')
     .then(data => {
         const cleanPlantData = cleanPlant(data);
         const cleanPlantDataCopy = [...cleanPlantData];
-        console.log(cleanPlantDataCopy);
+       // console.log(cleanPlantDataCopy);
     });
 
 
@@ -83,15 +83,34 @@ var overlayMaps = {
 //leaflets.js function to add layers to map with a drop down selection list
 L.control.layers(baseMaps, overlayMaps).addTo(map);
 
+L.Control.textbox = L.Control.extend({
+    onAdd: function(map) {
+        
+    var text = L.DomUtil.create('div');
+    text.innerHTML = `  
+        <label><input type="radio" name="containOrIntersect" id="contain" checked> ${'Contain'}</label><br>
+        <label class="ml-2"><input type="radio" name="containOrIntersect" id="intersect"> ${'Intersect'}</label>
+    `
+    return text;
+    },
+    onRemove: function(map) {
+        // Nothing to do here
+    }
+});
+L.control.textbox = function(opts) { return new L.Control.textbox(opts);}
+L.control.textbox({ position: 'topright' }).addTo(map);
+
 // using lasso plugin to select shapfile/hrus
 //const mapElement = document.querySelector('#map');
 //const toggleLasso = document.querySelector('#toggleLasso');
 const contain = document.querySelector('#contain');
 const intersect = document.querySelector('#intersect');
 const lassoEnabled = document.querySelector('#lassoEnabled');
-const lassoResult = document.querySelector('#lassoResult');
+// const lassoResult = document.querySelector('#lassoResult');
 // adds lasso toggle button to map
 const lassoControl = L.control.lasso().addTo(map);
+
+
 
 
 function resetSelectedState() {
@@ -102,7 +121,7 @@ function resetSelectedState() {
             layer.setStyle({ color: '#b0c4de' });
         }
     });
-    lassoResult.innerHTML = '';
+    // lassoResult.innerHTML = '';
 }
 
 function setSelectedLayers(layers) {
@@ -118,8 +137,8 @@ function setSelectedLayers(layers) {
     var hrus = onMapSelection(layers)
 
     populateTable(hrus)
-    console.log(hrus)
-    lassoResult.innerHTML = layers.length ? `Selected ${layers.length} layers` : '';
+    //console.log(hrus)
+    //lassoResult.innerHTML = layers.length ? `Selected ${layers.length} layers` : '';
 }
 
 
@@ -134,14 +153,14 @@ map.on('lasso.finished', event => {
     setSelectedLayers(event.layers);
 });
 //writes 'enabled' to signify lasso enabled
-map.on('lasso.enabled', () => {
-    lassoEnabled.innerHTML = 'Selection Enabled';
-    resetSelectedState();
-});
+// map.on('lasso.enabled', () => {
+//     lassoEnabled.innerHTML = 'Selection Enabled';
+//     resetSelectedState();
+// });
 //writes 'dissabled' to signify lasso disabled
-map.on('lasso.disabled', () => {
-    lassoEnabled.innerHTML = 'SelectionDisabled';
-});
+// map.on('lasso.disabled', () => {
+//     lassoEnabled.innerHTML = 'SelectionDisabled';
+// });
 //activates toggle Lasso button 
 // toggleLasso.addEventListener('click', () => {
 //     if (lassoControl.enabled()) {

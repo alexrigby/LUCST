@@ -47,9 +47,9 @@
         <div class="flex1">
             <div id="map"></div>
             <!-- sidebar containing leafletlasso controls-->
-            <div id="sidebar">
+            <!-- <div id="sidebar">
                 <div>
-                    <!--<button id="toggleLasso" type="button" class="btn btn-primary btn-sm">Toggle Lasso</button>-->
+                    <button id="toggleLasso" type="button" class="btn btn-primary btn-sm">Toggle Lasso</button>
                     <br><br>
                     <label><input type="radio" name="containOrIntersect" id="contain" checked> Contain</label>
                     <label class="ml-2"><input type="radio" name="containOrIntersect" id="intersect"> Intersect</label>
@@ -58,7 +58,7 @@
                 <div id="lassoEnabled">Selection Disabled</div>
                 <br>
                 <div id="lassoResult"></div>
-            </div>
+            </div> -->
             <!-- <div class="landuse-form">
                 <form title="New Landuse">New Landuse Type<br><br>
                     <label for="Name">Name</label><br>
@@ -134,8 +134,8 @@
                 </form>
             </div> -->
             <div class="run-LULC">
-                <div class="LULC-form">
-                    <form name=lulc title="LULC Scenario" id='LULC'>LULC Chanage <br><br>
+                <!-- <div class="LULC-form"> -->
+                    <!-- <form name=lulc title="LULC Scenario" id='LULC'>LULC Chanage <br><br>
                         <label for="hru">HRU:</label>
                         <input type="text" id="hru" name="hru"> <br> <br>
                         <label for="landuse">Landuse:</label><br>
@@ -151,9 +151,9 @@
                         </datalist><br><br>
                         <button type="button" id='lulcButton'>Apply</button>
                         </input>
-                    </form>
-                    <div id= list></div>
-                </div>
+                    </form> -->
+                   
+                <!-- </div> -->
                 <div class="changes">
                     <table id="hruTable">
                         <thead>
@@ -166,9 +166,9 @@
                         </thead>
                         <tbody id = 'result'></tbody>
                       </table>
-                      
+                      <a href="" id="download">Download</a>  
                 </div>
-                <div class="run">
+                <!-- <div class="run">
                     <form title="run SWAT"> Run SWAT <br><br>
                         <label for="warm-up">Warm up Period:</label><br>
                         <input type="number" id="warm-up" name="warm-up"> <br> <br>
@@ -209,7 +209,7 @@
                         </datalist><br><br>
                         <button type="button" onclick="alert('SWAT is Running')">Run SWAT</button>
                     </form>
-                </div>
+                </div> -->
             </div>
         </div>
     </main>

@@ -88,20 +88,21 @@ export function populateTable(data) {
              </datalist>
          </td>
          <td><button class="lulc-editAll-button" data-hru=${data.hrus}> EDIT </button></td>
+         <td class=allNewlanduse></td>
      </tr>`
-     ;
+    ;
 
-  
+
 
   const convertToTSV = (data) => {
-      // Convert dataset to TSV and print
-      const headers = Object.keys(data[0]);
-      const tsv = [
-        headers.join('\t'),
-        ...data.map(row => headers.map(fieldName => row[fieldName]).join('\t'))
-      ].join('\r\n');
+    // Convert dataset to TSV and print
+    const headers = Object.keys(data[0]);
+    const tsv = [
+      headers.join('\t'),
+      ...data.map(row => headers.map(fieldName => row[fieldName]).join('\t'))
+    ].join('\r\n');
 
-      return tsv;
+    return tsv;
   }
 
 
@@ -119,7 +120,7 @@ export function populateTable(data) {
       // UPDATE THE DATASET
       window.LLYFNIData[el.dataset.hru - 1].lu_mgt = `${newLanduse.toLowerCase()}_lum`;
       console.log(window.LLYFNIData);
-      
+
       console.log(convertToTSV(window.LLYFNIData));
     })
   })
@@ -128,30 +129,34 @@ export function populateTable(data) {
 
   lulcEditAllButton.addEventListener("click", () => {
     const allNewLanduse = window.prompt(`Update Landuse for HRUs: ${lulcEditAllButton.dataset.hru}`);
+    document.querySelector(".allNewlanduse").innerHTML = `${allNewLanduse}`;
+
     // Converts a comma delimited string to an array of strings (ids).
     const hrusToUpdate = lulcEditAllButton.dataset.hru.split(",");
-    console.log(hrusToUpdate);
+    //console.log(hrusToUpdate);
+
 
     hrusToUpdate.forEach((el, i, arr) => {
       window.LLYFNIData[parseInt(el) - 1].lu_mgt = `${allNewLanduse.toLowerCase()}_lum`
     });
-    console.log(window.LLYFNIData);
+    // console.log(window.LLYFNIData);
+    const newHruData = convertToTSV(window.LLYFNIData);
 
+
+
+    var fileName = 'hru-data.hru';
+    var fileContent = newHruData;
+    var myFile = new Blob([fileContent], { type: 'text/plain' });
+
+
+    document.getElementById('download').setAttribute('href', window.URL.createObjectURL(myFile));
+    document.getElementById('download').setAttribute('download', fileName);
 
   });
 
-  // lulcEditAllButton.forEach((el, i, arr) =>{
-  //   el.addEventListener("click", () => {
-  //     const allNewLanduse = window.prompt(`Update Landuse for HRU: ${el.dataset.hru}`);
-  //     console.log(allNewLanduse);
-      
-  //     for (let i = 0; i < rowCount; i++){
-  //     window.LLYFNIData[el.dataset.hru[i] - 1].lu_mgt = `${allNewLanduse[i].toLowerCase()}_lum`;
-  //   }
-  // })
-  // })
 
-  }
+
+}
 
 
 

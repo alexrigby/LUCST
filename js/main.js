@@ -1,7 +1,7 @@
 import fetchData from "/js/modules/universalFunctions.js";
 import { populateTable, cleanHru, getHru, updateHru } from "/js/modules/hru_dataFunctions.js";
 import cleanPlant from "/js/modules/plantFunctions.js";
-import {cleanLanduse, getLanduseTypes} from "/js/modules/landuseFunctions.js";
+import { cleanLanduse, getLanduseTypes } from "/js/modules/landuseFunctions.js";
 import { makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js"
 // import plantTypes from "Types/plantTypes";
 
@@ -16,7 +16,7 @@ fetchData('/data/TxtInOut/hru-data.hru')
 
         // Replace this with a state management solution
         window.LLYFNIData = [...cleanHruData];
-         
+
         console.log(cleanHruDataCopy)
     });
 
@@ -42,7 +42,7 @@ fetchData('/data/TxtInOut/plant.ini')
     .then(data => {
         const cleanPlantData = cleanPlant(data);
         const cleanPlantDataCopy = [...cleanPlantData];
-       // console.log(cleanPlantDataCopy);
+        // console.log(cleanPlantDataCopy);
     });
 
 
@@ -83,21 +83,22 @@ var overlayMaps = {
 //leaflets.js function to add layers to map with a drop down selection list
 L.control.layers(baseMaps, overlayMaps).addTo(map);
 
+//adds contain/intersect buttons to map 
 L.Control.textbox = L.Control.extend({
-    onAdd: function(map) {
-        
-    var text = L.DomUtil.create('div');
-    text.innerHTML = `  
+    onAdd: function (map) {
+
+        var text = L.DomUtil.create('div');
+        text.innerHTML = `  
         <label><input type="radio" name="containOrIntersect" id="contain" checked> ${'Contain'}</label><br>
         <label class="ml-2"><input type="radio" name="containOrIntersect" id="intersect"> ${'Intersect'}</label>
     `
-    return text;
+        return text;
     },
-    onRemove: function(map) {
+    onRemove: function (map) {
         // Nothing to do here
     }
 });
-L.control.textbox = function(opts) { return new L.Control.textbox(opts);}
+L.control.textbox = function (opts) { return new L.Control.textbox(opts); }
 L.control.textbox({ position: 'topright' }).addTo(map);
 
 // using lasso plugin to select shapfile/hrus

@@ -119,9 +119,10 @@ export function populateTable(data) {
       document.getElementsByClassName("newLanduse")[i].innerHTML = `${newLanduse}`;
       // UPDATE THE DATASET
       window.LLYFNIData[el.dataset.hru - 1].lu_mgt = `${newLanduse.toLowerCase()}_lum`;
-      console.log(window.LLYFNIData);
+      //console.log(window.LLYFNIData);
 
-      console.log(convertToTSV(window.LLYFNIData));
+      const newHruData = convertToTSV(window.LLYFNIData);
+      downloadButton(newHruData, 'hru-data.hru');
     })
   })
 
@@ -142,15 +143,7 @@ export function populateTable(data) {
     // console.log(window.LLYFNIData);
     const newHruData = convertToTSV(window.LLYFNIData);
 
-
-
-    var fileName = 'hru-data.hru';
-    var fileContent = newHruData;
-    var myFile = new Blob([fileContent], { type: 'text/plain' });
-
-
-    document.getElementById('download').setAttribute('href', window.URL.createObjectURL(myFile));
-    document.getElementById('download').setAttribute('download', fileName);
+    downloadButton(newHruData, 'hru-data.hru');
 
   });
 
@@ -158,9 +151,12 @@ export function populateTable(data) {
 
 }
 
-
-
-
+function downloadButton(data, fileName) {
+  var myFile = new Blob([data], { type: 'text/plain' });
+  document.getElementById('download').setAttribute('href', window.URL.createObjectURL(myFile));
+  document.getElementById('download').setAttribute('download', fileName);
+ 
+}
 
 
 

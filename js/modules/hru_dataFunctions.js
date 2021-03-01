@@ -58,8 +58,12 @@ export function updateHru(data, id, lu_mgt) {
 
 
 
-
 export function populateTable(data) {
+
+  const landuseTypesOptions = window.LLYFNILanduse.map((el, i) => {
+    return `<option value=${el}></option>`;
+  });
+
 
   const rowCount = data.hrus.length;
   let table = "";
@@ -72,20 +76,20 @@ export function populateTable(data) {
                   <td>${data.landuse[i]}
                   <button class="lulc-edit-button" data-hru=${data.hrus[i]}>Edit</button>
                   </td>
-                  <td class="newLanduse"></td>
+                  <td class="newLanduse"><input class="landuseTypes" list="landuseDatalist"   type="text">
+                  <datalist id="landuseDatalist">${landuseTypesOptions}
+                   </datalist></td>
               </tr>`;
     //use`` to insert HTML elements straight from javascript, use ${} to input Javascript elements
   }
 
-  const landuseTypesOptions = window.LLYFNILanduse.map((el, i) => {
-    return `<option value=${el}></option>`;
-  });
+
 
   table +=
     `<tr>
          <td><button class="lulc-editAll-button" data-hru=${data.hrus}> EDIT ALL </button></td>
-         <td><input id="landuseTypes" list="landuseDatalist"  name="landuseTypes" type="text">
-            <datalist id="landuseDatalist">${landuseTypesOptions}
+         <td><input class="allLanduseTypes" list="allLanduseDatalist"   type="text">
+            <datalist id="allLanduseDatalist">${landuseTypesOptions}
              </datalist>
          <td class="allNewlanduse"></td>
      </tr>`
@@ -111,13 +115,15 @@ export function populateTable(data) {
 
   lulcEditButtons.forEach((el, i, arr) => {
     el.addEventListener("click", () => {
-      // console.log(el.dataset.hru)
-      const newLanduse = window.prompt(`Update Landuse for HRU: ${el.dataset.hru}`);
-      console.log(newLanduse);
-      document.getElementsByClassName("newLanduse")[i].innerHTML = `${newLanduse}`;
+      const landuseSelection = document.querySelectorAll(".landuseTypes");
+      const newLanduse = landuseSelection[i].value;
+      //console.log(el.dataset.hru)
+      // const newLanduse = window.prompt(`Update Landuse for HRU: ${el.dataset.hru}`);
+      // console.log(newLanduse);
+      document.querySelectorAll(".newLanduse")[i].innerHTML = `${newLanduse}`;
       // UPDATE THE DATASET
-      window.LLYFNIData[el.dataset.hru - 1].lu_mgt = `${newLanduse.toLowerCase()}_lum`;
-      //console.log(window.LLYFNIData);
+      window.LLYFNIData[el.dataset.hru - 1].lu_mgt = `${newLanduse}`;
+      console.log(window.LLYFNIData);
 
       const newHruData = convertToTSV(window.LLYFNIData);
       downloadButton(newHruData, 'hru-data.hru');
@@ -129,10 +135,10 @@ export function populateTable(data) {
 
 
   lulcEditAllButton.addEventListener("click", () => {
-    const allLanduseSelection = document.getElementById("landuseTypes");
+    const allLanduseSelection = document.querySelector(".allLanduseTypes");
     const allNewLanduse = allLanduseSelection.value;
     document.querySelector(".allNewlanduse").innerHTML = `${allNewLanduse}`;
-    document.querySelectorAll("newLanduse").innerHTML = `${allNewLanduse}`;
+    document.querySelectorAll(".newLanduse").innerHTML = `${allNewLanduse}`;
 
     // Converts a comma delimited string to an array of strings (ids).
     const hrusToUpdate = lulcEditAllButton.dataset.hru.split(",");
@@ -142,7 +148,7 @@ export function populateTable(data) {
     hrusToUpdate.forEach((el, i, arr) => {
       window.LLYFNIData[parseInt(el) - 1].lu_mgt = `${allNewLanduse}`
     });
-     console.log(window.LLYFNIData);
+    console.log(window.LLYFNIData);
     const newHruData = convertToTSV(window.LLYFNIData);
 
     downloadButton(newHruData, 'hru-data.hru');
@@ -155,7 +161,7 @@ function downloadButton(data, fileName) {
   var myFile = new Blob([data], { type: 'text/plain' });
   document.getElementById('download').setAttribute('href', window.URL.createObjectURL(myFile));
   document.getElementById('download').setAttribute('download', fileName);
- 
+
 }
 
 

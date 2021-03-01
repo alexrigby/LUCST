@@ -34,17 +34,20 @@
 
 <body class="wrapper">
     <div class="background">
-    <header>
-        <div class="logo"><a href="#">SWAT LULC</a></div>
-        <nav>
-            <a href=""  id="download" download>Downolad<br> hru-data.hru</a>
-        </nav>
-    </header>
-    <main>
-        <div class="flex1">
-            <div id="map"></div>
-            <!-- sidebar containing leafletlasso controls-->
-            <!-- <div id="sidebar">
+        <header>
+            <div class="logo"><a href="#">SWAT LULC</a></div>
+    
+            <nav>
+                <a href="" id="download" download>Downolad<br> hru-data.hru</a>
+            </nav>
+           
+        </header>
+        </header>
+        <main>
+            <div class="flex1">
+                <div id="map"></div>
+                <!-- sidebar containing leafletlasso controls-->
+                <!-- <div id="sidebar">
                 <div>
                     <button id="toggleLasso" type="button" class="btn btn-primary btn-sm">Toggle Lasso</button>
                     <br><br>
@@ -56,7 +59,7 @@
                 <br>
                 <div id="lassoResult"></div>
             </div> -->
-            <!-- <div class="landuse-form">
+                <!-- <div class="landuse-form">
                 <form title="New Landuse">New Landuse Type<br><br>
                     <label for="Name">Name</label><br>
                     <input type="text" id="landuseName" name="name"> <br>
@@ -130,8 +133,8 @@
                     <button type="button" onclick="alert ('Writing New Plant Community')">Make</button>
                 </form>
             </div> -->
-            <div class="run-LULC">
-                <!-- <div class="LULC-form"> -->
+                <div class="run-LULC">
+                    <!-- <div class="LULC-form"> -->
                     <!-- <form name=lulc title="LULC Scenario" id='LULC'>LULC Chanage <br><br>
                         <label for="hru">HRU:</label>
                         <input type="text" id="hru" name="hru"> <br> <br>
@@ -149,22 +152,21 @@
                         <button type="button" id='lulcButton'>Apply</button>
                         </input>
                     </form> -->
-                   
-                <!-- </div> -->
-                <div class="changes">
-                    <table id="hruTable">
-                        <thead>
-                          <tr>
-                            <th>HRUs</th>
-                            <th>Current Landuse</th>
-                            <th>Edit</th>
-                            <th>New Landuse</th>
-                          </tr>
-                        </thead>
-                        <tbody id = 'result' class='scrol'></tbody>
-                      </table>
-                </div>
-                <!-- <div class="run">
+
+                    <!-- </div> -->
+                    <div class="changes">
+                        <table id="hruTable">
+                            <thead>
+                                <tr>
+                                    <th>HRUs</th>
+                                    <th>Current Landuse</th>
+                                    <th>New Landuse</th>
+                                </tr>
+                            </thead>
+                            <tbody id='result' class='scrol'></tbody>
+                        </table>
+                    </div>
+                    <!-- <div class="run">
                     <form title="run SWAT"> Run SWAT <br><br>
                         <label for="warm-up">Warm up Period:</label><br>
                         <input type="number" id="warm-up" name="warm-up"> <br> <br>
@@ -206,10 +208,10 @@
                         <button type="button" onclick="alert('SWAT is Running')">Run SWAT</button>
                     </form>
                 </div> -->
+                </div>
             </div>
-        </div>
-    </main>
-</div>
+        </main>
+    </div>
     <footer>
         <div class="flex2">
             <div class="hydrograph">hydrograph

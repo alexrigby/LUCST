@@ -39,6 +39,7 @@ Nav a{
 }
 
 #download{
+ margin-right: 15px;
  font-size: 13pt;
  line-height: 20px;
  margin-top: 20px;
@@ -54,6 +55,7 @@ header a:hover{
   background-color: white;
   color:#0068C1;
 }
+
 
 /*Main*/
 
@@ -138,6 +140,7 @@ form > input:focus{
 
 
 ::-webkit-scrollbar{
+ 
 
 }
 
@@ -147,20 +150,25 @@ form > input:focus{
   max-height: 600px;
 }
 
+th{
+  position: sticky;
+  top: 0;
+  background:#0068C1;
+  color:white;
+}
 
 table{
   font-weight: 500;
   font-size: 10pt;
   background-color: white;
   border: 2px solid black;
-  border-radius: 8px;
   margin: 10px;
+  margin-right: 0px;
 }
 
 
 
 table, th, td{
-  border-radius: 8px;
   border: 1px solid black;
   border-collapse: collapse;
 }
@@ -172,6 +180,12 @@ th, td{
 a{
   text-decoration: none;
 }
+
+
+.lulc-edit-button{
+  float: right;
+}
+
 
 /*footer*/
 

@@ -69,8 +69,9 @@ export function populateTable(data) {
     table += `
               <tr>
                   <td>${data.hrus[i]}</td>
-                  <td>${data.landuse[i]}</td>
-                  <td><button class="lulc-edit-button" data-hru=${data.hrus[i]}>Edit</button></td>
+                  <td>${data.landuse[i]}
+                  <button class="lulc-edit-button" data-hru=${data.hrus[i]}>Edit</button>
+                  </td>
                   <td class="newLanduse"></td>
               </tr>`;
     //use`` to insert HTML elements straight from javascript, use ${} to input Javascript elements
@@ -82,13 +83,11 @@ export function populateTable(data) {
 
   table +=
     `<tr>
-        <td>${'Change All'}</td>
-        <td><input list="landuseTypes"  name="landuseTypes">
-            <datalist id="landuseTypes">${landuseTypesOptions}
+         <td><button class="lulc-editAll-button" data-hru=${data.hrus}> EDIT ALL </button></td>
+         <td><input id="landuseTypes" list="landuseDatalist"  name="landuseTypes" type="text">
+            <datalist id="landuseDatalist">${landuseTypesOptions}
              </datalist>
-         </td>
-         <td><button class="lulc-editAll-button" data-hru=${data.hrus}> EDIT </button></td>
-         <td class=allNewlanduse></td>
+         <td class="allNewlanduse"></td>
      </tr>`
     ;
 
@@ -115,7 +114,6 @@ export function populateTable(data) {
       // console.log(el.dataset.hru)
       const newLanduse = window.prompt(`Update Landuse for HRU: ${el.dataset.hru}`);
       console.log(newLanduse);
-      //Adding LANDUSE changes to the table ----- need to look inot, only populates row 0----------
       document.getElementsByClassName("newLanduse")[i].innerHTML = `${newLanduse}`;
       // UPDATE THE DATASET
       window.LLYFNIData[el.dataset.hru - 1].lu_mgt = `${newLanduse.toLowerCase()}_lum`;
@@ -128,9 +126,13 @@ export function populateTable(data) {
 
   const lulcEditAllButton = document.querySelector(".lulc-editAll-button");
 
+
+
   lulcEditAllButton.addEventListener("click", () => {
-    const allNewLanduse = window.prompt(`Update Landuse for HRUs: ${lulcEditAllButton.dataset.hru}`);
+    const allLanduseSelection = document.getElementById("landuseTypes");
+    const allNewLanduse = allLanduseSelection.value;
     document.querySelector(".allNewlanduse").innerHTML = `${allNewLanduse}`;
+    document.querySelectorAll("newLanduse").innerHTML = `${allNewLanduse}`;
 
     // Converts a comma delimited string to an array of strings (ids).
     const hrusToUpdate = lulcEditAllButton.dataset.hru.split(",");
@@ -138,16 +140,14 @@ export function populateTable(data) {
 
 
     hrusToUpdate.forEach((el, i, arr) => {
-      window.LLYFNIData[parseInt(el) - 1].lu_mgt = `${allNewLanduse.toLowerCase()}_lum`
+      window.LLYFNIData[parseInt(el) - 1].lu_mgt = `${allNewLanduse}`
     });
-    // console.log(window.LLYFNIData);
+     console.log(window.LLYFNIData);
     const newHruData = convertToTSV(window.LLYFNIData);
 
     downloadButton(newHruData, 'hru-data.hru');
 
   });
-
-
 
 }
 

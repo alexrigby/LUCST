@@ -55,18 +55,37 @@ var satellite = makeSatelliteMap();
 var streets = makeStreetMap().addTo(map);
 //calling function from mapFunctions.js to convert the ziped shape files into geoJSON files  
 // only add HRUs2 (1 is 'Actual HRUs')
-var hrus = shpToGeoJSON('data/shpfiles/hru2.zip', { color: 'red' })
 var rivers = shpToGeoJSON('data/shpfiles/rivs1.zip')
+var subBasins = shpToGeoJSON('data/shpfiles/subs1.zip')
+var hrus = shpToGeoJSON('data/shpfiles/hru2.zip')
+
+
+
+
+function shpStyles{
+   hrus.setStyle({ color: '#b0c4de', weight: 1 });
+   rivers.setStyle({ color:'#0068C1'});
+   subBasins.setStyle({color: 'red', fillColor: 'none', weight:1.5});
+}
+
+
 // adding the converted geoJSON files to the map#
 hrus.addTo(map);
 hrus.once("data:loaded", function () {
-    hrus.setStyle({ color: '#b0c4de', weight: 1.5 })
-    console.log("finished loaded shapefile");
+    hrus.setStyle(shpStyles);
+    console.log("finished loading hrus");
 });
 
 rivers.addTo(map);
 rivers.once("data:loaded", function () {
-    console.log("finished loaded shapefile");
+    rivers.setStyle(shpStyles);
+    console.log("finished loading rivers");
+});
+
+subBasins.addTo(map);
+subBasins.once("data:loaded", function (){
+    subBasins.setStyle(shpStyles);
+    console.log("finished loading sub-basins");
 });
 
 // map layer objects 
@@ -77,7 +96,8 @@ var baseMaps = {
 
 var overlayMaps = {
     "HRUs": hrus,
-    "Rivers": rivers
+    "Rivers": rivers,
+    "Sub-Basins": subBasins
 };
 
 //leaflets.js function to add layers to map with a drop down selection list
@@ -119,7 +139,7 @@ function resetSelectedState() {
         if (layer instanceof L.Marker) {
             layer.setIcon(new L.Icon.Default());
         } else if (layer instanceof L.Path) {
-            layer.setStyle({ color: '#b0c4de' });
+            layer.setStyle(shpStyles);
         }
     });
     // lassoResult.innerHTML = '';

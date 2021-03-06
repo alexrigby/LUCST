@@ -50,6 +50,19 @@ export function cleanPlant(data) {
   }
 
 
+  export function getPlantOptions(data) {
+    const plants = data.map(record => record.name);
+   // console.log(landuses);
+  return plants
+  }
+
+
+
+
+
   //exports functions 
-  export default cleanPlant
+  export default { 
+    cleanPlant,
+    getPlantOptions
+  }
 

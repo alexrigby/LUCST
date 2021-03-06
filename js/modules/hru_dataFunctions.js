@@ -64,7 +64,7 @@ export function populateTable(data) {
     return `<option value=${el}></option>`;
   });
 
-
+console.log(lu);
   const rowCount = data.hrus.length;
   let table = "";
   //loops over the data asigning new row each time
@@ -88,10 +88,10 @@ export function populateTable(data) {
   table +=
     `<tr>
          <td><button class="lulc-editAll-button" data-hru=${data.hrus}> EDIT ALL </button></td>
-         <td><input class="allLanduseTypes" list="allLanduseDatalist"   type="text">
-            <datalist id="allLanduseDatalist">${landuseTypesOptions}
-             </datalist>
-         <td class="allNewlanduse"></td>
+         <td></td>
+         <td class="allNewlanduse"><input class="allLanduseTypes" list="allLanduseDatalist"   type="text">
+         <datalist id="allLanduseDatalist">${landuseTypesOptions}
+          </datalist></td>
      </tr>`
     ;
 

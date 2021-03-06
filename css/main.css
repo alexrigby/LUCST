@@ -25,6 +25,11 @@ header{
 
 nav{
   float: right;
+  margin-right: 15px;
+  font-size: 13pt;
+  line-height: 20px;
+  margin-top: 20px;
+  text-align: right;
 }
 
 Nav ul{
@@ -33,22 +38,25 @@ Nav ul{
   list-style-type: none;
 }
 
-Nav a{
-  float: left;
-  padding: 0px 15px;
-}
-
-#download{
- margin-right: 15px;
- font-size: 13pt;
- line-height: 20px;
- margin-top: 20px;
- text-align:right;
+Nav li{
+  float:right;
+  padding-left:  5px;
 }
 
 header a {
   text-decoration: none;
   color:white;
+}
+
+header {
+  text-decoration: none;
+  color:white;
+}
+
+nav li:hover{
+  background-color: white;
+  color:#0068C1;
+  padding-bottom: 1px;
 }
 
 header a:hover{

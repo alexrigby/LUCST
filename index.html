@@ -36,12 +36,19 @@
     <div class="background">
         <header>
             <div class="logo"><a href="#">SWAT LULC</a></div>
-    
+
             <nav>
-                <a href="" id="download" download>Downolad<br> hru-data.hru</a>
+                <ul>
+                    <li>
+                        <a href="" id="download" download>Downolad<br> hru-data.hru</a>
+                    </li>
+                    <li>
+                        <p>New Landuse</p>
+                    </li>
+                </ul>   
             </nav>
-           
-        </header>
+
+        
         </header>
         <main>
             <div class="flex1">
@@ -100,12 +107,15 @@
                     <label for="bmp">Best Managment Practices</label><br>
                     <input type="text" id="bmp" name="bmp"> <br> <br>
                     <button type="button" onclick="alert ('Writing New Landuse')">Make</button>
-                </form>
-            </div>
+                </form> -->
+            <!-- </div> -->
             <div class="plant-form">
                 <form title="New plant_comm">New plant Comunity<br><br>
                     <label for="Name">Name (_comm)</label><br>
-                    <input type="text" id="plantName" name="name"> <br>
+                    <input list="plantOptions" class="plantsOptions" name='name'>
+                    <datalist id="plantsOption">
+                        <option class="plantsOptions"></option>
+                    </datalist> <br>
                     <label for="plt_cnt">Plant Count</label><br>
                     <input type="number" id="plt_cnt" name="plt_cnt"> <br>
                     <label for="rot_yr_ini">Rotation Begining</label><br>
@@ -132,8 +142,8 @@
                     <input type="number" id="rsd_init" name="rsd_init"> <br> <br>
                     <button type="button" onclick="alert ('Writing New Plant Community')">Make</button>
                 </form>
-            </div> -->
-                <div class="run-LULC">
+            </div> 
+                <!-- <div class="run-LULC"> -->
                     <!-- <div class="LULC-form"> -->
                     <!-- <form name=lulc title="LULC Scenario" id='LULC'>LULC Chanage <br><br>
                         <label for="hru">HRU:</label>

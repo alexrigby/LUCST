@@ -1,6 +1,6 @@
 import fetchData from "/js/modules/universalFunctions.js";
 import { populateTable, cleanHru, getHru, updateHru } from "/js/modules/hru_dataFunctions.js";
-import cleanPlant from "/js/modules/plantFunctions.js";
+import { getPlantOptions, cleanPlant} from "/js/modules/plantFunctions.js";
 import { cleanLanduse, getLanduseTypes } from "/js/modules/landuseFunctions.js";
 import { makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js"
 // import plantTypes from "Types/plantTypes";
@@ -17,7 +17,7 @@ fetchData('/data/TxtInOut/hru-data.hru')
         // Replace this with a state management solution
         window.LLYFNIData = [...cleanHruData];
 
-        console.log(cleanHruDataCopy)
+       
     });
 
 
@@ -28,7 +28,7 @@ fetchData('/data/TxtInOut/landuse.lum')
         const cleanLanduseData = cleanLanduse(data);
         const cleanLanduseDataCopy = [...cleanLanduseData];
 
-        console.log(cleanLanduseDataCopy);
+        
 
         const landuseTypes = getLanduseTypes(cleanLanduseData);
 
@@ -45,8 +45,17 @@ fetchData('/data/TxtInOut/plant.ini')
         // console.log(cleanPlantDataCopy);
     });
 
+fetchData('/data/TxtInOut/plants.plt')
+    .then(data => {
+        const cleanPlantsData = cleanLanduse(data);
+        
+        const plantsOptions = getPlantOptions(cleanPlantsData);
+        
+        window.PlantNames = [...plantsOptions];
+       
+    });
 
-
+    
 
 // leaflet.js
 // Initialize the map and set its view to chosen coordinates, zoom, default layers
@@ -62,29 +71,29 @@ var hrus = shpToGeoJSON('data/shpfiles/hru2.zip')
 
 
 
-function shpStyles (){
-   hrus.setStyle({ color: '#b0c4de', weight: 1 });
-   rivers.setStyle({ color:'#0068C1'});
-   subBasins.setStyle({color: 'red', fillColor: 'none', weight:1.5});
+function shpStyles() {
+    hrus.setStyle({ color: '#b0c4de', weight: 1 });
+    rivers.setStyle({ color: '#0068C1' });
+    subBasins.setStyle({ color: 'red', fillColor: 'none', weight: 1.5 });
 }
 
 
 // adding the converted geoJSON files to the map#
 hrus.addTo(map);
 hrus.once("data:loaded", function () {
-    hrus.setStyle(shpStyles);
+    hrus.setStyle({ color: '#b0c4de', weight: 1 });
     console.log("finished loading hrus");
 });
 
 rivers.addTo(map);
 rivers.once("data:loaded", function () {
-    rivers.setStyle(shpStyles);
+    rivers.setStyle({ color: '#0068C1' });
     console.log("finished loading rivers");
 });
 
 subBasins.addTo(map);
-subBasins.once("data:loaded", function (){
-    subBasins.setStyle(shpStyles);
+subBasins.once("data:loaded", function () {
+    subBasins.setStyle({ color: 'red', fillColor: 'none', weight: 1.5 });
     console.log("finished loading sub-basins");
 });
 
@@ -135,13 +144,14 @@ const lassoControl = L.control.lasso().addTo(map);
 
 
 function resetSelectedState() {
-    map.eachLayer((layer) => {
-        if (layer instanceof L.Marker) {
-            layer.setIcon(new L.Icon.Default());
-        } else if (layer instanceof L.Path) {
-            layer.setStyle(shpStyles);
-        }
-    });
+    shpStyles();
+    // map.eachLayer((layer) => {
+    //     if (layer instanceof L.Marker) {
+    //         layer.setIcon(new L.Icon.Default());
+    //     } else if (layer instanceof L.Path) {
+    //         shpStyles();
+    //     }
+    // });
     // lassoResult.innerHTML = '';
 }
 
@@ -201,7 +211,14 @@ intersect.addEventListener('change', () => {
 });
 
 
+function populatePlantTypeForm (){
 
+    const plantsOptions = window.PlantNames.map((el, i) => {
+      return `<option value=${el}></option>`;
+    });
+   
+    document.getElementsById('plantsOptions').innerHTML =`${plantsOptions}`
+  }
 
 
 

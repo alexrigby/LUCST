@@ -111,11 +111,11 @@
             <!-- </div> -->
             <div class="plant-form">
                 <form title="New plant_comm">New plant Comunity<br><br>
-                    <label for="Name">Name (_comm)</label><br>
-                    <input list="plantOptions" class="plantsOptions" name='name'>
-                    <datalist id="plantsOption">
-                        <option class="plantsOptions"></option>
-                    </datalist> <br>
+                   <label for = "pcom_name">plant Com Name</label> <br>
+                   <input list="plantNames"name ="plantNames" id="plantNames">
+                   <datalist id="plantNamesOptions">
+                       <option value="sdw">
+                   </datalist>
                     <label for="plt_cnt">Plant Count</label><br>
                     <input type="number" id="plt_cnt" name="plt_cnt"> <br>
                     <label for="rot_yr_ini">Rotation Begining</label><br>
@@ -123,8 +123,8 @@
                     <label for="plt_name">Plant Name</label><br>
                     <input type="text" id="plt_name" name="plt_name"> <br>
                     <lable for="lc_status">Landcover Status</lable><br>
-                    <input list="lc_status" name="lc_status">
-                    <datalist id="lc_status">
+                    <input list="lc_status" name="lc_status" id="lc_status">
+                    <datalist id="lc_status_optios">
                         <option value="y">
                         <option value="n">
                     </datalist> <br>
@@ -140,7 +140,7 @@
                     <input type="number" id="yrs_init" name="yrs_init"> <br>
                     <label for="rsd_init">Initial Residue Cover</label><br>
                     <input type="number" id="rsd_init" name="rsd_init"> <br> <br>
-                    <button type="button" onclick="alert ('Writing New Plant Community')">Make</button>
+                    <button type="button" id="newPlantButton">Make</button>
                 </form>
             </div> 
                 <!-- <div class="run-LULC"> -->

@@ -1,6 +1,6 @@
 import fetchData from "/js/modules/universalFunctions.js";
 import { populateTable, cleanHru, getHru, updateHru } from "/js/modules/hru_dataFunctions.js";
-import { getPlantOptions, cleanPlant} from "/js/modules/plantFunctions.js";
+import { getPlantOptions, cleanPlant, newPlantType } from "/js/modules/plantFunctions.js";
 import { cleanLanduse, getLanduseTypes } from "/js/modules/landuseFunctions.js";
 import { makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js"
 // import plantTypes from "Types/plantTypes";
@@ -33,8 +33,10 @@ fetchData('/data/TxtInOut/landuse.lum')
         const landuseTypes = getLanduseTypes(cleanLanduseData);
 
         window.LLYFNILanduse = [...landuseTypes];
+       
     });
-
+ 
+  
 
 // plant.ini:
 // Fetch unclean dataset...
@@ -51,12 +53,12 @@ fetchData('/data/TxtInOut/plants.plt')
         
         const plantsOptions = getPlantOptions(cleanPlantsData);
         
-        window.PlantNames = [...plantsOptions];
-       
+       window.PLANTnames = [...plantsOptions];
+     
     });
 
+  
     
-
 // leaflet.js
 // Initialize the map and set its view to chosen coordinates, zoom, default layers
 var map = L.map('map').setView([53.046775, -4.286951], 12, [streets]);
@@ -211,14 +213,10 @@ intersect.addEventListener('change', () => {
 });
 
 
-function populatePlantTypeForm (){
-
-    const plantsOptions = window.PlantNames.map((el, i) => {
-      return `<option value=${el}></option>`;
-    });
-   
-    document.getElementsById('plantsOptions').innerHTML =`${plantsOptions}`
-  }
+newPlantType()
 
 
+
+
+//populatePlantTypeForm()
 

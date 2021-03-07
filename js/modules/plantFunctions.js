@@ -56,12 +56,40 @@ export function cleanPlant(data) {
   return plants
   }
 
+export function populatePlantTypeForm (){
 
+  const plantsOptions = window.PLANTnames.map((el, i) => {
+    return `<option value=${el}></option>`;
+  });
+ 
+  document.getElementsById('plantsOptions').innerHTML =`${plantsOptions}`
+}
 
+export function newPlantType(){
+const newPlantTypeButton = document.getElementById("newPlantButton")
+
+newPlantTypeButton.addEventListener('click', () => {
+    const plantComName = document.getElementById("plantNames").value;
+    const plantCnt = document.getElementById("plt_cnt").value;
+    const iniRotationYear = document.getElementById("rot_yr_ini").value;
+    const plantName = document.getElementById("plt_name").value;
+    const landcoverStatus= document.getElementById("lc_status").value;
+    const iniLai = document.getElementById("lai_init").value;
+    const iniBm = document.getElementById("bm_init").value;
+    const iniPhu= document.getElementById("phu_init").value;
+    const plantPopulation = document.getElementById("plnt_pop").value;
+    const iniYrs= document.getElementById("yrs_init").value;
+    const iniRsd= document.getElementById("rsd_init").value;
+
+console.log(plantCnt, plantComName)
+});
+}
 
 
   //exports functions 
   export default { 
+    newPlantType,
+    populatePlantTypeForm,
     cleanPlant,
     getPlantOptions
   }

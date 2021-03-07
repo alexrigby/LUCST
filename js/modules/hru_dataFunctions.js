@@ -59,12 +59,14 @@ export function updateHru(data, id, lu_mgt) {
 
 
 export function populateTable(data) {
+  
+  
 
   const landuseTypesOptions = window.LLYFNILanduse.map((el, i) => {
     return `<option value=${el}></option>`;
   });
 
-console.log(lu);
+
   const rowCount = data.hrus.length;
   let table = "";
   //loops over the data asigning new row each time
@@ -123,7 +125,7 @@ console.log(lu);
       document.querySelectorAll(".newLanduse")[i].innerHTML = `${newLanduse}`;
       // UPDATE THE DATASET
       window.LLYFNIData[el.dataset.hru - 1].lu_mgt = `${newLanduse}`;
-      console.log(window.LLYFNIData);
+     
 
       const newHruData = convertToTSV(window.LLYFNIData);
       downloadButton(newHruData, 'hru-data.hru');
@@ -148,7 +150,7 @@ console.log(lu);
     hrusToUpdate.forEach((el, i, arr) => {
       window.LLYFNIData[parseInt(el) - 1].lu_mgt = `${allNewLanduse}`
     });
-    console.log(window.LLYFNIData);
+   
     const newHruData = convertToTSV(window.LLYFNIData);
 
     downloadButton(newHruData, 'hru-data.hru');

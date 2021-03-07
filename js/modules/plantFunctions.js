@@ -65,7 +65,9 @@ export function populatePlantTypeForm (){
   document.getElementsById('plantsOptions').innerHTML =`${plantsOptions}`
 }
 
+
 export function newPlantType(){
+
 const newPlantTypeButton = document.getElementById("newPlantButton")
 
 newPlantTypeButton.addEventListener('click', () => {
@@ -81,7 +83,22 @@ newPlantTypeButton.addEventListener('click', () => {
     const iniYrs= document.getElementById("yrs_init").value;
     const iniRsd= document.getElementById("rsd_init").value;
 
-console.log(plantCnt, plantComName)
+    const newPlantSelection = new Object();
+    newPlantSelection.pcom_name = plantComName;
+    newPlantSelection.plt_cnt = plantCnt;
+    newPlantSelection.rot_yr_ini = iniRotationYear;
+    newPlantSelection.plt_name = plantName;
+    newPlantSelection.lc_status = landcoverStatus;
+    newPlantSelection.lai_init = iniLai;
+    newPlantSelection.bm_init = iniBm;
+    newPlantSelection.phu_init = iniPhu;
+    newPlantSelection.plnt_pop = plantPopulation;
+    newPlantSelection.yrs_init =iniYrs;
+    newPlantSelection.rsd_init = iniRsd;
+      
+ 
+
+    console.log(newPlantSelection)
 });
 }
 

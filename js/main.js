@@ -44,6 +44,7 @@ fetchData('/data/TxtInOut/plant.ini')
     .then(data => {
         const cleanPlantData = cleanPlant(data);
         const cleanPlantDataCopy = [...cleanPlantData];
+        window.LLYFNIPlant =[...cleanPlantData];
         // console.log(cleanPlantDataCopy);
     });
 

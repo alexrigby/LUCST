@@ -66,6 +66,17 @@ export function populatePlantTypeForm (){
 }
 
 
+const convertToTSV = (data) => {
+  // Convert dataset to TSV and print
+  const headers = Object.keys(data[0]);
+  const tsv = [
+    headers.join('\t'),
+    ...data.map(row => headers.map(fieldName => row[fieldName]).join('\t'))
+  ].join('\r\n');
+
+  return tsv;
+}
+
 export function newPlantType(){
 
 const newPlantTypeButton = document.getElementById("newPlantButton")
@@ -97,9 +108,21 @@ newPlantTypeButton.addEventListener('click', () => {
     newPlantSelection.rsd_init = iniRsd;
       
  
-
+console.log(window.LLYFNIPlant)
     console.log(newPlantSelection)
+
+    window.LLYFNIPlant.push(newPlantSelection)
+
+    const newPlantTypeFile = convertToTSV(window.LLYFNIPlant)
+    downloadPlantButton(newPlantTypeFile, "plant.ini")
 });
+}
+
+function downloadPlantButton(data, fileName) {
+  var myFile = new Blob([data], { type: 'text/plain' });
+  document.getElementById('downloadPlant').setAttribute('href', window.URL.createObjectURL(myFile));
+  document.getElementById('downloadPlant').setAttribute('download', fileName);
+
 }
 
 

@@ -99,7 +99,7 @@ export function populateTable(data) {
 
 
 
-  const convertToTSV = (data) => {
+ const convertToTSV = (data) => {
     // Convert dataset to TSV and print
     const headers = Object.keys(data[0]);
     const tsv = [

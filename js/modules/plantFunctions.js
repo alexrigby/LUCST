@@ -99,13 +99,13 @@ newPlantTypeButton.addEventListener('click', () => {
     newPlantSelection.plt_cnt = plantCnt;
     newPlantSelection.rot_yr_ini = iniRotationYear;
     newPlantSelection.plt_name = plantName;
-    newPlantSelection.lc_status = landcoverStatus;
-    newPlantSelection.lai_init = iniLai;
-    newPlantSelection.bm_init = iniBm;
-    newPlantSelection.phu_init = iniPhu;
-    newPlantSelection.plnt_pop = plantPopulation;
-    newPlantSelection.yrs_init =iniYrs;
-    newPlantSelection.rsd_init = iniRsd;
+    newPlantSelection.lc_status  = landcoverStatus;
+    newPlantSelection.lai_init = iniLai + '.00000';
+    newPlantSelection.bm_init = iniBm + '.00000';
+    newPlantSelection.phu_init = iniPhu + '.00000';
+    newPlantSelection.plnt_pop = plantPopulation + '.00000';
+    newPlantSelection.yrs_init =iniYrs + '.00000';
+    newPlantSelection.rsd_init = iniRsd + '.00000';
       
  
 console.log(window.LLYFNIPlant)

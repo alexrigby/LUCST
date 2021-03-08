@@ -17,6 +17,10 @@ header{
   margin: 12px;
 }
 
+.downloadLanduse{
+  border-left: 2px solid white;
+  border-right: 2px solid white;
+}
 
 .logo{
   float: left;
@@ -40,7 +44,8 @@ Nav ul{
 
 Nav li{
   float:right;
-  padding-left:  5px;
+  padding-left:  6px;
+  padding-right: 6px;
 }
 
 header a {
@@ -197,7 +202,7 @@ a{
 .flex2{ 
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: flex-start;
   flex-wrap: wrap;
   
 }

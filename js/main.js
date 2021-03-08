@@ -1,7 +1,7 @@
 import fetchData from "/js/modules/universalFunctions.js";
 import { populateTable, cleanHru, getHru, updateHru } from "/js/modules/hru_dataFunctions.js";
 import { getPlantOptions, cleanPlant, newPlantType } from "/js/modules/plantFunctions.js";
-import { cleanLanduse, getLanduseTypes } from "/js/modules/landuseFunctions.js";
+import { cleanLanduse, getLanduseTypes, landuseTypes } from "/js/modules/landuseFunctions.js";
 import { makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js"
 // import plantTypes from "Types/plantTypes";
 
@@ -33,7 +33,8 @@ fetchData('/data/TxtInOut/landuse.lum')
         const landuseTypes = getLanduseTypes(cleanLanduseData);
 
         window.LLYFNILanduse = [...landuseTypes];
-       
+       window.LLYFNILanduseEdit =[...cleanLanduseData];
+       console.log(window.LLYFNILanduseEdit)
     });
  
   
@@ -55,7 +56,7 @@ fetchData('/data/TxtInOut/plants.plt')
         const plantsOptions = getPlantOptions(cleanPlantsData);
         
        window.PLANTnames = [...plantsOptions];
-     
+       
     });
 
   
@@ -217,7 +218,7 @@ intersect.addEventListener('change', () => {
 newPlantType()
 
 
-
+landuseTypes()
 
 //populatePlantTypeForm()
 

@@ -42,8 +42,11 @@
                     <li>
                         <a href="" id="download" download>Downolad<br> hru-data.hru</a>
                     </li>
+                    <li class="downloadLanduse">
+                        <a href ="" id="downloadLanduse"  download>Download <br> landuse.lum</a>
+                    </li>
                     <li>
-                        <a href ="" id="downloadPlant" download>New Landuse</a>
+                        <a href ="" id="downloadPlant" download>Download <br> plant.ini</a>
                     </li>
                 </ul>   
             </nav>
@@ -66,83 +69,6 @@
                 <br>
                 <div id="lassoResult"></div>
             </div> -->
-                <!-- <div class="landuse-form">
-                <form title="New Landuse">New Landuse Type<br><br>
-                    <label for="Name">Name</label><br>
-                    <input type="text" id="landuseName" name="name"> <br>
-                    <lable for="cal group">Calibration Group</lable><br>
-                    <input list="cal group" name="calGroup">
-                    <datalist id="calGroup">
-                        <option value="null">
-                    </datalist>
-                    </input><br>
-                    <label for="plant com">Plant Comunity</label><br>
-                    <input list="plant com" name="plantCom">
-                    <datalist id="plantCom">
-                        <option value="rnge_comm">
-                        <option value="rngb_comm">
-                        <option value="past_comm">
-                        <option value="shrb_comm">
-                        <option value="watr_comm">
-                        <option value="null">
-                    </datalist> <br>
-                    <label for="mgt">Managment</label><br>
-                    <input type="text" id="mgt" name="mgt"> <br>
-                    <label for="cn2">Curve Number</label><br>
-                    <input type="text" id="cn2" name="cn2"> <br>
-                    <label for="cons_practice">Conservation Practice</label><br>
-                    <input type="text" id="cons_practice" name="cons_practice"> <br>
-                    <label for="urban">Urban</label><br>
-                    <input type="text" id="urban" name="urban"> <br>
-                    <label for="urb_ro">Urban Run-Off</label><br>
-                    <input type="text" id="urb_ro" name="urb_ro"> <br>
-                    <label for="tile">Tile</label><br>
-                    <input type="text" id="tile" name="tile"> <br>
-                    <label for="sep">Septic Tanks</label><br>
-                    <input type="text" id="sep" name="sep"> <br>
-                    <label for="vfs">Filter Strip File</label><br>
-                    <input type="text" id="vfs" name="vfs"> <br>
-                    <label for="grww">Grassed Waterways</label><br>
-                    <input type="text" id="grww" name="grww"> <br>
-                    <label for="bmp">Best Managment Practices</label><br>
-                    <input type="text" id="bmp" name="bmp"> <br> <br>
-                    <button type="button" onclick="alert ('Writing New Landuse')">Make</button>
-                </form> -->
-            <!-- </div> -->
-            <div class="plant-form">
-                <form title="New plant_comm">New plant Comunity<br><br>
-                   <label for = "pcom_name">plant Com Name</label> <br>
-                   <input list="plantNames"name ="plantNames" id="plantNames">
-                   <datalist id="plantNamesOptions">
-                       <option value="sdw">
-                   </datalist>
-                    <label for="plt_cnt">Plant Count</label><br>
-                    <input type="number" id="plt_cnt" name="plt_cnt"> <br>
-                    <label for="rot_yr_ini">Rotation Begining</label><br>
-                    <input type="number" id="rot_yr_ini" name="rot_yr_ini"> <br>
-                    <label for="plt_name">Plant Name</label><br>
-                    <input type="text" id="plt_name" name="plt_name"> <br>
-                    <lable for="lc_status">Landcover Status</lable><br>
-                    <input list="lc_status" name="lc_status" id="lc_status">
-                    <datalist id="lc_status_optios">
-                        <option value="y">
-                        <option value="n">
-                    </datalist> <br>
-                    <label for="lai_init">Initial Leaf Area Index</label><br>
-                    <input type="number" id="lai_init" name="lai_init"> <br>
-                    <label for="bm_init">Initial Dry Biomas</label><br>
-                    <input type="number" id="bm_init" name="bm_init"> <br>
-                    <label for="phu_init">Heat Units to Maturity</label><br>
-                    <input type="number" id="phu_init" name="phu_init"> <br>
-                    <label for="plnt_pop">Plant Population</label><br>
-                    <input type="number" id="plnt_pop" name="plnt_pop"> <br>
-                    <label for="yrs_init">Years to maturity</label><br>
-                    <input type="number" id="yrs_init" name="yrs_init"> <br>
-                    <label for="rsd_init">Initial Residue Cover</label><br>
-                    <input type="number" id="rsd_init" name="rsd_init"> <br> <br>
-                    <button type="button" id="newPlantButton">Make</button>
-                </form>
-            </div> 
                 <!-- <div class="run-LULC"> -->
                     <!-- <div class="LULC-form"> -->
                     <!-- <form name=lulc title="LULC Scenario" id='LULC'>LULC Chanage <br><br>
@@ -224,10 +150,80 @@
     </div>
     <footer>
         <div class="flex2">
-            <div class="hydrograph">hydrograph
-            </div>
-            <div class="output-table">Output Table
-            </div>
+            <div class="plant-form">
+                <form title="New plant_comm">New plant Community<br><br>
+                   <label for = "pcom_name">Plant Community Name</label> <br>
+                   <input list="plantNames"name ="plantNames" id="plantNames">
+                   <datalist id="plantNamesOptions">
+                       <option value="sdw">
+                   </datalist><br>
+                    <label for="plt_cnt">Plant Count</label><br>
+                    <input type="number" id="plt_cnt" name="plt_cnt"> <br>
+                    <label for="rot_yr_ini">Rotation Begining Year</label><br>
+                    <input type="number" id="rot_yr_ini" name="rot_yr_ini"> <br>
+                    <label for="plt_name">Plant Name</label><br>
+                    <input type="text" id="plt_name" name="plt_name"> <br>
+                    <lable for="lc_status">Landocver Satus</lable><br>
+                    <input list="lc_status" name="lc_status" id="lc_status">
+                    <datalist id="lc_status_optios">
+                        <option value="y">
+                        <option value="n">
+                    </datalist> <br>
+                    <label for="lai_init">Initial Leaf Area Index</label><br>
+                    <input type="number" id="lai_init" name="lai_init"> <br>
+                    <label for="bm_init">Initial Dry Biomas</label><br>
+                    <input type="number" id="bm_init" name="bm_init"> <br>
+                    <label for="phu_init">Heat Units to Maturity</label><br>
+                    <input type="number" id="phu_init" name="phu_init"> <br>
+                    <label for="plnt_pop">Plant Population</label><br>
+                    <input type="number" id="plnt_pop" name="plnt_pop"> <br>
+                    <label for="yrs_init">Years to maturity</label><br>
+                    <input type="number" id="yrs_init" name="yrs_init"> <br>
+                    <label for="rsd_init">Initial Residue Cover</label><br>
+                    <input type="number" id="rsd_init" name="rsd_init"> <br> <br>
+                    <button type="button" id="newPlantButton">Make</button> 
+                </form>
+            </div> 
+            <div class="landuse-form" >
+                <form title="New Landuse" id="landuseForm">New Landuse Type<br><br>
+                    <label for="Name">Name</label><br>
+                    <input type="text" id="luName" name="name"> <br>
+                    <lable for="cal group">Calibration Group</lable><br>
+                    <input list="cal group" id = "luCalGroup" name="calGroup">
+                    <datalist id="calGroup">
+                        <option value="null">
+                    </datalist>
+                    </input><br>
+                    <label for="plant com">Plant Comunity</label><br>
+                    <input id="luPlantCom"list="plant com" name="plantCom">
+                    <datalist id="luPlantComDatalist">
+                        
+                    </datalist> <br>
+                    <label for="mgt">Managment</label><br>
+                    <input type="text" id="luMgt" name="mgt"> <br>
+                    <label for="cn2">Curve Number</label><br>
+                    <input type="text" id="cn2" name="cn2"> <br>
+                    <label for="cons_practice">Conservation Practice</label><br>
+                    <input type="text" id="consPractice" name="cons_practice"> <br>
+                    <label for="urban">Urban</label><br>
+                    <input type="text" id="urban" name="urban"> <br>
+                    <label for="urb_ro">Urban Run-Off</label><br>
+                    <input type="text" id="urbRo" name="urb_ro"> <br>
+                    <label for="ov_mann">Mannings n</label><br>
+                    <input type="text" id="ovMann"><br>
+                    <label for="tile">Tile</label><br>
+                    <input type="text" id="tile" name="tile"> <br>
+                    <label for="sep">Septic Tanks</label><br>
+                    <input type="text" id="sep" name="sep"> <br>
+                    <label for="vfs">Filter Strip File</label><br>
+                    <input type="text" id="vfs" name="vfs"> <br>
+                    <label for="grww">Grassed Waterways</label><br>
+                    <input type="text" id="grww" name="grww"> <br>
+                    <label for="bmp">Best Managment Practices</label><br>
+                    <input type="text" id="bmp" name="bmp"> <br> <br>
+                    <button type="button" id="newLuButton">Make</button>
+                </form>
+             </div>
             <div class="download">Download Window
             </div>
         </div>

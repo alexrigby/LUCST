@@ -24,52 +24,65 @@ export function getLanduseTypes(data) {
 export function landuseTypes() {
   const newLuButton = document.getElementById("newLuButton");
 
+  const luName = document.getElementById("luName");
+    const luCalGroup = document.getElementById("luCalGroup")
+    luCalGroup.setAttribute('value', 'null')
+    const plantCom = document.getElementById("luPlantCom")
+    const luMgt = document.getElementById("luMgt")
+    luMgt.setAttribute('value', 'null')
+    const cn2 = document.getElementById("cn2")
+    const consPractice = document.getElementById("consPractice")
+    consPractice.setAttribute('value', 'up_down_slope')
+    const urban = document.getElementById("urban")
+    urban.setAttribute('value', 'null')
+    const urbRo = document.getElementById("urbRo")
+    urbRo.setAttribute('value', 'null')
+    const ovMann = document.getElementById("ovMann")
+    const tile = document.getElementById("tile")
+    tile.setAttribute('value', 'null')
+    const sep = document.getElementById("sep")
+    sep.setAttribute('value', 'null')
+    const vfs = document.getElementById("vfs")
+    vfs.setAttribute('value', 'null')
+    const grww = document.getElementById("grww")
+    grww.setAttribute('value', 'null')
+    const bmp = document.getElementById("bmp")
+    bmp.setAttribute('value', 'null')
+
 
   newLuButton.addEventListener('click', () => {
-    const luName = document.getElementById("luName").value;
-    const luCalGroup = document.getElementById("luCalGroup").value;
-    const plantCom = document.getElementById("luPlantCom").value;
-    const luMgt = document.getElementById("luMgt").value;
-    const cn2 = document.getElementById("cn2").value;
-    const consPractice = document.getElementById("consPractice").value;
-    const urban = document.getElementById("urban").value;
-    const urbRo = document.getElementById("urbRo").value;
-    const ovMann = document.getElementById("ovMann").value;
-    const tile = document.getElementById("tile").value;
-    const sep = document.getElementById("sep").value;
-    const vfs = document.getElementById("vfs").value;
-    const grww = document.getElementById("grww").value;
-    const bmp = document.getElementById("bmp").value;
+    
 
     const newLu = new Object();
-    newLu.name = luName;
-    newLu.cal_group = luCalGroup;
-    newLu.plt_com = plantCom;
-    newLu.mgt = luMgt;
-    newLu.cn2 = cn2;
-    newLu.cons_prac = consPractice;
-    newLu.urban = urban;
-    newLu.urb_ro = urbRo;
-    newLu.ov_mann = ovMann
-    newLu.tile = tile;
-    newLu.sep = sep;
-    newLu.vfs = vfs;
-    newLu.grww= grww;
-    newLu.bmp = bmp;
-
-
+    newLu.name = luName.value;
+    newLu.cal_group = luCalGroup.value;
+    newLu.plt_com = plantCom.value;
+    newLu.mgt = luMgt.value;
+    newLu.cn2 = cn2.value;
+    newLu.cons_prac = consPractice.value;
+    newLu.urban = urban.value;
+    newLu.urb_ro = urbRo.value;
+    newLu.ov_mann = ovMann.value
+    newLu.tile = tile.value;
+    newLu.sep = sep.value;
+    newLu.vfs = vfs.value;
+    newLu.grww= grww.value;
+    newLu.bmp = bmp.value;
+    
     window.LLYFNILanduseEdit.push(newLu)
   
     const newLanduseFile = convertToTSV(window.LLYFNILanduseEdit)
     downloadLuButton(newLanduseFile, "landuse.lum")
     console.log(window.LLYFNILanduseEdit)
-    // const landuseTypesOptions = window.LLYFNILconst  = document.getElementById("").value;anduse.map((el, i) => {
-    //   return `<option value=${el}></option>`;
-    // });
-
-    // document.getElementById("luPlantCom").innerHTML = `${landuseTypesOptions}`
   });
+
 }
+
+
+
+
+
+
 
 function downloadLuButton(data, fileName) {
   var myFile = new Blob([data], { type: 'text/plain' });

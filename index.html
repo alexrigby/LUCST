@@ -153,8 +153,8 @@
             <div class="plant-form">
                 <form title="New plant_comm">New plant Community<br><br>
                    <label for = "pcom_name">Plant Community Name</label> <br>
-                   <input list="plantNames"name ="plantNames" id="plantNames">
-                   <datalist id="plantNamesOptions">
+                   <input list="plantNames" type ="text" name ="plantNamesDatalist" id="plantNamesDatalist">
+                   <datalist id="plantNames">
                        <option value="sdw">
                    </datalist><br>
                     <label for="plt_cnt">Plant Count</label><br>
@@ -163,9 +163,9 @@
                     <input type="number" id="rot_yr_ini" name="rot_yr_ini"> <br>
                     <label for="plt_name">Plant Name</label><br>
                     <input type="text" id="plt_name" name="plt_name"> <br>
-                    <lable for="lc_status">Landocver Satus</lable><br>
-                    <input list="lc_status" name="lc_status" id="lc_status">
-                    <datalist id="lc_status_optios">
+                    <lable for="lc_status" class="lc_status">Landcover Satus</lable><br>
+                    <input list="lc_status" name="lc_status" id="lc_statusDatalist">
+                    <datalist id="lc_status">
                         <option value="y">
                         <option value="n">
                     </datalist> <br>
@@ -182,6 +182,7 @@
                     <label for="rsd_init">Initial Residue Cover</label><br>
                     <input type="number" id="rsd_init" name="rsd_init"> <br> <br>
                     <button type="button" id="newPlantButton">Make</button> 
+                    <button type="reset" id="newPlantReset">Reset</button>
                 </form>
             </div> 
             <div class="landuse-form" >
@@ -189,15 +190,14 @@
                     <label for="Name">Name</label><br>
                     <input type="text" id="luName" name="name"> <br>
                     <lable for="cal group">Calibration Group</lable><br>
-                    <input list="cal group" id = "luCalGroup" name="calGroup">
+                    <input list="calGroup" id = "luCalGroup" name="calGroup">
                     <datalist id="calGroup">
                         <option value="null">
                     </datalist>
                     </input><br>
-                    <label for="plant com">Plant Comunity</label><br>
-                    <input id="luPlantCom"list="plant com" name="plantCom">
+                    <label for="luplantCom">Plant Comunity</label><br>
+                    <input id="luPlantCom"list="luPlantComDatalist" name="plantCom" >
                     <datalist id="luPlantComDatalist">
-                        
                     </datalist> <br>
                     <label for="mgt">Managment</label><br>
                     <input type="text" id="luMgt" name="mgt"> <br>
@@ -222,6 +222,7 @@
                     <label for="bmp">Best Managment Practices</label><br>
                     <input type="text" id="bmp" name="bmp"> <br> <br>
                     <button type="button" id="newLuButton">Make</button>
+                    <button type="reset" id="newLuReset">Reset</button>
                 </form>
              </div>
             <div class="download">Download Window

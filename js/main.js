@@ -34,7 +34,7 @@ fetchData('/data/TxtInOut/landuse.lum')
 
         window.LLYFNILanduse = [...landuseTypes];
        window.LLYFNILanduseEdit =[...cleanLanduseData];
-       console.log(window.LLYFNILanduseEdit)
+       
     });
  
   
@@ -46,7 +46,8 @@ fetchData('/data/TxtInOut/plant.ini')
         const cleanPlantData = cleanPlant(data);
         const cleanPlantDataCopy = [...cleanPlantData];
         window.LLYFNIPlant =[...cleanPlantData];
-        // console.log(cleanPlantDataCopy);
+        
+        
     });
 
 fetchData('/data/TxtInOut/plants.plt')
@@ -57,6 +58,7 @@ fetchData('/data/TxtInOut/plants.plt')
         
        window.PLANTnames = [...plantsOptions];
        
+
     });
 
   
@@ -76,7 +78,7 @@ var hrus = shpToGeoJSON('data/shpfiles/hru2.zip')
 
 
 function shpStyles() {
-    hrus.setStyle({ color: '#b0c4de', weight: 1 });
+    hrus.setStyle({ color: '#b0c4de',  weight: 1 });
     rivers.setStyle({ color: '#0068C1' });
     subBasins.setStyle({ color: 'red', fillColor: 'none', weight: 1.5 });
 }

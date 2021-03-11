@@ -57,14 +57,7 @@ export function getPlantOptions(data) {
   return plants
 }
 
-export function populatePlantTypeForm() {
 
-  const plantsOptions = window.PLANTnames.map((el, i) => {
-    return `<option value=${el}></option>`;
-  });
-
-  document.getElementsById('plantsOptions').innerHTML = `${plantsOptions}`
-}
 
 
 const convertToTSV = (data) => {
@@ -79,58 +72,80 @@ const convertToTSV = (data) => {
 }
 
 export function newPlantType() {
-  document.getElementById("lai_init").stepUp(1000)
+
+  //   const pcomOptions = getPlantComTypes(window.PLANTnames)
+  //     console.log(pcomOptions)
+
+  //   const pcomTypesOptions = pcomOptions.map((el, i) => {
+  //     return `<option value=${el}></option>`;
+  //   });
+  // document.getElementById("luPlantComDatalist").innerHTML = `${pcomTypesOptions}`
+
+  //defines all Plant form inputs as constants
+  const plantComName = document.getElementById("plantNamesDatalist");
+  const plantCnt = document.getElementById("plt_cnt")
+  plantCnt.setAttribute('value', 1)
+  const iniRotationYear = document.getElementById("rot_yr_ini")
+  iniRotationYear.setAttribute('value', 1)
+  const plantName = document.getElementById("plt_name")
+  const landcoverStatus = document.getElementById("lc_statusDatalist")
+  const iniLai = document.getElementById("lai_init")
+  iniLai.setAttribute('value', 2)
+  const iniBm = document.getElementById("bm_init")
+  iniBm.setAttribute('value', 2000)
+  const iniPhu = document.getElementById("phu_init")
+  iniPhu.setAttribute('value', 0)
+  const plantPopulation = document.getElementById("plnt_pop")
+  plantPopulation.setAttribute('value', 0)
+  const iniYrs = document.getElementById("yrs_init")
+  iniYrs.setAttribute('value', 1)
+  const iniRsd = document.getElementById("rsd_init")
+  iniRsd.setAttribute('value', 10000)
+  iniRsd.setAttribute('step', 10000)
+
   const newPlantTypeButton = document.getElementById("newPlantButton")
-
+  //adds input values to new object when button is clicked
   newPlantTypeButton.addEventListener('click', () => {
-    const plantComName = document.getElementById("plantNames").value;
-    const plantCnt = document.getElementById("plt_cnt").value;
-    const iniRotationYear = document.getElementById("rot_yr_ini").value;
-    const plantName = document.getElementById("plt_name").value;
-    const landcoverStatus = document.getElementById("lc_status").value;
-    const iniLai = document.getElementById("lai_init").value;
-    const iniBm = document.getElementById("bm_init").value;
-    const iniPhu = document.getElementById("phu_init").value;
-    const plantPopulation = document.getElementById("plnt_pop").value;
-    const iniYrs = document.getElementById("yrs_init").value;
-    const iniRsd = document.getElementById("rsd_init").value;
-
     const newPlantSelection = new Object();
-    newPlantSelection.pcom_name = plantComName;
-    newPlantSelection.plt_cnt = plantCnt;
-    newPlantSelection.rot_yr_ini = iniRotationYear;
-    newPlantSelection.plt_name = plantName;
-    newPlantSelection.lc_status = landcoverStatus;
-    newPlantSelection.lai_init = iniLai + '.00000';
-    newPlantSelection.bm_init = iniBm + '.00000';
-    newPlantSelection.phu_init = iniPhu + '.00000';
-    newPlantSelection.plnt_pop = plantPopulation + '.00000';
-    newPlantSelection.yrs_init = iniYrs + '.00000';
-    newPlantSelection.rsd_init = iniRsd + '.00000';
+    newPlantSelection.pcom_name = plantComName.value;
+    newPlantSelection.plt_cnt = plantCnt.value;
+    newPlantSelection.rot_yr_ini = iniRotationYear.value;
+    newPlantSelection.plt_name = plantName.value;
+    newPlantSelection.lc_status = landcoverStatus.value;
+    newPlantSelection.lai_init = iniLai.value + '.00000';
+    newPlantSelection.bm_init = iniBm.value + '.00000';
+    newPlantSelection.phu_init = iniPhu.value + '.00000';
+    newPlantSelection.plnt_pop = plantPopulation.value + '.00000';
+    newPlantSelection.yrs_init = iniYrs.value + '.00000';
+    newPlantSelection.rsd_init = iniRsd.vale + '.00000';
 
 
-    console.log(window.LLYFNIPlant)
     console.log(newPlantSelection)
-
+    //adds form data to plant.ini file
     window.LLYFNIPlant.push(newPlantSelection)
-
+    //converts file and links to download button 
     const newPlantTypeFile = convertToTSV(window.LLYFNIPlant)
     downloadPlantButton(newPlantTypeFile, "plant.ini")
   });
 }
 
+
+function getPlantComTypes(data) {
+  const plantCom = data.map(record => record.name);
+  return plantCom
+}
+
+
 function downloadPlantButton(data, fileName) {
   var myFile = new Blob([data], { type: 'text/plain' });
   document.getElementById('downloadPlant').setAttribute('href', window.URL.createObjectURL(myFile));
   document.getElementById('downloadPlant').setAttribute('download', fileName);
-
 }
 
 
 //exports functions 
 export default {
   newPlantType,
-  populatePlantTypeForm,
   cleanPlant,
   getPlantOptions
 }

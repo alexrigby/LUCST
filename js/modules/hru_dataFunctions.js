@@ -54,15 +54,21 @@ export function updateHru(data, id, lu_mgt) {
 }
 
 
-
+function getLanduseTypes(data) {
+  const landuses = data.map(record => record.name);
+  // console.log(landuses);
+  return landuses
+}
 
 
 
 export function populateTable(data) {
   
   
+const landuseTypes = getLanduseTypes(window.LLYFNILanduseEdit)
+console.log(landuseTypes)
 
-  const landuseTypesOptions = window.LLYFNILanduse.map((el, i) => {
+  const landuseTypesOptions = landuseTypes.map((el, i) => {
     return `<option value=${el}></option>`;
   });
 

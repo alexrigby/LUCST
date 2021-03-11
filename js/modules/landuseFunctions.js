@@ -22,36 +22,46 @@ export function getLanduseTypes(data) {
 }
 
 export function landuseTypes() {
+
+//makes luForm popup by pressing landuse.lum
+  document.getElementById("openLuForm").onclick = openLuForm;
+  document.getElementById("popupClose").onclick = closeLuForm;
+  function openLuForm() {
+    document.getElementById("luForm").style.display = "block";
+  }
+  function closeLuForm() {
+    document.getElementById("luForm").style.display = "none";
+  }
   const newLuButton = document.getElementById("newLuButton");
 
   const luName = document.getElementById("luName");
-    const luCalGroup = document.getElementById("luCalGroup")
-    luCalGroup.setAttribute('value', 'null')
-    const plantCom = document.getElementById("luPlantCom")
-    const luMgt = document.getElementById("luMgt")
-    luMgt.setAttribute('value', 'null')
-    const cn2 = document.getElementById("cn2")
-    const consPractice = document.getElementById("consPractice")
-    consPractice.setAttribute('value', 'up_down_slope')
-    const urban = document.getElementById("urban")
-    urban.setAttribute('value', 'null')
-    const urbRo = document.getElementById("urbRo")
-    urbRo.setAttribute('value', 'null')
-    const ovMann = document.getElementById("ovMann")
-    const tile = document.getElementById("tile")
-    tile.setAttribute('value', 'null')
-    const sep = document.getElementById("sep")
-    sep.setAttribute('value', 'null')
-    const vfs = document.getElementById("vfs")
-    vfs.setAttribute('value', 'null')
-    const grww = document.getElementById("grww")
-    grww.setAttribute('value', 'null')
-    const bmp = document.getElementById("bmp")
-    bmp.setAttribute('value', 'null')
+  const luCalGroup = document.getElementById("luCalGroup")
+  luCalGroup.setAttribute('value', 'null')
+  const plantCom = document.getElementById("luPlantCom")
+  const luMgt = document.getElementById("luMgt")
+  luMgt.setAttribute('value', 'null')
+  const cn2 = document.getElementById("cn2")
+  const consPractice = document.getElementById("consPractice")
+  consPractice.setAttribute('value', 'up_down_slope')
+  const urban = document.getElementById("urban")
+  urban.setAttribute('value', 'null')
+  const urbRo = document.getElementById("urbRo")
+  urbRo.setAttribute('value', 'null')
+  const ovMann = document.getElementById("ovMann")
+  const tile = document.getElementById("tile")
+  tile.setAttribute('value', 'null')
+  const sep = document.getElementById("sep")
+  sep.setAttribute('value', 'null')
+  const vfs = document.getElementById("vfs")
+  vfs.setAttribute('value', 'null')
+  const grww = document.getElementById("grww")
+  grww.setAttribute('value', 'null')
+  const bmp = document.getElementById("bmp")
+  bmp.setAttribute('value', 'null')
 
 
   newLuButton.addEventListener('click', () => {
-    
+
 
     const newLu = new Object();
     newLu.name = luName.value;
@@ -66,11 +76,11 @@ export function landuseTypes() {
     newLu.tile = tile.value;
     newLu.sep = sep.value;
     newLu.vfs = vfs.value;
-    newLu.grww= grww.value;
+    newLu.grww = grww.value;
     newLu.bmp = bmp.value;
-    
+
     window.LLYFNILanduseEdit.push(newLu)
-  
+
     const newLanduseFile = convertToTSV(window.LLYFNILanduseEdit)
     downloadLuButton(newLanduseFile, "landuse.lum")
     console.log(window.LLYFNILanduseEdit)
@@ -101,10 +111,10 @@ const convertToTSV = (data) => {
   return tsv;
 }
 
-  //exports functions
-  export default {
-    landuseTypes,
-    cleanLanduse,
-    getLanduseTypes
-  }
+//exports functions
+export default {
+  landuseTypes,
+  cleanLanduse,
+  getLanduseTypes
+}
 

@@ -17,7 +17,7 @@ header{
   margin: 12px;
 }
 
-.downloadLanduse{
+.luDownload{
   border-left: 2px solid white;
   border-right: 2px solid white;
 }
@@ -101,7 +101,7 @@ form label{
 
 }
 
-#lc_ststus{
+#lc_status{
   font-size: 8pt;
 }
 
@@ -131,10 +131,6 @@ form > input:focus{
 }
 
 
-
-.landuse-form{
-  flex:1;
-}
 
 .plant-form{ 
   flex:1;
@@ -200,6 +196,25 @@ a{
 
 .lulc-edit-button{
   float: right;
+}
+
+
+
+.pop-up-lu {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  
+  z-index: 9;
+}
+.pop-up-plant {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  
+  z-index: 9;
 }
 
 

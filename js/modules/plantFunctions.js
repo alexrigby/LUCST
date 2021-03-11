@@ -73,6 +73,20 @@ const convertToTSV = (data) => {
 
 export function newPlantType() {
 
+  document.getElementById("openPlantForm").onclick = openPlantForm;
+  document.getElementById("popupClose").onmousedown = closePlantForm;
+  function openPlantForm() {
+    document.getElementById("plantForm").style.display = "block";
+  }
+
+  function closePlantForm() {
+    document.getElementById("plantForm").style.display = "none";
+  }
+
+
+
+  const newLuButton = document.getElementById("newLuButton");
+
   //   const pcomOptions = getPlantComTypes(window.PLANTnames)
   //     console.log(pcomOptions)
 

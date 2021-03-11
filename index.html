@@ -42,8 +42,8 @@
                     <li>
                         <a href="" id="download" download>Downolad<br> hru-data.hru</a>
                     </li>
-                    <li class="downloadLanduse">
-                        <a href ="" id="downloadLanduse"  download>Download <br> landuse.lum</a>
+                    <li class="luDownload">
+                        <a href="" id="downloadLanduse" download>Dowload <br> landuse.lum</a>
                     </li>
                     <li>
                         <a href ="" id="downloadPlant" download>Download <br> plant.ini</a>
@@ -54,7 +54,7 @@
         
         </header>
         <main>
-            <div class="flex1">
+            <div class="flex1" id= "popupClose">
                 <div id="map"></div>
                 <!-- sidebar containing leafletlasso controls-->
                 <!-- <div id="sidebar">
@@ -150,7 +150,7 @@
     </div>
     <footer>
         <div class="flex2">
-            <div class="plant-form">
+            <div class="pop-up-plant" id="plantForm">
                 <form title="New plant_comm">New plant Community<br><br>
                    <label for = "pcom_name">Plant Community Name</label> <br>
                    <input list="plantNames" type ="text" name ="plantNamesDatalist" id="plantNamesDatalist">
@@ -185,7 +185,7 @@
                     <button type="reset" id="newPlantReset">Reset</button>
                 </form>
             </div> 
-            <div class="landuse-form" >
+            <div class="pop-up-lu" id="luForm" >
                 <form title="New Landuse" id="landuseForm">New Landuse Type<br><br>
                     <label for="Name">Name</label><br>
                     <input type="text" id="luName" name="name"> <br>
@@ -224,6 +224,10 @@
                     <button type="button" id="newLuButton">Make</button>
                     <button type="reset" id="newLuReset">Reset</button>
                 </form>
+             </div>
+             <div class= "download">
+                 <button class="openLuForm"  id ="openLuForm"> New Landuse</button>
+                 <button class="openPlantForm" id="openPlantForm">New Plant Type</button>
              </div>
             <div class="download">Download Window
             </div>

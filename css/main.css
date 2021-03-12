@@ -204,15 +204,17 @@ a{
   display: none;
   position: fixed;
   bottom: 0;
-  right: 15px;
+  right: 25px;
   
   z-index: 9;
 }
+
+
 .pop-up-plant {
   display: none;
   position: fixed;
   bottom: 0;
-  right: 15px;
+  right:60px;
   
   z-index: 9;
 }
@@ -250,4 +252,28 @@ a{
   height: 300px;
   flex: 1;
   border: solid black 2px;
+}
+
+.openLuForm {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  bottom: 23px;
+  right: 28px;
+  width: 280px;
+}
+
+.openPlantForm {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  bottom: 23px;
+  left: 28px;
+  width: 280px;
 }

@@ -71,31 +71,37 @@ const convertToTSV = (data) => {
   return tsv;
 }
 
+
+function getPlantComTypes(data) {
+  const plantCom = data.map(record => record.pcom_name);
+  return plantCom
+}
+
+//exported to main.js to make the plant form
 export function newPlantType() {
 
+  //creats pop up plant form, open with button, close with click on Body
   document.getElementById("openPlantForm").onclick = openPlantForm;
-  document.getElementById("popupClose").onmousedown = closePlantForm;
+  document.getElementById("popUpClose").onmousedown = closePlantForm;
   function openPlantForm() {
     document.getElementById("plantForm").style.display = "block";
   }
-
   function closePlantForm() {
     document.getElementById("plantForm").style.display = "none";
   }
 
 
+  // const plantsOptionsList = getPlantOptions(window.PLANToptions);
+  // console.log(plantsOptionsList)
+  // const plantOptions = plantsOptionsList.map((el, i) => {
+  //   return `<option value=${el}></option>`;
+  // });
+  // document.getElementById("plantNames").innerHTML = `${plantOptions}`
 
-  const newLuButton = document.getElementById("newLuButton");
+  
 
-  //   const pcomOptions = getPlantComTypes(window.PLANTnames)
-  //     console.log(pcomOptions)
 
-  //   const pcomTypesOptions = pcomOptions.map((el, i) => {
-  //     return `<option value=${el}></option>`;
-  //   });
-  // document.getElementById("luPlantComDatalist").innerHTML = `${pcomTypesOptions}`
-
-  //defines all Plant form inputs as constants
+  //defines all Plant form inputs as constants, adding default values to the input feilds
   const plantComName = document.getElementById("plantNamesDatalist");
   const plantCnt = document.getElementById("plt_cnt")
   plantCnt.setAttribute('value', 1)
@@ -110,7 +116,7 @@ export function newPlantType() {
   const iniPhu = document.getElementById("phu_init")
   iniPhu.setAttribute('value', 0)
   const plantPopulation = document.getElementById("plnt_pop")
-  plantPopulation.setAttribute('value', 0)
+  plantPopulation.setAttribute('value', 1)
   const iniYrs = document.getElementById("yrs_init")
   iniYrs.setAttribute('value', 1)
   const iniRsd = document.getElementById("rsd_init")
@@ -131,12 +137,28 @@ export function newPlantType() {
     newPlantSelection.phu_init = iniPhu.value + '.00000';
     newPlantSelection.plnt_pop = plantPopulation.value + '.00000';
     newPlantSelection.yrs_init = iniYrs.value + '.00000';
-    newPlantSelection.rsd_init = iniRsd.vale + '.00000';
+    newPlantSelection.rsd_init = iniRsd.value + '.00000';
 
+  //   const plantsOptionsList = getPlantOptions(window.PLANToptions);
+  // console.log(plantsOptionsList)
+  // const plantOptions = plantsOptionsList.map((el, i) => {
+  //   return `<option value=${el}></option>`;
+  // });
+  // document.getElementById("plantNames").innerHTML = `${plantOptions}`
 
     console.log(newPlantSelection)
     //adds form data to plant.ini file
     window.LLYFNIPlant.push(newPlantSelection)
+
+    const pcomOptions = getPlantComTypes(window.LLYFNIPlant)
+    console.log(pcomOptions)
+
+    const pcomTypesOptions = pcomOptions.map((el, i) => {
+      return `<option value=${el}></option>`;
+    });
+    document.getElementById("luPlantComDatalist").innerHTML = `${pcomTypesOptions}`
+
+
     //converts file and links to download button 
     const newPlantTypeFile = convertToTSV(window.LLYFNIPlant)
     downloadPlantButton(newPlantTypeFile, "plant.ini")
@@ -144,10 +166,7 @@ export function newPlantType() {
 }
 
 
-function getPlantComTypes(data) {
-  const plantCom = data.map(record => record.name);
-  return plantCom
-}
+
 
 
 function downloadPlantButton(data, fileName) {

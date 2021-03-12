@@ -88,6 +88,7 @@ border-bottom: 1px solid rgba(5,176,228,0.3);
   
  flex: 7;
  height: 600px;
+ z-index: 1;
 }
 /*map*/
 
@@ -204,9 +205,9 @@ a{
   display: none;
   position: fixed;
   bottom: 0;
-  right: 25px;
+  left: 225px;
   
-  z-index: 9;
+  z-index: 500;
 }
 
 
@@ -214,9 +215,9 @@ a{
   display: none;
   position: fixed;
   bottom: 0;
-  right:60px;
+  left:15px;
   
-  z-index: 9;
+  z-index: 500;
 }
 
 
@@ -232,7 +233,7 @@ a{
 
 .hydrograph{
   background-color: white;
-  margin: 10px;
+  margin: 3px;
   height: 300px;
   flex: 2;
   border: solid black 2px;
@@ -248,7 +249,7 @@ a{
 
 .download{
   background-color: white;
-  margin: 10px;
+  margin: 3px;
   height: 300px;
   flex: 1;
   border: solid black 2px;
@@ -261,6 +262,7 @@ a{
   border: none;
   cursor: pointer;
   opacity: 0.8;
+  margin:3px;
   bottom: 23px;
   right: 28px;
   width: 280px;
@@ -273,6 +275,7 @@ a{
   border: none;
   cursor: pointer;
   opacity: 0.8;
+  margin:3px;
   bottom: 23px;
   left: 28px;
   width: 280px;

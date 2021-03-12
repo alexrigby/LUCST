@@ -21,17 +21,20 @@ export function getLanduseTypes(data) {
   return landuses
 }
 
+//exported to main.js to make the landuseform
 export function landuseTypes() {
 
-//makes luForm popup by pressing landuse.lum
+//makes luForm popup by pressing button, close by clicking on body
   document.getElementById("openLuForm").onclick = openLuForm;
-  document.getElementById("popupClose").onclick = closeLuForm;
+  document.getElementById("popupClose").onmousedown = closeLuForm;
   function openLuForm() {
     document.getElementById("luForm").style.display = "block";
   }
   function closeLuForm() {
     document.getElementById("luForm").style.display = "none";
   }
+
+  //declaring form elements as onsctants, adding default values
   const newLuButton = document.getElementById("newLuButton");
 
   const luName = document.getElementById("luName");
@@ -59,10 +62,10 @@ export function landuseTypes() {
   const bmp = document.getElementById("bmp")
   bmp.setAttribute('value', 'null')
 
-
+//onclick of 'make' makes new landuse file
   newLuButton.addEventListener('click', () => {
 
-
+    //new landuse object
     const newLu = new Object();
     newLu.name = luName.value;
     newLu.cal_group = luCalGroup.value;
@@ -78,9 +81,9 @@ export function landuseTypes() {
     newLu.vfs = vfs.value;
     newLu.grww = grww.value;
     newLu.bmp = bmp.value;
-
+//adds the new landuse to landuse.window object
     window.LLYFNILanduseEdit.push(newLu)
-
+//converts landuse.window object to TSV and downloads as txt
     const newLanduseFile = convertToTSV(window.LLYFNILanduseEdit)
     downloadLuButton(newLanduseFile, "landuse.lum")
     console.log(window.LLYFNILanduseEdit)

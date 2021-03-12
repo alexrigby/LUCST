@@ -17,7 +17,7 @@ fetchData('/data/TxtInOut/hru-data.hru')
         // Replace this with a state management solution
         window.LLYFNIData = [...cleanHruData];
 
-       
+
     });
 
 
@@ -28,16 +28,16 @@ fetchData('/data/TxtInOut/landuse.lum')
         const cleanLanduseData = cleanLanduse(data);
         const cleanLanduseDataCopy = [...cleanLanduseData];
 
-        
+
 
         const landuseTypes = getLanduseTypes(cleanLanduseData);
 
         window.LLYFNILanduse = [...landuseTypes];
-       window.LLYFNILanduseEdit =[...cleanLanduseData];
-       
+        window.LLYFNILanduseEdit = [...cleanLanduseData];
+
     });
- 
-  
+
+
 
 // plant.ini:
 // Fetch unclean dataset...
@@ -45,24 +45,25 @@ fetchData('/data/TxtInOut/plant.ini')
     .then(data => {
         const cleanPlantData = cleanPlant(data);
         const cleanPlantDataCopy = [...cleanPlantData];
-        window.LLYFNIPlant =[...cleanPlantData];
-        
-        
+        window.LLYFNIPlant = [...cleanPlantData];
+
+
     });
 
 fetchData('/data/TxtInOut/plants.plt')
     .then(data => {
+        //used cleanLanduse beacuse file is in the same format as landuse.lum
         const cleanPlantsData = cleanLanduse(data);
-        
-        const plantsOptions = getPlantOptions(cleanPlantsData);
-        
-       window.PLANTnames = [...plantsOptions];
-       
+
+
+
+        window.PLANToptions = [...cleanPlantsData];
+
 
     });
 
-  
-    
+
+
 // leaflet.js
 // Initialize the map and set its view to chosen coordinates, zoom, default layers
 var map = L.map('map').setView([53.046775, -4.286951], 12, [streets]);
@@ -78,7 +79,7 @@ var hrus = shpToGeoJSON('data/shpfiles/hru2.zip')
 
 
 function shpStyles() {
-    hrus.setStyle({ color: '#b0c4de',  weight: 1 });
+    hrus.setStyle({ color: '#b0c4de', weight: 1 });
     rivers.setStyle({ color: '#0068C1' });
     subBasins.setStyle({ color: 'red', fillColor: 'none', weight: 1.5 });
 }
@@ -136,6 +137,25 @@ L.Control.textbox = L.Control.extend({
 L.control.textbox = function (opts) { return new L.Control.textbox(opts); }
 L.control.textbox({ position: 'topright' }).addTo(map);
 
+//adds landuse and plant form buttons to the map
+// L.Control.textbox = L.Control.extend({
+//     onAdd: function (map) {
+
+//         var text = L.DomUtil.create('div');
+//         text.innerHTML = `  
+//         <div class= "popups">
+//                 <button class="openPlantForm" id="openPlantForm">New Plant Type</button>
+//                 <button class="openLuForm"  id ="openLuForm"> New Landuse</button>
+//              </div>
+//     `
+//         return text;
+//     },
+//     onRemove: function (map) {
+//         // Nothing to do here
+//     }
+// });
+// L.control.textbox = function (opts) { return new L.Control.textbox(opts); }
+// L.control.textbox({ position: 'bottomleft' }).addTo(map);
 // using lasso plugin to select shapfile/hrus
 //const mapElement = document.querySelector('#map');
 //const toggleLasso = document.querySelector('#toggleLasso');

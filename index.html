@@ -53,7 +53,7 @@
 
         
         </header>
-        <main>
+        <main id="popUpClose">
             <div class="flex1" id= "popupClose">
                 <div id="map"></div>
                 <!-- sidebar containing leafletlasso controls-->
@@ -155,7 +155,6 @@
                    <label for = "pcom_name">Plant Community Name</label> <br>
                    <input list="plantNames" type ="text" name ="plantNamesDatalist" id="plantNamesDatalist">
                    <datalist id="plantNames">
-                       <option value="sdw">
                    </datalist><br>
                     <label for="plt_cnt">Plant Count</label><br>
                     <input type="number" id="plt_cnt" name="plt_cnt"> <br>
@@ -180,7 +179,7 @@
                     <label for="yrs_init">Years to maturity</label><br>
                     <input type="number" id="yrs_init" name="yrs_init"> <br>
                     <label for="rsd_init">Initial Residue Cover</label><br>
-                    <input type="number" id="rsd_init" name="rsd_init"> <br> <br>
+                    <input type="number" class="rsd_init" id="rsd_init" name="rsd_init"></input> <br> <br>
                     <button type="button" id="newPlantButton">Make</button> 
                     <button type="reset" id="newPlantReset">Reset</button>
                 </form>
@@ -225,13 +224,14 @@
                     <button type="reset" id="newLuReset">Reset</button>
                 </form>
              </div>
-             <div class= "popups">
-                <button class="openPlantForm" id="openPlantForm">New Plant Type</button>
+        <div class='hydrograph'>Hydrograph</div>
+            <div class="download">Result Table
+                </div>
+            <div class= "popups">
+                <button class="openPlantForm" id="openPlantForm">New Plant Type</button><br>
                  <button class="openLuForm"  id ="openLuForm"> New Landuse</button>
                  
              </div>
-            <div class="download">Download Window
-            </div>
         </div>
         <div id='container'></div>
         <ol></ol>

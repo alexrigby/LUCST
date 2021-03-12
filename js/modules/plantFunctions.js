@@ -166,7 +166,7 @@ export function newPlantType() {
     newPlantSelection.yrs_init = iniYrs.value + '.00000';
     newPlantSelection.rsd_init = iniRsd.value + '.00000';
 
-
+//auto fills lu name with plant comm + _lum
     const luName = document.getElementById("luName") 
     const plantSlice = plantComName.value.slice(0, -5)
     luName.setAttribute('value', plantSlice +"_lum")

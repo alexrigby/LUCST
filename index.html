@@ -188,12 +188,8 @@
                 <form title="New Landuse" id="landuseForm">New Landuse Type<br><br>
                     <label for="Name">Name</label><br>
                     <input type="text" id="luName" name="name"> <br>
-                    <lable for="cal group">Calibration Group</lable><br>
-                    <input list="calGroup" id = "luCalGroup" name="calGroup">
-                    <datalist id="calGroup">
-                        <option value="null">
-                    </datalist>
-                    </input><br>
+                    <lable for="lucalGroup">Calibration Group</lable><br>
+                    <input type="text" id = "calGroup" name="calGroup"> <br>
                     <label for="luplantCom">Plant Comunity</label><br>
                     <input id="luPlantCom"list="luPlantComDatalist" name="plantCom" >
                     <datalist id="luPlantComDatalist">
@@ -201,15 +197,21 @@
                     <label for="mgt">Managment</label><br>
                     <input type="text" id="luMgt" name="mgt"> <br>
                     <label for="cn2">Curve Number</label><br>
-                    <input type="text" id="cn2" name="cn2"> <br>
+                    <input list="cn2" id="cn2Datalist" name="cn2"> 
+                    <datalist id="cn2">      
+                    </datalist><br>
                     <label for="cons_practice">Conservation Practice</label><br>
-                    <input type="text" id="consPractice" name="cons_practice"> <br>
+                    <input list="consPracticeDatalist" id="consPractice" name="cons_practice">
+                    <datalist id="consPracticeDatalist">
+                    </datalist> <br>
                     <label for="urban">Urban</label><br>
                     <input type="text" id="urban" name="urban"> <br>
                     <label for="urb_ro">Urban Run-Off</label><br>
                     <input type="text" id="urbRo" name="urb_ro"> <br>
                     <label for="ov_mann">Mannings n</label><br>
-                    <input type="text" id="ovMann"><br>
+                    <input list="ovMannDatalist" id="ovMann"><br>
+                    <datalist id="ovMannDatalist">
+                    </datalist>
                     <label for="tile">Tile</label><br>
                     <input type="text" id="tile" name="tile"> <br>
                     <label for="sep">Septic Tanks</label><br>

@@ -131,7 +131,9 @@ form > input:focus{
   flex-wrap: wrap;
 }
 
-
+form > title{
+  color: blue;
+}
 
 .plant-form{ 
   flex:1;
@@ -220,6 +222,13 @@ a{
   z-index: 500;
 }
 
+
+ .openPlantForm:hover {
+  opacity: 1;
+}
+.openLuForm:hover {
+  opacity: 1;
+}
 
 /*footer*/
 

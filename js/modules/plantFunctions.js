@@ -1,4 +1,16 @@
+import fetchData from "/js/modules/universalFunctions.js"; 
 
+//tried to import hrudata and landuseData but wouldnt work so coppied function accross
+ function cleanPlants(data) {
+  return d3.tsvParse(data
+    // Remove the header line produced by SWAT+ Editor
+    .substring(data.indexOf('\n') + 1)
+    // First, remove all spaces and replace with tabs
+    .replace(/  +/gm, '\t')
+    // Then remove all leading and trailing tabs
+    .replace(/^\t|\t$/gm, '')
+  );
+}
 // import * as d3 from "d3";
 // import d3 from "d3";
 // plant.ini//
@@ -57,7 +69,16 @@ export function getPlantOptions(data) {
   return plants
 }
 
-
+// auto fill name datalist from plants.plt, add _comm to planr name
+fetchData('/data/TxtInOut/plants.plt')
+.then(function (data) {
+  const cleanPlantTypes = cleanPlants(data);
+  const plantTypeNames = getPlantOptions(cleanPlantTypes);
+  const plantOptions = plantTypeNames.map((el, i) => {
+    return `<option value=${el +'_comm'}></option>`;
+  });
+  document.getElementById("plantNames").innerHTML = `${plantOptions}`
+});
 
 
 const convertToTSV = (data) => {
@@ -108,6 +129,12 @@ export function newPlantType() {
   const iniRotationYear = document.getElementById("rot_yr_ini")
   iniRotationYear.setAttribute('value', 1)
   const plantName = document.getElementById("plt_name")
+  plantName.addEventListener('click', ()=>{
+    const plantNameSlice = plantComName.value.slice(0,-5)
+    console.log(plantNameSlice)
+     plantName.setAttribute('value', plantNameSlice)
+    
+  });
   const landcoverStatus = document.getElementById("lc_statusDatalist")
   const iniLai = document.getElementById("lai_init")
   iniLai.setAttribute('value', 2)
@@ -139,6 +166,11 @@ export function newPlantType() {
     newPlantSelection.yrs_init = iniYrs.value + '.00000';
     newPlantSelection.rsd_init = iniRsd.value + '.00000';
 
+
+    const luName = document.getElementById("luName") 
+    const plantSlice = plantComName.value.slice(0, -5)
+    luName.setAttribute('value', plantSlice +"_lum")
+
   //   const plantsOptionsList = getPlantOptions(window.PLANToptions);
   // console.log(plantsOptionsList)
   // const plantOptions = plantsOptionsList.map((el, i) => {
@@ -164,6 +196,7 @@ export function newPlantType() {
     downloadPlantButton(newPlantTypeFile, "plant.ini")
   });
 }
+
 
 
 

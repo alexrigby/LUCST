@@ -108,7 +108,7 @@ export function landuseTypes() {
     const newLu = new Object();
     newLu.name = luName.value;
     newLu.cal_group = luCalGroup.value;
-    newLu.plt_com = plantCom.value;
+    newLu.plnt_com = plantCom.value;
     newLu.mgt = luMgt.value;
     newLu.cn2 = cn2.value;
     newLu.cons_prac = consPractice.value;
@@ -120,12 +120,15 @@ export function landuseTypes() {
     newLu.vfs = vfs.value;
     newLu.grww = grww.value;
     newLu.bmp = bmp.value;
+
+    
+
     //adds the new landuse to landuse.window object
     window.LLYFNILanduseEdit.push(newLu)
     //converts landuse.window object to TSV and downloads as txt
     const newLanduseFile = convertToTSV(window.LLYFNILanduseEdit)
     downloadLuButton(newLanduseFile, "landuse.lum")
-    console.log(window.LLYFNILanduseEdit)
+    alert('New land use written: ' + luName.value)
   });
 
 }

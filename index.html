@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossorigin="" />
+        <!-- vega lite for visualization -->
+        <script src="https://cdn.jsdelivr.net/npm/vega@5.19.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.15.1"></script>
     <!-- leaflets.js for maps-->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
@@ -226,9 +230,9 @@
                     <button type="reset" id="newLuReset">Reset</button>
                 </form>
              </div>
-        <div class='hydrograph'></div>
-            <div class="download">Result Table
-                </div>
+             <div id="vis" class="hydrograph"></div>
+            <!-- <div class="download">Result Table
+                </div> -->
             <div class= "popups">
                 <button class="openPlantForm" id="openPlantForm">New Plant Type</button><br>
                  <button class="openLuForm"  id ="openLuForm"> New Landuse</button>

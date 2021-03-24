@@ -2,7 +2,11 @@ import fetchData from "/js/modules/universalFunctions.js";
 import { populateTable, cleanHru, getHru, updateHru } from "/js/modules/hru_dataFunctions.js";
 import { getPlantOptions, cleanPlant, newPlantType } from "/js/modules/plantFunctions.js";
 import { cleanLanduse, getLanduseTypes, landuseTypes } from "/js/modules/landuseFunctions.js";
-import { makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js"
+import { makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js";
+import hydrograph from "/js/modules/outputVisFunctions.js";
+
+hydrograph()
+
 // import plantTypes from "Types/plantTypes";
 
 // hru-data.hru:
@@ -11,15 +15,21 @@ fetchData('/data/TxtInOut/hru-data.hru')
     .then(data => {
         // Clean the dataset...
         const cleanHruData = cleanHru(data);
+        
         // Saving a copy of the dataset
         const cleanHruDataCopy = [...cleanHruData];
 
         // Replace this with a state management solution
         window.LLYFNIData = [...cleanHruData];
-
-
     });
 
+
+//  fetchData('/data/TxtInOut/channel_sd_day.txt')
+// .then(data =>{
+// const output1 = cleanHru(data);
+// console.log(output1)
+// })
+  
 
 // landuse.lum:
 // Fetch unclean dataset...
@@ -156,6 +166,7 @@ L.control.textbox({ position: 'topright' }).addTo(map);
 // });
 // L.control.textbox = function (opts) { return new L.Control.textbox(opts); }
 // L.control.textbox({ position: 'bottomleft' }).addTo(map);
+
 // using lasso plugin to select shapfile/hrus
 //const mapElement = document.querySelector('#map');
 //const toggleLasso = document.querySelector('#toggleLasso');
@@ -237,12 +248,15 @@ intersect.addEventListener('change', () => {
 });
 
 
+
 newPlantType()
 
 
 landuseTypes()
 
 
+
+   
 
 
 //populatePlantTypeForm()

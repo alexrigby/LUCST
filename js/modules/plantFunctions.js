@@ -69,15 +69,37 @@ export function getPlantOptions(data) {
   return plants
 }
 
+function getPlantDescriptions(data) {
+  const plants = data.map(record => record.description);
+  // console.log(landuses);
+  return plants
+}
+
+
 // auto fill name datalist from plants.plt, add _comm to planr name
 fetchData('/data/TxtInOut/plants.plt')
 .then(function (data) {
   const cleanPlantTypes = cleanPlants(data);
+  
   const plantTypeNames = getPlantOptions(cleanPlantTypes);
+const plantDescriptions = getPlantDescriptions(cleanPlantTypes)
+
+const plantDOptions = plantDescriptions.map((el, i)=> {
+  return `${el}`
+}); 
+
+
+
   const plantOptions = plantTypeNames.map((el, i) => {
-    return `<option value=${el +'_comm'}></option>`;
+    return `<option tooltip="tooltip">${el +'_comm'}</option>`;
   });
+
+
+
+
   document.getElementById("plantNames").innerHTML = `${plantOptions}`
+
+  
 });
 
 
@@ -139,7 +161,7 @@ export function newPlantType() {
   const iniLai = document.getElementById("lai_init")
   iniLai.setAttribute('value', 2)
   const iniBm = document.getElementById("bm_init")
-  iniBm.setAttribute('value', 2000)
+  iniBm.setAttribute('value', 20000)
   const iniPhu = document.getElementById("phu_init")
   iniPhu.setAttribute('value', 0)
   const plantPopulation = document.getElementById("plnt_pop")
@@ -171,6 +193,8 @@ export function newPlantType() {
     const plantSlice = plantComName.value.slice(0, -5)
     luName.setAttribute('value', plantSlice +"_lum")
 
+    
+
   //   const plantsOptionsList = getPlantOptions(window.PLANToptions);
   // console.log(plantsOptionsList)
   // const plantOptions = plantsOptionsList.map((el, i) => {
@@ -194,8 +218,11 @@ export function newPlantType() {
     //converts file and links to download button 
     const newPlantTypeFile = convertToTSV(window.LLYFNIPlant)
     downloadPlantButton(newPlantTypeFile, "plant.ini")
+
+    alert('New plant comunity written: ' + plantComName.value)
   });
 }
+
 
 
 

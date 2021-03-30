@@ -63,10 +63,10 @@ function getLanduseTypes(data) {
 
 
 export function populateTable(data) {
+
+
+  const landuseTypes = getLanduseTypes(window.LLYFNILanduseEdit)
   
-  
-const landuseTypes = getLanduseTypes(window.LLYFNILanduseEdit)
-console.log(landuseTypes)
 
   const landuseTypesOptions = landuseTypes.map((el, i) => {
     return `<option value=${el}></option>`;
@@ -105,7 +105,7 @@ console.log(landuseTypes)
 
 
 
- const convertToTSV = (data) => {
+  const convertToTSV = (data) => {
     // Convert dataset to TSV and print
     const headers = Object.keys(data[0]);
     const tsv = [
@@ -131,7 +131,7 @@ console.log(landuseTypes)
       document.querySelectorAll(".newLanduse")[i].innerHTML = `${newLanduse}`;
       // UPDATE THE DATASET
       window.LLYFNIData[el.dataset.hru - 1].lu_mgt = `${newLanduse}`;
-     
+
 
       const newHruData = convertToTSV(window.LLYFNIData);
       downloadButton(newHruData, 'hru-data.hru');
@@ -156,11 +156,11 @@ console.log(landuseTypes)
     hrusToUpdate.forEach((el, i, arr) => {
       window.LLYFNIData[parseInt(el) - 1].lu_mgt = `${allNewLanduse}`
     });
-   
+
     const newHruData = convertToTSV(window.LLYFNIData);
 
     downloadButton(newHruData, 'hru-data.hru');
-
+    alert('New hru_data file writen')
   });
 
 }

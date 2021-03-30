@@ -80,28 +80,40 @@ function getPlantDescriptions(data) {
 fetchData('/data/TxtInOut/plants.plt')
 .then(function (data) {
   const cleanPlantTypes = cleanPlants(data);
-  
+  //gets the plant type names from plants.plt
   const plantTypeNames = getPlantOptions(cleanPlantTypes);
+  //gets the plant descriptions from plant.plt
 const plantDescriptions = getPlantDescriptions(cleanPlantTypes)
-
+//returns the plant descriptions as a tooltip
 const plantDOptions = plantDescriptions.map((el, i)=> {
   return `${el}`
 }); 
-
-
-
+//maps the plant names and assignes each to an option value for the datalist
   const plantOptions = plantTypeNames.map((el, i) => {
-    return `<option tooltip="tooltip">${el +'_comm'}</option>`;
-  });
+    return `<option data-toggle="tooltip" title="tooltip">${el +'_comm'}</option>`;
 
-
-
-
-  document.getElementById("plantNames").innerHTML = `${plantOptions}`
 
   
+  });
+  document.getElementById("plantNamesOption").innerHTML = `${plantOptions}`
 });
+//function to edite/make tooltips, doesent work for datalist
+// $(document).ready(function(){
+//   $('[data-toggle="tooltip"]').tooltip();   
+// });
 
+//gets the urban landuse
+fetchData('/data/TxtInOut/urban.urb')
+.then(function(data){
+  const cleanUrban = cleanPlants(data);
+  const urbanNames = getPlantOptions(cleanUrban);
+
+const urbanOptions = urbanNames.map((el,i)=>{
+  return `<option> ${el +'_comm'}</option>`;
+});
+document.getElementById("urbanPlant").innerHTML = `${urbanOptions}`
+
+});
 
 const convertToTSV = (data) => {
   // Convert dataset to TSV and print
@@ -151,11 +163,16 @@ export function newPlantType() {
   const iniRotationYear = document.getElementById("rot_yr_ini")
   iniRotationYear.setAttribute('value', 1)
   const plantName = document.getElementById("plt_name")
+  //cuts '_comm' of the ed of plantComName and asignes the string as plantName
   plantName.addEventListener('click', ()=>{
     const plantNameSlice = plantComName.value.slice(0,-5)
     console.log(plantNameSlice)
      plantName.setAttribute('value', plantNameSlice)
-    
+     //auto fills lu name with plant comm + _lum
+    const luName = document.getElementById("luName") 
+    luName.setAttribute('value', plantNameSlice +"_lum")
+    // const LuPlantCom = document.getElementById("luPlantCom")
+    // LuPlantCom.setAttribute('value', plantComName)
   });
   const landcoverStatus = document.getElementById("lc_statusDatalist")
   const iniLai = document.getElementById("lai_init")
@@ -188,10 +205,7 @@ export function newPlantType() {
     newPlantSelection.yrs_init = iniYrs.value + '.00000';
     newPlantSelection.rsd_init = iniRsd.value + '.00000';
 
-//auto fills lu name with plant comm + _lum
-    const luName = document.getElementById("luName") 
-    const plantSlice = plantComName.value.slice(0, -5)
-    luName.setAttribute('value', plantSlice +"_lum")
+
 
     
 

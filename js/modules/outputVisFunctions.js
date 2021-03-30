@@ -54,8 +54,9 @@ export function hydrograph() {
         },
         "y": {
           "field": "flo_out",
-          "type": "quantitative"
-        }
+          "type": "quantitative",
+          "title": "flow out "
+        },
       }
     },
     {
@@ -307,7 +308,7 @@ vegaEmbed('#vis', origional);
 //   "mark": {"type": "line",
 //   "interpolate":"monotone"},
 //   "encoding": {
-//     "x": {"type":"temporal", "format":"%d, %Y", "field": "date"},
+//     "x": {"type":"temporal", "field": "date"},
 //     "y": {"type": "quantitative", "field": "flo_out"},
 //     }
 //   },

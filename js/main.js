@@ -182,14 +182,7 @@ const lassoControl = L.control.lasso().addTo(map);
 
 function resetSelectedState() {
     shpStyles();
-    // map.eachLayer((layer) => {
-    //     if (layer instanceof L.Marker) {
-    //         layer.setIcon(new L.Icon.Default());
-    //     } else if (layer instanceof L.Path) {
-    //         shpStyles();
-    //     }
-    // });
-    // lassoResult.innerHTML = '';
+
 }
 
 function setSelectedLayers(layers) {

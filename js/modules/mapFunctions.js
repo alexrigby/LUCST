@@ -15,7 +15,11 @@ export function shpToGeoJSON(url) {
     }); 
 }
 
-
+export function shpStyles() {
+    hrus.setStyle({ color: '#b0c4de', weight: 1 });
+    rivers.setStyle({ color: '#0068C1' });
+    subBasins.setStyle({ color: 'red', fillColor: 'none', weight: 1.5 });
+}
 
 //using leaflet to make a map tile
 export function makeSatelliteMap() {

@@ -196,6 +196,11 @@ a{
   text-decoration: none;
 }
 
+optgroup{
+  content: attr(label);
+  display: block;
+  background-color: black;
+}
 
 .lulc-edit-button{
   float: right;

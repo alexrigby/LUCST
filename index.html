@@ -162,7 +162,7 @@
                    <label for = "pcom_name" >Plant Community Name</label> <br>
                    <input list="plantNames" type ="text" name ="plantNamesDatalist" id="plantNamesDatalist">
                    <datalist id="plantNames">
-                       <optgroup lable="plants" id="plantNamesOption" ></optgroup>
+                       <optgroup lable="plants" id="plantNamesOption"></optgroup>
                        <optgroup lable="urban" id="urbanPlant"></optgroup>
                    </datalist><br>
                     <label for="plt_cnt">Plant Count</label><br>
@@ -195,9 +195,9 @@
             </div> 
             <div class="pop-up-lu" id="luForm" >
                 <form title="New Landuse" id="landuseForm">New Landuse Type<br><br>
-                    <label for="Name">Name</label><br>
+                    <label for="luName">Name</label><br>
                     <input type="text" id="luName" name="name"> <br>
-                    <lable for="lucalGroup">Calibration Group</lable><br>
+                    <lable for="calGroup">Calibration Group</lable><br>
                     <input type="text" id = "calGroup" name="calGroup"> <br>
                     <label for="luplantCom">Plant Comunity</label><br>
                     <input id="luPlantCom"list="luPlantComDatalist" name="plantCom" >
@@ -235,13 +235,14 @@
                     <button type="reset" id="newLuReset">Reset</button>
                 </form>
              </div>
-             <div id="vis" class="hydrograph"></div>
-            <!-- <div class="download">Result Table
-                </div> -->
-            <div class= "popups">
+             <div class= "popups">
                 <button class="openPlantForm" id="openPlantForm">New Plant Type</button><br>
                  <button class="openLuForm"  id ="openLuForm"> New Landuse</button>  
              </div>
+             <div id="vis" class="hydrograph"></div>
+            <!-- <div class="download">Result Table
+                </div> -->
+          
         </div>
     
     </footer>

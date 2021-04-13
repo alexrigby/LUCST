@@ -249,8 +249,9 @@ optgroup{
 .hydrograph{
   background-color: white;
   margin: 3px 0px;
-  
-  flex: 5;
+  width:auto;
+ display: flex;
+ flex:2;
   border: solid black 2px;
 }
 

@@ -96,7 +96,7 @@ export function populateTable(data) {
   table +=
     `<tr>
          <td><button class="lulc-editAll-button" data-hru=${data.hrus}> EDIT ALL </button></td>
-         <td></td>
+         <td><button class="lulc-clear">CLEAR</button></td>
          <td class="allNewlanduse"><input class="allLanduseTypes" list="allLanduseDatalist"   type="text">
          <datalist id="allLanduseDatalist">${landuseTypesOptions}
           </datalist></td>
@@ -116,6 +116,9 @@ export function populateTable(data) {
     return tsv;
   }
 
+
+ 
+ 
 
   document.getElementById("result").innerHTML = table;
   //assignes the butons called above to a variable
@@ -163,7 +166,12 @@ export function populateTable(data) {
     alert('New hru_data file writen')
   });
 
+  const lulcClearButton = document.querySelector(".lulc-clear");
+  lulcClearButton.addEventListener('click', ()=>{
+    document.getElementById("result").innerHTML = "";
+  });
 }
+
 
 function downloadButton(data, fileName) {
   var myFile = new Blob([data], { type: 'text/plain' });

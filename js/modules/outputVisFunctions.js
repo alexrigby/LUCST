@@ -17,69 +17,198 @@ function cleanTxt(data) {
 }
 
 
-
-
 export function hydrograph() {
   // Assign the specification to a local variable vlSpec.
   var origional = {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
 
-    "width": "container",
+    
     "data": {
       "url": "/data/TxtInOut/channel_sd_day.csv"
     },
-    "transorm": [
-      {
-        "lookup": "date",
-        "from": {
-          "data": {
-            "url": "data/TxtInOut/output/channel_sd_day.csv"
-          },
-          "key": "date",
-          "fields": ["flo_out"],
-        },
-        "as": "scenario1",
-      }
-    ],
-
-  
-  "layer": [
-    {
-
-      "mark": { "type":"line", "color":"red"},
+      
+    "vconcat": [{
+      
+      "width":"1000",
+      "mark": "line",
       "encoding": {
         "x": {
+          "timeUnit": "yearmonthdate",
+          "field": "date",
+          "type": "temporal",
+          "scale": {"domain": {"param": "brush"}},
+          "axis": {"title": ""}
+        },
+        "y": {"field": "flo_out",
+         "type": "quantitative",
+        "scale":{"domain":[0,10]}
+      }
+      }
+    }, {
+      "width": "1000",
+      "height": 60,
+      "mark": "line",
+      "params": [{
+        "name": "brush",
+        "select": {"type": "interval", "encodings": ["x"]}
+      }],
+      "encoding": {
+        "x": {
+          "timeUnit": "yearmonthdate",
           "field": "date",
           "type": "temporal"
         },
         "y": {
           "field": "flo_out",
           "type": "quantitative",
-          "title": "flow out "
-        },
-      }
-    },
-    {
-      "mark": {"type":"line", "color":"green"}, 
-      "encoding": {
-        "x": {
-          "field": "date",
-          "type": "temporal"
-        },
-        "y": {
-          "field": "scenario1",
-          "type": "quantitative"
+          "axis": {"tickCount": 3, "grid": false},
+          "scale":{"domain":[0,10]}
         }
       }
-    }
-  ]
+    }]
+  }
+
  
-
-};
-
-
 vegaEmbed('#vis', origional);
 };
+
+
+
+//  var origional = {
+//   $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+//   "datasets": {
+//     "origional": 
+//        {"url":"/data/TxtInOut/channel_sd_day.csv",
+//       "format": {"parse":{"date":"date"}}
+//       },
+//    
+//     "editted": 
+//       {"url":"/data/TxtInOut/output/channel_sd_day1.csv",
+//       "format": {"parse":{"date":"date"}}
+//       },
+//    
+//   },
+
+//   "data":{"name":"origional"},
+//   "transorm":[
+//     {
+//       "lookup":"flo_out",
+//       "from":{"data": {"name":"editted"},"key":"date","fields":["flo_out"]}
+//     }
+//   ],
+
+
+//   "encoding": {
+//     "x": {
+//       "field": "date",
+//       "type": "temporal"
+//     }
+//   },
+//   "layer": [
+//     {
+//       "mark": { "type":"line", "color":"red"},
+//       "encoding": {
+//         "y": {
+//           "field": "flo_out",
+//           "type": "quantitative"
+//         }
+//       }
+//     },
+//     {
+//       "mark": "line",
+//       "encoding": {
+//         "y": {
+//           "field": "flo_out",
+//           "type": "quantitative"
+//         }
+//       }
+//     }
+//   ],
+//   "resolve": { "scale": { "y": "dependent" } }
+
+// };
+
+
+// vegaEmbed('#vis', origional);
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// export function hydrograph() {
+//   // Assign the specification to a local variable vlSpec.
+//   var origional = {
+//     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+
+//     "width": "container",
+//     "data": {
+//       "url": "/data/TxtInOut/channel_sd_day.csv"
+//     },
+//     "transorm": [
+//       {
+//         "lookup": "date",
+//         "from": {
+//           "data": {
+//             "url": "data/TxtInOut/output/channel_sd_day.csv"
+//           },
+//           "key": "date",
+//           "fields": ["flo_out"],
+//         },
+//         "as": "scenario1",
+//       }
+//     ],
+
+  
+//   "layer": [
+//     {
+
+//       "mark": { "type":"line", "color":"red"},
+//       "encoding": {
+//         "x": {
+//           "field": "date",
+//           "type": "temporal"
+//         },
+//         "y": {
+//           "field": "flo_out",
+//           "type": "quantitative",
+//           "title": "flow out "
+//         },
+//       }
+//     },
+//     {
+//       "mark": {"type":"line", "color":"green"}, 
+//       "encoding": {
+//         "x": {
+//           "field": "date",
+//           "type": "temporal"
+//         },
+//         "y": {
+//           "field": "scenario1",
+//           "type": "quantitative"
+//         }
+//       }
+//     }
+//   ]
+ 
+
+// };
+
+
+// vegaEmbed('#vis', origional);
+// };
 
 
 

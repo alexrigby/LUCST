@@ -116,7 +116,7 @@ subBasins.once("data:loaded", function () {
 
 // map layer objects 
 var baseMaps = {
-    "satelliet": satellite,
+    "satellite": satellite,
     "streets": streets
 };
 

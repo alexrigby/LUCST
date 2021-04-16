@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossorigin="" />
-        <!-- vega lite for visualization -->
-        <script src="https://cdn.jsdelivr.net/npm/vega@5.19.1"></script>
+    <!-- vega lite for visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.19.1"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.0.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.15.1"></script>
     <!-- leaflets.js for maps-->
@@ -33,7 +33,7 @@
     <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!--main js-->
 
     <script defer async type='module' src="js/main.js"></script>
@@ -41,27 +41,36 @@
 
 <body class="wrapper">
     <div class="background">
-        <header >
+        <header>
             <div class="logo"><a href="#">SWAT LULC</a></div>
-
+            <div class="upload" id="upload">
+                <form action="/action_page.php">
+                    <input type="file" id="myFile" name="filename">
+                    <input type="submit">
+                </form>
+            </div>
             <nav>
                 <ul>
+                   
                     <li>
-                        <a href="" id="download" download>Downolad<br> hru-data.hru</a>
+                        <a href="" id="download" download>Download<br> hru-data.hru</a>
                     </li>
                     <li class="luDownload">
                         <a href="" id="downloadLanduse" download>Dowload <br> landuse.lum</a>
                     </li>
-                    <li>
-                        <a href ="" id="downloadPlant" download>Download <br> plant.ini</a>
+                    <li class="plantDownload">
+                        <a href="" id="downloadPlant" download>Download <br> plant.ini</a>
                     </li>
-                </ul>   
+                    <li>
+                        <div id="uploadButton">Upload <br> Catchment</div>
+                    </li>
+                </ul>
             </nav>
 
-        
+
         </header>
         <main id="popUpClose">
-            <div class="flex1" id= "popupClose">
+            <div class="flex1" id="popupClose">
                 <div id="map"></div>
                 <!-- sidebar containing leafletlasso controls-->
                 <!-- <div id="sidebar">
@@ -77,8 +86,8 @@
                 <div id="lassoResult"></div>
             </div> -->
                 <!-- <div class="run-LULC"> -->
-                    <!-- <div class="LULC-form"> -->
-                    <!-- <form name=lulc title="LULC Scenario" id='LULC'>LULC Chanage <br><br>
+                <!-- <div class="LULC-form"> -->
+                <!-- <form name=lulc title="LULC Scenario" id='LULC'>LULC Chanage <br><br>
                         <label for="hru">HRU:</label>
                         <input type="text" id="hru" name="hru"> <br> <br>
                         <label for="landuse">Landuse:</label><br>
@@ -96,20 +105,20 @@
                         </input>
                     </form> -->
 
-                    <!-- </div> -->
-                    <div class="changes">
-                        <table id="hruTable">
-                            <thead>
-                                <tr>
-                                    <th>HRUs</th>
-                                    <th>Current Landuse</th>
-                                    <th>New Landuse</th>
-                                </tr>
-                            </thead>
-                            <tbody id='result' class='scrol'></tbody>
-                        </table>
-                    </div>
-                    <!-- <div class="run">
+                <!-- </div> -->
+                <div class="changes">
+                    <table id="hruTable">
+                        <thead>
+                            <tr>
+                                <th>HRUs</th>
+                                <th>Current Landuse</th>
+                                <th>New Landuse</th>
+                            </tr>
+                        </thead>
+                        <tbody id='result' class='scrol'></tbody>
+                    </table>
+                </div>
+                <!-- <div class="run">
                     <form title="run SWAT"> Run SWAT <br><br>
                         <label for="warm-up">Warm up Period:</label><br>
                         <input type="number" id="warm-up" name="warm-up"> <br> <br>
@@ -151,27 +160,28 @@
                         <button type="button" onclick="alert('SWAT is Running')">Run SWAT</button>
                     </form>
                 </div> -->
-                </div>
             </div>
-        </main>
+    </div>
+    </main>
     </div>
     <footer>
         <div class="flex2">
-            <div class="pop-up-plant" id="plantForm" >
+            <div class="pop-up-plant" id="plantForm">
                 <form title="New plant_comm">New plant Community<br><br>
-                   <label for = "pcom_name" >Plant Community Name</label> <br>
-                   <input list="plantNames" type ="text" name ="plantNamesDatalist" id="plantNamesDatalist">
-                   <datalist id="plantNames">
-                       <optgroup lable="plants" id="plantNamesOption"></optgroup>
-                       <optgroup lable="urban" id="urbanPlant"></optgroup>
-                   </datalist><br>
+                    <label for="pcom_name">Plant Community Name</label> <br>
+                    <input list="plantNames" type="text" name="plantNamesDatalist" id="plantNamesDatalist">
+                    <datalist id="plantNames">
+                        <!-- <option label="Please choose" value="default" selected="selected" disabled>Please choose</option> -->
+                        <optgroup label="plants" id="plantNamesOption"></optgroup>
+                        <optgroup label="urban" id="urbanPlant"></optgroup>
+                    </datalist><br>
                     <label for="plt_cnt">Plant Count</label><br>
                     <input type="number" id="plt_cnt" name="plt_cnt"> <br>
                     <label for="rot_yr_ini">Rotation Begining Year</label><br>
                     <input type="number" id="rot_yr_ini" name="rot_yr_ini"> <br>
                     <label for="plt_name">Plant Name</label><br>
                     <input type="text" id="plt_name" name="plt_name"> <br>
-                    <lable for="lc_status" class="lc_status">Landcover Satus</lable><br>
+                    <label for="lc_status" class="lc_status">Landcover Status</label><br>
                     <input list="lc_status" name="lc_status" id="lc_statusDatalist">
                     <datalist id="lc_status">
                         <option value="y">
@@ -189,25 +199,25 @@
                     <input type="number" id="yrs_init" name="yrs_init"> <br>
                     <label for="rsd_init">Initial Residue Cover</label><br>
                     <input type="number" class="rsd_init" id="rsd_init" name="rsd_init"></input> <br> <br>
-                    <button type="button" id="newPlantButton">Make</button> 
+                    <button type="button" id="newPlantButton">Make</button>
                     <button type="reset" id="newPlantReset">Reset</button>
                 </form>
-            </div> 
-            <div class="pop-up-lu" id="luForm" >
+            </div>
+            <div class="pop-up-lu" id="luForm">
                 <form title="New Landuse" id="landuseForm">New Landuse Type<br><br>
                     <label for="luName">Name</label><br>
                     <input type="text" id="luName" name="name"> <br>
-                    <lable for="calGroup">Calibration Group</lable><br>
-                    <input type="text" id = "calGroup" name="calGroup"> <br>
+                    <label for="calGroup">Calibration Group</label><br>
+                    <input type="text" id="calGroup" name="calGroup"> <br>
                     <label for="luplantCom">Plant Comunity</label><br>
-                    <input id="luPlantCom"list="luPlantComDatalist" name="plantCom" >
+                    <input id="luPlantCom" list="luPlantComDatalist" name="plantCom">
                     <datalist id="luPlantComDatalist">
                     </datalist> <br>
                     <label for="mgt">Managment</label><br>
                     <input type="text" id="luMgt" name="mgt"> <br>
                     <label for="cn2">Curve Number</label><br>
-                    <input list="cn2" id="cn2Datalist" name="cn2"> 
-                    <datalist id="cn2">      
+                    <input list="cn2" id="cn2Datalist" name="cn2">
+                    <datalist id="cn2">
                     </datalist><br>
                     <label for="cons_practice">Conservation Practice</label><br>
                     <input list="consPracticeDatalist" id="consPractice" name="cons_practice">
@@ -234,16 +244,23 @@
                     <button type="button" id="newLuButton">Make</button>
                     <button type="reset" id="newLuReset">Reset</button>
                 </form>
-             </div>
-             <div class= "popups">
+            </div>
+            <div class="popups">
                 <button class="openPlantForm" id="openPlantForm">New Plant Type</button><br>
-                 <button class="openLuForm"  id ="openLuForm"> New Landuse</button>  
-             </div>
-             <div id="vis" class="hydrograph"></div>
+                <button class="openLuForm" id="openLuForm"> New Landuse</button>
+            </div>
+            <div class="hydrograph">
+            <div class="tab">
+                <button class="tablinks" id="defaultTab" onclick=openDefault>Default</button>
+                <button class="tablinks" id="scenario1Tab" onclick=openScenario1>Scenario 1</button>
+              </div>
+            <div id="vis" ></div>
+            <div id="vis2"></div>
+        </div>
             <!-- <div class="download">Result Table
                 </div> -->
-          
+
         </div>
-    
+
     </footer>
 </body>

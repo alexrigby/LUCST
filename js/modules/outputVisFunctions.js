@@ -35,13 +35,14 @@ export function hydrograph() {
         "x": {
           "timeUnit": "yearmonthdate",
           "field": "date",
+          "title":"date",
           "type": "temporal",
           "scale": {"domain": {"param": "brush"}},
           "axis": {"title": ""}
         },
         "y": {"field": "flo_out",
          "type": "quantitative",
-        "scale":{"domain":[0,10]}
+        "title": "flow (m³/s)",
       }
       }
     }, {
@@ -56,22 +57,84 @@ export function hydrograph() {
         "x": {
           "timeUnit": "yearmonthdate",
           "field": "date",
+          "title":"date",
           "type": "temporal"
         },
         "y": {
           "field": "flo_out",
           "type": "quantitative",
           "axis": {"tickCount": 3, "grid": false},
-          "scale":{"domain":[0,10]}
+          "title": "flow (m³/s)",
         }
       }
     }]
   }
-
  
 vegaEmbed('#vis', origional);
 };
 
+export function newHydrograph() {
+  // Assign the specification to a local variable vlSpec.
+  var origional = {
+    $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+
+    
+    "data": {
+      "url": "/data/TxtInOut/output/channel_sd_day.csv"
+    },
+      
+    "vconcat": [{
+      
+      "width":"1000",
+      "mark": {"type":"line",
+      "color":"red"},
+      "encoding": {
+        "x": {
+          "timeUnit": "yearmonthdate",
+          "field": "date",
+          "title":"date",
+          "type": "temporal",
+          "scale": {"domain": {"param": "brush"}},
+          "axis": {"title": ""}
+        },
+        "y": {"field": "flo_out",
+         "type": "quantitative",
+         "title": "flow (m³/s)",
+      }
+      }
+    }, {
+      "width": "1000",
+      "height": 60,
+      "mark": {"type":"line",
+      "color":"red"},
+      "params": [{
+        "name": "brush",
+        "select": {"type": "interval", "encodings": ["x"]}
+      }],
+      "encoding": {
+        "x": {
+          "timeUnit": "yearmonthdate",
+          "field": "date",
+          "title":"date",
+          "type": "temporal"
+        },
+        "y": {
+          "field": "flo_out",
+          "type": "quantitative",
+          "axis": {"tickCount": 3, "grid": false},
+          "title": "flow (m³/s)",
+        }
+      }
+    }]
+  }
+ 
+vegaEmbed('#vis2', origional);
+};
+
+export default {
+  hydrograph,
+  newHydrograph,
+}
 
 
 //  var origional = {
@@ -467,7 +530,7 @@ vegaEmbed('#vis', origional);
 // vegaEmbed('#vis', edittedOutput);
 //}
 
-export default hydrograph
+
 
 // export function hydrograph() {
 

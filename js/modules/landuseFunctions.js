@@ -64,7 +64,7 @@ export function landuseTypes() {
 
   //makes luForm popup by pressing button, close by clicking on body
   document.getElementById("openLuForm").onclick = openLuForm;
-  document.getElementById("popupClose").onmousedown = closeLuForm;
+  document.getElementById("popupClose").onclick = closeLuForm;
   function openLuForm() {
     document.getElementById("luForm").style.display = "block";
   }

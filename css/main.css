@@ -23,6 +23,10 @@ header{
   border-right: 2px solid white;
 }
 
+.plantDownload{
+  border-left: 4px solid white;
+}
+
 .logo{
   float: left;
   padding: 0px 15px;
@@ -70,6 +74,24 @@ header a:hover{
   color:#0068C1;
 }
 
+#uploadButton{
+  cursor: pointer;
+}
+/*styles the upload popup*/
+.upload{
+  display: none;
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  z-index: 800;
+  margin: none;
+  height:20px;
+}
+
+input[type="file"] {
+
+  color: #b8b8b8;
+}
 
 /*Main*/
 
@@ -197,11 +219,7 @@ a{
   text-decoration: none;
 }
 
-optgroup{
-  content: attr(label);
-  display: block;
-  background-color: black;
-}
+
 
 .lulc-edit-button{
   float: right;
@@ -298,7 +316,52 @@ optgroup{
 }
  
 
-
 .vega-bindings{
   display: none;
 }
+
+/* styiling from W3 schools for hydrograph tabs */
+#vis2{
+  display: none;
+}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+  width:auto;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+
+/* Create an active/current tablink class */
+.tab button:focus {
+  background-color: #ddd;
+  
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+/* finished styling tabs */

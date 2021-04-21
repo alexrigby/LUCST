@@ -51,7 +51,7 @@
             </div>
             <nav>
                 <ul>
-                   
+
                     <li>
                         <a href="" id="download" download>Download<br> hru-data.hru</a>
                     </li>
@@ -169,12 +169,13 @@
             <div class="pop-up-plant" id="plantForm">
                 <form title="New plant_comm">New plant Community<br><br>
                     <label for="pcom_name">Plant Community Name</label> <br>
-                    <input list="plantNames" type="text" name="plantNamesDatalist" id="plantNamesDatalist">
-                    <datalist id="plantNames">
-                        <!-- <option label="Please choose" value="default" selected="selected" disabled>Please choose</option> -->
+                    <!-- <input list="plantNames" type="text" name="plantNamesDatalist" id="plantNamesDatalist"> -->
+                    <select id="plantNames">
+                        <option value="default" selected="selected" disabled>
+                        </option>
                         <optgroup label="plants" id="plantNamesOption"></optgroup>
                         <optgroup label="urban" id="urbanPlant"></optgroup>
-                    </datalist><br>
+                    </select><br>
                     <label for="plt_cnt">Plant Count</label><br>
                     <input type="number" id="plt_cnt" name="plt_cnt"> <br>
                     <label for="rot_yr_ini">Rotation Begining Year</label><br>
@@ -182,11 +183,11 @@
                     <label for="plt_name">Plant Name</label><br>
                     <input type="text" id="plt_name" name="plt_name"> <br>
                     <label for="lc_status" class="lc_status">Landcover Status</label><br>
-                    <input list="lc_status" name="lc_status" id="lc_statusDatalist">
-                    <datalist id="lc_status">
-                        <option value="y">
-                        <option value="n">
-                    </datalist> <br>
+                    <!-- <input list="lc_status" name="lc_status" id="lc_statusDatalist"> -->
+                    <select id="lc_status">
+                        <option value="y">y
+                        <option value="n">n
+                    </select> <br>
                     <label for="lai_init">Initial Leaf Area Index</label><br>
                     <input type="number" id="lai_init" name="lai_init"> <br>
                     <label for="bm_init">Initial Dry Biomas</label><br>
@@ -216,21 +217,27 @@
                     <label for="mgt">Managment</label><br>
                     <input type="text" id="luMgt" name="mgt"> <br>
                     <label for="cn2">Curve Number</label><br>
-                    <input list="cn2" id="cn2Datalist" name="cn2">
-                    <datalist id="cn2">
-                    </datalist><br>
+                    <!-- <input list="cn2" id="cn2Datalist" name="cn2"> -->
+                    <select id="cn2">
+                        <option value="default" selected="selected" disabled></option>
+                        <optgroup id="cn2Options"></optgroup>
+                    </select><br>
                     <label for="cons_practice">Conservation Practice</label><br>
-                    <input list="consPracticeDatalist" id="consPractice" name="cons_practice">
-                    <datalist id="consPracticeDatalist">
-                    </datalist> <br>
+                    <!-- <input list="consPracticeDatalist" id="consPractice" name="cons_practice"> -->
+                    <select id="consPracticeDatalist">
+                        <option value="default" selected="selected" disabled></option>
+                        <optgroup id="cons"></optgroup>
+                    </select> <br>
                     <label for="urban">Urban</label><br>
                     <input type="text" id="urban" name="urban"> <br>
                     <label for="urb_ro">Urban Run-Off</label><br>
                     <input type="text" id="urbRo" name="urb_ro"> <br>
                     <label for="ov_mann">Mannings n</label><br>
-                    <input list="ovMannDatalist" id="ovMann"><br>
-                    <datalist id="ovMannDatalist">
-                    </datalist>
+                    <!-- <input list="ovMannDatalist" id="ovMann"><br> -->
+                    <select id="ovMannDatalist">
+                        <option value="default" selected="selected" disabled></option>
+                        <optgroup id="manN"></optgroup>
+                    </select><br>
                     <label for="tile">Tile</label><br>
                     <input type="text" id="tile" name="tile"> <br>
                     <label for="sep">Septic Tanks</label><br>
@@ -250,13 +257,13 @@
                 <button class="openLuForm" id="openLuForm"> New Landuse</button>
             </div>
             <div class="hydrograph">
-            <div class="tab">
-                <button class="tablinks" id="defaultTab" onclick=openDefault>Default</button>
-                <button class="tablinks" id="scenario1Tab" onclick=openScenario1>Scenario 1</button>
-              </div>
-            <div id="vis" ></div>
-            <div id="vis2"></div>
-        </div>
+                <div class="tab">
+                    <button class="tablinks" id="defaultTab">Default</button>
+                    <button class="tablinks" id="scenario1Tab">Scenario 1</button>
+                </div>
+                <div id="vis"></div>
+                <div id="vis2"></div>
+            </div>
             <!-- <div class="download">Result Table
                 </div> -->
 

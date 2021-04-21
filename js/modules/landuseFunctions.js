@@ -17,7 +17,11 @@ export function cleanLanduse(data) {
   );
 }
 
-
+function getLUDescriptions(data) {
+  const plants = data.map(record => record.description);
+  // console.log(landuses);
+  return plants
+}
 
 export function getLanduseTypes(data) {
   const landuses = data.map(record => record.name);
@@ -30,10 +34,15 @@ fetchData('/data/TxtInOut/cntable.lum')
 .then(function (data) {
   const cleanCnData = cleanLanduse(data);
   const cnNames = getLanduseTypes(cleanCnData);
+  const cnDescriptions = getLUDescriptions(cleanCnData)
+  const cnDOptions = cnDescriptions.map((el, i)=> {
+    return `${el}`
+  }); 
   const cnOptions = cnNames.map((el, i) => {
-    return `<option value=${el}></option>`;
+    return `<option title=${cnDOptions[i]} value=${el}>${el}</option>`;
   });
-  document.getElementById("cn2").innerHTML = `${cnOptions}`
+  
+  document.getElementById("cn2Options").innerHTML = `${cnOptions}`
 });
 
 //auto fill  cons practice datalist from Cons_practice.lum
@@ -41,10 +50,14 @@ fetchData('/data/TxtInOut/cons_practice.lum')
 .then(function (data) {
   const cleanConsData = cleanLanduse(data);
   const consNames = getLanduseTypes(cleanConsData);
+  const consDescriptions = getLUDescriptions(cleanConsData)
+  const consDOptions = consDescriptions.map((el, i)=> {
+    return `${el}`
+  }); 
   const consOptions = consNames.map((el, i) => {
-    return `<option value=${el}></option>`;
+    return `<option title=${consDOptions[i]} value=${el}>${el}</option>`;
   });
-  document.getElementById("consPracticeDatalist").innerHTML = `${consOptions}`
+  document.getElementById("cons").innerHTML = `${consOptions}`
 });
 
 
@@ -53,10 +66,14 @@ fetchData('/data/TxtInOut/ovn_table.lum')
 .then(function (data) {
   const cleanNData = cleanLanduse(data);
   const nNames = getLanduseTypes(cleanNData);
+  const manNDescriptions = getLUDescriptions(cleanNData)
+  const manNDOptions = manNDescriptions.map((el, i)=> {
+    return `${el}`
+  }); 
   const nOptions = nNames.map((el, i) => {
-    return `<option value=${el}></option>`;
+    return `<option title=${manNDOptions[i]} value=${el}>${el}</option>`;
   });
-  document.getElementById("ovMannDatalist").innerHTML = `${nOptions}`
+  document.getElementById("manN").innerHTML = `${nOptions}`
 });
 
 //exported to main.js to make the landuseform
@@ -81,14 +98,14 @@ export function landuseTypes() {
   const plantCom = document.getElementById("luPlantCom")
   const luMgt = document.getElementById("luMgt")
   luMgt.setAttribute('value', 'null')
-  const cn2 = document.getElementById("cn2Datalist")
-  const consPractice = document.getElementById("consPractice")
+  const cn2 = document.getElementById("cn2")
+  const consPractice = document.getElementById("consPracticeDatalist")
   // consPractice.setAttribute('value', 'up_down_slope')
   const urban = document.getElementById("urban")
   urban.setAttribute('value', 'null')
   const urbRo = document.getElementById("urbRo")
   urbRo.setAttribute('value', 'null')
-  const ovMann = document.getElementById("ovMann")
+  const ovMann = document.getElementById("ovMannDatalist")
   const tile = document.getElementById("tile")
   tile.setAttribute('value', 'null')
   const sep = document.getElementById("sep")

@@ -90,27 +90,26 @@ const plantDOptions = plantDescriptions.map((el, i)=> {
 }); 
 //maps the plant names and assignes each to an option value for the datalist
   const plantOptions = plantTypeNames.map((el, i) => {
-    return `<option data-toggle="tooltip" title="tooltip">${el +'_comm'}</option>`;
-
-
+    return `<option data-toggle="tooltip" title="${plantDOptions[i]}">${el +'_comm'}</option>`;
   
   });
   document.getElementById("plantNamesOption").innerHTML = `${plantOptions}`
 });
-//function to edite/make tooltips, doesent work for datalist
-// $(document).ready(function(){
-//   $('[data-toggle="tooltip"]').tooltip();   
-// });
+
 
 //gets the urban landuse
 fetchData('/data/TxtInOut/urban.urb')
 .then(function(data){
   const cleanUrban = cleanPlants(data);
   const urbanNames = getPlantOptions(cleanUrban);
-
+  const urbanDescription = getPlantDescriptions(cleanUrban)
+  const urbanDOptions = urbanDescription.map((el, i)=> {
+    return `${el}`
+  });
 const urbanOptions = urbanNames.map((el,i)=>{
-  return `<option> ${el +'_comm'}</option>`;
+  return `<option data-toggle="tooltip" title="${urbanDOptions[i]}"> ${el +'_comm'}</option>`;
 });
+
 document.getElementById("urbanPlant").innerHTML = `${urbanOptions}`
 
 });
@@ -157,7 +156,7 @@ export function newPlantType() {
 
 
   //defines all Plant form inputs as constants, adding default values to the input feilds
-  const plantComName = document.getElementById("plantNamesDatalist");
+  const plantComName = document.getElementById("plantNames");
   const plantCnt = document.getElementById("plt_cnt")
   plantCnt.setAttribute('value', 1)
   const iniRotationYear = document.getElementById("rot_yr_ini")
@@ -174,7 +173,7 @@ export function newPlantType() {
     // const LuPlantCom = document.getElementById("luPlantCom")
     // LuPlantCom.setAttribute('value', plantComName)
   });
-  const landcoverStatus = document.getElementById("lc_statusDatalist")
+  const landcoverStatus = document.getElementById("lc_status")
   const iniLai = document.getElementById("lai_init")
   iniLai.setAttribute('value', 2)
   const iniBm = document.getElementById("bm_init")

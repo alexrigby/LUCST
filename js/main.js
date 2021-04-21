@@ -3,12 +3,12 @@ import { populateTable, cleanHru, getHru, updateHru } from "/js/modules/hru_data
 import { getPlantOptions, cleanPlant, newPlantType } from "/js/modules/plantFunctions.js";
 import { cleanLanduse, getLanduseTypes, landuseTypes } from "/js/modules/landuseFunctions.js";
 import { makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js";
-import {hydrograph, newHydrograph} from "/js/modules/outputVisFunctions.js";
+import {hydrograph, newHydrograph, graphTab} from "/js/modules/outputVisFunctions.js";
 //import upload from "/js/modules/upload.js";
 
 newHydrograph()
 hydrograph()
-
+graphTab()
 // import plantTypes from "Types/plantTypes";
 
 // hru-data.hru:
@@ -259,16 +259,6 @@ document.getElementById("popupClose").onmousedown = closeUploadForm;
     document.getElementById("upload").style.display = "none";
   }
    
-//opens and closes the hydrograph tabs
-document.getElementById("scenario1Tab").onmousedown = openScenario1;
-document.getElementById("defaultTab").onmousedown = openDefault; 
-function openDefault(){
-    document.getElementById("vis").style.display = "block";
-    document.getElementById("vis2").style.display = "none";
-}
-function openScenario1(){
-    document.getElementById("vis2").style.display = "block";
-    document.getElementById("vis").style.display = "none";
-}
+
 
 //populatePlantTypeForm()

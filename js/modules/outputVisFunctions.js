@@ -29,7 +29,7 @@ export function hydrograph() {
       
     "vconcat": [{
       
-      "width":"1000",
+      "width":"1350",
       "mark": "line",
       "encoding": {
         "x": {
@@ -46,7 +46,7 @@ export function hydrograph() {
       }
       }
     }, {
-      "width": "1000",
+      "width": "1350",
       "height": 60,
       "mark": "line",
       "params": [{
@@ -85,7 +85,7 @@ export function newHydrograph() {
       
     "vconcat": [{
       
-      "width":"1000",
+      "width":"1350",
       "mark": {"type":"line",
       "color":"red"},
       "encoding": {
@@ -103,7 +103,7 @@ export function newHydrograph() {
       }
       }
     }, {
-      "width": "1000",
+      "width": "1350",
       "height": 60,
       "mark": {"type":"line",
       "color":"red"},
@@ -131,9 +131,25 @@ export function newHydrograph() {
 vegaEmbed('#vis2', origional);
 };
 
+export function graphTab(){
+  //opens and closes the hydrograph tabs
+document.getElementById("scenario1Tab").onmousedown = openScenario1;
+document.getElementById("defaultTab").onmousedown = openDefault; 
+function openDefault(){
+    document.getElementById("vis").style.display = "block";
+    document.getElementById("vis2").style.display = "none";
+}
+function openScenario1(){
+    document.getElementById("vis2").style.display = "block";
+    document.getElementById("vis").style.display = "none";
+}
+
+};
+
 export default {
   hydrograph,
   newHydrograph,
+  graphTab
 }
 
 

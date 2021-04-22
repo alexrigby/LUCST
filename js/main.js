@@ -3,7 +3,7 @@ import { populateTable, cleanHru, getHru, updateHru } from "/js/modules/hru_data
 import { getPlantOptions, cleanPlant, newPlantType } from "/js/modules/plantFunctions.js";
 import { cleanLanduse, getLanduseTypes, landuseTypes } from "/js/modules/landuseFunctions.js";
 import { makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js";
-import {hydrograph, newHydrograph, graphTab} from "/js/modules/outputVisFunctions.js";
+import { hydrograph, newHydrograph, graphTab } from "/js/modules/outputVisFunctions.js";
 //import upload from "/js/modules/upload.js";
 
 newHydrograph()
@@ -17,7 +17,7 @@ fetchData('/data/TxtInOut/hru-data.hru')
     .then(data => {
         // Clean the dataset...
         const cleanHruData = cleanHru(data);
-        
+
         // Saving a copy of the dataset
         const cleanHruDataCopy = [...cleanHruData];
 
@@ -26,12 +26,7 @@ fetchData('/data/TxtInOut/hru-data.hru')
     });
 
 
-//  fetchData('/data/TxtInOut/channel_sd_day.txt')
-// .then(data =>{
-// const output1 = cleanHru(data);
-// console.log(output1)
-// })
-  
+
 
 // landuse.lum:
 // Fetch unclean dataset...
@@ -43,6 +38,9 @@ fetchData('/data/TxtInOut/landuse.lum')
 
 
         const landuseTypes = getLanduseTypes(cleanLanduseData);
+        
+        
+        
 
         window.LLYFNILanduse = [...landuseTypes];
         window.LLYFNILanduseEdit = [...cleanLanduseData];
@@ -252,13 +250,13 @@ landuseTypes()
 //creats the upload popup
 document.getElementById("uploadButton").onmousedown = openUploadForm;
 document.getElementById("popupClose").onmousedown = closeUploadForm;
- function openUploadForm() {
-   document.getElementById("upload").style.display = "block";
- }
- function closeUploadForm() {
+function openUploadForm() {
+    document.getElementById("upload").style.display = "block";
+}
+function closeUploadForm() {
     document.getElementById("upload").style.display = "none";
-  }
-   
+}
+
 
 
 //populatePlantTypeForm()

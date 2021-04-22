@@ -29,6 +29,8 @@ export function getLanduseTypes(data) {
   return landuses
 }
 
+
+
 //auto fill cn number Datalist from cntable.lum
 fetchData('/data/TxtInOut/cntable.lum')
 .then(function (data) {
@@ -95,7 +97,7 @@ export function landuseTypes() {
   const luName = document.getElementById("luName");
   const luCalGroup = document.getElementById("calGroup")
   luCalGroup.setAttribute('value', 'null')
-  const plantCom = document.getElementById("luPlantCom")
+  const plantCom = document.getElementById("luPlantComselect")
   const luMgt = document.getElementById("luMgt")
   luMgt.setAttribute('value', 'null')
   const cn2 = document.getElementById("cn2")
@@ -179,6 +181,7 @@ const convertToTSV = (data) => {
 export default {
   landuseTypes,
   cleanLanduse,
-  getLanduseTypes
+  getLanduseTypes,
+
 }
 

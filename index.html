@@ -211,9 +211,11 @@
                     <label for="calGroup">Calibration Group</label><br>
                     <input type="text" id="calGroup" name="calGroup"> <br>
                     <label for="luplantCom">Plant Comunity</label><br>
-                    <input id="luPlantCom" list="luPlantComDatalist" name="plantCom">
-                    <datalist id="luPlantComDatalist">
-                    </datalist> <br>
+                    <!-- <input id="luPlantCom" list="luPlantComDatalist" name="plantCom"> -->
+                    <select id="luPlantComselect">
+                        <option value="default" selected="selected" disabled></option>
+                        <optgroup id="luPlantCom"></optgroup>
+                    </select> <br>
                     <label for="mgt">Managment</label><br>
                     <input type="text" id="luMgt" name="mgt"> <br>
                     <label for="cn2">Curve Number</label><br>

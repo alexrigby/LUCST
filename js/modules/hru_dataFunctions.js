@@ -60,16 +60,23 @@ function getLanduseTypes(data) {
   return landuses
 }
 
-
+function getLanduseTooltip(data) {
+  const landuses = data.map(record => "plant:"+'"'+record.plnt_com+'".' + "cn:" +'"'+ record.cn2 + '".' + "conservation:" +'"'+ record.cons_prac +'".'+ "n:" +'"'+ record.ov_mann+'"');
+  // console.log(landuses);
+  return landuses
+}
 
 export function populateTable(data) {
 
 
   const landuseTypes = getLanduseTypes(window.LLYFNILanduseEdit)
-  
+  const landuseDescription = getLanduseTooltip(window.LLYFNILanduseEdit)
+  const landuseTooltip = landuseDescription.map((el, i)=> {
+    return `${el}`
+  });
 
   const landuseTypesOptions = landuseTypes.map((el, i) => {
-    return `<option value=${el}></option>`;
+    return `<option title=${landuseTooltip[i]} value=${el}>${el}</option>`;
   });
 
 
@@ -84,9 +91,13 @@ export function populateTable(data) {
                   <td>${data.landuse[i]}
                   <button class="lulc-edit-button" data-hru=${data.hrus[i]}>Edit</button>
                   </td>
-                  <td class="newLanduse"><input class="landuseTypes" list="landuseDatalist"   type="text">
-                  <datalist id="landuseDatalist">${landuseTypesOptions}
-                   </datalist></td>
+                  <td class="newLanduse">
+                  
+                  <select class ="landuseTypes" id="landuseDatalist">
+                  <option value="default" selected="selected" disabled>
+                        </option>
+                  ${landuseTypesOptions}
+                   </select></td>
               </tr>`;
     //use`` to insert HTML elements straight from javascript, use ${} to input Javascript elements
   }
@@ -97,9 +108,12 @@ export function populateTable(data) {
     `<tr>
          <td><button class="lulc-editAll-button" data-hru=${data.hrus}> EDIT ALL </button></td>
          <td><button class="lulc-clear">CLEAR</button></td>
-         <td class="allNewlanduse"><input class="allLanduseTypes" list="allLanduseDatalist"   type="text">
-         <datalist id="allLanduseDatalist">${landuseTypesOptions}
-          </datalist></td>
+         <td class="allNewlanduse">
+         <select class="allLanduseTypes" id="allLanduseDatalist">
+         <option value="default" selected="selected" disabled>
+                        </option>
+         ${landuseTypesOptions}
+          </select></td>
      </tr>`
     ;
 

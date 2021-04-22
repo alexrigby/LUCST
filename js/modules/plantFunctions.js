@@ -223,9 +223,9 @@ export function newPlantType() {
     console.log(pcomOptions)
 
     const pcomTypesOptions = pcomOptions.map((el, i) => {
-      return `<option value=${el}></option>`;
+      return `<option value=${el}>${el}</option>`;
     });
-    document.getElementById("luPlantComDatalist").innerHTML = `${pcomTypesOptions}`
+    document.getElementById("luPlantCom").innerHTML = `${pcomTypesOptions}`
 
 
     //converts file and links to download button 

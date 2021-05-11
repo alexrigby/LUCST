@@ -1,9 +1,7 @@
 
-
 html {
   font-family: sans-serif;
 }
-
 
 /*header */
 
@@ -74,9 +72,7 @@ header a:hover{
   color:#0068C1;
 }
 
-#uploadButton{
-  cursor: pointer;
-}
+
 /*styles the upload popup*/
 .upload{
   display: none;
@@ -88,8 +84,11 @@ header a:hover{
   height:20px;
 }
 
-input[type="file"] {
+#uploadButton{
+  cursor: pointer;
+}
 
+input[type="file"] {
   color: #b8b8b8;
 }
 
@@ -106,14 +105,13 @@ border-bottom: 1px solid rgba(5,176,228,0.3);
   margin-left: 10px;
 }
 
-
 #map {
   
  flex: 6;
  height: 600px;
  z-index: 1;
 }
-/*map*/
+/*map end*/
 
 #message-box > * {
   background-color: grey;
@@ -122,15 +120,11 @@ border-bottom: 1px solid rgba(5,176,228,0.3);
 select{
   width: 100%;
 }
+
+/* styles all forms  */
 form label{
   font-size: 8pt;
-
 }
-
-#lc_status{
-  font-size: 8pt;
-}
-
 
 form{
   font-weight: 700;
@@ -150,46 +144,22 @@ form > input:focus{
   background-color: lightgray;
 }
 
+/* positions map and HRU table  */
 .flex1{
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
 }
 
-form > title{
-  color: blue;
-}
 
-.plant-form{ 
-  flex:1;
-}
-
-.LULC-form{
-  flex:1;
-}
-
-
-
-.run{
-  flex: 2;
-  align-self: center;
-}
-
-.run-LULC{
-  display: flex;
-  align-items: flex-end;
-  flex-direction: column;
-}
-
-
-
-
+/* styles HRU table when populated  */
 .changes{
   display: block;
   overflow-y: auto;
   max-height: 600px;
 }
 
+/* styles all tables  */
 th{
   position: sticky;
   top: 0;
@@ -206,8 +176,6 @@ table{
   margin-left: 3px;
 }
 
-
-
 table, th, td{
   border: 1px solid black;
   border-collapse: collapse;
@@ -222,75 +190,33 @@ a{
 }
 
 
-
-.lulc-edit-button{
-  float: right;
-}
-
-
-
-.pop-up-lu {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 225px;
-  
-  z-index: 500;
-}
-
-
-.pop-up-plant {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left:15px;
-  
-  z-index: 500;
-}
-
-
- .openPlantForm:hover {
-  opacity: 1;
-}
-.openLuForm:hover {
-  opacity: 1;
-}
-
 /*footer*/
 
+footer {
+  display: flex;
+}
+
+/* possitions pop-up buttons and runn swat+ box  */
 .flex2{ 
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
-  
+  flex-direction: column;
 }
 
+/* styles box which contains hydrograph  */
 .hydrograph{
   background-color: white;
   margin: 3px 0px;
   width:auto;
  display: flex;
- flex:2;
+ flex:1;
   border: solid black 2px;
 }
 
-.output-table{
-  background-color: white;
-  margin: 10px;
-  height: 300px;
- flex: 1;
- border: solid black 2px;
-}
 
-.download{
-  background-color: white;
-  margin: 3px;
-  height: 300px;
-  flex: 1;
-  border: solid black 2px;
-}
-
+/* styles pop up lU and plant form buttons */
 .openLuForm {
   background-color: #555;
   color: white;
@@ -315,6 +241,29 @@ a{
   bottom: 23px;
   left: 28px;
   width: 280px;
+}
+/* styles LU and plant forms  */
+.pop-up-lu {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 225px;
+  z-index: 500;
+}
+
+.pop-up-plant {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left:15px;
+  z-index: 500;
+}
+
+ .openPlantForm:hover {
+  opacity: 1;
+}
+.openLuForm:hover {
+  opacity: 1;
 }
  
 

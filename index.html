@@ -72,40 +72,6 @@
         <main id="popUpClose">
             <div class="flex1" id="popupClose">
                 <div id="map"></div>
-                <!-- sidebar containing leafletlasso controls-->
-                <!-- <div id="sidebar">
-                <div>
-                    <button id="toggleLasso" type="button" class="btn btn-primary btn-sm">Toggle Lasso</button>
-                    <br><br>
-                    <label><input type="radio" name="containOrIntersect" id="contain" checked> Contain</label>
-                    <label class="ml-2"><input type="radio" name="containOrIntersect" id="intersect"> Intersect</label>
-                </div>
-                <br>
-                <div id="lassoEnabled">Selection Disabled</div>
-                <br>
-                <div id="lassoResult"></div>
-            </div> -->
-                <!-- <div class="run-LULC"> -->
-                <!-- <div class="LULC-form"> -->
-                <!-- <form name=lulc title="LULC Scenario" id='LULC'>LULC Chanage <br><br>
-                        <label for="hru">HRU:</label>
-                        <input type="text" id="hru" name="hru"> <br> <br>
-                        <label for="landuse">Landuse:</label><br>
-                        <input list="Landuse" id="landuse" name="landuse">
-                        <datalist id="Landuse">
-                            <option value="rnge_lum">
-                            <option value="rngb_lum">
-                            <option value="past_lum">
-                            <option value="frsd">
-                            <option value="watr_lum">
-                            <option value="barr_lum">
-                            <option value="New landuse">
-                        </datalist><br><br>
-                        <button type="button" id='lulcButton'>Apply</button>
-                        </input>
-                    </form> -->
-
-                <!-- </div> -->
                 <div class="changes">
                     <table id="hruTable">
                         <thead>
@@ -118,55 +84,12 @@
                         <tbody id='result' class='scrol'></tbody>
                     </table>
                 </div>
-                <!-- <div class="run">
-                    <form title="run SWAT"> Run SWAT <br><br>
-                        <label for="warm-up">Warm up Period:</label><br>
-                        <input type="number" id="warm-up" name="warm-up"> <br> <br>
-                        <label for="output">Output:</label><br>
-                        <input list="output" name="output">
-                        <datalist id="output">
-                            <option value="basin_wb">
-                            <option value="basin_nb">
-                            <option value="basin_ls">
-                            <option value="basin_pw">
-                            <option value="basin_aqu">
-                            <option value="basin_res">
-                            <option value="basin_sd_cha">
-                            <option value="basin_psc">
-                            <option value="isunit_psc">
-                            <option value="isunit_wb">
-                            <option value="isunit_nb">
-                            <option value="isunit_ls">
-                            <option value="isunit_pw">
-                            <option value="hru_wb">
-                            <option value="hru_nb">
-                            <option value="hru_ls">
-                            <option value="hru_pw">
-                            <option value="channel_sd">
-                            <option value="aquifer">
-                            <option value="resevoir">
-                            <option value="recall">
-                            <option value="hyd">
-                            <option value="ru">
-                        </datalist><br> <br>
-                        <label for="timestep">Timestep:</label><br>
-                        <input list="timestep" name="timestep">
-                        <datalist id="timestep">
-                            <option value="daily">
-                            <option value="weekly">
-                            <option value="monthly">
-                            <option value="annualy">
-                        </datalist><br><br>
-                        <button type="button" onclick="alert('SWAT is Running')">Run SWAT</button>
-                    </form>
-                </div> -->
-            </div>
     </div>
     </main>
     </div>
     <footer>
-        <div class="flex2">
-            <div class="pop-up-plant" id="plantForm">
+       <div class="flex2">
+            <div  class="pop-up-plant" id="plantForm">
                 <form title="New plant_comm">New plant Community<br><br>
                     <label for="pcom_name">Plant Community Name</label> <br>
                     <!-- <input list="plantNames" type="text" name="plantNamesDatalist" id="plantNamesDatalist"> -->
@@ -258,6 +181,22 @@
                 <button class="openPlantForm" id="openPlantForm">New Plant Type</button><br>
                 <button class="openLuForm" id="openLuForm"> New Landuse</button>
             </div>
+            <div class="runSWAT">
+                <form title="runSWAT" id="runSWATform">Run SWAT+ <br> <br>
+                    <label for="warmUp">warm up</label>
+                    <input type="number" id="warmUp"> <br> <br>
+                    <label for="routing">routing method</label>
+                    <input type="text" id="routing"> <br>
+                    <label for="PET">PET method</label>
+                    <input type="text" id="PET"> <br>
+                    <label for="startDate">start</label>
+                    <input type="date" id="startDate"> <br>
+                    <label for="endtDate">end</label>
+                    <input type="date" id="endDate"> <br><br>
+                    <button id="runSWATButton">Run model</button>
+                </form>
+            </div>
+            </div>
             <div class="hydrograph">
                 <div class="tab">
                     <button class="tablinks" id="defaultTab">Default</button>
@@ -266,10 +205,5 @@
                 <div id="vis"></div>
                 <div id="vis2"></div>
             </div>
-            <!-- <div class="download">Result Table
-                </div> -->
-
-        </div>
-
     </footer>
 </body>

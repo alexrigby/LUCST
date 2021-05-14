@@ -4,8 +4,9 @@ import { getPlantOptions, cleanPlant, newPlantType } from "/js/modules/plantFunc
 import { cleanLanduse, getLanduseTypes, landuseTypes } from "/js/modules/landuseFunctions.js";
 import { makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js";
 import { hydrograph, newHydrograph, graphTab } from "/js/modules/outputVisFunctions.js";
+import modelRun from "/js/modules/modelFunctions.js";
 //import upload from "/js/modules/upload.js";
-
+modelRun()
 newHydrograph()
 hydrograph()
 graphTab()
@@ -147,34 +148,12 @@ L.Control.textbox = L.Control.extend({
 L.control.textbox = function (opts) { return new L.Control.textbox(opts); }
 L.control.textbox({ position: 'topright' }).addTo(map);
 
-//adds landuse and plant form buttons to the map
-// L.Control.textbox = L.Control.extend({
-//     onAdd: function (map) {
-
-//         var text = L.DomUtil.create('div');
-//         text.innerHTML = `  
-//         <div class= "popups">
-//                 <button class="openPlantForm" id="openPlantForm">New Plant Type</button>
-//                 <button class="openLuForm"  id ="openLuForm"> New Landuse</button>
-//              </div>
-//     `
-//         return text;
-//     },
-//     onRemove: function (map) {
-//         // Nothing to do here
-//     }
-// });
-// L.control.textbox = function (opts) { return new L.Control.textbox(opts); }
-// L.control.textbox({ position: 'bottomleft' }).addTo(map);
 
 // using lasso plugin to select shapfile/hrus
-//const mapElement = document.querySelector('#map');
-//const toggleLasso = document.querySelector('#toggleLasso');
+
 const contain = document.querySelector('#contain');
 const intersect = document.querySelector('#intersect');
 const lassoEnabled = document.querySelector('#lassoEnabled');
-// const lassoResult = document.querySelector('#lassoResult');
-// adds lasso toggle button to map
 const lassoControl = L.control.lasso().addTo(map);
 
 
@@ -213,23 +192,6 @@ map.on('mousedown', () => {
 map.on('lasso.finished', event => {
     setSelectedLayers(event.layers);
 });
-//writes 'enabled' to signify lasso enabled
-// map.on('lasso.enabled', () => {
-//     lassoEnabled.innerHTML = 'Selection Enabled';
-//     resetSelectedState();
-// });
-//writes 'dissabled' to signify lasso disabled
-// map.on('lasso.disabled', () => {
-//     lassoEnabled.innerHTML = 'SelectionDisabled';
-// });
-//activates toggle Lasso button 
-// toggleLasso.addEventListener('click', () => {
-//     if (lassoControl.enabled()) {
-//         lassoControl.disabled();
-//     } else {
-//         lassoControl.enabled();
-//     }
-// });
 
 //gets lasso button to 'listen' for selection type 'contain'       
 contain.addEventListener('change', () => {

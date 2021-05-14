@@ -67,8 +67,6 @@ function getLanduseTooltip(data) {
 }
 
 export function populateTable(data) {
-
-
   const landuseTypes = getLanduseTypes(window.LLYFNILanduseEdit)
   const landuseDescription = getLanduseTooltip(window.LLYFNILanduseEdit)
   const landuseTooltip = landuseDescription.map((el, i)=> {
@@ -92,7 +90,6 @@ export function populateTable(data) {
                   <button class="lulc-edit-button" data-hru=${data.hrus[i]}>Edit</button>
                   </td>
                   <td class="newLanduse">
-                  
                   <select class ="landuseTypes" id="landuseDatalist">
                   <option value="default" selected="selected" disabled>
                         </option>
@@ -156,8 +153,6 @@ export function populateTable(data) {
   })
 
   const lulcEditAllButton = document.querySelector(".lulc-editAll-button");
-
-
 
   lulcEditAllButton.addEventListener("click", () => {
     const allLanduseSelection = document.querySelector(".allLanduseTypes");

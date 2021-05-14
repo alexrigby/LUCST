@@ -278,7 +278,7 @@ footer {
 
 /* Style the tab */
 .tab {
-  overflow: hidden;
+  
   border: 1px solid #ccc;
   background-color: #f1f1f1;
 }
@@ -293,7 +293,8 @@ footer {
   padding: 14px 16px;
   transition: 0.3s;
   font-size: 17px;
-  width:auto;
+  width:100%;
+  text-align: left;
 }
 
 /* Change background color of buttons on hover */

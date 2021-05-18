@@ -242,7 +242,7 @@ export function newPlantType() {
 
 
 
-function downloadPlantButton(data, fileName) {
+ function downloadPlantButton(data, fileName) {
   var myFile = new Blob([data], { type: 'text/plain' });
   document.getElementById('downloadPlant').setAttribute('href', window.URL.createObjectURL(myFile));
   document.getElementById('downloadPlant').setAttribute('download', fileName);
@@ -253,6 +253,6 @@ function downloadPlantButton(data, fileName) {
 export default {
   newPlantType,
   cleanPlant,
-  getPlantOptions
+  getPlantOptions,
 }
 

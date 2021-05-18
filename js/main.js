@@ -4,9 +4,11 @@ import { getPlantOptions, cleanPlant, newPlantType } from "/js/modules/plantFunc
 import { cleanLanduse, getLanduseTypes, landuseTypes } from "/js/modules/landuseFunctions.js";
 import { makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js";
 import { hydrograph, newHydrograph, graphTab } from "/js/modules/outputVisFunctions.js";
-import modelRun from "/js/modules/modelFunctions.js";
+import { timeSim, printPrt} from "/js/modules/modelFunctions.js";
+
 //import upload from "/js/modules/upload.js";
-modelRun()
+printPrt()
+timeSim()
 newHydrograph()
 hydrograph()
 graphTab()

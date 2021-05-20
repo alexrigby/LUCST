@@ -44,43 +44,43 @@ export function timeSim() {
             // console.log('time.sim', cleanSimFile)
 
             const runModelButton = document.getElementById("timeSimButton")
-            runModelButton.addEventListener('click', () => {
-                const startDate = document.getElementById("startDate").value
-                const endDate = document.getElementById("endDate").value
+            // runModelButton.addEventListener('click', () => {
+            //     const startDate = document.getElementById("startDate").value
+            //     const endDate = document.getElementById("endDate").value
 
-                //replaces te end year and start year in time.sim with the year selected in the form
-                cleanSimFile[0].yrc_end = `${endDate.slice(0, -6)}`
-                cleanSimFile[0].yrc_start = `${startDate.slice(0, -6)}`
+            //     //replaces te end year and start year in time.sim with the year selected in the form
+            //     cleanSimFile[0].yrc_end = `${endDate.slice(0, -6)}`
+            //     cleanSimFile[0].yrc_start = `${startDate.slice(0, -6)}`
 
-                // split("-").join(",")
-                // formats the date from YYYY-MM-DD to YYYY,M,D for use in the dayNo function
-                const newStartDate = startDate.replace(/\b0/g, '').split("-");
-                const newEndDate = endDate.replace(/\b0/g, '').split("-");
+            //     // split("-").join(",")
+            //     // formats the date from YYYY-MM-DD to YYYY,M,D for use in the dayNo function
+            //     const newStartDate = startDate.replace(/\b0/g, '').split("-");
+            //     const newEndDate = endDate.replace(/\b0/g, '').split("-");
 
-                //converts the date from string to int
-                const newSDInt = newStartDate.map(el =>
-                    parseInt(el)
-                );
-                const newEDInt = newEndDate.map(el =>
-                    parseInt(el)
-                );
+            //     //converts the date from string to int
+            //     const newSDInt = newStartDate.map(el =>
+            //         parseInt(el)
+            //     );
+            //     const newEDInt = newEndDate.map(el =>
+            //         parseInt(el)
+            //     );
 
-                //Returns jDay from date
-                const sJday = dayNo(newSDInt[0], newSDInt[1], newSDInt[2])
-                const eJday = dayNo(newEDInt[0], newEDInt[1], newEDInt[2])
-                // console.log('start jDay', sJday)
-                // console.log('end jDay', eJday)
+            //     //Returns jDay from date
+            //     const sJday = dayNo(newSDInt[0], newSDInt[1], newSDInt[2])
+            //     const eJday = dayNo(newEDInt[0], newEDInt[1], newEDInt[2])
+            //     // console.log('start jDay', sJday)
+            //     // console.log('end jDay', eJday)
 
-                //adds new julian day to time.sim file
-                cleanSimFile[0].day_start = `${sJday}`
-                cleanSimFile[0].day_end = `${eJday}`
-                // console.log('time.sim', cleanSimFile)
-                //converts form JSOn to TSV
-                const newTimeSimFile = convertToTSV(cleanSimFile)
-                console.log(cleanSimFile)
+            //     //adds new julian day to time.sim file
+            //     cleanSimFile[0].day_start = `${sJday}`
+            //     cleanSimFile[0].day_end = `${eJday}`
+            //     // console.log('time.sim', cleanSimFile)
+            //     //converts form JSOn to TSV
+            //     const newTimeSimFile = convertToTSV(cleanSimFile)
+            //     console.log(cleanSimFile)
 
-                downloadSimFile(newTimeSimFile, "time.sim")
-            })
+            //     downloadSimFile(newTimeSimFile, "time.sim")
+            // })
         });
 }
 
@@ -151,25 +151,25 @@ export function printPrt() {
             const setParamButton = document.getElementById("timeSimButton")
             const warmUpPeriod = document.getElementById("warmUp")
 
-            setParamButton.addEventListener('click', () => {
-                //sets warm up period to user defined length 
-                warmUp[0].nyskip = `${warmUpPeriod.value}`
-                // makes sure csv is always printed
-                formatOps[0].csvout = `${'y'}`
-                // makes sure channel_sd day is always printed
-                prtChannelSd(outputOpts, "channel_sd")
-                //join all together, warmup-formatops-outputopts
+            // setParamButton.addEventListener('click', () => {
+            //     //sets warm up period to user defined length 
+            //     warmUp[0].nyskip = `${warmUpPeriod.value}`
+            //     // makes sure csv is always printed
+            //     formatOps[0].csvout = `${'y'}`
+            //     // makes sure channel_sd day is always printed
+            //     prtChannelSd(outputOpts, "channel_sd")
+            //     //join all together, warmup-formatops-outputopts
                 
                 
-                const warmUpTsv = convertToTSV(warmUp)
-                const aaTsv = convertToTSV2(aa)
-                const formatOpsTsv = convertToTSV2(formatOps)
-                const soilOutTsv = convertToTSV2(soilOut)
-                const outputOptsTsv = convertToTSV2(outputOpts)
-                const newPrtFileTsv = warmUpTsv.concat(aaTsv, formatOpsTsv, soilOutTsv, outputOptsTsv)
-                console.log(newPrtFileTsv)
-                downloadPrtFile(newPrtFileTsv, "print.prt")
-            })
+            //     const warmUpTsv = convertToTSV(warmUp)
+            //     const aaTsv = convertToTSV2(aa)
+            //     const formatOpsTsv = convertToTSV2(formatOps)
+            //     const soilOutTsv = convertToTSV2(soilOut)
+            //     const outputOptsTsv = convertToTSV2(outputOpts)
+            //     const newPrtFileTsv = warmUpTsv.concat(aaTsv, formatOpsTsv, soilOutTsv, outputOptsTsv)
+            //     console.log(newPrtFileTsv)
+            //     downloadPrtFile(newPrtFileTsv, "print.prt")
+            // })
 
         })
 }

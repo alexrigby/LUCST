@@ -182,28 +182,39 @@
                 <button class="openLuForm" id="openLuForm"> New Landuse</button>
             </div>
             <div class="runSWAT">
-                <form title="runSWAT" id="runSWATform">Run SWAT+ <br> <br>
-                    <label for="warmUp">warm up</label>
-                    <input type="number" id="warmUp" value="1"> <br> <br>
+                <form title="Channel select">Select <br>
+                    <label for="channel">channel</label>
+                    <select name="channel" id="channel">
+                    </select>
+                    <button id="mainChan" type="button">main</button><br>
+                    <label for="output">output</label>
+                    <select name="output" id="output"> 
+                    </select>
+                    <button id="floOut" type="button">flo_out</button> <br>
+                    <button id="plot" type="button">plot</button>
+                    <button id="resetPlot" type="reset">reset</button>
+                </form>
+            
+                <!-- <form title="runSWAT" id="runSWATform">Run SWAT+ <br> <br> -->
+                    <!-- <label for="warmUp">warm up</label>
+                    <input type="number" id="warmUp" value="1"> <br> <br> -->
                     <!-- <label for="routing">routing method</label>
                     <input type="text" id="routing"> <br>
                     <label for="PET">PET method</label>
                     <input type="text" id="PET"> <br> -->
-                    <label for="startDate">start</label>
+                    <!-- <label for="startDate">start</label>
                     <input type="date" id="startDate"> <br>
                     <label for="endtDate">end</label>
                     <input type="date" id="endDate"> <br><br>
                     <button type="button" id="timeSimButton">set parameters</button><br>
                     <button type="button"><a href=""id="prtDownload"> download print.prt</a></a> </button> <br>
-                    <button type="button"><a href="" id="simDownload">download time.sim</a></button>
-                </form>
+                    <button type="button"><a href="" id="simDownload">download time.sim</a></button> -->
+                <!-- </form> -->
             </div>
             </div>
             <div class="hydrograph">
                 <div class="tab" id="scenarioTab">
-                    <!-- <button class="tablinks" id="defaultTab">Default</button>
-                    <button class="tablinks" id="scenario1Tab">Scenario 1</button>
-                    <button id="nodeAPITest"></button> -->
+                   
                 </div>
                 <div id="vis"></div>
                 <div id="vis2"></div> 

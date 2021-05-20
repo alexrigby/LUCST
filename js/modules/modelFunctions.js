@@ -161,11 +161,11 @@ export function printPrt() {
                 //join all together, warmup-formatops-outputopts
                 
                 
-                const warmUpTsv = convertToTSV2(warmUp)
+                const warmUpTsv = convertToTSV(warmUp)
                 const aaTsv = convertToTSV2(aa)
                 const formatOpsTsv = convertToTSV2(formatOps)
                 const soilOutTsv = convertToTSV2(soilOut)
-                const outputOptsTsv = convertToTSV(outputOpts)
+                const outputOptsTsv = convertToTSV2(outputOpts)
                 const newPrtFileTsv = warmUpTsv.concat(aaTsv, formatOpsTsv, soilOutTsv, outputOptsTsv)
                 console.log(newPrtFileTsv)
                 downloadPrtFile(newPrtFileTsv, "print.prt")
@@ -173,14 +173,14 @@ export function printPrt() {
 
         })
 }
+
 const convertToTSV2 = (data) => {
     // Convert dataset to TSV and print
     const headers = Object.keys(data[0]);
     const tsv = [
-        headers.join('\t'),
+        '\n' + headers.join('\t'),
         ...data.map(row => headers.map(fieldName => row[fieldName]).join('\t'))
     ].join('\r\n');
-
     return tsv;
 }
 

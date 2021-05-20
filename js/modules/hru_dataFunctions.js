@@ -169,9 +169,10 @@ export function populateTable(data) {
       window.LLYFNIData[parseInt(el) - 1].lu_mgt = `${allNewLanduse}`
     });
 
-    const newHruData = convertToTSV(window.LLYFNIData);
+    // const newHruData = convertToTSV(window.LLYFNIData);
 
-    downloadButton(newHruData, 'hru-data.hru');
+    // downloadButton(newHruData, 'hru-data.hru');
+    downloadButton(window.LLYFNIData, 'hru-data.hru');
     alert('New hru_data file writen')
   });
 
@@ -183,9 +184,14 @@ export function populateTable(data) {
 
 
 function downloadButton(data, fileName) {
-  var myFile = new Blob([data], { type: 'text/plain' });
-  document.getElementById('download').setAttribute('href', window.URL.createObjectURL(myFile));
-  document.getElementById('download').setAttribute('download', fileName);
+  // var myFile = new Blob([data], { type: 'text/plain' });
+  // document.getElementById('download').setAttribute('href', window.URL.createObjectURL(myFile));
+  // document.getElementById('download').setAttribute('download', fileName);
+  console.log(data);
+  fetch('http://localhost:8000/sendhru', { method: "POST", headers: {
+    'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  }).then(res => res.text()).then(data => console.log(data));
 
 }
 

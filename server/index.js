@@ -1,13 +1,41 @@
 const http = require('http');
+const { readdirSync } = require('fs');
+const { copySync } = require('fs-extra');
+const path = require('path');
 const express = require('express');
+const cors = require('cors');
 const config = require('./config.json');
 
 const app = express();
+
+app.use(cors());
+app.use(express.json({limit: '50mb'}));
 
 // Add API methods here
 // - METHOD: RunSWAT
 app.get("/runswat", (req, res) => {
     runSWAT(res);
+});
+// - METHOD: getScenarios
+app.get("/getscenarios", (req, res) => {
+    getScenarios(res);
+})
+// PRIVATE METHOD: createScenario
+app.get("/createscenario", (req, res) => {
+    // Get scenario param
+    let scenario = req.query.scenario;
+    if(scenario !== null) {
+        createScenario(res, scenario);
+    } else {
+        res.send({ "code": 0 });
+    }
+});
+// - METHOD: deleteScenario
+// TODO
+// - METHOD: sendHRU
+app.post("/sendhru", (req, res) => {
+    console.log(convertToTSV(req.body));
+    res.send("check console")
 });
 
 const server = http.createServer(app);
@@ -15,6 +43,32 @@ const server = http.createServer(app);
 server.listen(config.server_port);
 console.log(`SWAT Server Listening on Port ${config.server_port}`);
 
+// API METHOD: getScenarios
+// Get Scenarios
+function getScenarios(res) {
+
+    function getDirectories(src) {
+        return readdirSync(path.resolve(__dirname, src), { withFileTypes: true }).filter(dirent => dirent.isDirectory()).map(dirent => dirent.name);
+    }
+
+    res.send(getDirectories(config.swat_scenarios))
+}
+
+// API METHOD: createScenario
+// Create Scenario
+function createScenario(res, scenario) {
+    // TODO: DO SOME CHECKS ON THE SCENARIO STRING!!!
+    try {
+        copySync(path.resolve(__dirname, config.swat_scenarios + config.swat_default_scenario), path.resolve(__dirname, config.swat_scenarios + scenario), { overwrite: false, errorOnExist: true });
+        res.send({ "code": 1, "scenario": scenario })
+    } catch (err) {
+        console.log(err);
+        // Directory already exists, or copying failed.
+        res.send({ "code": 0 });
+    }
+}
+
+// API METHOD: runSwat
 // Run SWAT
 function runSWAT(res) {
     const process = require('child_process').spawn(config.swat_exe, [], { cwd: config.swat_models, maxBuffer: 1024 * 1024 * 1024});
@@ -38,3 +92,15 @@ function runSWAT(res) {
 }
 
 
+// HELPERS
+
+const convertToTSV = (data) => {
+    // Convert dataset to TSV and print
+    const headers = Object.keys(data[0]);
+    const tsv = [
+      headers.join('\t'),
+      ...data.map(row => headers.map(fieldName => row[fieldName]).join('\t'))
+    ].join('\r\n');
+
+    return tsv;
+  }

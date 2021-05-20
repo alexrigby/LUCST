@@ -1,17 +1,19 @@
 import fetchData from "/js/modules/universalFunctions.js";
 import { populateTable, cleanHru, getHru, updateHru } from "/js/modules/hru_dataFunctions.js";
-import { getPlantOptions, cleanPlant, newPlantType } from "/js/modules/plantFunctions.js";
+import { getPlantOptions, cleanPlant, newPlantType  } from "/js/modules/plantFunctions.js";
 import { cleanLanduse, getLanduseTypes, landuseTypes } from "/js/modules/landuseFunctions.js";
 import { makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js";
-import { hydrograph, newHydrograph, graphTab } from "/js/modules/outputVisFunctions.js";
+import { hydrograph, newHydrograph, scenarioOptions } from "/js/modules/outputVisFunctions.js";
 import { timeSim, printPrt} from "/js/modules/modelFunctions.js";
+
 
 //import upload from "/js/modules/upload.js";
 printPrt()
 timeSim()
 newHydrograph()
 hydrograph()
-graphTab()
+// graphTab()
+scenarioOptions()
 // import plantTypes from "Types/plantTypes";
 
 // hru-data.hru:

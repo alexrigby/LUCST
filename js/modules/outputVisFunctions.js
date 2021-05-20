@@ -1,6 +1,7 @@
 import fetchData from "/js/modules/universalFunctions.js";
 import cleanHru from "/js/modules/hru_dataFunctions.js";
 
+
 function cleanTxt(data) {
 
   const clean = d3.tsvParse(data
@@ -22,28 +23,29 @@ export function hydrograph() {
   var origional = {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
 
-    
+
     "data": {
       "url": "/data/TxtInOut/channel_sd_day.csv"
     },
-      
+
     "vconcat": [{
-      
-      "width":"1350",
+
+      "width": "1350",
       "mark": "line",
       "encoding": {
         "x": {
           "timeUnit": "yearmonthdate",
           "field": "date",
-          "title":"date",
+          "title": "date",
           "type": "temporal",
-          "scale": {"domain": {"param": "brush"}},
-          "axis": {"title": ""}
+          "scale": { "domain": { "param": "brush" } },
+          "axis": { "title": "" }
         },
-        "y": {"field": "flo_out",
-         "type": "quantitative",
-        "title": "flow (m³/s)",
-      }
+        "y": {
+          "field": "flo_out",
+          "type": "quantitative",
+          "title": "flow (m³/s)",
+        }
       }
     }, {
       "width": "1350",
@@ -51,26 +53,26 @@ export function hydrograph() {
       "mark": "line",
       "params": [{
         "name": "brush",
-        "select": {"type": "interval", "encodings": ["x"]}
+        "select": { "type": "interval", "encodings": ["x"] }
       }],
       "encoding": {
         "x": {
           "timeUnit": "yearmonthdate",
           "field": "date",
-          "title":"date",
+          "title": "date",
           "type": "temporal"
         },
         "y": {
           "field": "flo_out",
           "type": "quantitative",
-          "axis": {"tickCount": 3, "grid": false},
+          "axis": { "tickCount": 3, "grid": false },
           "title": "flow (m³/s)",
         }
       }
     }]
   }
- 
-vegaEmbed('#vis', origional);
+
+  vegaEmbed('#vis', origional);
 };
 
 export function newHydrograph() {
@@ -78,551 +80,99 @@ export function newHydrograph() {
   var origional = {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
 
-    
+
     "data": {
       "url": "/data/TxtInOut/output/channel_sd_day.csv"
     },
-      
+
     "vconcat": [{
-      
-      "width":"1350",
-      "mark": {"type":"line",
-      "color":"red"},
+
+      "width": "1350",
+      "mark": {
+        "type": "line",
+        "color": "red"
+      },
       "encoding": {
         "x": {
           "timeUnit": "yearmonthdate",
           "field": "date",
-          "title":"date",
+          "title": "date",
           "type": "temporal",
-          "scale": {"domain": {"param": "brush"}},
-          "axis": {"title": ""}
+          "scale": { "domain": { "param": "brush" } },
+          "axis": { "title": "" }
         },
-        "y": {"field": "flo_out",
-         "type": "quantitative",
-         "title": "flow (m³/s)",
-      }
+        "y": {
+          "field": "flo_out",
+          "type": "quantitative",
+          "title": "flow (m³/s)",
+        }
       }
     }, {
       "width": "1350",
       "height": 60,
-      "mark": {"type":"line",
-      "color":"red"},
+      "mark": {
+        "type": "line",
+        "color": "red"
+      },
       "params": [{
         "name": "brush",
-        "select": {"type": "interval", "encodings": ["x"]}
+        "select": { "type": "interval", "encodings": ["x"] }
       }],
       "encoding": {
         "x": {
           "timeUnit": "yearmonthdate",
           "field": "date",
-          "title":"date",
+          "title": "date",
           "type": "temporal"
         },
         "y": {
           "field": "flo_out",
           "type": "quantitative",
-          "axis": {"tickCount": 3, "grid": false},
+          "axis": { "tickCount": 3, "grid": false },
           "title": "flow (m³/s)",
         }
       }
     }]
   }
- 
-vegaEmbed('#vis2', origional);
+
+  vegaEmbed('#vis2', origional);
 };
 
-export function graphTab(){
-  //opens and closes the hydrograph tabs
-document.getElementById("scenario1Tab").onmousedown = openScenario1;
-document.getElementById("defaultTab").onmousedown = openDefault; 
-function openDefault(){
-    document.getElementById("vis").style.display = "block";
-    document.getElementById("vis2").style.display = "none";
-}
-function openScenario1(){
-    document.getElementById("vis2").style.display = "block";
-    document.getElementById("vis").style.display = "none";
-}
+// export function graphTab() {
+//   //opens and closes the hydrograph tabs
+//   document.getElementById("scenario1Tab").onmousedown = openScenario1;
+//   document.getElementById("defaultTab").onmousedown = openDefault;
+//   function openDefault() {
+//     document.getElementById("vis").style.display = "block";
+//     document.getElementById("vis2").style.display = "none";
+//   }
+//   function openScenario1() {
+//     document.getElementById("vis2").style.display = "block";
+//     document.getElementById("vis").style.display = "none";
+//   }
+// };
 
+
+
+export function scenarioOptions(){
+    fetch('http://localhost:8000/getscenarios')
+   .then(response => response.json()) 
+   .then(data => {
+    const scenarioCount = data.length;
+  let button = "";
+  //loops over the scenario names asigning new button for each name
+  //calls variable i assignes index 0 to it, button count has to be grater than i, increment i by 1 each time
+  for (let i = 0; i < scenarioCount; i++) {
+    button += `
+    <button class="tablinks">${data[i]}</button>`
+  }
+    document.getElementById("scenarioTab").innerHTML = button
+})
 };
 
 export default {
   hydrograph,
   newHydrograph,
-  graphTab
+  // graphTab,
+  scenarioOptions
 }
-
-
-//  var origional = {
-//   $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-//   "datasets": {
-//     "origional": 
-//        {"url":"/data/TxtInOut/channel_sd_day.csv",
-//       "format": {"parse":{"date":"date"}}
-//       },
-//    
-//     "editted": 
-//       {"url":"/data/TxtInOut/output/channel_sd_day1.csv",
-//       "format": {"parse":{"date":"date"}}
-//       },
-//    
-//   },
-
-//   "data":{"name":"origional"},
-//   "transorm":[
-//     {
-//       "lookup":"flo_out",
-//       "from":{"data": {"name":"editted"},"key":"date","fields":["flo_out"]}
-//     }
-//   ],
-
-
-//   "encoding": {
-//     "x": {
-//       "field": "date",
-//       "type": "temporal"
-//     }
-//   },
-//   "layer": [
-//     {
-//       "mark": { "type":"line", "color":"red"},
-//       "encoding": {
-//         "y": {
-//           "field": "flo_out",
-//           "type": "quantitative"
-//         }
-//       }
-//     },
-//     {
-//       "mark": "line",
-//       "encoding": {
-//         "y": {
-//           "field": "flo_out",
-//           "type": "quantitative"
-//         }
-//       }
-//     }
-//   ],
-//   "resolve": { "scale": { "y": "dependent" } }
-
-// };
-
-
-// vegaEmbed('#vis', origional);
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export function hydrograph() {
-//   // Assign the specification to a local variable vlSpec.
-//   var origional = {
-//     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-
-//     "width": "container",
-//     "data": {
-//       "url": "/data/TxtInOut/channel_sd_day.csv"
-//     },
-//     "transorm": [
-//       {
-//         "lookup": "date",
-//         "from": {
-//           "data": {
-//             "url": "data/TxtInOut/output/channel_sd_day.csv"
-//           },
-//           "key": "date",
-//           "fields": ["flo_out"],
-//         },
-//         "as": "scenario1",
-//       }
-//     ],
-
-  
-//   "layer": [
-//     {
-
-//       "mark": { "type":"line", "color":"red"},
-//       "encoding": {
-//         "x": {
-//           "field": "date",
-//           "type": "temporal"
-//         },
-//         "y": {
-//           "field": "flo_out",
-//           "type": "quantitative",
-//           "title": "flow out "
-//         },
-//       }
-//     },
-//     {
-//       "mark": {"type":"line", "color":"green"}, 
-//       "encoding": {
-//         "x": {
-//           "field": "date",
-//           "type": "temporal"
-//         },
-//         "y": {
-//           "field": "scenario1",
-//           "type": "quantitative"
-//         }
-//       }
-//     }
-//   ]
- 
-
-// };
-
-
-// vegaEmbed('#vis', origional);
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // "repeat": {
-    //   "layer": ["flo_out", "scenario1"]
-    // },
-//     "spec": {
-//       "mark": "line",
-//       "encoding": {
-//         "x": {
-
-//           "field": "date",
-//           "type": "temporal"
-//         },
-//         "y": {
-//           // "field": { "repeat": "layer" },
-//           "field":"scenario1",
-//           "type": "quantitative"
-//         },
-//       },
-
-//     }
-//   };
-
-//   vegaEmbed('#vis', origional);
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//  var origional = {
-//   $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-//   "datasets": {
-//     "origional": 
-//        {"url":"/data/TxtInOut/channel_sd_day.csv",
-//       "format": {"parse":{"date":"date"}}
-//       },
-//    
-//     "editted": 
-//       {"url":"/data/TxtInOut/output/channel_sd_day1.csv",
-//       "format": {"parse":{"date":"date"}}
-//       },
-//    
-//   },
-
-//   "data":{"name":"origional"},
-//   "transorm":[
-//     {
-//       "lookup":"flo_out",
-//       "from":{"data": {"name":"editted"},"key":"date","fields":["flo_out1"]}
-//     }
-//   ],
-
-
-//   "encoding": {
-//     "x": {
-//       "field": "date",
-//       "type": "temporal"
-//     }
-//   },
-//   "layer": [
-//     {
-//       "mark": { "type":"line", "color":"red"},
-//       "encoding": {
-//         "y": {
-//           "field": "flo_out",
-//           "type": "quantitative"
-//         }
-//       }
-//     },
-//     {
-//       "mark": "line",
-//       "encoding": {
-//         "y": {
-//           "field": "flo_out1",
-//           "type": "quantitative"
-//         }
-//       }
-//     }
-//   ],
-//   "resolve": { "scale": { "y": "dependent" } }
-
-// };
-
-
-// vegaEmbed('#vis', origional);
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//  var origional = {
-//   $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-//   "datasets": {
-//     "origional": [
-//        {"url":"/data/TxtInOut/channel_sd_day.csv",
-//       "format": {"parse":{"date":"date"}}
-//       },
-//     ],
-//     "editted": [
-//       {"url":"/data/TxtInOut/output/channel_sd_day1.csv",
-//       "format": {"parse":{"date":"date"}}
-//       },
-//     ]
-//   },
-
-//   "data":{"name":"origional"},
-//   "transorm":[
-//     {
-//       "lookup":"flo_out",
-//       "from":{"data": {"name":"editted"},"key":"date","fields":["flo_out1"]}
-//     }
-//   ],
-
-// "hconcat":[{
-// "width":"container",
-// "params": [{
-//   "name": "brush",
-//   "select": {"type": "interval", "encodings": ["x"]}
-// }],
-// "encoding": {
-//   "x": {
-//     "field": "date",
-//    "type":"temporal"
-//   }
-// },
-
-// "layer":[
-//   {
-// "mark": "line",
-// "encoding": {
-//   "y": {"field": "flo_out",
-//    "type": "quantitative"}
-// }
-//   },
-// {
-//   "mark":"line",
-//   "encoding":{
-// "y":{"field":"flo_out1",
-//  "type": "quantitative"}
-//   }
-// }
-// ],
-// "resolve": {"scale": {"y": "dependent"}}
-
-
-//   },
-//   {
-//      "width":"container",
-//      "mark": {"type": "line",
-//      "interpolate":"monotone"},
-//     "encoding": {
-//       "x": {"type":"temporal", "field": "date", "format":"%d, %Y", 
-//       "bin": {"maxbins": 400, "extent": {"param": "brush"}}},
-//       "y": {"type": "quantitative", "field": "flo_out"}
-//     }
-//   }
-// ],
-// "config":{
-//   "line": {"color":"blue"},
-//   "axis":{"aria":"false"}
-// }
-// };
-
-// var edittedOutput = {
-//   $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-//   "background": "transparent",
-//   "data": {"url":"/data/TxtInOut/output//channel_sd_day.csv",
-// "format": {"parse":{"date":"date"}}
-// },
-// "hconcat":[{
-// "width":"container",
-// "params": [{
-//   "name": "brush",
-//   "select": {"type": "interval", "encodings": ["x"]}
-// }],
-//   "mark": {"type": "line",
-//   "interpolate":"monotone"},
-//   "encoding": {
-//     "x": {"type":"temporal", "field": "date"},
-//     "y": {"type": "quantitative", "field": "flo_out"},
-//     }
-//   },
-//   {
-//      "width":"container",
-//      "mark": {"type": "line",
-//      "interpolate":"monotone"},
-//     "encoding": {
-//       "x": {"type":"temporal", "field": "date", "format":"%d, %Y", 
-//       "bin": {"maxbins": 400, "extent": {"param": "brush"}}},
-//       "y": {"type": "quantitative", "field": "flo_out"},
-
-//     }
-//   }
-// ],
-// "config":{
-//   "line": {"color":"red"},
-//   "veiw":{
-//     "stroke": "transparent"
-//     }
-
-// }
-// };
-// Embed the visualization in the container with id `vis`
-//vegaEmbed('#vis', origional);
-
-// vegaEmbed('#vis', edittedOutput);
-//}
-
-
-
-// export function hydrograph() {
-
-//   //------------------------1. PREPARATION-------------------------//
-//   //-----------------------------SVG-------------------------------//
-//   const width = 960;
-//   const height = 500;
-//   const margin = 5;
-//   const padding = 5;
-//   const adj = 30;
-
-//   // we are appending SVG first
-//   const svg = d3.select("div#container").append("svg")
-//     .attr("preserveAspectRatio", "xMinYMin meet")
-//     .attr("viewBox", "-"
-//       + adj + " -"
-//       + adj + " "
-//       + (width + adj * 3) + " "
-//       + (height + adj * 3))
-//     .style("padding", padding)
-//     .style("margin", margin)
-//     .classed("svg-content", true);
-
-//   //-----------------------------DATA------------------------------//
-//   const timeConv = d3.timeParse("%d-%b-%Y");
-
-//  const dataset = fetchData('/data/TxtInOut/channel_sd_day.txt')
-//     dataset.then(data => {
-//       const cleanOutput1 = cleanTxt(data);
-// console.log(cleanOutput1)
-
-//       const slices = cleanOutput1.columns.slice(1).map(function(id) {
-//           return {
-//               id: id,
-//               values: data.map(function(d){
-//                   return {
-//                       date: timeConv(d.date),
-//                       measurement: +d[id]
-//                   };
-//               })
-//           };
-//       });
-
-//   console.log("Column headers", data.columns);
-//   console.log("Column headers without date", data.columns.slice(1));
-//   // returns the sliced dataset
-//   console.log("Slices",slices);  
-//   // returns the first slice
-//   console.log("First slice",slices[0]);
-//   // returns the array in the first slice
-//   console.log("A array",slices[0].values);   
-//   // returns the date of the first row in the first slice
-//   console.log("Date element",slices[0].values[0].date);  
-//   // returns the array's length
-//   console.log("Array length",(slices[0].values).length);
-
-//   //----------------------------SCALES-----------------------------//
-
-//   //-----------------------------AXES------------------------------//
-
-//   //----------------------------LINES------------------------------//
-
-//   //-------------------------2. DRAWING----------------------------//
-
-//   //-----------------------------AXES------------------------------//
-
-//   //----------------------------LINES------------------------------// 
-
-// })
-// }
-
-
-
-
-
-
-
-
-

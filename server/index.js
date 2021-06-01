@@ -5,6 +5,7 @@ const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const config = require('./config.json');
+const fs = require('fs');
 
 const app = express();
 
@@ -30,8 +31,18 @@ app.get("/createscenario", (req, res) => {
         res.send({ "code": 0 });
     }
 });
+
 // - METHOD: deleteScenario
-// TODO
+app.get("/deletescenario",(req, res)=>{
+  let scenario = req.query.scenario;
+  if(scenario !== null) {
+    deleteScenario(res, scenario);
+} else {
+    res.send({ "code": 0 });
+}  
+});
+
+
 // - METHOD: sendHRU
 app.post("/sendhru", (req, res) => {
     console.log(convertToTSV(req.body));
@@ -68,6 +79,18 @@ function createScenario(res, scenario) {
     }
 }
 
+// API METHOD: deleteScenario
+// delete scenario
+function deleteScenario(res, scenario) {
+    const dir = path.resolve(__dirname, config.swat_scenarios + scenario)
+    fs.rmdir(dir, { recursive: true }, (err) => {
+        if (err) {
+            throw err;
+        }
+        console.log(`${dir} is deleted!`);
+        res.send(`${scenario} is deleted!`)
+    });
+}
 
 
 // API METHOD: runSwat

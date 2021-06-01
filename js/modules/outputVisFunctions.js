@@ -221,15 +221,17 @@ export function scenarioOptions(){
    .then(response => response.json()) 
    .then(data => {
     const scenarioCount = data.length;
-  let button = "";
+  
   //loops over the scenario names asigning new button for each name
   //calls variable i assignes index 0 to it, button count has to be grater than i, increment i by 1 each time
   for (let i = 0; i < scenarioCount; i++) {
-    button += `
-    <button class="tablinks">${data[i]}</button>`
+    let button = document.createElement('button');
+    button.classList.add('tablinks');
+    button.innerHTML = data[i];
+    document.getElementById("scenarioTab").appendChild(button);
   }
-    document.getElementById("scenarioTab").innerHTML = button
-})
+    
+  })
 };
 
 export default {

@@ -68,10 +68,12 @@ function createScenario(res, scenario) {
     }
 }
 
+
+
 // API METHOD: runSwat
 // Run SWAT
 function runSWAT(res) {
-    const process = require('child_process').spawn(config.swat_exe, [], { cwd: config.swat_models, maxBuffer: 1024 * 1024 * 1024});
+    const process = require('child_process').spawn(__dirname + '/../' + config.swat_exe, [], { cwd: config.swat_models, maxBuffer: 1024 * 1024 * 1024});
 
     // Data to the screen while model is executing successfully
     process.stdout.on('data', data => {

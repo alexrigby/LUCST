@@ -291,7 +291,6 @@ footer {
   outline: none;
   cursor: pointer;
   padding: 14px 16px;
-  transition: 0.3s;
   font-size: 17px;
   width:100%;
   text-align: left;
@@ -306,14 +305,5 @@ footer {
 /* Create an active/current tablink class */
 .tab button:focus {
   background-color: #ddd;
-  
-}
-
-/* Style the tab content */
-.tabcontent {
-  display: none;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-top: none;
 }
 /* finished styling tabs */

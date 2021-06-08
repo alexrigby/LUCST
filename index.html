@@ -28,6 +28,7 @@
     <!-- leaflets plugins for reading Shapefiles-->
     <script src="/js/plugins/catiline.js"></script>
     <script src="/js/plugins/leaflet.shpfile.js"></script>
+    <script src="/js/plugins/shp.js"></script>
     <!--d3.js plugin for converting txt files to objects-->
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
@@ -182,7 +183,7 @@
                 <button class="openLuForm" id="openLuForm"> New Landuse</button>
             </div>
             <div class="runSWAT">
-                <form title="Channel select">Select <br>
+                <form title="Channel select">Plot Time Series <br>
                     <label for="channel">channel</label>
                     <select name="channel" id="channel">
                     </select>
@@ -193,6 +194,18 @@
                     <button id="floOut" type="button">flo_out</button> <br>
                     <button id="plot" type="button">plot</button>
                     <button id="resetPlot" type="reset">reset</button>
+                </form>
+                <form title="Choropleth">Plot Choropleth <br>
+                    <label for="month">month</label>
+                    <select name="month" id="month">
+                    </select> <br>
+                    <!-- <button id="aa" type="button">annual average</button> <br> -->
+                    <label for="wbOutput">output</label>
+                    <select name="wbOutput" id="wbOutput"> 
+                    </select>
+                    <!-- <button id="percip" type="button">percip</button><br> -->
+                    <button id="plotChloro" type="button">plot</button>
+                    <!-- <button id="resetChloroPlot" type="reset">reset</button> -->
                 </form>
             
                 <!-- <form title="runSWAT" id="runSWATform">Run SWAT+ <br> <br> -->
@@ -216,6 +229,7 @@
                 <div class="tab" id="scenarioTab"></div>
                 <div id="vis"></div>
                 <div id="vis2"></div> 
+                <div id="choro"></div>
             </div> <br>
             
             </div>

@@ -130,7 +130,7 @@ const dataset = fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/channel_sd_day.cs
       var original = {
         $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
 
-
+        "title": outputOps + " for " + chanOpts.value,
         "data": { "values": plotData },
 
         "vconcat": [{

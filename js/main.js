@@ -5,7 +5,7 @@ import { cleanLanduse, getLanduseTypes, landuseTypes } from "/js/modules/landuse
 import { makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js";
 import { hydrograph, scenarioOptions } from "/js/modules/outputVisFunctions.js";
 import { timeSim, printPrt} from "/js/modules/modelFunctions.js";
-
+import choropleth from "/js/modules/choroplethFunctions.js"
 
 //import upload from "/js/modules/upload.js";
 printPrt()
@@ -14,7 +14,7 @@ timeSim()
 hydrograph()
 // graphTab()
 scenarioOptions()
-// import plantTypes from "Types/plantTypes";
+choropleth()
 
 // hru-data.hru:
 // Fetch unclean dataset...

@@ -224,11 +224,14 @@ export function scenarioOptions(){
   
   //loops over the scenario names asigning new button for each name
   //calls variable i assignes index 0 to it, button count has to be grater than i, increment i by 1 each time
+  document.getElementById("scenarioTab").innerHTML = "";
   for (let i = 0; i < scenarioCount; i++) {
     let button = document.createElement('button');
     button.classList.add('tablinks');
     button.innerHTML = data[i];
     document.getElementById("scenarioTab").appendChild(button);
+    // Set current scenario to the LATEST scenario.
+    window.currentScenario = data[i];
   }
     
   })

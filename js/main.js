@@ -226,3 +226,53 @@ function closeUploadForm() {
 
 
 //populatePlantTypeForm()
+
+
+// Scenario Management
+window.currentScenario = "Default";
+window.currentScenarioVersion = 0;
+// Create New Scenario Button
+
+
+const createNewScenarioButton = document.getElementById("createNewScenario");
+createNewScenarioButton.addEventListener("click", async function(e) {
+    e.preventDefault();
+    let newScenarioVersion = window.currentScenarioVersion + 1;
+    let newScenario = prompt("Enter name of new scenario", "Scenario " + newScenarioVersion);
+    let scenarioList = null;
+    let scenarioExists = false;
+    await fetch('http://localhost:8000/getscenarios')
+        .then(response => response.json()) 
+        .then(data => {scenarioList = data});
+    if(newScenario === "Default") {
+        console.error("New scenario cannot be 'Default'");
+        window.alert("New scenario cannot be 'Default'");
+    } else {
+        if(scenarioList !== null && scenarioList !== undefined && typeof scenarioList === 'object') {
+            scenarioList.forEach((el, i, arr) => {
+                if(newScenario === el) {
+                    scenarioExists = true;
+                }
+            });
+            if(scenarioExists === false) {
+                await fetch(`http://localhost:8000/createScenario?scenario=${newScenario}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if(data.code === 1) {
+                            scenarioOptions();
+                        } else {
+                            console.error(`Could not create new scenario: Err ${data.code}`);
+                            window.alert(`Could not create new scenario: Err ${data.code}`);
+                        }
+                    });
+                window.currentScenario = newScenario;
+            } else {
+                console.error(`Scenario with name ${newScenario} already exists`);
+                window.alert(`Scenario with name ${newScenario} already exists`);
+            }
+        } else {
+            console.error("Could not fetch Scenario List");
+            throw new Error("Could not fetch scenario list");
+        }
+    }
+});

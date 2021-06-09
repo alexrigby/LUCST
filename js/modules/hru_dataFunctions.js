@@ -139,10 +139,7 @@ export function populateTable(data) {
     el.addEventListener("click", () => {
       const landuseSelection = document.querySelectorAll(".landuseTypes");
       const newLanduse = landuseSelection[i].value;
-      //console.log(el.dataset.hru)
-      // const newLanduse = window.prompt(`Update Landuse for HRU: ${el.dataset.hru}`);
-      // console.log(newLanduse);
-      document.querySelectorAll(".newLanduse")[i].innerHTML = `${newLanduse}`;
+  
       // UPDATE THE DATASET
       window.LLYFNIData[el.dataset.hru - 1].lu_mgt = `${newLanduse}`;
 
@@ -187,7 +184,7 @@ function downloadButton(data, fileName) {
   // var myFile = new Blob([data], { type: 'text/plain' });
   // document.getElementById('download').setAttribute('href', window.URL.createObjectURL(myFile));
   // document.getElementById('download').setAttribute('download', fileName);
-  console.log(data);
+  // console.log(data);
   fetch('http://localhost:8000/sendhru', { method: "POST", headers: {
     'Content-Type': 'application/json' },
     body: JSON.stringify(data)

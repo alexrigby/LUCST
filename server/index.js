@@ -33,6 +33,7 @@ app.get("/createscenario", (req, res) => {
 });
 
 // - METHOD: deleteScenario
+// TODO: Make this soft-delete instead (flags in a file to track soft-deleted scenarios)
 app.get("/deletescenario",(req, res)=>{
   let scenario = req.query.scenario;
   if(scenario !== null) {

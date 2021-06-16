@@ -13,7 +13,7 @@ timeSim()
 
 hydrograph()
 // graphTab()
-scenarioOptions()
+await scenarioOptions()
 choropleth()
 
 // hru-data.hru:
@@ -229,8 +229,24 @@ function closeUploadForm() {
 
 
 // Scenario Management
-window.currentScenario = "Default";
+// window.currentScenario = "Default";
 window.currentScenarioVersion = 0;
+
+export function updateCurrentScenario(scenario) {
+    window.currentScenario = scenario;
+    // Update scenario tab
+    // Reset tab view
+    Array.from(document.getElementsByClassName('tablinks')).forEach((el, i, arr) => {
+        el.classList.remove('scenario-active');
+    })
+    // Set active tab button
+    document.querySelector(`[data-scenario="${scenario}"]`).classList.add('scenario-active');
+    // TODO: Call Hydrograph()
+
+    console.log('CURRENT SCENARIO: ', window.currentScenario)
+}
+
+updateCurrentScenario('Default');
 // Create New Scenario Button
 
 
@@ -261,10 +277,11 @@ createNewScenarioButton.addEventListener("click", async function(e) {
                         if(data.code === 1) {
                             scenarioOptions();
                         } else {
-                            console.error(`Could not create new scenario: Err ${data.code}`);
-                            window.alert(`Could not create new scenario: Err ${data.code}`);
+                            console.error(`Could not create new scenario: Err ${data.code}, ${data?.message}`);
+                            window.alert(`Could not create new scenario: Err ${data.code}, ${data?.message}`);
                         }
                     });
+                    // updateCurrentScenario(newScenario);
                 window.currentScenario = newScenario;
             } else {
                 console.error(`Scenario with name ${newScenario} already exists`);

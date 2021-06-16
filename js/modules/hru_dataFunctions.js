@@ -187,7 +187,7 @@ function downloadButton(data, fileName) {
   // console.log(data);
   fetch('http://localhost:8000/sendhru', { method: "POST", headers: {
     'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
+    body: JSON.stringify({hru: data, scenario: window.currentScenario})
   }).then(res => res.text()).then(data => console.log(data));
 
 }

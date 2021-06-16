@@ -1,5 +1,6 @@
 import fetchData from "/js/modules/universalFunctions.js";
 import cleanHru from "/js/modules/hru_dataFunctions.js";
+import { updateCurrentScenario } from "/js/main.js";
 
 
 function cleanTxt(data) {
@@ -84,6 +85,7 @@ function getMainChan(data) {
   return filteredData[0].name
 }
 
+// TODO: Run this function with the current scenario and current plot variables every time the scenario changes.
 export function hydrograph() {
 
 
@@ -216,8 +218,8 @@ fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/chandeg.con')
 
 
 
-export function scenarioOptions(){
-    fetch('http://localhost:8000/getscenarios')
+export async function scenarioOptions(){
+    await fetch('http://localhost:8000/getscenarios')
    .then(response => response.json()) 
    .then(data => {
     const scenarioCount = data.length;
@@ -229,9 +231,19 @@ export function scenarioOptions(){
     let button = document.createElement('button');
     button.classList.add('tablinks');
     button.innerHTML = data[i];
+    button.dataset.scenario = data[i];
+
+    // Tab button event (click)
+    button.addEventListener('click', () => {
+      updateCurrentScenario(data[i]);
+      // Update vis panel
+    })
+
     document.getElementById("scenarioTab").appendChild(button);
     // Set current scenario to the LATEST scenario.
-    window.currentScenario = data[i];
+    
+    updateCurrentScenario(data[i]);
+    // window.currentScenario = data[i];
   }
     
   })

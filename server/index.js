@@ -25,10 +25,10 @@ app.get("/getscenarios", (req, res) => {
 app.get("/createscenario", (req, res) => {
     // Get scenario param
     let scenario = req.query.scenario;
-    if(scenario !== null) {
+    if(scenario !== null && scenario !== 'Default') {
         createScenario(res, scenario);
     } else {
-        res.send({ "code": 0 });
+        res.send({ "code": 0, "message": scenario === 'Default' ? "Scenario cannot be named Default" : "Invalid scenario name" });
     }
 });
 
@@ -46,7 +46,8 @@ app.get("/deletescenario",(req, res)=>{
 
 // - METHOD: sendHRU
 app.post("/sendhru", (req, res) => {
-    console.log(convertToTSV(req.body));
+    console.log(convertToTSV(req.body.hru));
+    console.log(req.body.scenario)
     res.send("check console")
 });
 

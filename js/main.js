@@ -81,7 +81,7 @@ fetchData('/data/TxtInOut/plants.plt')
 
 // leaflet.js
 // Initialize the map and set its view to chosen coordinates, zoom, default layers
-var map = L.map('map').setView([53.046775, -4.286951], 12, [streets]);
+window.map = L.map('map').setView([53.046775, -4.286951], 12, [streets]);
 var satellite = makeSatelliteMap();
 var streets = makeStreetMap().addTo(map);
 //calling function from mapFunctions.js to convert the ziped shape files into geoJSON files  
@@ -194,6 +194,7 @@ map.on('mousedown', () => {
 });
 //select layers once lasso is drawn
 map.on('lasso.finished', event => {
+    window.currentLasso = event.layers;
     setSelectedLayers(event.layers);
 });
 

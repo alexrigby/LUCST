@@ -15,7 +15,14 @@ app.use(express.json({limit: '50mb'}));
 // Add API methods here
 // - METHOD: RunSWAT
 app.get("/runswat", (req, res) => {
-    runSWAT(res);
+    let scenario = req.query.scenario;
+    // console.log(scenario);
+    // res.send(scenario);
+    if(scenario !== null && scenario !== 'Default') {
+        runSWAT(res, scenario);
+    } else {
+        res.send({ "code": 0, "message": scenario === 'Default' ? "Scenario cannot be named Default" : "Invalid scenario name" });
+    }
 });
 // - METHOD: getScenarios
 app.get("/getscenarios", (req, res) => {
@@ -34,37 +41,103 @@ app.get("/createscenario", (req, res) => {
 
 // - METHOD: deleteScenario
 // TODO: Make this soft-delete instead (flags in a file to track soft-deleted scenarios)
-app.get("/deletescenario",(req, res)=>{
-  let scenario = req.query.scenario;
-  if(scenario !== null) {
-    deleteScenario(res, scenario);
-} else {
-    res.send({ "code": 0 });
-}  
-});
+// app.get("/deletescenario",(req, res)=>{
+//   let scenario = req.query.scenario;
+//   if(scenario !== null) {
+//     deleteScenario(res, scenario);
+// } else {
+//     res.send({ "code": 0 });
+// }  
+// });
 
 
 // - METHOD: sendHRU
 app.post("/sendhru", (req, res) => {
-    console.log(convertToTSV(req.body.hru));
-    console.log(req.body.scenario)
-    res.send("check console")
+    saveHRU(req, res);
 });
+
+// - METHOD: sendPlant
+app.post("/sendplant", (req, res) => {
+    savePlant(req, res); 
+});
+
+// - METHOD: sendLum
+app.post("/sendlum", (req, res) => {
+    saveLum(req, res);
+})
 
 const server = http.createServer(app);
 
 server.listen(config.server_port);
 console.log(`SWAT Server Listening on Port ${config.server_port}`);
 
+// PRIVATE API METHODS
+// _getScenarios
+function _getScenarios() {
+    return readdirSync(path.resolve(__dirname, config.swat_scenarios), { withFileTypes: true }).filter(dirent => dirent.isDirectory()).map(dirent => dirent.name);
+}
+
 // API METHOD: getScenarios
 // Get Scenarios
 function getScenarios(res) {
+    res.send(_getScenarios());
+}
 
-    function getDirectories(src) {
-        return readdirSync(path.resolve(__dirname, src), { withFileTypes: true }).filter(dirent => dirent.isDirectory()).map(dirent => dirent.name);
+// API METHOD: SaveHRU
+// Save HRU to disk
+function saveHRU(req, res) {
+    let scenario = req.body.scenario;
+    let tsv = convertToTSV(req.body.hru);
+
+    if(_getScenarios().includes(scenario) && scenario !== 'Default') {
+        try {
+            fs.writeFileSync(path.resolve(__dirname, `${config.swat_scenarios}${scenario}/TxtInOut/hru-data.hru`), tsv);
+            res.send({ code: 1, message: `Successfully saved hru to disk`})
+        } catch {
+            res.send({ code: 0, message: "HRU failed to save"})
+        }
+    } else {
+        res.send({ code: 0, message: "Requested invalid scenario"})
     }
+}
 
-    res.send(getDirectories(config.swat_scenarios))
+// API METHOD: SavePlant
+// Save plant file to disk
+function savePlant(req, res) {
+    let scenario = req.body.scenario;
+    let tsv = convertToTSV(req.body.plant);
+
+    if(_getScenarios().includes(scenario) && scenario !== 'Default') {
+        try {
+            fs.writeFileSync(path.resolve(__dirname, `${config.swat_scenarios}${scenario}/TxtInOut/plant.ini`), tsv);
+            res.send({ code: 1, message: `Successfully saved plant file to disk`})
+        } catch {
+            res.send({ code: 0, message: "Plant file failed to save"})
+        }
+    } else {
+        res.send({ code: 0, message: "Requested invalid scenario"})
+    }
+}
+
+// API METHOD: SaveLum
+// Save landuse file to disk
+function saveLum(req, res) {
+    let scenario = req.body.scenario;
+    let tsv = convertToTSV(req.body.lum);
+
+    console.log(tsv);
+    console.log(scenario);
+
+    if(_getScenarios().includes(scenario) && scenario !== 'Default') {
+        try {
+            fs.writeFileSync(path.resolve(__dirname, `${config.swat_scenarios}${scenario}/TxtInOut/landuse.lum`), tsv);
+            res.send({ code: 1, message: `Successfully saved landuse file to disk`})
+        } catch {
+            res.send({ code: 0, message: "Landuse file failed to save"})
+        }
+    } else {
+        res.send({ code: 0, message: "Requested invalid scenario"})
+    }
 }
 
 // API METHOD: createScenario
@@ -97,8 +170,9 @@ function deleteScenario(res, scenario) {
 
 // API METHOD: runSwat
 // Run SWAT
-function runSWAT(res) {
-    const process = require('child_process').spawn(__dirname + '/../' + config.swat_exe, [], { cwd: config.swat_models, maxBuffer: 1024 * 1024 * 1024});
+function runSWAT(res, scenario) {
+
+    const process = require('child_process').spawn(path.resolve(__dirname, `${config.swat_scenarios}${scenario}/TxtInOut/${config.swat_exe}`), [], { cwd: `${config.swat_scenarios_root}${scenario}/TxtInOut/`, maxBuffer: 1024 * 1024 * 1024});
 
     // Data to the screen while model is executing successfully
     process.stdout.on('data', data => {
@@ -108,13 +182,13 @@ function runSWAT(res) {
     // Log error message
     process.stderr.on('data', (data) => {
         console.log(`${data}`);
-        res.send({ "code": 0 });
+        res.send({ "code": 0, "message": `Error running swat for scenario: ${scenario}` });
     });
     
     // Perform any tasks when done if needed...
     process.on('close', (code) => {  
         console.log('done');
-        res.send({ "code": 1 });
+        res.send({ "code": 1, "message": `Swat ran successfully for scenario: ${scenario}`});
     });
 }
 

@@ -204,7 +204,12 @@ export function newPlantType() {
     newPlantSelection.yrs_init = iniYrs.value + '.00000';
     newPlantSelection.rsd_init = iniRsd.value + '.00000';
 
-
+    // DO IT LIKE THIS!
+    // const newPlantSelection = {
+    //   pcom_name: plantComName.value,
+    //   plt_cnt: plantCnt.value,
+    //   ...
+    // }
 
     
 
@@ -229,10 +234,13 @@ export function newPlantType() {
 
 
     //converts file and links to download button 
-    const newPlantTypeFile = convertToTSV(window.LLYFNIPlant)
-    downloadPlantButton(newPlantTypeFile, "plant.ini")
+    // const newPlantTypeFile = convertToTSV(window.LLYFNIPlant)
+    // downloadPlantButton(newPlantTypeFile, "plant.ini")
+    sendPlantFile(window.LLYFNIPlant);
+    // DO SOME STUFF WITH THE RESPONSE.
 
     alert('New plant comunity written: ' + plantComName.value)
+
   });
 }
 
@@ -242,10 +250,17 @@ export function newPlantType() {
 
 
 
- function downloadPlantButton(data, fileName) {
-  var myFile = new Blob([data], { type: 'text/plain' });
-  document.getElementById('downloadPlant').setAttribute('href', window.URL.createObjectURL(myFile));
-  document.getElementById('downloadPlant').setAttribute('download', fileName);
+//  function downloadPlantButton(data, fileName) {
+//   var myFile = new Blob([data], { type: 'text/plain' });
+//   document.getElementById('downloadPlant').setAttribute('href', window.URL.createObjectURL(myFile));
+//   document.getElementById('downloadPlant').setAttribute('download', fileName);
+// }
+
+function sendPlantFile(data) {
+  fetch('http://localhost:8000/sendplant', { method: "POST", headers: {
+    'Content-Type': 'application/json' },
+    body: JSON.stringify({plant: data, scenario: window.currentScenario})
+  }).then(res => res.text()).then(data => console.log(data));
 }
 
 

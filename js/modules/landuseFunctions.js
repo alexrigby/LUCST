@@ -147,8 +147,9 @@ export function landuseTypes() {
     //adds the new landuse to landuse.window object
     window.LLYFNILanduseEdit.push(newLu)
     //converts landuse.window object to TSV and downloads as txt
-    const newLanduseFile = convertToTSV(window.LLYFNILanduseEdit)
-    downloadLuButton(newLanduseFile, "landuse.lum")
+    // const newLanduseFile = convertToTSV(window.LLYFNILanduseEdit)
+    // downloadLuButton(newLanduseFile, "landuse.lum")
+    sendLanduseFile(window.LLYFNILanduseEdit);
     alert('New land use written: ' + luName.value)
   });
 
@@ -160,12 +161,19 @@ export function landuseTypes() {
 
 
 
-function downloadLuButton(data, fileName) {
-  var myFile = new Blob([data], { type: 'text/plain' });
-  document.getElementById('downloadLanduse').setAttribute('href', window.URL.createObjectURL(myFile));
-  document.getElementById('downloadLanduse').setAttribute('download', fileName);
+// function downloadLuButton(data, fileName) {
+//   var myFile = new Blob([data], { type: 'text/plain' });
+//   document.getElementById('downloadLanduse').setAttribute('href', window.URL.createObjectURL(myFile));
+//   document.getElementById('downloadLanduse').setAttribute('download', fileName);
 
+function sendLanduseFile(data) {
+  fetch('http://localhost:8000/sendlum', { method: "POST", headers: {
+    'Content-Type': 'application/json' },
+    body: JSON.stringify({lum: data, scenario: window.currentScenario})
+  }).then(res => res.text()).then(data => console.log(data));
 }
+
+// }
 const convertToTSV = (data) => {
   // Convert dataset to TSV and print
   const headers = Object.keys(data[0]);

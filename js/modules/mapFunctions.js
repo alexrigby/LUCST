@@ -83,6 +83,15 @@ export default {
 
 
 
+// window.tempHRUS = [];
+// window.map.eachLayer((layer) => {
+//   if(layer.feature?.properties?.HRUS) {
+//     window.tempHRUS.push(parseInt(layer.feature.properties.HRUS));
+//     console.log('p', layer.getPopup().getContent())
+//   }
+// })
+
+
 //Trying to make the diffrent HRUs different colors, come back to later
 // export function getColor(d) {
 //     return d === PAST ? '#800026' :

@@ -1,10 +1,10 @@
 import fetchData from "/js/modules/universalFunctions.js";
 import { populateTable, cleanHru, getHru, updateHru } from "/js/modules/hru_dataFunctions.js";
-import { getPlantOptions, cleanPlant, newPlantType  } from "/js/modules/plantFunctions.js";
+import { getPlantOptions, cleanPlant, newPlantType } from "/js/modules/plantFunctions.js";
 import { cleanLanduse, getLanduseTypes, landuseTypes } from "/js/modules/landuseFunctions.js";
 import { makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js";
 import { hydrograph, scenarioOptions } from "/js/modules/outputVisFunctions.js";
-import { timeSim, printPrt} from "/js/modules/modelFunctions.js";
+import { timeSim, printPrt } from "/js/modules/modelFunctions.js";
 import choropleth from "/js/modules/choroplethFunctions.js"
 
 //import upload from "/js/modules/upload.js";
@@ -43,9 +43,9 @@ fetchData('/data/TxtInOut/landuse.lum')
 
 
         const landuseTypes = getLanduseTypes(cleanLanduseData);
-        
-        
-        
+
+
+
 
         window.LLYFNILanduse = [...landuseTypes];
         window.LLYFNILanduseEdit = [...cleanLanduseData];
@@ -139,6 +139,7 @@ L.Control.textbox = L.Control.extend({
     onAdd: function (map) {
 
         var text = L.DomUtil.create('div');
+        text.id = "lassoControls"
         text.innerHTML = `  
         <label><input type="radio" name="containOrIntersect" id="contain" checked> ${'Contain'}</label><br>
         <label class="ml-2"><input type="radio" name="containOrIntersect" id="intersect"> ${'Intersect'}</label>
@@ -158,8 +159,11 @@ L.control.textbox({ position: 'topright' }).addTo(map);
 const contain = document.querySelector('#contain');
 const intersect = document.querySelector('#intersect');
 const lassoEnabled = document.querySelector('#lassoEnabled');
-const lassoControl = L.control.lasso().addTo(map);
 
+const lassoControl = L.control.lasso().addTo(map);
+//adds and id to the lasso button so I can turn it off when default is selected
+const lassoId = lassoControl._container;
+lassoId.id = "lassoButtonControl"
 
 
 
@@ -245,44 +249,71 @@ export function updateCurrentScenario(scenario) {
     // TODO: Call Hydrograph()
 
     console.log('CURRENT SCENARIO: ', window.currentScenario)
+
 }
+
 
 updateCurrentScenario('Default');
 // Create New Scenario Button
 
 
+//when Default is selected there is no
+function lassoSelectionControl(scenario) {
+    if (scenario === "Default") {
+        document.getElementById("lassoControls").style.display = "none";
+        document.getElementById("lassoButtonControl").style.display = "none";
+
+    }
+    else {
+        document.getElementById("lassoControls").style.display = "block";
+        document.getElementById("lassoButtonControl").style.display = "block";
+
+    }
+}
+
+//when the scenario tab is clicked the function is lassoSelectionControl is called
+const scenarioTabs = document.getElementById('scenarioTab')
+scenarioTabs.addEventListener('click', () => {
+    lassoSelectionControl(window.currentScenario)
+})
+//set the display of lasso contol to 'none' by default so when the page loads no controls show
+document.getElementById("lassoControls").style.display = "none";
+document.getElementById("lassoButtonControl").style.display = "none";
+
+
+
 const createNewScenarioButton = document.getElementById("createNewScenario");
-createNewScenarioButton.addEventListener("click", async function(e) {
+createNewScenarioButton.addEventListener("click", async function (e) {
     e.preventDefault();
     let newScenarioVersion = window.currentScenarioVersion + 1;
     let newScenario = prompt("Enter name of new scenario", "Scenario " + newScenarioVersion);
     let scenarioList = null;
     let scenarioExists = false;
     await fetch('http://localhost:8000/getscenarios')
-        .then(response => response.json()) 
-        .then(data => {scenarioList = data});
-    if(newScenario === "Default") {
+        .then(response => response.json())
+        .then(data => { scenarioList = data });
+    if (newScenario === "Default") {
         console.error("New scenario cannot be 'Default'");
         window.alert("New scenario cannot be 'Default'");
     } else {
-        if(scenarioList !== null && scenarioList !== undefined && typeof scenarioList === 'object') {
+        if (scenarioList !== null && scenarioList !== undefined && typeof scenarioList === 'object') {
             scenarioList.forEach((el, i, arr) => {
-                if(newScenario === el) {
+                if (newScenario === el) {
                     scenarioExists = true;
                 }
             });
-            if(scenarioExists === false) {
+            if (scenarioExists === false) {
                 await fetch(`http://localhost:8000/createScenario?scenario=${newScenario}`)
                     .then(res => res.json())
                     .then(data => {
-                        if(data.code === 1) {
+                        if (data.code === 1) {
                             scenarioOptions();
                         } else {
                             console.error(`Could not create new scenario: Err ${data.code}, ${data?.message}`);
                             window.alert(`Could not create new scenario: Err ${data.code}, ${data?.message}`);
                         }
                     });
-                    // updateCurrentScenario(newScenario);
+                // updateCurrentScenario(newScenario);
                 window.currentScenario = newScenario;
             } else {
                 console.error(`Scenario with name ${newScenario} already exists`);
@@ -293,4 +324,6 @@ createNewScenarioButton.addEventListener("click", async function(e) {
             throw new Error("Could not fetch scenario list");
         }
     }
+
 });
+

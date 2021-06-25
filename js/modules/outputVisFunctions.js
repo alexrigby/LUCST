@@ -43,7 +43,7 @@ function cleanCsvOutput(data) {
   window.OUTPUTOPS = [...outputNameOptions]
   //removes the line which displays units from output data
   const noUnits = clean.filter(clean => clean.flo_out != 'm^03/s');
-  return clean
+  return noUnits
 }
 
 //Combines the day, month and year to make a new feild; "date"
@@ -85,7 +85,6 @@ function getMainChan(data) {
   return filteredData[0].name
 }
 
-// TODO: Run this function with the current scenario and current plot variables every time the scenario changes.
 export function hydrograph() {
 
 
@@ -132,7 +131,7 @@ const dataset = fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/channel_sd_day.cs
       var original = {
         $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
 
-        "title": outputOps + " for " + chanOpts.value,
+
         "data": { "values": plotData },
 
         "vconcat": [{
@@ -219,31 +218,33 @@ fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/chandeg.con')
 
 
 export async function scenarioOptions(){
-    await fetch('http://localhost:8000/getscenarios')
-   .then(response => response.json()) 
-   .then(data => {
-    const scenarioCount = data.length;
-  
-  //loops over the scenario names asigning new button for each name
-  //calls variable i assignes index 0 to it, button count has to be grater than i, increment i by 1 each time
-  document.getElementById("scenarioTab").innerHTML = "";
-  for (let i = 0; i < scenarioCount; i++) {
-    let button = document.createElement('button');
-    button.classList.add('tablinks');
-    button.innerHTML = data[i];
-    button.dataset.scenario = data[i];
+  await fetch('http://localhost:8000/getscenarios')
+ .then(response => response.json()) 
+ .then(data => {
+  const scenarioCount = data.length;
 
-    // Tab button event (click)
-    button.addEventListener('click', () => {
-      updateCurrentScenario(data[i]);
-      // Update vis panel
-    })
+//loops over the scenario names asigning new button for each name
+//calls variable i assignes index 0 to it, button count has to be grater than i, increment i by 1 each time
+document.getElementById("scenarioTab").innerHTML = "";
+for (let i = 0; i < scenarioCount; i++) {
+  let button = document.createElement('button');
+  button.classList.add('tablinks');
+  button.innerHTML = data[i];
+  button.dataset.scenario = data[i];
 
-    document.getElementById("scenarioTab").appendChild(button);
+  // Tab button event (click)
+  button.addEventListener('click', () => {
+    updateCurrentScenario(data[i]);
+    // Update vis panel
+  })
+
+  document.getElementById("scenarioTab").appendChild(button);
+
     // Set current scenario to the LATEST scenario.
     
     updateCurrentScenario(data[i]);
     // window.currentScenario = data[i];
+
   }
     
   })

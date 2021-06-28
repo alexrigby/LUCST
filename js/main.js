@@ -257,7 +257,7 @@ updateCurrentScenario('Default');
 // Create New Scenario Button
 
 
-//when Default is selected there is no
+//when Default is selected there is no lasso tools available
 function lassoSelectionControl(scenario) {
     if (scenario === "Default") {
         document.getElementById("lassoControls").style.display = "none";
@@ -271,7 +271,7 @@ function lassoSelectionControl(scenario) {
     }
 }
 
-//when the scenario tab is clicked the function is lassoSelectionControl is called
+//when the scenario tab is clicked the function lassoSelectionControl is called
 const scenarioTabs = document.getElementById('scenarioTab')
 scenarioTabs.addEventListener('click', () => {
     lassoSelectionControl(window.currentScenario)

@@ -51,9 +51,9 @@ function getDisplayData(data, name) {
 
 
 
-export function choropleth() {
+export function choropleth(scenario) {
     //NEED TO SWAP FOR AN API OPTION
-    fetchData('LLYFNI2/Scenarios/Default/TxtInOut/hru_wb_mon.csv')
+    fetchData(`LLYFNI2/Scenarios/${scenario}/TxtInOut/hru_wb_mon.csv`)
         .then(data => {
             const cleanOutput = cleanCsvOutput(data)
             const date = getShortDate(cleanOutput);

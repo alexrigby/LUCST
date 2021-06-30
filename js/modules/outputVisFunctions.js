@@ -1,6 +1,7 @@
 import fetchData from "/js/modules/universalFunctions.js";
 import cleanHru from "/js/modules/hru_dataFunctions.js";
 import { updateCurrentScenario } from "/js/main.js";
+import { choropleth } from "/js/modules/choroplethFunctions.js";
 
 
 function cleanTxt(data) {
@@ -85,10 +86,10 @@ function getMainChan(data) {
   return filteredData[0].name
 }
 
-export function hydrograph() {
+export function hydrograph(scenario) {
 
 
-  const dataset = fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/channel_sd_day.csv')
+  const dataset = fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/channel_sd_day.csv`)
     .then(data => {
 
       const cleanOutput = cleanCsvOutput(data);
@@ -140,11 +141,11 @@ export function hydrograph() {
           var original = {
             $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
 
-
+            "title": outputOps + " for " + chanOpts.value,
             "data": { "values": plotData },
-
+            
             "vconcat": [{
-
+              
               "width": "750",
               "mark": "line",
               "encoding": {
@@ -197,7 +198,7 @@ export function hydrograph() {
     });
 
 
-  fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/chandeg.con')
+  fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/chandeg.con`)
     .then(data => {
       //clean txt file
       const clean = cleanTxtOutput(data);
@@ -251,7 +252,42 @@ export async function scenarioOptions() {
         button.addEventListener('click', () => {
           updateCurrentScenario(data[i]);
           // Update vis panel
-        })
+          if(data.includes(data[i])) {
+            hydrograph(data[i])
+            choropleth(data[i])
+          } else {
+            document.querySelector('#vis').innerHTML = "";
+            document.querySelector('#choro').innerHTML = "";
+            document.querySelector('#vis').innerHTML = "Could not fetch scenarios"
+          }
+        
+           if(data[i] === 'Default') {
+            document.querySelector('#runswatbuttonvis') && document.querySelector('#runswatbuttonvis').remove();
+           } else {
+            document.querySelector('#runswatbuttonvis') && document.querySelector('#runswatbuttonvis').remove();
+             const runswatbuttonvis = document.createElement('button');
+             runswatbuttonvis.setAttribute('id', 'runswatbuttonvis');
+
+             runswatbuttonvis.addEventListener('click', () => {
+               document.querySelector('#vis').innerHTML = "";
+               document.querySelector('#choro').innerHTML = "";
+               document.querySelector('#vis').innerHTML = "SWAT running..."
+               fetch(`http://localhost:8000/runswat?scenario=${data[i]}`).then((res) => {
+                 res.json().then((d) => {
+                   if(d.code === 1) {
+                     console.log(d.message);
+                     console.log('swat ran', data[i])
+                     hydrograph(data[i])
+                     choropleth(data[i])
+                   }
+                 })
+               })
+             });
+             runswatbuttonvis.innerText = `Run SWAT model for ${data[i]}`;
+             document.querySelector('#runswatbuttonviscontainer').appendChild(runswatbuttonvis);
+           }
+
+        });
 
         document.getElementById("scenarioTab").appendChild(button);
 

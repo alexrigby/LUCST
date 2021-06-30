@@ -2,7 +2,7 @@ import fetchData from "/js/modules/universalFunctions.js";
 import { populateTable, cleanHru, getHru, updateHru } from "/js/modules/hru_dataFunctions.js";
 import { getPlantOptions, cleanPlant, newPlantType } from "/js/modules/plantFunctions.js";
 import { cleanLanduse, getLanduseTypes, landuseTypes } from "/js/modules/landuseFunctions.js";
-import { makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js";
+import { updateTooltips, makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js";
 import { hydrograph, scenarioOptions } from "/js/modules/outputVisFunctions.js";
 import { timeSim, printPrt } from "/js/modules/modelFunctions.js";
 import choropleth from "/js/modules/choroplethFunctions.js";
@@ -39,10 +39,10 @@ import choropleth from "/js/modules/choroplethFunctions.js";
 printPrt()
 timeSim()
 
-hydrograph()
-// graphTab()
 await scenarioOptions()
-choropleth()
+hydrograph(window.currentScenario)
+// graphTab()
+choropleth(window.currentScenario)
 
 // hru-data.hru:
 // Fetch unclean dataset...
@@ -114,9 +114,9 @@ var satellite = makeSatelliteMap();
 var streets = makeStreetMap().addTo(map);
 //calling function from mapFunctions.js to convert the ziped shape files into geoJSON files  
 // only add HRUs2 (1 is 'Actual HRUs')
-var rivers = shpToGeoJSON('data/shpfiles/rivs1.zip')
-var subBasins = shpToGeoJSON('data/shpfiles/subs1.zip')
-var hrus = shpToGeoJSON('data/shpfiles/hru2.zip')
+var rivers = shpToGeoJSON('LLYFNI2/Watershed/Shapes/rivs1.zip')
+var subBasins = shpToGeoJSON('LLYFNI2/Watershed/Shapes/subs1.zip')
+var hrus = shpToGeoJSON('LLYFNI2/Watershed/Shapes/hrus2.zip')
 
 
 
@@ -240,6 +240,14 @@ intersect.addEventListener('change', () => {
 });
 
 
+// const lulcEditButtons = document.querySelectorAll(".lulc-edit-button");
+
+// lulcEditButtons.forEach((el, i, arr) => {
+//   el.addEventListener("click", () => { 
+//     updateTooltips()
+//   })
+// })
+
 
 newPlantType()
 
@@ -290,6 +298,7 @@ function lassoSelectionControl(scenario) {
     if (scenario === "Default") {
         document.getElementById("lassoControls").style.display = "none";
         document.getElementById("lassoButtonControl").style.display = "none";
+        document.getElementById("result").style.display = "none";
 
     }
     else {
@@ -333,9 +342,10 @@ createNewScenarioButton.addEventListener("click", async function (e) {
             if (scenarioExists === false) {
                 await fetch(`http://localhost:8000/createScenario?scenario=${newScenario}`)
                     .then(res => res.json())
-                    .then(data => {
+                    .then(async data => {
                         if (data.code === 1) {
-                            scenarioOptions();
+                            await scenarioOptions();
+                            document.querySelector(`[data-scenario="${newScenario}"]`).click();
                         } else {
                             console.error(`Could not create new scenario: Err ${data.code}, ${data?.message}`);
                             window.alert(`Could not create new scenario: Err ${data.code}, ${data?.message}`);

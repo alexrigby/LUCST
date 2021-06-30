@@ -73,23 +73,31 @@ export function onMapSelection(layers){
 }
 
 
+export function updateTooltips() {
+window.map.eachLayer((layer) => {
+    if(layer.feature?.properties?.HRUS) {
+        layer.bindPopup(Object.keys(layer.feature.properties).map(function (k, i) {
+            if(k === "Landuse") {
+                console.log(k, window.LLYFNIData[i].lu_mgt)
+                return k + ": " + window.LLYFNIData[i].lu_mgt.substr(0, 4).toUpperCase();
+            } else {
+                return k + ": " + layer.feature.properties[k];
+            }
+        }).join("<br />"), {
+            maxHeight: 200
+        });
+    }
+    })
+}
+
 
 export default {
     shpToGeoJSON,
     makeSatelliteMap,
     makeStreetMap,
     onMapSelection,
+    updateTooltips,
 }
-
-
-
-// window.tempHRUS = [];
-// window.map.eachLayer((layer) => {
-//   if(layer.feature?.properties?.HRUS) {
-//     window.tempHRUS.push(parseInt(layer.feature.properties.HRUS));
-//     console.log('p', layer.getPopup().getContent())
-//   }
-// })
 
 
 

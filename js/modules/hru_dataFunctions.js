@@ -1,8 +1,4 @@
-// import * as d3 from "d3";
-// import { tsv } from 'tsv';
-// const tsv = require('tsv').tsv;
-// import tsv from 'tsv';
-
+import {updateTooltips} from "/js/modules/mapFunctions.js";
 
 //hru_data.hru//
 
@@ -139,6 +135,7 @@ export function populateTable(data) {
     el.addEventListener("click", () => {
       const landuseSelection = document.querySelectorAll(".landuseTypes");
       const newLanduse = landuseSelection[i].value;
+    
   
       // UPDATE THE DATASET
       window.LLYFNIData[el.dataset.hru - 1].lu_mgt = `${newLanduse}`;
@@ -146,6 +143,7 @@ export function populateTable(data) {
 
       const newHruData = convertToTSV(window.LLYFNIData);
       downloadButton(newHruData, 'hru-data.hru');
+      updateTooltips()
     })
   })
 
@@ -164,8 +162,9 @@ export function populateTable(data) {
 
     hrusToUpdate.forEach((el, i, arr) => {
       window.LLYFNIData[parseInt(el) - 1].lu_mgt = `${allNewLanduse}`
+     
     });
-
+    updateTooltips()
     // const newHruData = convertToTSV(window.LLYFNIData);
 
     // downloadButton(newHruData, 'hru-data.hru');

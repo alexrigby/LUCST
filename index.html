@@ -33,6 +33,9 @@
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
 
+    <!-- plugin to zip files -->
+    <script src="/js/plugins/jszip.js"></script>
+    <source src="/js/plugins/FileSaver.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!--main js-->
@@ -189,16 +192,16 @@
             </div>
             <div class="runSWAT">
                 <form title="Channel select">Plot Time Series <br>
-                    <label for="channel">channel</label>
+                    <label for="channel">channel </label>
                     <select name="channel" id="channel">
-                    </select>
-                    <button id="mainChan" type="button">main</button><br>
-                    <label for="output">output</label>
+                    </select> <br>
+                    <!-- <button id="mainChan" type="button">main</button><br> -->
+                    <label for="output">output   </label>
                     <select name="output" id="output"> 
-                    </select>
-                    <button id="floOut" type="button">flo_out</button> <br>
-                    <button id="plot" type="button">plot</button>
-                    <button id="resetPlot" type="reset">reset</button>
+                    </select> 
+                    <!-- <button id="floOut" type="button">flo_out</button> <br> -->
+                    <!-- <button id="plot" type="button">plot</button> -->
+                    <!-- <button id="resetPlot" type="reset">reset</button> -->
                 </form>
                 <form title="Choropleth">Plot Choropleth <br>
                     <label for="month">month</label>
@@ -209,7 +212,7 @@
                     <select name="wbOutput" id="wbOutput"> 
                     </select>
                     <!-- <button id="percip" type="button">percip</button><br> -->
-                    <button id="plotChloro" type="button">plot</button>
+                    <!-- <button id="plotChloro" type="button">plot</button> -->
                     <!-- <button id="resetChloroPlot" type="reset">reset</button> -->
                 </form>
             

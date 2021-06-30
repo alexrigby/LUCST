@@ -121,9 +121,10 @@ select{
   width: 100%;
 }
 
-.runSWAT select {
-  width: 40%;
-}
+/* .runSWAT select {
+  width: 40%; */
+/* } */
+
 /* styles all forms  */
 form label{
   font-size: 8pt;

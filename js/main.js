@@ -5,7 +5,35 @@ import { cleanLanduse, getLanduseTypes, landuseTypes } from "/js/modules/landuse
 import { makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js";
 import { hydrograph, scenarioOptions } from "/js/modules/outputVisFunctions.js";
 import { timeSim, printPrt } from "/js/modules/modelFunctions.js";
-import choropleth from "/js/modules/choroplethFunctions.js"
+import choropleth from "/js/modules/choroplethFunctions.js";
+
+
+
+// TRYING TO ZIP SHAPE FILES----- UNFINISHED
+
+// async function downloadButton(data, fileName) {
+//   var myFile = new Blob([data], { type: 'blob' });
+//   document.getElementById('downloadLanduse').setAttribute('href', window.URL.createObjectURL(myFile));
+//   document.getElementById('downloadLanduse').setAttribute('download', fileName);
+// }
+
+// const hru2Shp = '/data/hru2/hrus2.shp';
+// // Fetch the image and parse the response stream as a blob
+// const hru2ShpBlob = fetch(hru2Shp).then(response => response.blob());
+
+// // create a new file from the blob object
+// const hru2ShpFile = new File([hru2ShpBlob], "hrus2.shp");
+
+// let zip = new JSZip();
+// let hruFolder = zip.folder('hru2');
+// hruFolder.file( "hru2.shp",hru2ShpFile);
+// console.log(hruFolder)
+
+
+// // hruFolder.generateAsync({ type: "blob" }).then(content => saveAs(content, "files"));
+
+// downloadButton(hruFolder, "hru2")
+
 
 //import upload from "/js/modules/upload.js";
 printPrt()

@@ -21,13 +21,14 @@ function cleanCsvOutput(data) {
     });
     const outputOps = document.getElementById("wbOutput")
     outputOps.innerHTML = `${outputNameOptions}`
+    // + `<option value="percip" default> percip </option>`
     // removes the line which displays units from output data so it isnt plotted
     const noUnits = clean.filter(clean => clean.precip != 'mm');
     return noUnits
 }
 
 //Combines the month and year to make a new feild; "date", allows monthly interigations of output variables
- function getShortDate(data) {
+function getShortDate(data) {
     const date = data.map(record => record.yr + '-' + record.mon);
     //  console.log('new date collumn', date);
     return date
@@ -69,69 +70,77 @@ export function choropleth() {
             const monOpts = document.getElementById("month")
             monOpts.innerHTML = `${monOptions}`
 
-            //when user clicks plot button it filters the data for the selected output of the selected channel
-            const plotButton = document.getElementById("plotChloro")
-            plotButton.addEventListener('click', () => {
-                console.log(monOpts.value)
-                const month = getDisplayData(cleanOutput, monOpts.value);
+            //when user chnages month or output plot changes for seletion
+            const selectMonth = document.getElementById("month");
+            const selectOutput = document.getElementById("wbOutput")
+            const choroplethSelect = [selectMonth, selectOutput]
 
-                const outputOps = document.getElementById("wbOutput").value;
-                // console.log(outputOps)
+            choroplethSelect.forEach(el => {
+                el.addEventListener('change', () => {
+                    plotChoropleth()
+                })
+                function plotChoropleth() {
+                    const month = getDisplayData(cleanOutput, monOpts.value);
 
-                //returns the selected output values for each hru(Unit) for the selected month in an array
-                const plotData = month.map(el => (
-                    {
-                        unit: el.unit,
-                        [outputOps]: el[outputOps],
-                    }
-                ));
-                console.log(outputOps, " for ", monOpts.value, plotData)
+                    const outputOps = document.getElementById("wbOutput").value;
+                    // console.log(outputOps)
 
-                //NEED TO SWAP FOR AN API OPTION
-                //takes the shapefile and returns geojson object where we can access the properties 
-                shp("/data/shpfiles/hru2.zip").then(function (geojson) {
+                    //returns the selected output values for each hru(Unit) for the selected month in an array
+                    const plotData = month.map(el => (
+                        {
+                            unit: el.unit,
+                            [outputOps]: el[outputOps],
+                        }
+                    ));
+                    // console.log(outputOps, " for ", monOpts.value, plotData)
+
+                    //NEED TO SWAP FOR AN API OPTION
+                    //takes the shapefile and returns geojson object where we can access the properties 
+                    shp("/data/shpfiles/hru2.zip").then(function (geojson) {
 
 
-                    var choro = {
+                        var choro = {
 
-                        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-                        "width": 500,
-                        "height": 300,
-                        "title": outputOps + " for " + monOpts.value,
-                        //uses the geojson as main data source (gets coordinates and HRUS key)
-                        "data": {
-                            "values": geojson,
-                            "format": {
-                                "type": "json",
-                                "property": "features",
-                            }
-                        },
-                        //maps 'unit' from plotData to 'HRUS' in geojson and extracts specified outputOps data
-                        "transform": [{
-                            "lookup": "properties.HRUS",
-                            "from": {
-                                "data": {
-                                    "values": plotData,
-                                },
-                                "key": "unit",
-                                "fields": [outputOps],
-                            }
-                        }],
-                        // sets projection type to mercator
-                        "projection": { "type": "mercator" },
-                        "mark": "geoshape",
-                        //encodes the user selected output option on the choropleth
-                        "encoding": {
-                            "color": {
-                                "field": outputOps,
-                                //need to add some logic so 'et' dosent have mm value
-                                "title": outputOps + " mm",
-                                "type": "quantitative"
+                            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+                            "width": "400",
+                            "height": "300",
+                            "title": outputOps + " for " + monOpts.value,
+                            //uses the geojson as main data source (gets coordinates and HRUS key)
+                            "data": {
+                                "values": geojson,
+                                "format": {
+                                    "type": "json",
+                                    "property": "features",
+                                }
+                            },
+                            //maps 'unit' from plotData to 'HRUS' in geojson and extracts specified outputOps data
+                            "transform": [{
+                                "lookup": "properties.HRUS",
+                                "from": {
+                                    "data": {
+                                        "values": plotData,
+                                    },
+                                    "key": "unit",
+                                    "fields": [outputOps],
+                                }
+                            }],
+                            // sets projection type to mercator
+                            "projection": { "type": "mercator" },
+                            "mark": "geoshape",
+                            //encodes the user selected output option on the choropleth
+                            "encoding": {
+                                "color": {
+                                    "field": outputOps,
+                                    //need to add some logic so 'et' dosent have mm value
+                                    "title": outputOps + " mm",
+                                    "type": "quantitative"
+                                }
                             }
                         }
-                    }
-                    vegaEmbed('#choro', choro);
-                })
+                        vegaEmbed('#choro', choro);
+                    })
+                }
+                plotChoropleth()
             })
         });
 

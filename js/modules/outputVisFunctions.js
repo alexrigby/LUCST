@@ -20,7 +20,7 @@ function cleanTxt(data) {
 
 
 function cleanCsvOutput(data) {
-  
+
   const clean = d3.csvParse(data
     // Remove the header line produced by SWAT+ Editor
     .substring(data.indexOf('\n') + 1)
@@ -39,8 +39,8 @@ function cleanCsvOutput(data) {
     return `<option value=${el}>${el}</option>`;
   });
   const outputOps = document.getElementById("output")
-  outputOps.innerHTML = `${outputNameOptions}`
-  window.OUTPUTOPS = [...outputNameOptions]
+  outputOps.innerHTML = `${outputNameOptions}` + `<option value="flo_out" selected >flo_out</option>`
+  // window.OUTPUTOPS = [...outputNameOptions]
   //removes the line which displays units from output data
   const noUnits = clean.filter(clean => clean.flo_out != 'm^03/s');
   return noUnits
@@ -88,166 +88,181 @@ function getMainChan(data) {
 export function hydrograph() {
 
 
-const dataset = fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/channel_sd_day.csv')
-  .then(data => {
+  const dataset = fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/channel_sd_day.csv')
+    .then(data => {
 
-    const cleanOutput = cleanCsvOutput(data);
-    // console.log(cleanOutput)
-    //adds "date" to the array 
-    const date = getDate(cleanOutput);
-    for (var i = 0; i < cleanOutput.length; i++) {
-      cleanOutput[i]['date'] = date[i];
-    }
-
-    //gets the channel names and adds  them to the select list
-    const channelNames = getName(cleanOutput)
-    const channelOptions = channelNames.map((el, i) => {
-      return `<option value=${el}>${el}</option>`;
-    });
-    const chanOpts = document.getElementById("channel")
-    chanOpts.innerHTML = `${channelOptions}`
-    window.CHANOPS = [...channelOptions];
-
-    //when user clicks plot button it filters the data for the selected output of the selected channel
-    const plotButton = document.getElementById("plot")
-    plotButton.addEventListener('click', () => {
-      const channel = getChannelData(cleanOutput, chanOpts.value);
-      // console.log('channel',channel)
-      const outputOps = document.getElementById("output").value;
-      // console.log(outputOps)
-
-      // function returns the values of selected output
-      const plotData = channel.map(el => (
-        {
-          date: el.date,
-          [outputOps]: el[outputOps],
-        }
-      ));
-
-      // const selectedOutput = channel.map(function (value, index) { return value[outputOps.value]; });
-
-      console.log(outputOps, " for ", chanOpts.value, " plotted")
-
-      var original = {
-        $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-
-
-        "data": { "values": plotData },
-
-        "vconcat": [{
-
-          "width": "1350",
-          "mark": "line",
-          "encoding": {
-            "x": {
-              "timeUnit": "yearmonthdate",
-              "field": "date",
-              "title": "date",
-              "type": "temporal",
-              "scale": { "domain": { "param": "brush" } },
-              "axis": { "title": "" }
-            },
-            "y": {
-              "field": [outputOps],
-              "type": "quantitative",
-              // "title": "flow (m³/s)",
-            }
-          }
-        }, {
-          "width": "1350",
-          "height": 60,
-          "mark": "line",
-          "params": [{
-            "name": "brush",
-            "select": { "type": "interval", "encodings": ["x"] }
-          }],
-          "encoding": {
-            "x": {
-              "timeUnit": "yearmonthdate",
-              "field": "date",
-              "title": "date",
-              "type": "temporal"
-            },
-            "y": {
-              "field": [outputOps],
-              "type": "quantitative",
-              "axis": { "tickCount": 3, "grid": false },
-            }
-          }
-        }]
+      const cleanOutput = cleanCsvOutput(data);
+      // console.log(cleanOutput)
+      //adds "date" to the array 
+      const date = getDate(cleanOutput);
+      for (var i = 0; i < cleanOutput.length; i++) {
+        cleanOutput[i]['date'] = date[i];
       }
-      vegaEmbed('#vis', original);
-    })
 
-  });
+      //gets the channel names and adds  them to the select list
+      const channelNames = getName(cleanOutput)
+      const channelOptions = channelNames.map((el, i) => {
+        return `<option class="channelNames" value=${el}>${el}</option>`;
+      });
+      const chanOpts = document.getElementById("channel")
+      chanOpts.innerHTML = `${channelOptions}` + `<option class= "channelNames" value= ${window.MAINCHAN} selected> ${window.MAINCHAN}</option>`
+      // window.CHANOPS = [...channelOptions];
+
+      // when user Selects channel or output filters the data and plots 
+      const channelSelect = document.getElementById("channel")
+      const outputSelect = document.getElementById("output")
+      const hydrographSelect = [channelSelect, outputSelect]
+
+      hydrographSelect.forEach(el => {
+        el.addEventListener('change', () => {
+          //call plotHydrograph so it is called when change is made in the select list
+          plotHydrograph()
+        })
+
+        function plotHydrograph() {
+          const channel = getChannelData(cleanOutput, chanOpts.value);
+          // console.log('channel',channel)
+          const outputOps = document.getElementById("output").value;
+          // console.log(outputOps)
+
+          // function returns the values of selected output
+          const plotData = channel.map(el => (
+            {
+              date: el.date,
+              [outputOps]: el[outputOps],
+            }
+          ));
+
+          // const selectedOutput = channel.map(function (value, index) { return value[outputOps.value]; });
+
+          console.log(outputOps, " for ", chanOpts.value, " plotted")
+
+          var original = {
+            $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
 
 
-fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/chandeg.con')
-  .then(data => {
-    //clean txt file
-    const clean = cleanTxtOutput(data);
-    //finds name of the main channnel
-    const mainChan = getMainChan(clean)
-    //console.log('main channel name', mainChan)
+            "data": { "values": plotData },
 
-    //channel select
-    const channel = document.getElementById('channel')
-    //output select
-    const output = document.getElementById('output')
-    //selects the main chanel to plot
-    const mainChanButton = document.getElementById('mainChan')
-    mainChanButton.addEventListener('click', () => {
-      channel.innerHTML = `<option value=${mainChan}>${mainChan}</option>`;
+            "vconcat": [{
+
+              "width": "750",
+              "mark": "line",
+              "encoding": {
+                "x": {
+                  "timeUnit": "yearmonthdate",
+                  "field": "date",
+                  "title": "date",
+                  "type": "temporal",
+                  "scale": { "domain": { "param": "brush" } },
+                  "axis": { "title": "" }
+                },
+                "y": {
+                  "field": [outputOps],
+                  "type": "quantitative",
+                  // "title": "flow (m³/s)",
+                }
+              }
+            }, {
+              "width": "750",
+              "height": 60,
+              "mark": "line",
+              "params": [{
+                "name": "brush",
+                "select": { "type": "interval", "encodings": ["x"] }
+              }],
+              "encoding": {
+                "x": {
+                  "timeUnit": "yearmonthdate",
+                  "field": "date",
+                  "title": "date",
+                  "type": "temporal"
+                },
+                "y": {
+                  "field": [outputOps],
+                  "type": "quantitative",
+                  "axis": { "tickCount": 3, "grid": false },
+                }
+              }
+            }]
+          }
+          vegaEmbed('#vis', original);
+        }
+        //call plotHydrograph out side of an event listner so it plots when the page loads
+        plotHydrograph()
+      })
+
+
+
+
     });
-    //selcets flo_out to plot
-    const floOutButton = document.getElementById('floOut')
-    floOutButton.addEventListener('click', () => {
-      output.innerHTML = `<option value=flo_out>flo_out</option>`;
-    })
 
-    //resets both selections 
-    const resetPlot = document.getElementById("resetPlot")
-    resetPlot.addEventListener('click', () => {
-      channel.innerHTML = `${window.CHANOPS}`
-      output.innerHTML = `${window.OUTPUTOPS}`
-    })
-  });
+
+  fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/chandeg.con')
+    .then(data => {
+      //clean txt file
+      const clean = cleanTxtOutput(data);
+      //finds name of the main channnel
+      const mainChan = getMainChan(clean)
+      //console.log('main channel name', mainChan)
+      window.MAINCHAN = mainChan
+      //channel select
+      // const channel = document.getElementById('channel')
+      // //output select
+      // const output = document.getElementById('output')
+      // //selects the main chanel to plot
+      // const mainChanButton = document.getElementById('mainChan')
+      // mainChanButton.addEventListener('click', () => {
+      //   channel.innerHTML = `<option value=${mainChan}>${mainChan}</option>`;
+      // });
+      // //selcets flo_out to plot
+      // const floOutButton = document.getElementById('floOut')
+      // floOutButton.addEventListener('click', () => {
+      //   output.innerHTML = `<option value=flo_out>flo_out</option>`;
+      // })
+
+      //resets both selections 
+      // const resetPlot = document.getElementById("resetPlot")
+      // resetPlot.addEventListener('click', () => {
+      //   channel.innerHTML = `${window.CHANOPS}`
+      //   output.innerHTML = `${window.OUTPUTOPS}`
+      // })
+    });
 
 }
 
 
 
-export async function scenarioOptions(){
+export async function scenarioOptions() {
   await fetch('http://localhost:8000/getscenarios')
- .then(response => response.json()) 
- .then(data => {
-  const scenarioCount = data.length;
+    .then(response => response.json())
+    .then(data => {
+      const scenarioCount = data.length;
 
-//loops over the scenario names asigning new button for each name
-//calls variable i assignes index 0 to it, button count has to be grater than i, increment i by 1 each time
-document.getElementById("scenarioTab").innerHTML = "";
-for (let i = 0; i < scenarioCount; i++) {
-  let button = document.createElement('button');
-  button.classList.add('tablinks');
-  button.innerHTML = data[i];
-  button.dataset.scenario = data[i];
+      //loops over the scenario names asigning new button for each name
+      //calls variable i assignes index 0 to it, button count has to be grater than i, increment i by 1 each time
+      document.getElementById("scenarioTab").innerHTML = "";
+      for (let i = 0; i < scenarioCount; i++) {
+        let button = document.createElement('button');
+        button.classList.add('tablinks');
+        button.innerHTML = data[i];
+        button.dataset.scenario = data[i];
 
-  // Tab button event (click)
-  button.addEventListener('click', () => {
-    updateCurrentScenario(data[i]);
-    // Update vis panel
-  })
+        // Tab button event (click)
+        button.addEventListener('click', () => {
+          updateCurrentScenario(data[i]);
+          // Update vis panel
+        })
 
-  document.getElementById("scenarioTab").appendChild(button);
+        document.getElementById("scenarioTab").appendChild(button);
 
-    // Set current scenario to the LATEST scenario.
-    
-    updateCurrentScenario(data[i]);
-    // window.currentScenario = data[i];
+        // Set current scenario to the LATEST scenario.
 
-  }
-    
-  })
+        updateCurrentScenario(data[i]);
+        // window.currentScenario = data[i];
+
+      }
+
+    })
 };
 
 export default {

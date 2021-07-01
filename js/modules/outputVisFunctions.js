@@ -136,7 +136,7 @@ export function hydrograph(scenario) {
 
           // const selectedOutput = channel.map(function (value, index) { return value[outputOps.value]; });
 
-          console.log(outputOps, " for ", chanOpts.value, " plotted")
+          // console.log(outputOps, " for ", chanOpts.value, " plotted")
 
           var original = {
             $schema: 'https://vega.github.io/schema/vega-lite/v5.json',

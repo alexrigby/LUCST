@@ -96,7 +96,7 @@ export function choropleth(scenario) {
 
                     //NEED TO SWAP FOR AN API OPTION
                     //takes the shapefile and returns geojson object where we can access the properties 
-                    shp("/data/shpfiles/hru2.zip").then(function (geojson) {
+                    shp("LLYFNI2/Watershed/Shapes/hrus2.zip").then(function (geojson) {
 
 
                         var choro = {

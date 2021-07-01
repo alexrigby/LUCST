@@ -46,7 +46,7 @@ choropleth(window.currentScenario)
 
 // hru-data.hru:
 // Fetch unclean dataset...
-fetchData('/data/TxtInOut/hru-data.hru')
+fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/hru-data.hru')
     .then(data => {
         // Clean the dataset...
         const cleanHruData = cleanHru(data);
@@ -63,7 +63,7 @@ fetchData('/data/TxtInOut/hru-data.hru')
 
 // landuse.lum:
 // Fetch unclean dataset...
-fetchData('/data/TxtInOut/landuse.lum')
+fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/landuse.lum')
     .then(data => {
         const cleanLanduseData = cleanLanduse(data);
         const cleanLanduseDataCopy = [...cleanLanduseData];
@@ -84,24 +84,19 @@ fetchData('/data/TxtInOut/landuse.lum')
 
 // plant.ini:
 // Fetch unclean dataset...
-fetchData('/data/TxtInOut/plant.ini')
+fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/plant.ini')
     .then(data => {
         const cleanPlantData = cleanPlant(data);
         const cleanPlantDataCopy = [...cleanPlantData];
         window.LLYFNIPlant = [...cleanPlantData];
 
-
     });
 
-fetchData('/data/TxtInOut/plants.plt')
+fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/plants.plt')
     .then(data => {
         //used cleanLanduse beacuse file is in the same format as landuse.lum
         const cleanPlantsData = cleanLanduse(data);
-
-
-
         window.PLANToptions = [...cleanPlantsData];
-
 
     });
 
@@ -132,19 +127,19 @@ function shpStyles() {
 hrus.addTo(map);
 hrus.once("data:loaded", function () {
     hrus.setStyle({ color: '#b0c4de', weight: 1 });
-    console.log("finished loading hrus");
+    // console.log("finished loading hrus");
 });
 
 rivers.addTo(map);
 rivers.once("data:loaded", function () {
     rivers.setStyle({ color: '#0068C1' });
-    console.log("finished loading rivers");
+    // console.log("finished loading rivers");
 });
 
 subBasins.addTo(map);
 subBasins.once("data:loaded", function () {
     subBasins.setStyle({ color: 'red', fillColor: 'none', weight: 1.5 });
-    console.log("finished loading sub-basins");
+    // console.log("finished loading sub-basins");
 });
 
 // map layer objects 

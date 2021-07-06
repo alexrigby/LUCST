@@ -225,6 +225,18 @@ footer {
   border: solid black 2px;
 }
 
+.progressBarBorder{
+  border-radius: 50%;
+  background-color: gray;
+  width: 700px;
+  height: 20px;
+}
+.swatProgressBar{
+  border-radius: 50%;
+  background-color: #0068C1;
+  height: 20px;
+  width: 0%;
+}
 
 /* styles pop up lU and plant form buttons */
 .openLuForm {

@@ -57,20 +57,25 @@ function getLanduseTypes(data) {
 }
 
 function getLanduseTooltip(data) {
-  const landuses = data.map(record => "plant:"+'"'+record.plnt_com+'".' + "cn:" +'"'+ record.cn2 + '".' + "conservation:" +'"'+ record.cons_prac +'".'+ "n:" +'"'+ record.ov_mann+'"');
+ 
+  const landuses = data.map(record => 
+  ` Plant Community: ${record.plnt_com}
+  Curve Number: ${record.cn2}
+  Conservation Practice: ${record.cons_prac}
+  Manning's n: ${record.ov_mann}`);
   // console.log(landuses);
   return landuses
 }
 
 export function populateTable(data) {
   const landuseTypes = getLanduseTypes(window.LLYFNILanduseEdit)
-  const landuseDescription = getLanduseTooltip(window.LLYFNILanduseEdit)
-  const landuseTooltip = landuseDescription.map((el, i)=> {
-    return `${el}`
-  });
+  const landuseTooltip = getLanduseTooltip(window.LLYFNILanduseEdit)
+  
+  
+ 
 
   const landuseTypesOptions = landuseTypes.map((el, i) => {
-    return `<option title=${landuseTooltip[i]} value=${el}>${el}</option>`;
+    return `<option title="${landuseTooltip[i]}" value=${el}>${el}</option>`;
   });
 
 

@@ -86,6 +86,7 @@ export function landuseTypes() {
   document.getElementById("popupClose").onclick = closeLuForm;
   function openLuForm() {
     document.getElementById("luForm").style.display = "block";
+    document.getElementById("result").innerHTML = "";
   }
   function closeLuForm() {
     document.getElementById("luForm").style.display = "none";

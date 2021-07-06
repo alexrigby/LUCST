@@ -139,6 +139,7 @@ export function newPlantType() {
   document.getElementById("popUpClose").onmousedown = closePlantForm;
   function openPlantForm() {
     document.getElementById("plantForm").style.display = "block";
+    document.getElementById("result").innerHTML ="";
   }
   function closePlantForm() {
     document.getElementById("plantForm").style.display = "none";

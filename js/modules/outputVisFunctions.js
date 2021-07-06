@@ -86,6 +86,15 @@ function getMainChan(data) {
   return filteredData[0].name
 }
 
+
+ function downloadHydrographCsv(data, fileName) {
+  var myFile = new Blob([data], { type: 'text/plain' });
+  document.getElementById('downloadPlot').setAttribute('href', window.URL.createObjectURL(myFile));
+  document.getElementById('downloadPlot').setAttribute('download', fileName);
+}
+
+downloadHydrographCsv("hello", "data")
+
 export function hydrograph(scenario) {
 
 
@@ -133,6 +142,7 @@ export function hydrograph(scenario) {
               [outputOps]: el[outputOps],
             }
           ));
+         
 
           // const selectedOutput = channel.map(function (value, index) { return value[outputOps.value]; });
 
@@ -187,9 +197,12 @@ export function hydrograph(scenario) {
             }]
           }
           vegaEmbed('#vis', original);
+          
         }
+        
         //call plotHydrograph out side of an event listner so it plots when the page loads
         plotHydrograph()
+        
       })
 
 
@@ -197,7 +210,7 @@ export function hydrograph(scenario) {
 
     });
 
-
+    
   fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/chandeg.con`)
     .then(data => {
       //clean txt file
@@ -250,6 +263,7 @@ export async function scenarioOptions() {
 
         // Tab button event (click)
         button.addEventListener('click', () => {
+          
           updateCurrentScenario(data[i]);
           // Update vis panel
           if(data.includes(data[i])) {
@@ -271,22 +285,27 @@ export async function scenarioOptions() {
              runswatbuttonvis.addEventListener('click', () => {
                document.querySelector('#vis').innerHTML = "";
                document.querySelector('#choro').innerHTML = "";
-               document.querySelector('#vis').innerHTML = "SWAT running..."
+               document.querySelector('#vis').innerHTML = `<div class="progressBarBorder"> 
+               <div id="progressBar" class="swatProgressBar">0% </div>
+               </div>`
+               swatProgressBar()
                fetch(`http://localhost:8000/runswat?scenario=${data[i]}`).then((res) => {
                  res.json().then((d) => {
                    if(d.code === 1) {
                      console.log(d.message);
-                     console.log('swat ran', data[i])
+                    //  console.log('swat ran', data[i])
                      hydrograph(data[i])
                      choropleth(data[i])
+                     
                    }
                  })
                })
              });
              runswatbuttonvis.innerText = `Run SWAT model for ${data[i]}`;
              document.querySelector('#runswatbuttonviscontainer').appendChild(runswatbuttonvis);
+             
            }
-
+           
         });
 
         document.getElementById("scenarioTab").appendChild(button);
@@ -295,11 +314,26 @@ export async function scenarioOptions() {
 
         updateCurrentScenario(data[i]);
         // window.currentScenario = data[i];
-
+        
       }
 
     })
 };
+
+function swatProgressBar() {
+  var elem = document.getElementById("progressBar");  
+  var width = 20;
+  var id = setInterval(frame, 10);
+  function frame() {
+    if (width >= 100) {
+      clearInterval(id);
+    } else {
+      width++; 
+      elem.style.width = width + '%'; 
+      elem.innerHTML = width * 1  + '%';
+    }
+  }
+}
 
 export default {
   hydrograph,

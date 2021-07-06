@@ -266,7 +266,7 @@ function closeUploadForm() {
 
 // Scenario Management
 // window.currentScenario = "Default";
-window.currentScenarioVersion = 0;
+
 
 export function updateCurrentScenario(scenario) {
     window.currentScenario = scenario;
@@ -293,15 +293,16 @@ function lassoSelectionControl(scenario) {
     if (scenario === "Default") {
         document.getElementById("lassoControls").style.display = "none";
         document.getElementById("lassoButtonControl").style.display = "none";
-        document.getElementById("result").style.display = "none";
+         document.getElementById("result").innerHTML = "";
 
     }
     else {
         document.getElementById("lassoControls").style.display = "block";
         document.getElementById("lassoButtonControl").style.display = "block";
-
+        // document.getElementById("result").style.display = "block";
     }
 }
+
 
 //when the scenario tab is clicked the function lassoSelectionControl is called
 const scenarioTabs = document.getElementById('scenarioTab')
@@ -312,13 +313,15 @@ scenarioTabs.addEventListener('click', () => {
 document.getElementById("lassoControls").style.display = "none";
 document.getElementById("lassoButtonControl").style.display = "none";
 
-
+window.currentScenarioVersion = 0;
 
 const createNewScenarioButton = document.getElementById("createNewScenario");
 createNewScenarioButton.addEventListener("click", async function (e) {
+    console.log(window.currentScenarioVersion)
     e.preventDefault();
-    let newScenarioVersion = window.currentScenarioVersion + 1;
-    let newScenario = prompt("Enter name of new scenario", "Scenario " + newScenarioVersion);
+    let newScenarioVersion = window.currentScenarioVersion + 1 ;
+    console.log(newScenarioVersion)
+    let newScenario = prompt("Enter name of new scenario", "Scenario " + `${newScenarioVersion}`);
     let scenarioList = null;
     let scenarioExists = false;
     await fetch('http://localhost:8000/getscenarios')

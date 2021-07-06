@@ -1,5 +1,6 @@
 import fetchData from "/js/modules/universalFunctions.js"; 
 
+
 //tried to import hrudata and landuseData but wouldnt work so coppied function accross
  function cleanPlants(data) {
   return d3.tsvParse(data
@@ -69,15 +70,17 @@ export function getPlantOptions(data) {
   return plants
 }
 
+
+
 function getPlantDescriptions(data) {
   const plants = data.map(record => record.description);
   // console.log(landuses);
   return plants
 }
 
-
+export function getSwatPlantList(scenario){
 // auto fill name datalist from plants.plt, add _comm to planr name
-fetchData('/data/TxtInOut/plants.plt')
+fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/plants.plt`)
 .then(function (data) {
   const cleanPlantTypes = cleanPlants(data);
   //gets the plant type names from plants.plt
@@ -95,10 +98,11 @@ const plantDOptions = plantDescriptions.map((el, i)=> {
   });
   document.getElementById("plantNamesOption").innerHTML = `${plantOptions}`
 });
+}
 
-
+export function getSwatUrbanPlantList(scenario){
 //gets the urban landuse
-fetchData('/data/TxtInOut/urban.urb')
+fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/urban.urb`)
 .then(function(data){
   const cleanUrban = cleanPlants(data);
   const urbanNames = getPlantOptions(cleanUrban);
@@ -109,10 +113,9 @@ fetchData('/data/TxtInOut/urban.urb')
 const urbanOptions = urbanNames.map((el,i)=>{
   return `<option data-toggle="tooltip" title="${urbanDOptions[i]}"> ${el +'_comm'}</option>`;
 });
-
 document.getElementById("urbanPlant").innerHTML = `${urbanOptions}`
-
 });
+}
 
 const convertToTSV = (data) => {
   // Convert dataset to TSV and print
@@ -228,6 +231,7 @@ export function newPlantType() {
     const pcomOptions = getPlantComTypes(window.LLYFNIPlant)
     console.log(pcomOptions)
 
+
     const pcomTypesOptions = pcomOptions.map((el, i) => {
       return `<option value=${el}>${el}</option>`;
     });
@@ -270,5 +274,7 @@ export default {
   newPlantType,
   cleanPlant,
   getPlantOptions,
+  getSwatPlantList,
+  getSwatUrbanPlantList,
 }
 

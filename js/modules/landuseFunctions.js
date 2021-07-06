@@ -30,9 +30,9 @@ export function getLanduseTypes(data) {
 }
 
 
-
+export function getCurveNumer(scenario){
 //auto fill cn number Datalist from cntable.lum
-fetchData('/data/TxtInOut/cntable.lum')
+fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/cntable.lum`)
 .then(function (data) {
   const cleanCnData = cleanLanduse(data);
   const cnNames = getLanduseTypes(cleanCnData);
@@ -46,9 +46,11 @@ fetchData('/data/TxtInOut/cntable.lum')
   
   document.getElementById("cn2Options").innerHTML = `${cnOptions}`
 });
+}
 
+export function getConsPractice(scenario){
 //auto fill  cons practice datalist from Cons_practice.lum
-fetchData('/data/TxtInOut/cons_practice.lum')
+fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/cons_practice.lum`)
 .then(function (data) {
   const cleanConsData = cleanLanduse(data);
   const consNames = getLanduseTypes(cleanConsData);
@@ -61,10 +63,11 @@ fetchData('/data/TxtInOut/cons_practice.lum')
   });
   document.getElementById("cons").innerHTML = `${consOptions}`
 });
+}
 
-
+export function getManN(scenario){
 // auto fill mannings n datalist from ovn_mann.lum
-fetchData('/data/TxtInOut/ovn_table.lum')
+fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/ovn_table.lum`)
 .then(function (data) {
   const cleanNData = cleanLanduse(data);
   const nNames = getLanduseTypes(cleanNData);
@@ -77,6 +80,7 @@ fetchData('/data/TxtInOut/ovn_table.lum')
   });
   document.getElementById("manN").innerHTML = `${nOptions}`
 });
+}
 
 //exported to main.js to make the landuseform
 export function landuseTypes() {
@@ -191,6 +195,8 @@ export default {
   landuseTypes,
   cleanLanduse,
   getLanduseTypes,
-
+getConsPractice,
+getCurveNumer,
+getManN,
 }
 

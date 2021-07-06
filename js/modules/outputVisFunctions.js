@@ -2,6 +2,8 @@ import fetchData from "/js/modules/universalFunctions.js";
 import cleanHru from "/js/modules/hru_dataFunctions.js";
 import { updateCurrentScenario } from "/js/main.js";
 import { choropleth } from "/js/modules/choroplethFunctions.js";
+import { getSwatPlantList, getSwatUrbanPlantList } from "/js/modules/plantFunctions.js";
+import { getConsPractice, getCurveNumer, getManN } from "/js/modules/landuseFunctions.js";
 
 
 function cleanTxt(data) {
@@ -19,6 +21,16 @@ function cleanTxt(data) {
   return noUnits
 }
 
+const convertToCSV = (data) => {
+  // Convert dataset to TSV and print
+  const headers = Object.keys(data[0]);
+  const csv = [
+    headers.join(','),
+    ...data.map(row => headers.map(fieldName => row[fieldName]).join(','))
+  ].join('\r\n');
+
+  return csv;
+}
 
 function cleanCsvOutput(data) {
 
@@ -87,13 +99,17 @@ function getMainChan(data) {
 }
 
 
- function downloadHydrographCsv(data, fileName) {
-  var myFile = new Blob([data], { type: 'text/plain' });
-  document.getElementById('downloadPlot').setAttribute('href', window.URL.createObjectURL(myFile));
-  document.getElementById('downloadPlot').setAttribute('download', fileName);
+function downloadHydrographCsv(data, fileName) {
+  // var myFile = new Blob([data], { type: 'data:text/csv;charset=utf-8,' });
+  // document.getElementById('downloadPlot').setAttribute('href', 'data:text/csv;charset=utf-8,'+escape(data));
+  // document.getElementById('downloadPlot').setAttribute('download', fileName);
+  fetch('http://localhost:8000/sendplotdata', { method: "POST", headers: {
+    'Content-Type': 'application/json' },
+    body: JSON.stringify({plot: data, scenario: window.currentScenario, name: fileName})
+  }).then(res => res.text()).then(data => console.log(data));
 }
 
-downloadHydrographCsv("hello", "data")
+
 
 export function hydrograph(scenario) {
 
@@ -123,11 +139,7 @@ export function hydrograph(scenario) {
       const outputSelect = document.getElementById("output")
       const hydrographSelect = [channelSelect, outputSelect]
 
-      hydrographSelect.forEach(el => {
-        el.addEventListener('change', () => {
-          //call plotHydrograph so it is called when change is made in the select list
-          plotHydrograph()
-        })
+     
 
         function plotHydrograph() {
           const channel = getChannelData(cleanOutput, chanOpts.value);
@@ -142,7 +154,15 @@ export function hydrograph(scenario) {
               [outputOps]: el[outputOps],
             }
           ));
-         
+          //download the data plotted as a csv
+          // const plotDownload = convertToCSV(plotData)
+          // console.log(plotDownload)
+
+          const plotDownloadButton = document.getElementById("downloadPlot")
+          plotDownloadButton.addEventListener('click', () => {
+          downloadHydrographCsv(plotData, outputOps +" for "+ chanOpts.value + " in " + window.currentScenario)
+          alert("Raw CSV " + '"'+outputOps +" for "+ chanOpts.value + '"' + " saved to " + '"'+window.currentScenario+'"' + " scenario" )
+        })
 
           // const selectedOutput = channel.map(function (value, index) { return value[outputOps.value]; });
 
@@ -153,9 +173,9 @@ export function hydrograph(scenario) {
 
             "title": outputOps + " for " + chanOpts.value,
             "data": { "values": plotData },
-            
+
             "vconcat": [{
-              
+
               "width": "750",
               "mark": "line",
               "encoding": {
@@ -197,20 +217,24 @@ export function hydrograph(scenario) {
             }]
           }
           vegaEmbed('#vis', original);
-          
+
         }
-        
+
         //call plotHydrograph out side of an event listner so it plots when the page loads
         plotHydrograph()
-        
+        hydrographSelect.forEach(el => {
+          el.addEventListener('change', () => {
+            //call plotHydrograph so it is called when change is made in the select list
+            plotHydrograph()
+          })
       })
-
+     
 
 
 
     });
 
-    
+
   fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/chandeg.con`)
     .then(data => {
       //clean txt file
@@ -263,10 +287,16 @@ export async function scenarioOptions() {
 
         // Tab button event (click)
         button.addEventListener('click', () => {
-          
+
+
           updateCurrentScenario(data[i]);
+          getSwatPlantList(data[i]);
+          getSwatUrbanPlantList(data[i]);
+          getConsPractice(data[i]);
+          getCurveNumer(data[i]);
+          getManN(data[i]);
           // Update vis panel
-          if(data.includes(data[i])) {
+          if (data.includes(data[i])) {
             hydrograph(data[i])
             choropleth(data[i])
           } else {
@@ -274,38 +304,37 @@ export async function scenarioOptions() {
             document.querySelector('#choro').innerHTML = "";
             document.querySelector('#vis').innerHTML = "Could not fetch scenarios"
           }
-        
-           if(data[i] === 'Default') {
-            document.querySelector('#runswatbuttonvis') && document.querySelector('#runswatbuttonvis').remove();
-           } else {
-            document.querySelector('#runswatbuttonvis') && document.querySelector('#runswatbuttonvis').remove();
-             const runswatbuttonvis = document.createElement('button');
-             runswatbuttonvis.setAttribute('id', 'runswatbuttonvis');
 
-             runswatbuttonvis.addEventListener('click', () => {
-               document.querySelector('#vis').innerHTML = "";
-               document.querySelector('#choro').innerHTML = "";
-               document.querySelector('#vis').innerHTML = `<div class="progressBarBorder"> 
+          if (data[i] === 'Default') {
+            document.querySelector('#runswatbuttonvis') && document.querySelector('#runswatbuttonvis').remove();
+          } else {
+            document.querySelector('#runswatbuttonvis') && document.querySelector('#runswatbuttonvis').remove();
+            const runswatbuttonvis = document.createElement('button');
+            runswatbuttonvis.setAttribute('id', 'runswatbuttonvis');
+
+            runswatbuttonvis.addEventListener('click', () => {
+              document.querySelector('#vis').innerHTML = "";
+              document.querySelector('#choro').innerHTML = "";
+              document.querySelector('#vis').innerHTML = `<div class="progressBarBorder"> 
                <div id="progressBar" class="swatProgressBar">0% </div>
                </div>`
-               swatProgressBar()
-               fetch(`http://localhost:8000/runswat?scenario=${data[i]}`).then((res) => {
-                 res.json().then((d) => {
-                   if(d.code === 1) {
-                     console.log(d.message);
+              swatProgressBar()
+              fetch(`http://localhost:8000/runswat?scenario=${data[i]}`).then((res) => {
+                res.json().then((d) => {
+                  if (d.code === 1) {
+                    console.log(d.message);
                     //  console.log('swat ran', data[i])
-                     hydrograph(data[i])
-                     choropleth(data[i])
-                     
-                   }
-                 })
-               })
-             });
-             runswatbuttonvis.innerText = `Run SWAT model for ${data[i]}`;
-             document.querySelector('#runswatbuttonviscontainer').appendChild(runswatbuttonvis);
-             
-           }
-           
+                    hydrograph(data[i])
+                    choropleth(data[i])
+                  }
+                })
+              })
+            });
+            runswatbuttonvis.innerText = `Run SWAT model for ${data[i]}`;
+            document.querySelector('#runswatbuttonviscontainer').appendChild(runswatbuttonvis);
+
+          }
+
         });
 
         document.getElementById("scenarioTab").appendChild(button);
@@ -314,23 +343,23 @@ export async function scenarioOptions() {
 
         updateCurrentScenario(data[i]);
         // window.currentScenario = data[i];
-        
+
       }
 
     })
 };
 
 function swatProgressBar() {
-  var elem = document.getElementById("progressBar");  
+  var elem = document.getElementById("progressBar");
   var width = 20;
   var id = setInterval(frame, 10);
   function frame() {
     if (width >= 100) {
       clearInterval(id);
     } else {
-      width++; 
-      elem.style.width = width + '%'; 
-      elem.innerHTML = width * 1  + '%';
+      width++;
+      elem.style.width = width + '%';
+      elem.innerHTML = width * 1 + '%';
     }
   }
 }

@@ -1,7 +1,7 @@
 import fetchData from "/js/modules/universalFunctions.js";
 import { populateTable, cleanHru, getHru, updateHru } from "/js/modules/hru_dataFunctions.js";
-import { getPlantOptions, cleanPlant, newPlantType } from "/js/modules/plantFunctions.js";
-import { cleanLanduse, getLanduseTypes, landuseTypes } from "/js/modules/landuseFunctions.js";
+import { getPlantOptions, cleanPlant, newPlantType, getSwatPlantList, getSwatUrbanPlantList } from "/js/modules/plantFunctions.js";
+import { cleanLanduse, getLanduseTypes, landuseTypes, getConsPractice, getCurveNumer, getManN } from "/js/modules/landuseFunctions.js";
 import { updateTooltips, makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js";
 import { hydrograph, scenarioOptions } from "/js/modules/outputVisFunctions.js";
 import { timeSim, printPrt } from "/js/modules/modelFunctions.js";
@@ -36,6 +36,7 @@ import choropleth from "/js/modules/choroplethFunctions.js";
 
 
 //import upload from "/js/modules/upload.js";
+
 printPrt()
 timeSim()
 
@@ -43,6 +44,13 @@ await scenarioOptions()
 hydrograph(window.currentScenario)
 // graphTab()
 choropleth(window.currentScenario)
+getSwatPlantList(window.currentScenario)
+getSwatUrbanPlantList(window.currentScenario)
+getConsPractice(window.currentScenario)
+getCurveNumer(window.currentScenario)
+getManN(window.currentScenario)
+
+
 
 // hru-data.hru:
 // Fetch unclean dataset...
@@ -67,14 +75,7 @@ fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/landuse.lum')
     .then(data => {
         const cleanLanduseData = cleanLanduse(data);
         const cleanLanduseDataCopy = [...cleanLanduseData];
-
-
-
         const landuseTypes = getLanduseTypes(cleanLanduseData);
-
-
-
-
         window.LLYFNILanduse = [...landuseTypes];
         window.LLYFNILanduseEdit = [...cleanLanduseData];
 
@@ -92,13 +93,9 @@ fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/plant.ini')
 
     });
 
-fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/plants.plt')
-    .then(data => {
-        //used cleanLanduse beacuse file is in the same format as landuse.lum
-        const cleanPlantsData = cleanLanduse(data);
-        window.PLANToptions = [...cleanPlantsData];
 
-    });
+
+
 
 
 

@@ -226,16 +226,22 @@ footer {
 }
 
 .progressBarBorder{
-  border-radius: 50%;
+ 
   background-color: gray;
   width: 700px;
   height: 20px;
 }
 .swatProgressBar{
-  border-radius: 50%;
+
   background-color: #0068C1;
   height: 20px;
   width: 0%;
+}
+
+#downloadPlot{
+  background-color: lightgrey;
+  color: #0068C1;
+  cursor: pointer;
 }
 
 /* styles pop up lU and plant form buttons */

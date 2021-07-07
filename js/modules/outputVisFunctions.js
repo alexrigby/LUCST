@@ -1,9 +1,10 @@
 import fetchData from "/js/modules/universalFunctions.js";
-import cleanHru from "/js/modules/hru_dataFunctions.js";
+import {getHruData} from "/js/modules/hru_dataFunctions.js";
 import { updateCurrentScenario } from "/js/main.js";
 import { choropleth } from "/js/modules/choroplethFunctions.js";
-import { getSwatPlantList, getSwatUrbanPlantList } from "/js/modules/plantFunctions.js";
-import { getConsPractice, getCurveNumer, getManN } from "/js/modules/landuseFunctions.js";
+import { getSwatPlantList, getSwatUrbanPlantList, getPlantData } from "/js/modules/plantFunctions.js";
+import { getConsPractice, getCurveNumer, getManN, getLanduseData} from "/js/modules/landuseFunctions.js";
+import {updateTooltips} from "/js/modules/mapFunctions.js"
 
 
 function cleanTxt(data) {
@@ -161,7 +162,7 @@ export function hydrograph(scenario) {
           const plotDownloadButton = document.getElementById("downloadPlot")
           plotDownloadButton.addEventListener('click', () => {
           downloadHydrographCsv(plotData, outputOps +" for "+ chanOpts.value + " in " + window.currentScenario)
-          alert("Raw CSV " + '"'+outputOps +" for "+ chanOpts.value + '"' + " saved to " + '"'+window.currentScenario+'"' + " scenario" )
+          alert("Raw CSV " + '"'+outputOps +" for "+ chanOpts.value + '"' + " saved to " + '"'+window.currentScenario+'"'  )
         })
 
           // const selectedOutput = channel.map(function (value, index) { return value[outputOps.value]; });
@@ -295,6 +296,10 @@ export async function scenarioOptions() {
           getConsPractice(data[i]);
           getCurveNumer(data[i]);
           getManN(data[i]);
+          getHruData(data[i]);
+          getLanduseData(data[i]);
+          getPlantData(data[i]);
+          // updateTooltips(data[i])
           // Update vis panel
           if (data.includes(data[i])) {
             hydrograph(data[i])

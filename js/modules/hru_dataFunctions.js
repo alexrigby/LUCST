@@ -1,6 +1,23 @@
 import {updateTooltips} from "/js/modules/mapFunctions.js";
-
+import fetchData from "/js/modules/universalFunctions.js"
 //hru_data.hru//
+
+//making function dynamic means that LLYFNI Data is wread from the correct HRU each time
+export function getHruData(scenario){
+  fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/hru-data.hru`)
+      .then(data => {
+      
+          // Clean the dataset...
+          const cleanHruData = cleanHru(data);
+          // Saving a copy of the dataset
+          const cleanHruDataCopy = [...cleanHruData];
+  
+          // Replace this with a state management solution
+          window.LLYFNIData = [...cleanHruData];
+          // console.log(window.LLYFNIData)
+      });
+  }
+
 
 
 // Return an object array from cleaned TSV data with D3.tsvParse 
@@ -8,18 +25,35 @@ import {updateTooltips} from "/js/modules/mapFunctions.js";
  * 
  * @param {*} data 
  */
+
+
 export function cleanHru(data) {
-  return d3.tsvParse(data
-    // Remove the header line produced by SWAT+ Editor
+//checks to see if the SWAT+ editor header line is on file (has word "written") 
+//if true deletes first line, if not neeps first line
+  if (hasWord(data, "written") === true){
+  const clean = d3.tsvParse(data
+    // Remove the header line produced by SWAT+ Edito
     .substring(data.indexOf('\n') + 1)
     // First, remove all spaces and replace with tabs
     .replace(/  +/gm, '\t')
     // Then remove all leading and trailing tabs
     .replace(/^\t|\t$/gm, '')
   );
+  return clean
+  } else {
+  const clean =  d3.tsvParse(data
+      // First, remove all spaces and replace with tabs
+      .replace(/  +/gm, '\t')
+      // Then remove all leading and trailing tabs
+      .replace(/^\t|\t$/gm, '')
+    );
+    return clean
+  }
+
 }
-
-
+//checks for word in string 
+const hasWord = (str, word) =>
+str.split(/\s+/).includes(word);
 
 //Select HRU's lu_mgt by its id
 //e.g(console.log(getHru(cleanHruData250))
@@ -72,8 +106,8 @@ export function populateTable(data) {
   const landuseTooltip = getLanduseTooltip(window.LLYFNILanduseEdit)
   
   
- 
-
+//  const hruData = window.LLYFNIData
+// console.log(hruData)
   const landuseTypesOptions = landuseTypes.map((el, i) => {
     return `<option title="${landuseTooltip[i]}" value=${el}>${el}</option>`;
   });
@@ -87,8 +121,8 @@ export function populateTable(data) {
     table += `
               <tr>
                   <td>${data.hrus[i]}</td>
-                  <td>${data.landuse[i]}
-                  <button class="lulc-edit-button" data-hru=${data.hrus[i]}>Edit</button>
+                  <td>${window.LLYFNIData[i].lu_mgt}
+                  <button class="lulc-edit-button" data-hru=${data.hrus[i]}>Save</button>
                   </td>
                   <td class="newLanduse">
                   <select class ="landuseTypes" id="landuseDatalist">
@@ -104,7 +138,7 @@ export function populateTable(data) {
 
   table +=
     `<tr>
-         <td><button class="lulc-editAll-button" data-hru=${data.hrus}> EDIT ALL </button></td>
+         <td><button class="lulc-editAll-button" data-hru=${data.hrus}> SAVE ALL </button></td>
          <td><button class="lulc-clear">CLEAR</button></td>
          <td class="allNewlanduse">
          <select class="allLanduseTypes" id="allLanduseDatalist">
@@ -203,4 +237,5 @@ export default {
   cleanHru,
   getHru,
   updateHru,
+  getHruData,
 }

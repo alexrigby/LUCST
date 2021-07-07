@@ -3,19 +3,43 @@ import fetchData from "/js/modules/universalFunctions.js";
 // import * as d3 from "d3";
 //landuse.lum//
 
-
+export function getLanduseData(scenario){
+fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/landuse.lum`)
+  .then(data => {
+      const cleanLanduseData = cleanLanduse(data);
+      // console.log(cleanLanduseData)
+      const landuseTypes = getLanduseTypes(cleanLanduseData);
+      window.LLYFNILanduse = [...landuseTypes];
+      window.LLYFNILanduseEdit = [...cleanLanduseData];
+// console.log(window.LLYFNILanduseEdit)
+  });
+}
 
 // Return an object array from cleaned TSV data with D3.tsvParse
 export function cleanLanduse(data) {
-  return d3.tsvParse(data
-    // Remove the header line produced by SWAT+ Editor
-    .substring(data.indexOf('\n') + 1)
-    // First, remove all spaces and replace with tabs
-    .replace(/  +/gm, '\t')
-    // Then remove all leading and trailing tabs
-    .replace(/^\t|\t$/gm, '')
-  );
+  if (hasWord(data, "written") === true){
+    const clean = d3.tsvParse(data
+      // Remove the header line produced by SWAT+ Edito
+      .substring(data.indexOf('\n') + 1)
+      // First, remove all spaces and replace with tabs
+      .replace(/  +/gm, '\t')
+      // Then remove all leading and trailing tabs
+      .replace(/^\t|\t$/gm, '')
+    );
+    return clean
+    } else {
+    const clean =  d3.tsvParse(data
+        // First, remove all spaces and replace with tabs
+        .replace(/  +/gm, '\t')
+        // Then remove all leading and trailing tabs
+        .replace(/^\t|\t$/gm, '')
+      );
+      return clean
+    }
 }
+//checks for word in string 
+const hasWord = (str, word) =>
+str.split(/\s+/).includes(word);
 
 function getLUDescriptions(data) {
   const plants = data.map(record => record.description);
@@ -198,5 +222,6 @@ export default {
 getConsPractice,
 getCurveNumer,
 getManN,
+getLanduseData,
 }
 

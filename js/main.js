@@ -1,11 +1,12 @@
 import fetchData from "/js/modules/universalFunctions.js";
-import { populateTable, cleanHru, getHru, updateHru } from "/js/modules/hru_dataFunctions.js";
-import { getPlantOptions, cleanPlant, newPlantType, getSwatPlantList, getSwatUrbanPlantList } from "/js/modules/plantFunctions.js";
+import { populateTable, cleanHru, getHru, updateHru, getHruData } from "/js/modules/hru_dataFunctions.js";
+import { getPlantOptions, cleanPlant, newPlantType, getSwatPlantList, getSwatUrbanPlantList, getPlantData} from "/js/modules/plantFunctions.js";
 import { cleanLanduse, getLanduseTypes, landuseTypes, getConsPractice, getCurveNumer, getManN } from "/js/modules/landuseFunctions.js";
 import { updateTooltips, makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js";
 import { hydrograph, scenarioOptions } from "/js/modules/outputVisFunctions.js";
 import { timeSim, printPrt } from "/js/modules/modelFunctions.js";
 import choropleth from "/js/modules/choroplethFunctions.js";
+import { getLanduseData } from "/js/modules/landuseFunctions.js";
 
 
 
@@ -42,6 +43,8 @@ timeSim()
 
 await scenarioOptions()
 hydrograph(window.currentScenario)
+getLanduseData(window.currentScenario)
+getPlantData(window.currentScenario)
 // graphTab()
 choropleth(window.currentScenario)
 getSwatPlantList(window.currentScenario)
@@ -49,49 +52,52 @@ getSwatUrbanPlantList(window.currentScenario)
 getConsPractice(window.currentScenario)
 getCurveNumer(window.currentScenario)
 getManN(window.currentScenario)
+ getHruData(window.currentScenario)
 
+ 
 
 
 // hru-data.hru:
 // Fetch unclean dataset...
-fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/hru-data.hru')
-    .then(data => {
-        // Clean the dataset...
-        const cleanHruData = cleanHru(data);
 
-        // Saving a copy of the dataset
-        const cleanHruDataCopy = [...cleanHruData];
+// fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/hru-data.hru')
+// .then(data => {
+//     // Clean the dataset...
+//     const cleanHruData = cleanHru(data);
 
-        // Replace this with a state management solution
-        window.LLYFNIData = [...cleanHruData];
-    });
+//     // Saving a copy of the dataset
+//     const cleanHruDataCopy = [...cleanHruData];
 
+//     // Replace this with a state management solution
+//     window.LLYFNIData = [...cleanHruData];
+//     console.log(window.LLYFNIData)
+// });
 
 
 
 // landuse.lum:
 // Fetch unclean dataset...
-fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/landuse.lum')
-    .then(data => {
-        const cleanLanduseData = cleanLanduse(data);
-        const cleanLanduseDataCopy = [...cleanLanduseData];
-        const landuseTypes = getLanduseTypes(cleanLanduseData);
-        window.LLYFNILanduse = [...landuseTypes];
-        window.LLYFNILanduseEdit = [...cleanLanduseData];
+// fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/landuse.lum')
+//     .then(data => {
+//         const cleanLanduseData = cleanLanduse(data);
+//         const cleanLanduseDataCopy = [...cleanLanduseData];
+//         const landuseTypes = getLanduseTypes(cleanLanduseData);
+//         window.LLYFNILanduse = [...landuseTypes];
+//         window.LLYFNILanduseEdit = [...cleanLanduseData];
 
-    });
+//     });
 
 
 
-// plant.ini:
-// Fetch unclean dataset...
-fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/plant.ini')
-    .then(data => {
-        const cleanPlantData = cleanPlant(data);
-        const cleanPlantDataCopy = [...cleanPlantData];
-        window.LLYFNIPlant = [...cleanPlantData];
+// // plant.ini:
+// // Fetch unclean dataset...
+// fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/plant.ini')
+//     .then(data => {
+//         const cleanPlantData = cleanPlant(data);
+//         const cleanPlantDataCopy = [...cleanPlantData];
+//         window.LLYFNIPlant = [...cleanPlantData];
 
-    });
+//     });
 
 
 
@@ -203,6 +209,7 @@ function setSelectedLayers(layers) {
     });
 
     var hrus = onMapSelection(layers)
+    
 
     populateTable(hrus)
     //console.log(hrus)

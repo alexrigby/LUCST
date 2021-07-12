@@ -48,9 +48,10 @@
         <header>
             <div class="logo"><a href="#">SWAT LULC</a></div>
             <div class="upload" id="upload">
-                <form action="/action_page.php">
-                    <input type="file" id="myFile" name="filename">
-                    <input type="submit">
+                <form >
+                    <input type="text" id="myFile" name="filePath">
+                    <button type="button" id="link" style="color:black"> link </button>
+                    
                 </form>
             </div>
             <nav>
@@ -66,7 +67,7 @@
                         <a href="" id="downloadPlant" download>Download <br> plant.ini</a>
                     </li> -->
                     <li>
-                        <div id="uploadButton">Upload <br> Catchment</div>
+                        <div id="uploadButton">Link <br> Catchment</div>
                     </li>
                     <li class="createScenario">
                         <a href="" id="createNewScenario">Create new scenario</a>
@@ -103,10 +104,7 @@
                     <label for="pcom_name">Plant Community Name</label> <br>
                     <!-- <input list="plantNames" type="text" name="plantNamesDatalist" id="plantNamesDatalist"> -->
                     <select id="plantNames">
-                        <option value="default" selected="selected" disabled>
-                        </option>
-                        <optgroup label="plants" id="plantNamesOption"></optgroup>
-                        <optgroup label="urban" id="urbanPlant"></optgroup>
+                       
                     </select><br>
                     <label for="plt_cnt">Plant Count</label><br>
                     <input type="number" id="plt_cnt" name="plt_cnt"> <br>
@@ -144,33 +142,40 @@
                     <input type="text" id="calGroup" name="calGroup"> <br>
                     <label for="luplantCom">Plant Comunity</label><br>
                     <!-- <input id="luPlantCom" list="luPlantComDatalist" name="plantCom"> -->
-                    <select id="luPlantComselect">
-                        <option value="default" selected="selected" disabled></option>
-                        <optgroup id="luPlantCom"></optgroup>
+                    
+                    <select id="luPlantCom">
+                       
                     </select> <br>
+                </input>
                     <label for="mgt">Managment</label><br>
                     <input type="text" id="luMgt" name="mgt"> <br>
                     <label for="cn2">Curve Number</label><br>
                     <!-- <input list="cn2" id="cn2Datalist" name="cn2"> -->
-                    <select id="cn2">
-                        <option value="default" selected="selected" disabled></option>
-                        <optgroup id="cn2Options"></optgroup>
+                    <select id="cn2Options">
+                        
                     </select><br>
                     <label for="cons_practice">Conservation Practice</label><br>
-                    <!-- <input list="consPracticeDatalist" id="consPractice" name="cons_practice"> -->
-                    <select id="consPracticeDatalist">
-                        <option value="default" selected="selected" disabled></option>
-                        <optgroup id="cons"></optgroup>
+                    <select id="cons">
+                        
                     </select> <br>
                     <label for="urban">Urban</label><br>
-                    <input type="text" id="urban" name="urban"> <br>
+                    <select name="urban" id="urbanLUList">
+                        
+                    </select> <br>
                     <label for="urb_ro">Urban Run-Off</label><br>
-                    <input type="text" id="urbRo" name="urb_ro"> <br>
+                    <select id="urbRo" name="urb_ro"> 
+                            <option disabled selected value>-- select -- </option> 
+                            <option value="usgs_reg">usgs_reg</option>
+                            <option value="buildup_washoff">buildup_washoff</option>
+                            <option value="null">null</option>
+                        
+                        </select><br>
+
                     <label for="ov_mann">Mannings n</label><br>
                     <!-- <input list="ovMannDatalist" id="ovMann"><br> -->
-                    <select id="ovMannDatalist">
+                    <select id="manN">
                         <option value="default" selected="selected" disabled></option>
-                        <optgroup id="manN"></optgroup>
+                        
                     </select><br>
                     <label for="tile">Tile</label><br>
                     <input type="text" id="tile" name="tile"> <br>

@@ -5,23 +5,38 @@ export function getPlantData(scenario){
 fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/plant.ini`)
     .then(data => {
         const cleanPlantData = cleanPlant(data);
-        const cleanPlantDataCopy = [...cleanPlantData];
+        
         window.LLYFNIPlant = [...cleanPlantData];
+        console.log(cleanPlantData)
 
     });
   }
 
-//tried to import hrudata and landuseData but wouldnt work so coppied function accross
- function cleanPlants(data) {
-  return d3.tsvParse(data
-    // Remove the header line produced by SWAT+ Editor
-    .substring(data.indexOf('\n') + 1)
-    // First, remove all spaces and replace with tabs
-    .replace(/  +/gm, '\t')
-    // Then remove all leading and trailing tabs
-    .replace(/^\t|\t$/gm, '')
-  );
+
+// Return an object array from cleaned TSV data with D3.tsvParse
+export function cleanPlants(data) {
+  if (hasWord(data, "written") === true){
+    const clean = d3.tsvParse(data
+      // Remove the header line produced by SWAT+ Edito
+      .substring(data.indexOf('\n') + 1)
+      // First, remove all spaces and replace with tabs
+      .replace(/  +/gm, '\t')
+      // Then remove all leading and trailing tabs
+      .replace(/^\t|\t$/gm, '')
+    );
+    return clean
+    } else {
+    const clean =  d3.tsvParse(data
+        // First, remove all spaces and replace with tabs
+        .replace(/  +/gm, '\t')
+        // Then remove all leading and trailing tabs
+        .replace(/^\t|\t$/gm, '')
+      );
+      return clean
+    }
 }
+
+
 // import * as d3 from "d3";
 // import d3 from "d3";
 // plant.ini//
@@ -30,9 +45,11 @@ fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/plant.ini`)
 //checks for word in string 
 const hasWord = (str, word) =>
 str.split(/\s+/).includes(word);
+
+
 // Return an object array from cleaned TSV data with D3.tsvParse for plant.ini
 export function cleanPlant(data) {
-  if (hasWord(data, "written") === true){
+  if (hasWord(data, "SWAT+") == true){
   // delete header line creted by SWAT+
   data = data.substring(data.indexOf('\n') + 1);
 
@@ -75,44 +92,13 @@ export function cleanPlant(data) {
   // Return a d3 TSV parsed dataset (headers + newline + cleanedbody)
   return d3.tsvParse(dataHeaders + "\n" + cleanedBody.trim());
 } else {
- // Get data headers only
- const dataHeaders = data
- // Get the first line (replicated for some reason), index 0
- .match(/^(.*)$/m)[0]
- // Replace all spaces with tabs
- .replace(/  +/g, '\t')
- // Remove preceeding and trailing tabs
- .replace(/^\t|\t$/gm, '');
-
-// Chop off the header we already extracted
-const dataBody = data.substring(
- // Go to the end of the first line
- data.indexOf('\n') + 1)
- // Replace all spaces with tabs
- .replace(/  +/g, '\t')
- // Remove preceeding and trailing tabs
- .replace(/^\t|\t$/gm, '');
-
-// Create an array of all strings delimited by the newline char
-const fragmentedBody = dataBody.split("\n");
-
-// A string to build up the body again
-let cleanedBody = "";
-
-// Loop over every body fragment...
-fragmentedBody.forEach((el, i) => {
- // Remove the newline character from EVERY fragment
- const cleanedEl = el.trim();
- // Apply a tab to the end of every ODD fragment
- if (i % 2 == 0) {
-   cleanedBody = cleanedBody + cleanedEl + "\t"
-   // Apply a new line char to the end of every EVEN fragment
- } else {
-   cleanedBody = cleanedBody + cleanedEl + "\n"
- }
-})
- // Return a d3 TSV parsed dataset (headers + newline + cleanedbody)
- return d3.tsvParse(dataHeaders + "\n" + cleanedBody.trim());
+  const clean =  d3.tsvParse(data
+      // First, remove all spaces and replace with tabs
+      .replace(/  +/gm, '\t')
+      // Then remove all leading and trailing tabs
+      .replace(/^\t|\t$/gm, '')
+    );
+    return clean
 
 }
 }
@@ -150,26 +136,10 @@ const plantDOptions = plantDescriptions.map((el, i)=> {
     return `<option data-toggle="tooltip" title="${plantDOptions[i]}">${el +'_comm'}</option>`;
   
   });
-  document.getElementById("plantNamesOption").innerHTML = `${plantOptions}`
+  document.getElementById("plantNames").innerHTML = `<option disabled selected value>-- select --</option> ${plantOptions}`
 });
 }
 
-export function getSwatUrbanPlantList(scenario){
-//gets the urban landuse
-fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/urban.urb`)
-.then(function(data){
-  const cleanUrban = cleanPlants(data);
-  const urbanNames = getPlantOptions(cleanUrban);
-  const urbanDescription = getPlantDescriptions(cleanUrban)
-  const urbanDOptions = urbanDescription.map((el, i)=> {
-    return `${el}`
-  });
-const urbanOptions = urbanNames.map((el,i)=>{
-  return `<option data-toggle="tooltip" title="${urbanDOptions[i]}"> ${el +'_comm'}</option>`;
-});
-document.getElementById("urbanPlant").innerHTML = `${urbanOptions}`
-});
-}
 
 const convertToTSV = (data) => {
   // Convert dataset to TSV and print
@@ -215,22 +185,23 @@ export function newPlantType() {
 
   //defines all Plant form inputs as constants, adding default values to the input feilds
   const plantComName = document.getElementById("plantNames");
+  plantComName.addEventListener('change', ()=>{
+    const plantComNameSlice = plantComName.value.slice(0,-5)
+    
+     plantName.setAttribute('value', plantComNameSlice)
+     //auto fills lu name with plant comm + _lum
+    const luName = document.getElementById("luName") 
+    luName.setAttribute('value', plantComNameSlice +"_lum")
+    // const LuPlantCom = document.getElementById("luPlantCom")
+    // LuPlantCom.setAttribute('value', plantComName)
+  });
   const plantCnt = document.getElementById("plt_cnt")
   plantCnt.setAttribute('value', 1)
   const iniRotationYear = document.getElementById("rot_yr_ini")
   iniRotationYear.setAttribute('value', 1)
   const plantName = document.getElementById("plt_name")
   //cuts '_comm' of the ed of plantComName and asignes the string as plantName
-  plantName.addEventListener('click', ()=>{
-    const plantNameSlice = plantComName.value.slice(0,-5)
-    console.log(plantNameSlice)
-     plantName.setAttribute('value', plantNameSlice)
-     //auto fills lu name with plant comm + _lum
-    const luName = document.getElementById("luName") 
-    luName.setAttribute('value', plantNameSlice +"_lum")
-    // const LuPlantCom = document.getElementById("luPlantCom")
-    // LuPlantCom.setAttribute('value', plantComName)
-  });
+ 
   const landcoverStatus = document.getElementById("lc_status")
   const iniLai = document.getElementById("lai_init")
   iniLai.setAttribute('value', 2)
@@ -271,25 +242,18 @@ export function newPlantType() {
 
     
 
-  //   const plantsOptionsList = getPlantOptions(window.PLANToptions);
-  // console.log(plantsOptionsList)
-  // const plantOptions = plantsOptionsList.map((el, i) => {
-  //   return `<option value=${el}></option>`;
-  // });
-  // document.getElementById("plantNames").innerHTML = `${plantOptions}`
-
     console.log(newPlantSelection)
     //adds form data to plant.ini file
     window.LLYFNIPlant.push(newPlantSelection)
 
+   
+
+
     const pcomOptions = getPlantComTypes(window.LLYFNIPlant)
-    console.log(pcomOptions)
-
-
     const pcomTypesOptions = pcomOptions.map((el, i) => {
       return `<option value=${el}>${el}</option>`;
     });
-    document.getElementById("luPlantCom").innerHTML = `${pcomTypesOptions}`
+    document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option> ${pcomTypesOptions} <option title = "null"> null </option>`;
 
 
     //converts file and links to download button 
@@ -329,7 +293,7 @@ export default {
   cleanPlant,
   getPlantOptions,
   getSwatPlantList,
-  getSwatUrbanPlantList,
+  
   getPlantData,
 }
 

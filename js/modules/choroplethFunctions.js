@@ -138,10 +138,15 @@ export function choropleth(scenario) {
                             }
                         }
                         vegaEmbed('#choro', choro);
+                        window.HRU1Coordinates = geojson.features[0].geometry.bbox
+                        
                     })
+
                 }
                 plotChoropleth()
+                
             })
+          
         });
 
 }

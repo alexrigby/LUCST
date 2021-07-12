@@ -9,11 +9,33 @@ export function shpToGeoJSON(url) {
                 }).join("<br />"), {
                     maxHeight: 200
                 });
-        
+
             }
         }
-    }); 
+
+    });
 }
+
+// export function updateTooltips() {
+//     window.map.eachLayer((layer) => {
+//         if(layer.feature?.properties?.HRUS) {
+//             layer.bindPopup(Object.keys(layer.feature.properties).map(function (k, i) {
+//                 if(k === "Landuse") {
+//                     console.log(k, window.LLYFNIData[i].lu_mgt)
+//                     return k + ": " + window.LLYFNIData[i].lu_mgt.substr(0, 4).toUpperCase();
+//                 } else {
+//                     return k + ": " + layer.feature.properties[k];
+//                 }
+//             }).join("<br />"), {
+//                 maxHeight: 200
+//             });
+//         }
+//         })
+//     }
+
+
+
+
 
 export function shpStyles() {
     hrus.setStyle({ color: '#b0c4de', weight: 1 });
@@ -46,47 +68,48 @@ export function makeStreetMap() {
 
 
 
-export function onMapSelection(layers){
+export function onMapSelection(layers) {
 
     const selectedHRULayerIDs = [];
     //const selectedRiverLayerIDs = [];
-    const selectedHRULanduses =[];
+    const selectedHRULanduses = [];
 
     layers.forEach(layer => {
         //if layer has property 'HRUS' it is a HRU
-        if(layer.feature.properties.hasOwnProperty("HRUS")) {
+        if (layer.feature.properties.hasOwnProperty("HRUS")) {
             selectedHRULayerIDs.push(layer.feature.properties.HRUS);
             selectedHRULanduses.push(layer.feature.properties.Landuse);
             // If a layer isn't an HRU (or if it has ChannelR- for use if ), it is a river
-        // } else if(layer.feature.properties.hasOwnProperty("ChannelR")) {
-        //     // Do something with rivers
-        //     //use Channel NOT ChannelR as the identifier for rivers 
-        //     selectedRiverLayerIDs.push(layer.feature.properties.ChannelR);
+            // } else if(layer.feature.properties.hasOwnProperty("ChannelR")) {
+            //     // Do something with rivers
+            //     //use Channel NOT ChannelR as the identifier for rivers 
+            //     selectedRiverLayerIDs.push(layer.feature.properties.ChannelR);
         }
     });
 
     return {
-        landuse:selectedHRULanduses,
-        hrus: selectedHRULayerIDs 
+        landuse: selectedHRULanduses,
+        hrus: selectedHRULayerIDs
         // rivers: selectedRiverLayerIDs
     };
 }
 
 
-export function updateTooltips() {
-window.map.eachLayer((layer) => {
-    if(layer.feature?.properties?.HRUS) {
-        layer.bindPopup(Object.keys(layer.feature.properties).map(function (k, i) {
-            if(k === "Landuse") {
-                console.log(k, window.LLYFNIData[i].lu_mgt)
-                return k + ": " + window.LLYFNIData[i].lu_mgt.substr(0, 4).toUpperCase();
-            } else {
-                return k + ": " + layer.feature.properties[k];
-            }
-        }).join("<br />"), {
-            maxHeight: 200
-        });
-    }
+export function updateTooltips(hruData, test) {
+    let j = 0;
+    window.map.eachLayer((layer) => {
+        if (layer.feature?.properties?.HRUS) {
+            layer.bindPopup(Object.keys(layer.feature.properties).map(function (k, i) {
+                if (k === "Landuse") {
+                    return k + ": " + hruData[j].lu_mgt.substr(0, 4).toUpperCase();
+                } else {
+                    return k + ": " + layer.feature.properties[k];
+                }
+            }).join("<br />"), {
+                maxHeight: 200
+            });
+            j++;
+        }
     })
 }
 

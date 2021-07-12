@@ -10,10 +10,11 @@ export function getHruData(scenario){
           // Clean the dataset...
           const cleanHruData = cleanHru(data);
           // Saving a copy of the dataset
-          const cleanHruDataCopy = [...cleanHruData];
   
           // Replace this with a state management solution
           window.LLYFNIData = [...cleanHruData];
+          // console.log('chd', cleanHruData);
+          updateTooltips(cleanHruData, 'test')
           // console.log(window.LLYFNIData)
       });
   }
@@ -83,6 +84,23 @@ export function updateHru(data, id, lu_mgt) {
   return newData;
 }
 
+export function getUrbanList(scenario){
+  //gets the urban landuse
+  fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/urban.urb`)
+  .then(function(data){
+    const cleanUrban = cleanPlants(data);
+    const urbanNames = getPlantOptions(cleanUrban);
+    const urbanDescription = getPlantDescriptions(cleanUrban)
+    const urbanDOptions = urbanDescription.map((el, i)=> {
+      return `${el}`
+    });
+  const urbanOptions = urbanNames.map((el,i)=>{
+    return `<option data-toggle="tooltip" title="${urbanDOptions[i]}"> ${el +'_comm'}</option>`;
+  });
+  document.getElementById("urbanPlant").innerHTML = `${urbanOptions}`
+  });
+  }
+  
 
 function getLanduseTypes(data) {
   const landuses = data.map(record => record.name);
@@ -114,6 +132,20 @@ export function populateTable(data) {
 
 
   const rowCount = data.hrus.length;
+// convert HRUS to integr to be passed by map
+  const shpFileHrus = data.hrus.map(function(v){
+    return parseInt(v);
+  })
+// map HRUs(from shapefile) to id's from window.LLYFNIData to display correct hru lu_mgt in table
+  const hruLuSelection = shpFileHrus.map(shpHru => {
+    const obj = window.LLYFNIData.find(record => record.id == shpHru);
+    return {...shpHru, ...obj };
+  })
+
+
+ 
+  
+  
   let table = "";
   //loops over the data asigning new row each time
   //calls variable i assignes index 0 to it, row count has to be grater than i, increment i by 1 each time
@@ -121,7 +153,7 @@ export function populateTable(data) {
     table += `
               <tr>
                   <td>${data.hrus[i]}</td>
-                  <td>${window.LLYFNIData[i].lu_mgt}
+                  <td>${hruLuSelection[i].lu_mgt}
                   <button class="lulc-edit-button" data-hru=${data.hrus[i]}>Save</button>
                   </td>
                   <td class="newLanduse">
@@ -138,8 +170,10 @@ export function populateTable(data) {
 
   table +=
     `<tr>
-         <td><button class="lulc-editAll-button" data-hru=${data.hrus}> SAVE ALL </button></td>
-         <td><button class="lulc-clear">CLEAR</button></td>
+         <td> ${data.hrus.length} of ${window.LLYFNIData.length} selected</br>
+         <button class="lulc-clear">CLEAR</button>
+        </td>
+         <td> <button class="lulc-editAll-button" data-hru=${data.hrus}> SAVE ALL </button></td>
          <td class="allNewlanduse">
          <select class="allLanduseTypes" id="allLanduseDatalist">
          <option value="default" selected="selected" disabled>
@@ -180,9 +214,9 @@ export function populateTable(data) {
       window.LLYFNIData[el.dataset.hru - 1].lu_mgt = `${newLanduse}`;
 
 
-      const newHruData = convertToTSV(window.LLYFNIData);
-      downloadButton(newHruData, 'hru-data.hru');
-      updateTooltips()
+      // const newHruData = convertToTSV(window.LLYFNIData);
+      downloadButton(window.LLYFNIData, 'hru-data.hru');
+      updateTooltips(window.LLYFNIData)
     })
   })
 
@@ -203,7 +237,7 @@ export function populateTable(data) {
       window.LLYFNIData[parseInt(el) - 1].lu_mgt = `${allNewLanduse}`
      
     });
-    updateTooltips()
+    updateTooltips(window.LLYFNIData)
     // const newHruData = convertToTSV(window.LLYFNIData);
 
     // downloadButton(newHruData, 'hru-data.hru');
@@ -238,4 +272,5 @@ export default {
   getHru,
   updateHru,
   getHruData,
+  getUrbanList
 }

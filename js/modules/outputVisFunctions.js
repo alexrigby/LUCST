@@ -2,8 +2,8 @@ import fetchData from "/js/modules/universalFunctions.js";
 import {getHruData} from "/js/modules/hru_dataFunctions.js";
 import { updateCurrentScenario } from "/js/main.js";
 import { choropleth } from "/js/modules/choroplethFunctions.js";
-import { getSwatPlantList, getSwatUrbanPlantList, getPlantData } from "/js/modules/plantFunctions.js";
-import { getConsPractice, getCurveNumer, getManN, getLanduseData} from "/js/modules/landuseFunctions.js";
+import { getSwatPlantList, getPlantData } from "/js/modules/plantFunctions.js";
+import { getConsPractice, getCurveNumer, getManN, getLanduseData, getUrbanList} from "/js/modules/landuseFunctions.js";
 import {updateTooltips} from "/js/modules/mapFunctions.js"
 
 
@@ -100,11 +100,11 @@ function getMainChan(data) {
 }
 
 
-function downloadHydrographCsv(data, fileName) {
+async function downloadHydrographCsv(data, fileName) {
   // var myFile = new Blob([data], { type: 'data:text/csv;charset=utf-8,' });
   // document.getElementById('downloadPlot').setAttribute('href', 'data:text/csv;charset=utf-8,'+escape(data));
   // document.getElementById('downloadPlot').setAttribute('download', fileName);
-  fetch('http://localhost:8000/sendplotdata', { method: "POST", headers: {
+  await fetch('http://localhost:8000/sendplotdata', { method: "POST", headers: {
     'Content-Type': 'application/json' },
     body: JSON.stringify({plot: data, scenario: window.currentScenario, name: fileName})
   }).then(res => res.text()).then(data => console.log(data));
@@ -142,7 +142,7 @@ export function hydrograph(scenario) {
 
      
 
-        function plotHydrograph() {
+       function  plotHydrograph() {
           const channel = getChannelData(cleanOutput, chanOpts.value);
           // console.log('channel',channel)
           const outputOps = document.getElementById("output").value;
@@ -161,8 +161,8 @@ export function hydrograph(scenario) {
 
           const plotDownloadButton = document.getElementById("downloadPlot")
           plotDownloadButton.addEventListener('click', () => {
-          downloadHydrographCsv(plotData, outputOps +" for "+ chanOpts.value + " in " + window.currentScenario)
-          alert("Raw CSV " + '"'+outputOps +" for "+ chanOpts.value + '"' + " saved to " + '"'+window.currentScenario+'"'  )
+         downloadHydrographCsv(plotData, outputOps +" for "+ chanOpts.value + " in " + window.currentScenario)
+           alert("Raw CSV " + '"'+outputOps +" for "+ chanOpts.value + '"' + " saved to " + '"'+window.currentScenario+'"'  )
         })
 
           // const selectedOutput = channel.map(function (value, index) { return value[outputOps.value]; });
@@ -291,15 +291,18 @@ export async function scenarioOptions() {
 
 
           updateCurrentScenario(data[i]);
+          getPlantData(data[i]);
+          // console.log(window.LLYFNIPlant)
           getSwatPlantList(data[i]);
-          getSwatUrbanPlantList(data[i]);
+          getUrbanList(data[i]);
           getConsPractice(data[i]);
           getCurveNumer(data[i]);
           getManN(data[i]);
           getHruData(data[i]);
           getLanduseData(data[i]);
-          getPlantData(data[i]);
-          // updateTooltips(data[i])
+         
+        //  updateTooltips()
+         
           // Update vis panel
           if (data.includes(data[i])) {
             hydrograph(data[i])
@@ -320,10 +323,13 @@ export async function scenarioOptions() {
             runswatbuttonvis.addEventListener('click', () => {
               document.querySelector('#vis').innerHTML = "";
               document.querySelector('#choro').innerHTML = "";
-              document.querySelector('#vis').innerHTML = `<div class="progressBarBorder"> 
-               <div id="progressBar" class="swatProgressBar">0% </div>
+              // document.querySelector('#vis').innerHTML = `<div class="progressBarBorder"> 
+              //  <div id="progressBar" class="swatProgressBar">0% </div>
+              //  </div>`
+               document.querySelector('#vis').innerHTML = `<div class="swatrunning"> 
+                <div class="swatloadingspinner"></div>
                </div>`
-              swatProgressBar()
+              // swatProgressBar()
               fetch(`http://localhost:8000/runswat?scenario=${data[i]}`).then((res) => {
                 res.json().then((d) => {
                   if (d.code === 1) {
@@ -354,20 +360,20 @@ export async function scenarioOptions() {
     })
 };
 
-function swatProgressBar() {
-  var elem = document.getElementById("progressBar");
-  var width = 20;
-  var id = setInterval(frame, 10);
-  function frame() {
-    if (width >= 100) {
-      clearInterval(id);
-    } else {
-      width++;
-      elem.style.width = width + '%';
-      elem.innerHTML = width * 1 + '%';
-    }
-  }
-}
+// function swatProgressBar() {
+//   var elem = document.getElementById("progressBar");
+//   var width = 20;
+//   var id = setInterval(frame, 10);
+//   function frame() {
+//     if (width >= 100) {
+//       clearInterval(id);
+//     } else {
+//       width++;
+//       elem.style.width = width + '%';
+//       elem.innerHTML = width * 1 + '%';
+//     }
+//   }
+// }
 
 export default {
   hydrograph,

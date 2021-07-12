@@ -68,7 +68,7 @@ fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/cntable.lum`)
     return `<option title=${cnDOptions[i]} value=${el}>${el}</option>`;
   });
   
-  document.getElementById("cn2Options").innerHTML = `${cnOptions}`
+  document.getElementById("cn2Options").innerHTML = `<option disabled selected value>-- select -- </option> ${cnOptions}`
 });
 }
 
@@ -85,7 +85,7 @@ fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/cons_practice.lum`)
   const consOptions = consNames.map((el, i) => {
     return `<option title=${consDOptions[i]} value=${el}>${el}</option>`;
   });
-  document.getElementById("cons").innerHTML = `${consOptions}`
+  document.getElementById("cons").innerHTML = `<option disabled selected value>-- select -- </option> ${consOptions}`
 });
 }
 
@@ -102,23 +102,60 @@ fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/ovn_table.lum`)
   const nOptions = nNames.map((el, i) => {
     return `<option title=${manNDOptions[i]} value=${el}>${el}</option>`;
   });
-  document.getElementById("manN").innerHTML = `${nOptions}`
+  document.getElementById("manN").innerHTML = `<option disabled selected value>-- select -- </option>  ${nOptions}`
 });
 }
+
+export function getUrbanList(scenario){
+  //gets the urban landuse
+  fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/urban.urb`)
+  .then(function(data){
+    const cleanUrban = cleanLanduse(data);
+    const urbanNames = getLanduseTypes(cleanUrban);
+    const urbanDescription = getLUDescriptions(cleanUrban)
+    const urbanDOptions = urbanDescription.map((el, i)=> {
+      return `${el}`
+    });
+
+  const urbanOptions = urbanNames.map((el,i)=>{
+    return `<option data-toggle="tooltip" title="${urbanDOptions[i]}"> ${el +'_comm'}</option>`
+  });
+  document.getElementById("urbanLUList").innerHTML = `<option disabled selected value>-- select -- </option> ${urbanOptions} <option title = "null"> null </option>`
+  });
+  }
+  
+function getPlantComTypes(data) {
+  const plantCom = data.map(record => record.pcom_name);
+  return plantCom
+}
+
 
 //exported to main.js to make the landuseform
 export function landuseTypes() {
 
-  //makes luForm popup by pressing button, close by clicking on body
-  document.getElementById("openLuForm").onclick = openLuForm;
-  document.getElementById("popupClose").onclick = closeLuForm;
-  function openLuForm() {
+  //makes luForm popup by pressing button and updates plant selection, close by clicking on body
+  document.getElementById("openLuForm").addEventListener("click",()=>{
     document.getElementById("luForm").style.display = "block";
     document.getElementById("result").innerHTML = "";
-  }
+    const pcomOptions = getPlantComTypes(window.LLYFNIPlant)
+    const pcomTypesOptions = pcomOptions.map((el, i) => {
+      return `<option value=${el}>${el}</option>`;
+    });
+    document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option> ${pcomTypesOptions} <option title = "null"> null </option>`;
+  }) 
+  document.getElementById("popupClose").onclick = closeLuForm;
   function closeLuForm() {
     document.getElementById("luForm").style.display = "none";
   }
+
+
+ 
+  
+
+    // console.log(pcomOptions)
+
+
+    
 
   //declaring form elements as onsctants, adding default values
   const newLuButton = document.getElementById("newLuButton");
@@ -126,17 +163,42 @@ export function landuseTypes() {
   const luName = document.getElementById("luName");
   const luCalGroup = document.getElementById("calGroup")
   luCalGroup.setAttribute('value', 'null')
-  const plantCom = document.getElementById("luPlantComselect")
+  const plantCom = document.getElementById("luPlantCom")
+
+  plantCom.addEventListener("change", () =>{
+    if (plantCom.value !== "null"){
+      document.getElementById("urbanLUList").innerHTML = `<option title="null" value="null" selected> null </option>`
+      document.getElementById("urbRo").innerHTML = `<option title="null" value="null" selected> null </option>`
+      // document.getElementById("urbanLU").style.background = "light-gray"
+      luName.value = plantCom.value.substring(0, 4);
+    } else {
+      document.getElementById("urbanLUList").innerHTML = `<option disabled selected value>-- select -- </option> ${getUrbanList(window.currentScenario)} <option title = "null"> null </option>`
+      document.getElementById("urbRo").innerHTML = `<option disabled selected value>-- select -- </option>
+      <option value="buildup_washoff">buildup_washoff</option>
+      <option value="usgs_reg">usgs_reg</option>
+      <option value="null">null</option>`
+    }
+  })
+
   const luMgt = document.getElementById("luMgt")
   luMgt.setAttribute('value', 'null')
-  const cn2 = document.getElementById("cn2")
-  const consPractice = document.getElementById("consPracticeDatalist")
+  const cn2 = document.getElementById("cn2Options")
+  const consPractice = document.getElementById("cons")
   // consPractice.setAttribute('value', 'up_down_slope')
-  const urban = document.getElementById("urban")
-  urban.setAttribute('value', 'null')
+  const urban = document.getElementById("urbanLUList")
+  //stops a plant community being picked if urban landuse is chosen 
+ urban.addEventListener("change", () =>{
+    if (urban.value !== "null"){
+      document.getElementById("luPlantCom").innerHTML = `<option title="null" value="null" selected> null </option>`
+      luName.value = urban.value.substring(0, 4);
+    } else {
+      document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option> ${pcomTypesOptions} <option title = "null"> null </option>`
+    }
+  })
+ 
   const urbRo = document.getElementById("urbRo")
   urbRo.setAttribute('value', 'null')
-  const ovMann = document.getElementById("ovMannDatalist")
+  const ovMann = document.getElementById("manN")
   const tile = document.getElementById("tile")
   tile.setAttribute('value', 'null')
   const sep = document.getElementById("sep")
@@ -148,6 +210,7 @@ export function landuseTypes() {
   const bmp = document.getElementById("bmp")
   bmp.setAttribute('value', 'null')
 
+  
 
 
 
@@ -223,5 +286,6 @@ getConsPractice,
 getCurveNumer,
 getManN,
 getLanduseData,
+getUrbanList
 }
 

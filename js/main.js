@@ -1,7 +1,7 @@
 import fetchData from "/js/modules/universalFunctions.js";
 import { populateTable, cleanHru, getHru, updateHru, getHruData } from "/js/modules/hru_dataFunctions.js";
-import { getPlantOptions, cleanPlant, newPlantType, getSwatPlantList, getSwatUrbanPlantList, getPlantData} from "/js/modules/plantFunctions.js";
-import { cleanLanduse, getLanduseTypes, landuseTypes, getConsPractice, getCurveNumer, getManN } from "/js/modules/landuseFunctions.js";
+import { getPlantOptions, cleanPlant, newPlantType, getSwatPlantList, getPlantData} from "/js/modules/plantFunctions.js";
+import { cleanLanduse, getLanduseTypes, landuseTypes, getConsPractice, getCurveNumer, getManN, getUrbanList } from "/js/modules/landuseFunctions.js";
 import { updateTooltips, makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js";
 import { hydrograph, scenarioOptions } from "/js/modules/outputVisFunctions.js";
 import { timeSim, printPrt } from "/js/modules/modelFunctions.js";
@@ -38,21 +38,36 @@ import { getLanduseData } from "/js/modules/landuseFunctions.js";
 
 //import upload from "/js/modules/upload.js";
 
+// Has the page loaded fully yet?
+window.init = false;
+
 printPrt()
 timeSim()
 
 await scenarioOptions()
-hydrograph(window.currentScenario)
-getLanduseData(window.currentScenario)
-getPlantData(window.currentScenario)
+
+getPlantData('Default')
+getLanduseData('Default')
+
 // graphTab()
-choropleth(window.currentScenario)
-getSwatPlantList(window.currentScenario)
-getSwatUrbanPlantList(window.currentScenario)
-getConsPractice(window.currentScenario)
-getCurveNumer(window.currentScenario)
-getManN(window.currentScenario)
- getHruData(window.currentScenario)
+choropleth('Default')
+getSwatPlantList('Default')
+getUrbanList('Default')
+getConsPractice('Default')
+getCurveNumer('Default')
+getManN('Default')
+await hydrograph('Default')
+
+ 
+// getLanduseData(window.currentScenario)
+// getPlantData(window.currentScenario)
+// // graphTab()
+// choropleth(window.currentScenario)
+// getSwatPlantList(window.currentScenario)
+// getSwatUrbanPlantList(window.currentScenario)
+// getConsPractice(window.currentScenario)
+// getCurveNumer(window.currentScenario)
+// getManN(window.currentScenario)
 
  
 
@@ -102,20 +117,26 @@ getManN(window.currentScenario)
 
 
 
-
-
-
-// leaflet.js
-// Initialize the map and set its view to chosen coordinates, zoom, default layers
-window.map = L.map('map').setView([53.046775, -4.286951], 12, [streets]);
-var satellite = makeSatelliteMap();
-var streets = makeStreetMap().addTo(map);
-//calling function from mapFunctions.js to convert the ziped shape files into geoJSON files  
-// only add HRUs2 (1 is 'Actual HRUs')
 var rivers = shpToGeoJSON('LLYFNI2/Watershed/Shapes/rivs1.zip')
 var subBasins = shpToGeoJSON('LLYFNI2/Watershed/Shapes/subs1.zip')
 var hrus = shpToGeoJSON('LLYFNI2/Watershed/Shapes/hrus2.zip')
 
+//gets the coordinates of hru1 and returns it to use as the starting center for leaflet map
+ const coordinates = await shp('LLYFNI2/Watershed/Shapes/hrus2.zip')
+ const HRU1Coordinates = coordinates.features[0].geometry.bbox.slice(1,3)
+//  console.log(HRU1Coordinates)
+
+
+
+// leaflet.js
+// Initialize the map and set its view to hru1 coordinates, zoom, default layers
+window.map = L.map('map').setView(HRU1Coordinates, 11, [streets]);
+var satellite = makeSatelliteMap();
+var streets = makeStreetMap().addTo(map);
+//calling function from mapFunctions.js to convert the ziped shape files into geoJSON files  
+// only add HRUs2 (1 is 'Actual HRUs')
+
+getHruData('Default')
 
 
 
@@ -132,6 +153,8 @@ hrus.once("data:loaded", function () {
     hrus.setStyle({ color: '#b0c4de', weight: 1 });
     // console.log("finished loading hrus");
 });
+
+
 
 rivers.addTo(map);
 rivers.once("data:loaded", function () {
@@ -156,6 +179,12 @@ var overlayMaps = {
     "Channels": rivers,
     "Sub-Basins": subBasins
 };
+
+
+// hrus.on('layeradd', function (e) {
+//     var latLong = e.layer.getLatLng()
+//     console.log(latLong)
+// })
 
 //leaflets.js function to add layers to map with a drop down selection list
 L.control.layers(baseMaps, overlayMaps).addTo(map);
@@ -246,12 +275,15 @@ intersect.addEventListener('change', () => {
 //     updateTooltips()
 //   })
 // })
+document.getElementById("link").addEventListener('click',() =>{
+    console.log(document.getElementById("myFile").value)
+}
+)
 
 
 newPlantType()
-
-
 landuseTypes()
+
 
 //creats the upload popup
 document.getElementById("uploadButton").onmousedown = openUploadForm;
@@ -289,24 +321,45 @@ export function updateCurrentScenario(scenario) {
 
 
 updateCurrentScenario('Default');
+
+
 // Create New Scenario Button
+function openPlantForm() {
+    document.getElementById("plantForm").style.display = "block";
+    document.getElementById("result").innerHTML ="";
+  }
+  function closePlantForm() {
+    document.getElementById("plantForm").style.display = "none";
+  }
+  function openLuForm() {
+    document.getElementById("luForm").style.display = "block";
+    document.getElementById("result").innerHTML = "";
+  }
+  function closeLuForm() {
+    document.getElementById("luForm").style.display = "none";
+  }
 
-
+  
 //when Default is selected there is no lasso tools available
 function lassoSelectionControl(scenario) {
     if (scenario === "Default") {
         document.getElementById("lassoControls").style.display = "none";
         document.getElementById("lassoButtonControl").style.display = "none";
          document.getElementById("result").innerHTML = "";
+         document.getElementById("openPlantForm").onclick = closePlantForm;
+         document.getElementById("openLuForm").onclick = closeLuForm;
 
     }
     else {
         document.getElementById("lassoControls").style.display = "block";
         document.getElementById("lassoButtonControl").style.display = "block";
+        document.getElementById("openPlantForm").onclick = openPlantForm;
+        document.getElementById("openLuForm").onclick = openLuForm;
         // document.getElementById("result").style.display = "block";
     }
 }
-
+//Asignes selection control to default scenario when page loads
+lassoSelectionControl('Default')
 
 //when the scenario tab is clicked the function lassoSelectionControl is called
 const scenarioTabs = document.getElementById('scenarioTab')

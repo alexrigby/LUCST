@@ -88,7 +88,7 @@ function getScenarios(res) {
     res.send(_getScenarios());
 }
 
-// API METHOD: SaveHRU
+// API METHOD: saveHRU
 // Save HRU to disk
 function saveHRU(req, res) {
     let scenario = req.body.scenario;
@@ -105,6 +105,8 @@ function saveHRU(req, res) {
         res.send({ code: 0, message: "Requested invalid scenario" })
     }
 }
+
+
 
 // API METHOD: savePlotData
 function savePlotData(req, res) {
@@ -217,6 +219,7 @@ function runSWAT(res, scenario) {
 
 
 // HELPERS
+
 
 const convertToTSV = (data) => {
     // Convert dataset to TSV and print

@@ -2,9 +2,9 @@ import fetchData from "/js/modules/universalFunctions.js";
 import { populateTable, cleanHru, getHru, updateHru, getHruData } from "/js/modules/hru_dataFunctions.js";
 import { getPlantOptions, cleanPlant, newPlantType, getSwatPlantList, getPlantData} from "/js/modules/plantFunctions.js";
 import { cleanLanduse, getLanduseTypes, landuseTypes, getConsPractice, getCurveNumer, getManN, getUrbanList } from "/js/modules/landuseFunctions.js";
-import { updateTooltips, makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection } from "/js/modules/mapFunctions.js";
+import { updateTooltips, makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection, makeOutdoorsMap, makeOsMap } from "/js/modules/mapFunctions.js";
 import { hydrograph, scenarioOptions } from "/js/modules/outputVisFunctions.js";
-import { timeSim, printPrt } from "/js/modules/modelFunctions.js";
+// import { timeSim, printPrt } from "/js/modules/modelFunctions.js";
 import choropleth from "/js/modules/choroplethFunctions.js";
 import { getLanduseData } from "/js/modules/landuseFunctions.js";
 
@@ -41,8 +41,8 @@ import { getLanduseData } from "/js/modules/landuseFunctions.js";
 // Has the page loaded fully yet?
 window.init = false;
 
-printPrt()
-timeSim()
+// printPrt()
+// timeSim()
 
 await scenarioOptions()
 
@@ -76,7 +76,7 @@ document.getElementById("hruTable").style.display = "none";
 // hru-data.hru:
 // Fetch unclean dataset...
 
-// fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/hru-data.hru')
+// fetchData('/catchment/Scenarios/Default/TxtInOut/hru-data.hru')
 // .then(data => {
 //     // Clean the dataset...
 //     const cleanHruData = cleanHru(data);
@@ -85,21 +85,21 @@ document.getElementById("hruTable").style.display = "none";
 //     const cleanHruDataCopy = [...cleanHruData];
 
 //     // Replace this with a state management solution
-//     window.LLYFNIData = [...cleanHruData];
-//     console.log(window.LLYFNIData)
+//     window.catchmentData = [...cleanHruData];
+//     console.log(window.catchmentData)
 // });
 
 
 
 // landuse.lum:
 // Fetch unclean dataset...
-// fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/landuse.lum')
+// fetchData('/catchment/Scenarios/Default/TxtInOut/landuse.lum')
 //     .then(data => {
 //         const cleanLanduseData = cleanLanduse(data);
 //         const cleanLanduseDataCopy = [...cleanLanduseData];
 //         const landuseTypes = getLanduseTypes(cleanLanduseData);
-//         window.LLYFNILanduse = [...landuseTypes];
-//         window.LLYFNILanduseEdit = [...cleanLanduseData];
+//         window.catchmentLanduse = [...landuseTypes];
+//         window.catchmentLanduseEdit = [...cleanLanduseData];
 
 //     });
 
@@ -107,23 +107,23 @@ document.getElementById("hruTable").style.display = "none";
 
 // // plant.ini:
 // // Fetch unclean dataset...
-// fetchData('/LLYFNI2/Scenarios/Default/TxtInOut/plant.ini')
+// fetchData('/catchment/Scenarios/Default/TxtInOut/plant.ini')
 //     .then(data => {
 //         const cleanPlantData = cleanPlant(data);
 //         const cleanPlantDataCopy = [...cleanPlantData];
-//         window.LLYFNIPlant = [...cleanPlantData];
+//         window.catchmentPlant = [...cleanPlantData];
 
 //     });
 
 
 
 
-var rivers = shpToGeoJSON('LLYFNI2/Watershed/Shapes/rivs1.zip')
-var subBasins = shpToGeoJSON('LLYFNI2/Watershed/Shapes/subs1.zip')
-var hrus = shpToGeoJSON('LLYFNI2/Watershed/Shapes/hrus2.zip')
+var rivers = shpToGeoJSON('catchment/Watershed/Shapes/rivs1.zip')
+var subBasins = shpToGeoJSON('catchment/Watershed/Shapes/subs1.zip')
+var hrus = shpToGeoJSON('catchment/Watershed/Shapes/hrus2.zip')
 
 //gets the coordinates of hru1 and returns it to use as the starting center for leaflet map
- const coordinates = await shp('LLYFNI2/Watershed/Shapes/hrus2.zip')
+ const coordinates = await shp('catchment/Watershed/Shapes/hrus2.zip')
  const HRU1Coordinates = coordinates.features[0].geometry.bbox.slice(1,3)
 //  console.log(HRU1Coordinates)
 
@@ -134,6 +134,8 @@ var hrus = shpToGeoJSON('LLYFNI2/Watershed/Shapes/hrus2.zip')
 window.map = L.map('map').setView(HRU1Coordinates, 11, [streets]);
 var satellite = makeSatelliteMap();
 var streets = makeStreetMap().addTo(map);
+var outdoors = makeOutdoorsMap()
+// var os = makeOsMap()
 //calling function from mapFunctions.js to convert the ziped shape files into geoJSON files  
 // only add HRUs2 (1 is 'Actual HRUs')
 
@@ -172,7 +174,9 @@ subBasins.once("data:loaded", function () {
 // map layer objects 
 var baseMaps = {
     "satellite": satellite,
-    "streets": streets
+    "streets": streets,
+    "terrain" : outdoors,
+    // "OS" : os,
 };
 
 var overlayMaps = {
@@ -329,6 +333,7 @@ updateCurrentScenario('Default');
 function openPlantForm() {
     document.getElementById("plantForm").style.display = "block";
     document.getElementById("result").innerHTML ="";
+    document.getElementById("hruTable").style.display = "none";
   }
   function closePlantForm() {
     document.getElementById("plantForm").style.display = "none";
@@ -336,6 +341,7 @@ function openPlantForm() {
   function openLuForm() {
     document.getElementById("luForm").style.display = "block";
     document.getElementById("result").innerHTML = "";
+    document.getElementById("hruTable").style.display = "none";
   }
   function closeLuForm() {
     document.getElementById("luForm").style.display = "none";

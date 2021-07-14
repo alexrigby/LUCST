@@ -225,6 +225,17 @@ footer {
   border: solid black 2px;
 }
 
+.timeSeries{
+  display:flex;
+  width: 100%;
+  flex: 6;
+}
+
+.choropleth{
+  display:flex;
+  width: 100%;
+  flex: 4;
+}
 .progressBarBorder{
  
   background-color: gray;

@@ -2,9 +2,9 @@ import {updateTooltips} from "/js/modules/mapFunctions.js";
 import fetchData from "/js/modules/universalFunctions.js"
 //hru_data.hru//
 
-//making function dynamic means that LLYFNI Data is wread from the correct HRU each time
+//making function dynamic means that catchment Data is wread from the correct HRU each time
 export function getHruData(scenario){
-  fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/hru-data.hru`)
+  fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/hru-data.hru`)
       .then(data => {
       
           // Clean the dataset...
@@ -12,10 +12,10 @@ export function getHruData(scenario){
           // Saving a copy of the dataset
   
           // Replace this with a state management solution
-          window.LLYFNIData = [...cleanHruData];
+          window.catchmentData = [...cleanHruData];
           // console.log('chd', cleanHruData);
           updateTooltips(cleanHruData, 'test')
-          // console.log(window.LLYFNIData)
+          // console.log(window.catchmentData)
       });
   }
 
@@ -86,7 +86,7 @@ export function updateHru(data, id, lu_mgt) {
 
 export function getUrbanList(scenario){
   //gets the urban landuse
-  fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/urban.urb`)
+  fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/urban.urb`)
   .then(function(data){
     const cleanUrban = cleanPlants(data);
     const urbanNames = getPlantOptions(cleanUrban);
@@ -120,11 +120,11 @@ function getLanduseTooltip(data) {
 }
 
 export function populateTable(data) {
-  const landuseTypes = getLanduseTypes(window.LLYFNILanduseEdit)
-  const landuseTooltip = getLanduseTooltip(window.LLYFNILanduseEdit)
+  const landuseTypes = getLanduseTypes(window.catchmentLanduseEdit)
+  const landuseTooltip = getLanduseTooltip(window.catchmentLanduseEdit)
   
   
-//  const hruData = window.LLYFNIData
+//  const hruData = window.catchmentData
 // console.log(hruData)
   const landuseTypesOptions = landuseTypes.map((el, i) => {
     return `<option title="${landuseTooltip[i]}" value=${el}>${el}</option>`;
@@ -136,9 +136,9 @@ export function populateTable(data) {
   const shpFileHrus = data.hrus.map(function(v){
     return parseInt(v);
   })
-// map HRUs(from shapefile) to id's from window.LLYFNIData to display correct hru lu_mgt in table
+// map HRUs(from shapefile) to id's from window.catchmentData to display correct hru lu_mgt in table
   const hruLuSelection = shpFileHrus.map(shpHru => {
-    const obj = window.LLYFNIData.find(record => record.id == shpHru);
+    const obj = window.catchmentData.find(record => record.id == shpHru);
     return {...shpHru, ...obj };
   })
 
@@ -170,7 +170,7 @@ export function populateTable(data) {
 
   table +=
     `<tr>
-         <td> ${data.hrus.length} of ${window.LLYFNIData.length} selected</br>
+         <td> ${data.hrus.length} of ${window.catchmentData.length} selected</br>
          <button class="lulc-clear">CLEAR</button>
         </td>
          <td> <button class="lulc-editAll-button" data-hru=${data.hrus}> SAVE ALL </button></td>
@@ -211,12 +211,12 @@ export function populateTable(data) {
     
   
       // UPDATE THE DATASET
-      window.LLYFNIData[el.dataset.hru - 1].lu_mgt = `${newLanduse}`;
+      window.catchmentData[el.dataset.hru - 1].lu_mgt = `${newLanduse}`;
 
 
-      // const newHruData = convertToTSV(window.LLYFNIData);
-      downloadButton(window.LLYFNIData, 'hru-data.hru');
-      updateTooltips(window.LLYFNIData)
+      // const newHruData = convertToTSV(window.catchmentData);
+      downloadButton(window.catchmentData, 'hru-data.hru');
+      updateTooltips(window.catchmentData)
     })
   })
 
@@ -234,14 +234,14 @@ export function populateTable(data) {
 
 
     hrusToUpdate.forEach((el, i, arr) => {
-      window.LLYFNIData[parseInt(el) - 1].lu_mgt = `${allNewLanduse}`
+      window.catchmentData[parseInt(el) - 1].lu_mgt = `${allNewLanduse}`
      
     });
-    updateTooltips(window.LLYFNIData)
-    // const newHruData = convertToTSV(window.LLYFNIData);
+    updateTooltips(window.catchmentData)
+    // const newHruData = convertToTSV(window.catchmentData);
 
     // downloadButton(newHruData, 'hru-data.hru');
-    downloadButton(window.LLYFNIData, 'hru-data.hru');
+    downloadButton(window.catchmentData, 'hru-data.hru');
     alert('New hru_data file writen')
   });
 

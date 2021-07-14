@@ -2,11 +2,11 @@ import fetchData from "/js/modules/universalFunctions.js";
 
 
 export function getPlantData(scenario){
-fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/plant.ini`)
+fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/plant.ini`)
     .then(data => {
         const cleanPlantData = cleanPlant(data);
         
-        window.LLYFNIPlant = [...cleanPlantData];
+        window.catchmentPlant = [...cleanPlantData];
         // console.log(cleanPlantData)
 
     });
@@ -120,7 +120,7 @@ function getPlantDescriptions(data) {
 
 export function getSwatPlantList(scenario){
 // auto fill name datalist from plants.plt, add _comm to planr name
-fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/plants.plt`)
+fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/plants.plt`)
 .then(function (data) {
   const cleanPlantTypes = cleanPlants(data);
   //gets the plant type names from plants.plt
@@ -244,12 +244,13 @@ export function newPlantType() {
 
     console.log(newPlantSelection)
     //adds form data to plant.ini file
-    window.LLYFNIPlant.push(newPlantSelection)
+    window.catchmentPlant.push(newPlantSelection)
 
    
 
 
-    const pcomOptions = getPlantComTypes(window.LLYFNIPlant)
+    const pcomOptions = getPlantComTypes(window.catchmentPlant)
+    // console.log(pcomOptions)
     const pcomTypesOptions = pcomOptions.map((el, i) => {
       return `<option value=${el}>${el}</option>`;
     });
@@ -257,9 +258,9 @@ export function newPlantType() {
 
 
     //converts file and links to download button 
-    // const newPlantTypeFile = convertToTSV(window.LLYFNIPlant)
+    // const newPlantTypeFile = convertToTSV(window.catchmentPlant)
     // downloadPlantButton(newPlantTypeFile, "plant.ini")
-    sendPlantFile(window.LLYFNIPlant);
+    sendPlantFile(window.catchmentPlant);
     // DO SOME STUFF WITH THE RESPONSE.
 
     alert('New plant comunity written: ' + plantComName.value)

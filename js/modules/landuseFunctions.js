@@ -4,14 +4,14 @@ import fetchData from "/js/modules/universalFunctions.js";
 //landuse.lum//
 
 export function getLanduseData(scenario){
-fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/landuse.lum`)
+fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/landuse.lum`)
   .then(data => {
       const cleanLanduseData = cleanLanduse(data);
       // console.log(cleanLanduseData)
       const landuseTypes = getLanduseTypes(cleanLanduseData);
-      window.LLYFNILanduse = [...landuseTypes];
-      window.LLYFNILanduseEdit = [...cleanLanduseData];
-// console.log(window.LLYFNILanduseEdit)
+      window.catchmentLanduse = [...landuseTypes];
+      window.catchmentLanduseEdit = [...cleanLanduseData];
+console.log(window.catchmentLanduseEdit)
   });
 }
 
@@ -56,7 +56,7 @@ export function getLanduseTypes(data) {
 
 export function getCurveNumer(scenario){
 //auto fill cn number Datalist from cntable.lum
-fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/cntable.lum`)
+fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/cntable.lum`)
 .then(function (data) {
   const cleanCnData = cleanLanduse(data);
   const cnNames = getLanduseTypes(cleanCnData);
@@ -74,7 +74,7 @@ fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/cntable.lum`)
 
 export function getConsPractice(scenario){
 //auto fill  cons practice datalist from Cons_practice.lum
-fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/cons_practice.lum`)
+fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/cons_practice.lum`)
 .then(function (data) {
   const cleanConsData = cleanLanduse(data);
   const consNames = getLanduseTypes(cleanConsData);
@@ -91,7 +91,7 @@ fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/cons_practice.lum`)
 
 export function getManN(scenario){
 // auto fill mannings n datalist from ovn_mann.lum
-fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/ovn_table.lum`)
+fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/ovn_table.lum`)
 .then(function (data) {
   const cleanNData = cleanLanduse(data);
   const nNames = getLanduseTypes(cleanNData);
@@ -108,7 +108,7 @@ fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/ovn_table.lum`)
 
 export function getUrbanList(scenario){
   //gets the urban landuse
-  fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/urban.urb`)
+  fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/urban.urb`)
   .then(function(data){
     const cleanUrban = cleanLanduse(data);
     const urbanNames = getLanduseTypes(cleanUrban);
@@ -135,9 +135,10 @@ return plantTypes
 
 //exported to main.js to make the landuseform
 export function landuseTypes() {
-  const pcomOptions = getPlantComTypes(window.LLYFNIPlant)
+ 
   //makes luForm popup by pressing button and updates plant selection, close by clicking on body
   document.getElementById("openLuForm").addEventListener("click",()=>{
+    const pcomOptions = getPlantComTypes(window.catchmentPlant)
     document.getElementById("luForm").style.display = "block";
     document.getElementById("result").innerHTML = "";
    
@@ -196,7 +197,7 @@ export function landuseTypes() {
       document.getElementById("luPlantCom").innerHTML = `<option title="null" value="null" selected> null </option>`
       luName.value = urban.value.substring(0, 4) +'_lum';
     } else {
-      document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option> ${pcomOptions} <option title = "null"> null </option>`
+      document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option> ${getPlantComTypes(window.catchmentPlant)} <option title = "null"> null </option>`
     }
   })
  
@@ -241,11 +242,11 @@ export function landuseTypes() {
     
 
     //adds the new landuse to landuse.window object
-    window.LLYFNILanduseEdit.push(newLu)
+    window.catchmentLanduseEdit.push(newLu)
     //converts landuse.window object to TSV and downloads as txt
-    // const newLanduseFile = convertToTSV(window.LLYFNILanduseEdit)
+    // const newLanduseFile = convertToTSV(window.catchmentLanduseEdit)
     // downloadLuButton(newLanduseFile, "landuse.lum")
-    sendLanduseFile(window.LLYFNILanduseEdit);
+    sendLanduseFile(window.catchmentLanduseEdit);
     alert('New land use written: ' + luName.value)
   });
 

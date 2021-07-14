@@ -115,7 +115,7 @@ async function downloadHydrographCsv(data, fileName) {
 export function hydrograph(scenario) {
 
 
-  fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/channel_sd_day.csv`)
+  fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/channel_sd_day.csv`)
     .then(data => {
 
       const cleanOutput = cleanCsvOutput(data);
@@ -177,7 +177,7 @@ export function hydrograph(scenario) {
 
             "vconcat": [{
 
-              "width": "750",
+              "width": "container",
               "mark": "line",
               "encoding": {
                 "x": {
@@ -195,7 +195,7 @@ export function hydrograph(scenario) {
                 }
               }
             }, {
-              "width": "750",
+              "width": "container",
               "height": 60,
               "mark": "line",
               "params": [{
@@ -236,7 +236,7 @@ export function hydrograph(scenario) {
     });
 
 
-  fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/chandeg.con`)
+  fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/chandeg.con`)
     .then(data => {
       //clean txt file
       const clean = cleanTxtOutput(data);
@@ -293,7 +293,7 @@ export async function scenarioOptions() {
 
           updateCurrentScenario(data[i]);
           getPlantData(data[i]);
-          // console.log(window.LLYFNIPlant)
+          // console.log(window.catchmentPlant)
           getSwatPlantList(data[i]);
           getUrbanList(data[i]);
           getConsPractice(data[i]);

@@ -53,7 +53,7 @@ function getDisplayData(data, name) {
 
 export function choropleth(scenario) {
     //NEED TO SWAP FOR AN API OPTION
-    fetchData(`LLYFNI2/Scenarios/${scenario}/TxtInOut/hru_wb_mon.csv`)
+    fetchData(`catchment/Scenarios/${scenario}/TxtInOut/hru_wb_mon.csv`)
         .then(data => {
             const cleanOutput = cleanCsvOutput(data)
             const date = getShortDate(cleanOutput);
@@ -96,13 +96,13 @@ export function choropleth(scenario) {
 
                     //NEED TO SWAP FOR AN API OPTION
                     //takes the shapefile and returns geojson object where we can access the properties 
-                    shp("LLYFNI2/Watershed/Shapes/hrus2.zip").then(function (geojson) {
+                    shp("catchment/Watershed/Shapes/hrus2.zip").then(function (geojson) {
 
 
                         var choro = {
 
                             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-                            "width": "400",
+                            "width": "container",
                             "height": "300",
                             "title": outputOps + " for " + monOpts.value,
                             //uses the geojson as main data source (gets coordinates and HRUS key)

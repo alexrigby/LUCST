@@ -21,8 +21,8 @@ export function shpToGeoJSON(url) {
 //         if(layer.feature?.properties?.HRUS) {
 //             layer.bindPopup(Object.keys(layer.feature.properties).map(function (k, i) {
 //                 if(k === "Landuse") {
-//                     console.log(k, window.LLYFNIData[i].lu_mgt)
-//                     return k + ": " + window.LLYFNIData[i].lu_mgt.substr(0, 4).toUpperCase();
+//                     console.log(k, window.catchmentData[i].lu_mgt)
+//                     return k + ": " + window.catchmentData[i].lu_mgt.substr(0, 4).toUpperCase();
 //                 } else {
 //                     return k + ": " + layer.feature.properties[k];
 //                 }
@@ -65,6 +65,29 @@ export function makeStreetMap() {
         accessToken: 'pk.eyJ1IjoiYWxleHJpZ2J5IiwiYSI6ImNra3V6ZHUxdjRkdGIycHF0OWY2MmY1MGoifQ.huw3PRhwLPINPzih4CGrhQ'
     });
 }
+
+export function makeOutdoorsMap(){
+    return L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',{
+        maxZoom: 18,
+        id: 'mapbox/outdoors-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'pk.eyJ1IjoiYWxleHJpZ2J5IiwiYSI6ImNra3V6ZHUxdjRkdGIycHF0OWY2MmY1MGoifQ.huw3PRhwLPINPzih4CGrhQ'
+    });
+
+}
+
+export function makeOsMap(){
+   return L.tileLayer('https://api.os.uk/maps/raster/v1/wmts?key=n3idbQBd2fTfGq0Adr6kNoBtSOsy7TNa',{
+    maxZoom: 18,
+    // id: 'mapbox/outdoors-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'n3idbQBd2fTfGq0Adr6kNoBtSOsy7TNa'
+});
+}
+    
+
 
 
 
@@ -120,6 +143,8 @@ export default {
     makeStreetMap,
     onMapSelection,
     updateTooltips,
+    makeOutdoorsMap,
+    makeOsMap
 }
 
 

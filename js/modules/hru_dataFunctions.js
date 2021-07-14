@@ -184,6 +184,7 @@ export function populateTable(data) {
     ;
 
 
+    document.getElementById("result").innerHTML = table;
 
   const convertToTSV = (data) => {
     // Convert dataset to TSV and print
@@ -200,7 +201,6 @@ export function populateTable(data) {
  
  
 
-  document.getElementById("result").innerHTML = table;
   //assignes the butons called above to a variable
   const lulcEditButtons = document.querySelectorAll(".lulc-edit-button");
 
@@ -247,8 +247,9 @@ export function populateTable(data) {
 
   const lulcClearButton = document.querySelector(".lulc-clear");
   lulcClearButton.addEventListener('click', ()=>{
-    document.getElementById("result").innerHTML = "";
+    document.getElementById("hruTable").style.display = "none";
   });
+
 }
 
 

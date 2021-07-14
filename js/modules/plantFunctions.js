@@ -7,7 +7,7 @@ fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/plant.ini`)
         const cleanPlantData = cleanPlant(data);
         
         window.LLYFNIPlant = [...cleanPlantData];
-        console.log(cleanPlantData)
+        // console.log(cleanPlantData)
 
     });
   }

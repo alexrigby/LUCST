@@ -115,7 +115,7 @@ async function downloadHydrographCsv(data, fileName) {
 export function hydrograph(scenario) {
 
 
-  const dataset = fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/channel_sd_day.csv`)
+  fetchData(`/LLYFNI2/Scenarios/${scenario}/TxtInOut/channel_sd_day.csv`)
     .then(data => {
 
       const cleanOutput = cleanCsvOutput(data);
@@ -276,6 +276,7 @@ export async function scenarioOptions() {
     .then(response => response.json())
     .then(data => {
       const scenarioCount = data.length;
+      window.currentScenarioVersion = scenarioCount;
 
       //loops over the scenario names asigning new button for each name
       //calls variable i assignes index 0 to it, button count has to be grater than i, increment i by 1 each time

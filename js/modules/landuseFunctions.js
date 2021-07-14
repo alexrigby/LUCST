@@ -126,22 +126,26 @@ export function getUrbanList(scenario){
   
 function getPlantComTypes(data) {
   const plantCom = data.map(record => record.pcom_name);
-  return plantCom
+ const plantTypes = plantCom.map((el, i) => {
+  return `<option value=${el}>${el}</option>`;
+});
+return plantTypes
 }
 
 
 //exported to main.js to make the landuseform
 export function landuseTypes() {
-
+  const pcomOptions = getPlantComTypes(window.LLYFNIPlant)
   //makes luForm popup by pressing button and updates plant selection, close by clicking on body
   document.getElementById("openLuForm").addEventListener("click",()=>{
     document.getElementById("luForm").style.display = "block";
     document.getElementById("result").innerHTML = "";
-    const pcomOptions = getPlantComTypes(window.LLYFNIPlant)
-    const pcomTypesOptions = pcomOptions.map((el, i) => {
-      return `<option value=${el}>${el}</option>`;
-    });
-    document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option> ${pcomTypesOptions} <option title = "null"> null </option>`;
+   
+    // console.log(pcomOptions)
+    // const pcomTypesOptions = pcomOptions.map((el, i) => {
+    //   return `<option value=${el}>${el}</option>`;
+    // });
+    document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option> ${pcomOptions} <option title = "null"> null </option>`;
   }) 
   document.getElementById("popupClose").onclick = closeLuForm;
   function closeLuForm() {
@@ -190,9 +194,9 @@ export function landuseTypes() {
  urban.addEventListener("change", () =>{
     if (urban.value !== "null"){
       document.getElementById("luPlantCom").innerHTML = `<option title="null" value="null" selected> null </option>`
-      luName.value = urban.value.substring(0, 4);
+      luName.value = urban.value.substring(0, 4) +'_lum';
     } else {
-      document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option> ${pcomTypesOptions} <option title = "null"> null </option>`
+      document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option> ${pcomOptions} <option title = "null"> null </option>`
     }
   })
  

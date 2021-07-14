@@ -58,7 +58,8 @@ getCurveNumer('Default')
 getManN('Default')
 await hydrograph('Default')
 
- 
+//hides the hruTable by default
+document.getElementById("hruTable").style.display = "none";
 // getLanduseData(window.currentScenario)
 // getPlantData(window.currentScenario)
 // // graphTab()
@@ -241,6 +242,7 @@ function setSelectedLayers(layers) {
     
 
     populateTable(hrus)
+    document.getElementById("hruTable").style.display = "block";
     //console.log(hrus)
     //lassoResult.innerHTML = layers.length ? `Selected ${layers.length} layers` : '';
 }
@@ -286,7 +288,7 @@ landuseTypes()
 
 
 //creats the upload popup
-document.getElementById("uploadButton").onmousedown = openUploadForm;
+// document.getElementById("uploadButton").onmousedown = openUploadForm;
 document.getElementById("popupClose").onmousedown = closeUploadForm;
 function openUploadForm() {
     document.getElementById("upload").style.display = "block";
@@ -345,9 +347,11 @@ function lassoSelectionControl(scenario) {
     if (scenario === "Default") {
         document.getElementById("lassoControls").style.display = "none";
         document.getElementById("lassoButtonControl").style.display = "none";
-         document.getElementById("result").innerHTML = "";
+         
          document.getElementById("openPlantForm").onclick = closePlantForm;
          document.getElementById("openLuForm").onclick = closeLuForm;
+         //when current scenario is selected no table is shown
+         document.getElementById("hruTable").style.display = "none";
 
     }
     else {
@@ -355,7 +359,7 @@ function lassoSelectionControl(scenario) {
         document.getElementById("lassoButtonControl").style.display = "block";
         document.getElementById("openPlantForm").onclick = openPlantForm;
         document.getElementById("openLuForm").onclick = openLuForm;
-        // document.getElementById("result").style.display = "block";
+        // document.getElementById("hruTable").style.display = "block";
     }
 }
 //Asignes selection control to default scenario when page loads
@@ -370,20 +374,27 @@ scenarioTabs.addEventListener('click', () => {
 document.getElementById("lassoControls").style.display = "none";
 document.getElementById("lassoButtonControl").style.display = "none";
 
-window.currentScenarioVersion = 0;
+
 
 const createNewScenarioButton = document.getElementById("createNewScenario");
 createNewScenarioButton.addEventListener("click", async function (e) {
-    console.log(window.currentScenarioVersion)
+    // console.log(window.currentScenarioVersion)
     e.preventDefault();
-    let newScenarioVersion = window.currentScenarioVersion + 1 ;
+    let newScenarioVersion = window.currentScenarioVersion ;
     console.log(newScenarioVersion)
     let newScenario = prompt("Enter name of new scenario", "Scenario " + `${newScenarioVersion}`);
+
+    // Escape hatch
+    if(newScenario === null) return;
+
     let scenarioList = null;
     let scenarioExists = false;
     await fetch('http://localhost:8000/getscenarios')
         .then(response => response.json())
-        .then(data => { scenarioList = data });
+        .then(data => { 
+            scenarioList = data;
+            window.currentScenarioVersion = data.length;
+        });
     if (newScenario === "Default") {
         console.error("New scenario cannot be 'Default'");
         window.alert("New scenario cannot be 'Default'");

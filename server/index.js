@@ -4,7 +4,7 @@ const { copySync } = require('fs-extra');
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
-const config = require('./config.json');
+const { config } = require('./config');
 const fs = require('fs');
 
 const app = express();
@@ -73,13 +73,13 @@ app.post("/sendplotdata", (req, res) => {
 
 const server = http.createServer(app);
 
-server.listen(config.server_port);
-console.log(`SWAT Server Listening on Port ${config.server_port}`);
+server.listen(config().server_port);
+console.log(`SWAT Server Listening on Port ${config().server_port}`);
 
 // PRIVATE API METHODS
 // _getScenarios
 function _getScenarios() {
-    return readdirSync(path.resolve(__dirname, config.swat_scenarios), { withFileTypes: true }).filter(dirent => dirent.isDirectory()).map(dirent => dirent.name);
+    return readdirSync(path.resolve(__dirname, config().swat_scenarios), { withFileTypes: true }).filter(dirent => dirent.isDirectory()).map(dirent => dirent.name);
 }
 
 // API METHOD: getScenarios
@@ -96,7 +96,7 @@ function saveHRU(req, res) {
 
     if (_getScenarios().includes(scenario) && scenario !== 'Default') {
         try {
-            fs.writeFileSync(path.resolve(__dirname, `${config.swat_scenarios}${scenario}/TxtInOut/hru-data.hru`), tsv);
+            fs.writeFileSync(path.resolve(__dirname, `${config().swat_scenarios}${scenario}/TxtInOut/hru-data.hru`), tsv);
             res.send({ code: 1, message: `Successfully saved hru to disk` })
         } catch {
             res.send({ code: 0, message: "HRU failed to save" })
@@ -116,7 +116,7 @@ function savePlotData(req, res) {
 
     if (_getScenarios().includes(scenario)){
     try {
-        fs.writeFileSync(path.resolve(__dirname, `${config.swat_scenarios}${scenario}/${name}.csv`), csv);
+        fs.writeFileSync(path.resolve(__dirname, `${config().swat_scenarios}${scenario}/${name}.csv`), csv);
         res.send({ code: 1, massage: `Raw plot data saved to scenario` })
     } catch {
         res.send({ code: 0, message: "Failed to save" })
@@ -134,7 +134,7 @@ function savePlant(req, res) {
 
     if (_getScenarios().includes(scenario) && scenario !== 'Default') {
         try {
-            fs.writeFileSync(path.resolve(__dirname, `${config.swat_scenarios}${scenario}/TxtInOut/plant.ini`), tsv);
+            fs.writeFileSync(path.resolve(__dirname, `${config().swat_scenarios}${scenario}/TxtInOut/plant.ini`), tsv);
             res.send({ code: 1, message: `Successfully saved plant file to disk` })
         } catch {
             res.send({ code: 0, message: "Plant file failed to save" })
@@ -155,7 +155,7 @@ function saveLum(req, res) {
 
     if (_getScenarios().includes(scenario) && scenario !== 'Default') {
         try {
-            fs.writeFileSync(path.resolve(__dirname, `${config.swat_scenarios}${scenario}/TxtInOut/landuse.lum`), tsv);
+            fs.writeFileSync(path.resolve(__dirname, `${config().swat_scenarios}${scenario}/TxtInOut/landuse.lum`), tsv);
             res.send({ code: 1, message: `Successfully saved landuse file to disk` })
         } catch {
             res.send({ code: 0, message: "Landuse file failed to save" })
@@ -170,7 +170,7 @@ function saveLum(req, res) {
 function createScenario(res, scenario) {
     // TODO: DO SOME CHECKS ON THE SCENARIO STRING!!!
     try {
-        copySync(path.resolve(__dirname, config.swat_scenarios + config.swat_default_scenario), path.resolve(__dirname, config.swat_scenarios + scenario), { overwrite: false, errorOnExist: true });
+        copySync(path.resolve(__dirname, config().swat_scenarios + config().swat_default_scenario), path.resolve(__dirname, config().swat_scenarios + scenario), { overwrite: false, errorOnExist: true });
         res.send({ "code": 1, "scenario": scenario })
     } catch (err) {
         console.log(err);
@@ -182,7 +182,7 @@ function createScenario(res, scenario) {
 // API METHOD: deleteScenario
 // delete scenario
 function deleteScenario(res, scenario) {
-    const dir = path.resolve(__dirname, config.swat_scenarios + scenario)
+    const dir = path.resolve(__dirname, config().swat_scenarios + scenario)
     fs.rmdir(dir, { recursive: true }, (err) => {
         if (err) {
             throw err;
@@ -197,7 +197,7 @@ function deleteScenario(res, scenario) {
 // Run SWAT
 function runSWAT(res, scenario) {
 
-    const process = require('child_process').spawn(path.resolve(__dirname, `${config.swat_scenarios}${scenario}/TxtInOut/${config.swat_exe}`), [], { cwd: `${config.swat_scenarios_root}${scenario}/TxtInOut/`, maxBuffer: 1024 * 1024 * 1024 });
+    const process = require('child_process').spawn(path.resolve(__dirname, `${config().swat_scenarios}${scenario}/TxtInOut/${config().swat_exe}`), [], { cwd: `${config().swat_scenarios_root}${scenario}/TxtInOut/`, maxBuffer: 1024 * 1024 * 1024 });
 
     // Data to the screen while model is executing successfully
     process.stdout.on('data', data => {

@@ -121,9 +121,13 @@ select{
   width: 100%;
 }
 
-/* .runSWAT select {
-  width: 40%; */
-/* } */
+ .runSWAT  {
+display: flex;
+ } 
+
+ .visControls{
+   float:left;
+ }
 
 /* styles all forms  */
 form label{
@@ -205,6 +209,21 @@ width: 22px;
 footer {
   display: flex;
 }
+
+/* stops tab sidebar getting wider */
+#scenarioTab{
+  width:100px;
+}
+/* makes sure choropleth snt pushed out when run SWAT Button is created */
+.runSwatButton{
+width: 80px;
+height: 200px;
+background: #0068C1;
+}
+
+/* .runSwatContainer{
+  display: flex;
+} */
 
 /* possitions pop-up buttons and runn swat+ box  */
 .flex2{ 

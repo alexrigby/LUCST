@@ -320,6 +320,7 @@ export async function scenarioOptions() {
             document.querySelector('#runswatbuttonvis') && document.querySelector('#runswatbuttonvis').remove();
             const runswatbuttonvis = document.createElement('button');
             runswatbuttonvis.setAttribute('id', 'runswatbuttonvis');
+            runswatbuttonvis.setAttribute('class', 'runSwatButton')
 
             runswatbuttonvis.addEventListener('click', () => {
               document.querySelector('#vis').innerHTML = "";
@@ -342,7 +343,7 @@ export async function scenarioOptions() {
                 })
               })
             });
-            runswatbuttonvis.innerText = `Run SWAT model for ${data[i]}`;
+            runswatbuttonvis.innerText = `Run SWAT for ${data[i]}`;
             document.querySelector('#runswatbuttonviscontainer').appendChild(runswatbuttonvis);
 
           }

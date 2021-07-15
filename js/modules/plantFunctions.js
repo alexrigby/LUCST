@@ -209,7 +209,7 @@ export function newPlantType() {
   iniBm.setAttribute('value', 20000)
   const iniPhu = document.getElementById("phu_init")
   iniPhu.setAttribute('value', 0)
-  const plantPopulation = document.getElementById("plnt_pop")
+  const plantPopulation = document.getElementById("plantPop")
   plantPopulation.setAttribute('value', 1)
   const iniYrs = document.getElementById("yrs_init")
   iniYrs.setAttribute('value', 1)
@@ -232,7 +232,7 @@ export function newPlantType() {
     newPlantSelection.plnt_pop = plantPopulation.value + '.00000';
     newPlantSelection.yrs_init = iniYrs.value + '.00000';
     newPlantSelection.rsd_init = iniRsd.value + '.00000';
-
+// console.log(plantPopulation.value)
     // DO IT LIKE THIS!
     // const newPlantSelection = {
     //   pcom_name: plantComName.value,
@@ -244,10 +244,32 @@ export function newPlantType() {
 
     console.log(newPlantSelection)
     //adds form data to plant.ini file
-    window.catchmentPlant.push(newPlantSelection)
+    
 
-   
+   validateForm()
+   function validateForm(){
+      
+    // var form = document.getElementById("plantForm")
+    // var inputs = form.getElementsByTagName("input") 
+    // var selects = document.getElementById("plantNames")
+  
+    // console.log(selects)
+           
+         if(!plantComName.value || !plantCnt.value || !iniRotationYear.value || !plantName.value || !landcoverStatus.value || !iniLai.value || !iniBm.value || !iniPhu.value || !iniYrs.value || !iniRsd.value || !plantPopulation.value ) {
+          alert("Please fill all the inputs")
+        }
+        else {
+          window.catchmentPlant.push(newPlantSelection)
+          //converts file and links to download button 
+  // const newPlantTypeFile = convertToTSV(window.catchmentPlant)
+  // downloadPlantButton(newPlantTypeFile, "plant.ini")
+  sendPlantFile(window.catchmentPlant);
+  // DO SOME STUFF WITH THE RESPONSE.
+ 
 
+  alert('New plant comunity written: ' + plantComName.value)
+        }
+      }
 
     const pcomOptions = getPlantComTypes(window.catchmentPlant)
     // console.log(pcomOptions)
@@ -257,13 +279,9 @@ export function newPlantType() {
     document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option> ${pcomTypesOptions} <option title = "null"> null </option>`;
 
 
-    //converts file and links to download button 
-    // const newPlantTypeFile = convertToTSV(window.catchmentPlant)
-    // downloadPlantButton(newPlantTypeFile, "plant.ini")
-    sendPlantFile(window.catchmentPlant);
-    // DO SOME STUFF WITH THE RESPONSE.
 
-    alert('New plant comunity written: ' + plantComName.value)
+    
+    
 
   });
 }

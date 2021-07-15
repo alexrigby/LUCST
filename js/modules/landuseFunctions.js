@@ -313,19 +313,30 @@ export function landuseTypes() {
     newLu.grww = grww.value;
     newLu.bmp = bmp.value;
 
+    validateForm()
+
+    function validateForm(){
+      
+      // var form = document.getElementById("luForm")
+      // var inputs = form.getElementsByTagName("input") 
+      // var selects = document.querySelectorAll(".luRequired")
     
+      // console.log(selects)
+             
+           if(!luName.value || !luCalGroup.value || !plantCom.value || !luMgt.value || !cn2.value || !consPractice.value || !urban.value || !urbRo.value || !ovMann.value || !tile.value || !sep.value || !vfs.value || !grww.value || !bmp.value) {
+            alert("Please fill all the inputs");
 
-    //adds the new landuse to landuse.window object
-    window.catchmentLanduseEdit.push(newLu)
-    //converts landuse.window object to TSV and downloads as txt
-    // const newLanduseFile = convertToTSV(window.catchmentLanduseEdit)
-    // downloadLuButton(newLanduseFile, "landuse.lum")
-    sendLanduseFile(window.catchmentLanduseEdit);
-    alert('New land use written: ' + luName.value)
-  });
+          }
+          else {
+            window.catchmentLanduseEdit.push(newLu)
+    
+            sendLanduseFile(window.catchmentLanduseEdit);
+            alert('New land use written: ' + luName.value)
+          }
+        }
 
+})
 }
-
 
 
 

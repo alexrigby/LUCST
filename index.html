@@ -125,7 +125,7 @@
                     <label for="phu_init">Heat Units to Maturity</label><br>
                     <input type="number" id="phu_init" name="phu_init"> <br>
                     <label for="plnt_pop">Plant Population</label><br>
-                    <input type="number" id="plnt_pop" name="plnt_pop"> <br>
+                    <input type="number" id="plantPop" name="plnt_pop"> <br>
                     <label for="yrs_init">Years to maturity</label><br>
                     <input type="number" id="yrs_init" name="yrs_init"> <br>
                     <label for="rsd_init">Initial Residue Cover</label><br>
@@ -135,7 +135,7 @@
                 </form>
             </div>
             <div class="pop-up-lu" id="luForm">
-                <form title="New Landuse" id="landuseForm">New Landuse Type<br><br>
+                <form title="New Landuse" id="landuseForm" >New Landuse Type<br><br>
                     <label for="luName">Name</label><br>
                     <input type="text" id="luName" name="name"> <br>
                     <label for="calGroup">Calibration Group</label><br>
@@ -143,7 +143,7 @@
                     <label for="luplantCom">Plant Comunity</label><br>
                     <!-- <input id="luPlantCom" list="luPlantComDatalist" name="plantCom"> -->
                     
-                    <select id="luPlantCom">
+                    <select id="luPlantCom" class="luRequired" required="">
                        
                     </select> <br>
                 </input>
@@ -151,19 +151,19 @@
                     <input type="text" id="luMgt" name="mgt"> <br>
                     <label for="cn2">Curve Number</label><br>
                     <!-- <input list="cn2" id="cn2Datalist" name="cn2"> -->
-                    <select id="cn2Options">
+                    <select id="cn2Options" class="luRequired">
                         
                     </select><br>
                     <label for="cons_practice">Conservation Practice</label><br>
-                    <select id="cons">
+                    <select id="cons" class="luRequired">
                         
                     </select> <br>
                     <label for="urban">Urban</label><br>
-                    <select name="urban" id="urbanLUList">
+                    <select name="urban" id="urbanLUList" class="luRequired">
                         
                     </select> <br>
                     <label for="urb_ro">Urban Run-Off</label><br>
-                    <select id="urbRo" name="urb_ro"> 
+                    <select id="urbRo" name="urb_ro" class="luRequired"> 
                             <option disabled selected value>-- select -- </option> 
                             <option value="usgs_reg">usgs_reg</option>
                             <option value="buildup_washoff">buildup_washoff</option>
@@ -177,20 +177,20 @@
                         
                     </select><br>
                     <label for="tile">Tile</label><br>
-                    <select id="tile" name="tile">
+                    <select id="tile" name="tile" class="luRequired">
                         </select> <br>
                     <label for="sep">Septic Tanks</label><br>
-                    <select  id="sep" name="sep"> 
+                    <select  id="sep" name="sep" class="luRequired"> 
                         </select><br>
                     <label for="vfs">Filter Strip File</label><br>
-                    <select id="vfs" name="vfs"> 
+                    <select id="vfs" name="vfs" class="luRequired"> 
                     </select><br>
                     <label for="grww">Grassed Waterways</label><br>
-                    <select id="grww" name="grww"> 
+                    <select id="grww" name="grww" class="luRequired"> 
                         </select><br>
                     <label for="bmp">Best Managment Practices</label><br>
                     <input type="text" id="bmp" name="bmp"> <br> <br>
-                    <button type="button" id="newLuButton">Make</button>
+                    <button type="button" id="newLuButton" >Make</button>
                     <button type="reset" id="newLuReset">Reset</button>
                 </form>
             </div>

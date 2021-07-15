@@ -1,12 +1,13 @@
 import fetchData from "/js/modules/universalFunctions.js";
 import { populateTable, cleanHru, getHru, updateHru, getHruData } from "/js/modules/hru_dataFunctions.js";
 import { getPlantOptions, cleanPlant, newPlantType, getSwatPlantList, getPlantData} from "/js/modules/plantFunctions.js";
-import { cleanLanduse, getLanduseTypes, landuseTypes, getConsPractice, getCurveNumer, getManN, getUrbanList } from "/js/modules/landuseFunctions.js";
+import { cleanLanduse, getLanduseTypes, landuseTypes, getConsPractice, getCurveNumer, getManN, getUrbanList, getTileDrain, getSepticData, getFilterStrip, getGrassedWw} from "/js/modules/landuseFunctions.js";
 import { updateTooltips, makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection, makeOutdoorsMap, makeOsMap } from "/js/modules/mapFunctions.js";
 import { hydrograph, scenarioOptions } from "/js/modules/outputVisFunctions.js";
 // import { timeSim, printPrt } from "/js/modules/modelFunctions.js";
 import choropleth from "/js/modules/choroplethFunctions.js";
 import { getLanduseData } from "/js/modules/landuseFunctions.js";
+
 
 
 
@@ -56,6 +57,10 @@ getUrbanList('Default')
 getConsPractice('Default')
 getCurveNumer('Default')
 getManN('Default')
+getTileDrain('Default')
+getSepticData('Default')
+getFilterStrip('Default')
+getGrassedWw('Default')
 await hydrograph('Default')
 
 //hides the hruTable by default

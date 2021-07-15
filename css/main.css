@@ -175,6 +175,13 @@ th{
   color:white;
 }
 
+/* .hruSummary{
+  position: absolute;
+  /* position: sticky; s */
+  /* bottom : 0;
+  color:pink;
+} */ 
+
 table{
   font-weight: 500;
   font-size: 10pt;
@@ -212,15 +219,24 @@ footer {
 
 /* stops tab sidebar getting wider */
 #scenarioTab{
-  width:100px;
+  width:90px;
 }
 /* makes sure choropleth snt pushed out when run SWAT Button is created */
 .runSwatButton{
+  cursor: pointer;
 width: 80px;
 height: 200px;
+opacity: 0.8;
 background: #0068C1;
+color: white;
+margin-top: 20px;
+
+
 }
 
+.runSwatButton:hover{
+  opacity: 1;
+}
 /* .runSwatContainer{
   display: flex;
 } */
@@ -293,7 +309,7 @@ background: #0068C1;
   margin:3px;
   bottom: 23px;
   right: 28px;
-  width: 280px;
+  width: 240px;
 }
 
 .openPlantForm {
@@ -306,7 +322,7 @@ background: #0068C1;
   margin:3px;
   bottom: 23px;
   left: 28px;
-  width: 280px;
+  width: 240px;
 }
 /* styles LU and plant forms  */
 .pop-up-lu {

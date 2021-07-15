@@ -147,6 +147,21 @@ export function populateTable(data) {
   
   
   let table = "";
+
+  table  +=
+  `<tr class="hruSummary">
+       <td > ${data.hrus.length} of ${window.catchmentData.length} selected</br>
+       
+      </td>
+       <td> <button class="lulc-clear">CLEAR</button> <button class="lulc-editAll-button" data-hru=${data.hrus}> SAVE ALL </button></td>
+       <td class="allNewlanduse">
+       <select class="allLanduseTypes" id="allLanduseDatalist">
+       <option value="default" selected="selected" disabled></option>
+       ${landuseTypesOptions}
+        </select></td>
+   </tr>
+   `
+  ;
   //loops over the data asigning new row each time
   //calls variable i assignes index 0 to it, row count has to be grater than i, increment i by 1 each time
   for (let i = 0; i < rowCount; i++) {
@@ -168,23 +183,10 @@ export function populateTable(data) {
 
 
 
-  table +=
-    `<tr>
-         <td> ${data.hrus.length} of ${window.catchmentData.length} selected</br>
-         <button class="lulc-clear">CLEAR</button>
-        </td>
-         <td> <button class="lulc-editAll-button" data-hru=${data.hrus}> SAVE ALL </button></td>
-         <td class="allNewlanduse">
-         <select class="allLanduseTypes" id="allLanduseDatalist">
-         <option value="default" selected="selected" disabled>
-                        </option>
-         ${landuseTypesOptions}
-          </select></td>
-     </tr>`
-    ;
+ 
 
-
-    document.getElementById("result").innerHTML = table;
+// console.log(document.getElementsByClassName("hruSummary"))
+    document.getElementById("result").innerHTML = table ;
 
   const convertToTSV = (data) => {
     // Convert dataset to TSV and print
@@ -225,8 +227,8 @@ export function populateTable(data) {
   lulcEditAllButton.addEventListener("click", () => {
     const allLanduseSelection = document.querySelector(".allLanduseTypes");
     const allNewLanduse = allLanduseSelection.value;
-    document.querySelector(".allNewlanduse").innerHTML = `${allNewLanduse}`;
-    document.querySelectorAll(".newLanduse").innerHTML = `${allNewLanduse}`;
+  //   document.querySelector(".allNewlanduse").innerHTML = `${allNewLanduse}`;
+  //   document.querySelectorAll(".newLanduse").innerHTML = `${allNewLanduse}`;
 
     // Converts a comma delimited string to an array of strings (ids).
     const hrusToUpdate = lulcEditAllButton.dataset.hru.split(",");

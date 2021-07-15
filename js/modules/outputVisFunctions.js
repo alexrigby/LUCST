@@ -3,8 +3,10 @@ import {getHruData} from "/js/modules/hru_dataFunctions.js";
 import { updateCurrentScenario } from "/js/main.js";
 import { choropleth } from "/js/modules/choroplethFunctions.js";
 import { getSwatPlantList, getPlantData } from "/js/modules/plantFunctions.js";
-import { getConsPractice, getCurveNumer, getManN, getLanduseData, getUrbanList} from "/js/modules/landuseFunctions.js";
+import { getConsPractice, getCurveNumer, getManN, getLanduseData, getUrbanList, getTileDrain, getSepticData, getFilterStrip, getGrassedWw} from "/js/modules/landuseFunctions.js";
 import {updateTooltips} from "/js/modules/mapFunctions.js"
+
+
 
 
 function cleanTxt(data) {
@@ -301,6 +303,10 @@ export async function scenarioOptions() {
           getManN(data[i]);
           getHruData(data[i]);
           getLanduseData(data[i]);
+          getTileDrain(data[i]);
+          getSepticData(data[i]);
+          getFilterStrip(data[i]);
+          getGrassedWw(data[i]);
          
         //  updateTooltips()
          
@@ -343,7 +349,7 @@ export async function scenarioOptions() {
                 })
               })
             });
-            runswatbuttonvis.innerText = `Run SWAT for ${data[i]}`;
+            runswatbuttonvis.innerText = `Run SWAT+ for ${data[i]}`;
             document.querySelector('#runswatbuttonviscontainer').appendChild(runswatbuttonvis);
 
           }

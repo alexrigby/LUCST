@@ -54,6 +54,80 @@ export function getLanduseTypes(data) {
 }
 
 
+
+export function getGrassedWw(scenario){
+  // auto fill mannings n datalist from ovn_mann.lum
+  fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/grassedww.str`)
+  .then(function (data) {
+    const cleanNData = cleanLanduse(data);
+    
+    const nNames = getLanduseTypes(cleanNData);
+    
+    const manNDescriptions = getLUDescriptions(cleanNData)
+    const manNDOptions = manNDescriptions.map((el, i)=> {
+      return `"${el}"`
+    }); 
+    console.log(manNDOptions)
+    const nOptions = nNames.map((el, i) => {
+      return `<option title=${manNDOptions[i]} value=${el}>${el}</option>`;
+    });
+    // console.log(nOptions)
+    document.getElementById("grww").innerHTML = `<option disabled selected value>-- select -- </option>  ${nOptions} <option title = "null"> null </option>`
+  });
+  }
+
+
+export function getFilterStrip(scenario){
+  fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/filterstrip.str`)
+  .then(function (data) {
+    const cleanTileData = cleanLanduse(data);
+    const tileNames = getLanduseTypes(cleanTileData);
+    const tileDescriptions = getLUDescriptions(cleanTileData)
+    const tileDOptions = tileDescriptions.map((el, i)=> {
+      return `"${el}"`
+    }); 
+    const tileOptions = tileNames.map((el, i) => {
+      return `<option title=${tileDOptions[i]} value=${el}>${el}</option>`;
+    });
+    
+    document.getElementById("vfs").innerHTML = `<option disabled selected value>-- select -- </option> ${tileOptions}<option title = "null"> null </option>`
+  });
+}
+
+export function getSepticData(scenario){
+  fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/septic.str`)
+  .then(function (data) {
+    const cleanTileData = cleanLanduse(data);
+    const tileNames = getLanduseTypes(cleanTileData);
+    const tileDescriptions = getLUDescriptions(cleanTileData)
+    const tileDOptions = tileDescriptions.map((el, i)=> {
+      return `"${el}"`
+    }); 
+    const tileOptions = tileNames.map((el, i) => {
+      return `<option title=${tileDOptions[i]} value=${el}>${el}</option>`;
+    });
+    
+    document.getElementById("sep").innerHTML = `<option disabled selected value>-- select -- </option> ${tileOptions}<option title = "null"> null </option>`
+  });
+}
+
+export function getTileDrain(scenario){
+  fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/tiledrain.str`)
+  .then(function (data) {
+    const cleanTileData = cleanLanduse(data);
+    const tileNames = getLanduseTypes(cleanTileData);
+    const tileDescriptions = getLUDescriptions(cleanTileData)
+    const tileDOptions = tileDescriptions.map((el, i)=> {
+      return `"${el}"`
+    }); 
+    const tileOptions = tileNames.map((el, i) => {
+      return `<option title=${tileDOptions[i]} value=${el}>${el}</option>`;
+    });
+    
+    document.getElementById("tile").innerHTML = `<option disabled selected value>-- select -- </option> ${tileOptions}<option title = "null"> null </option>`
+  });
+}
+
 export function getCurveNumer(scenario){
 //auto fill cn number Datalist from cntable.lum
 fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/cntable.lum`)
@@ -62,13 +136,13 @@ fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/cntable.lum`)
   const cnNames = getLanduseTypes(cleanCnData);
   const cnDescriptions = getLUDescriptions(cleanCnData)
   const cnDOptions = cnDescriptions.map((el, i)=> {
-    return `${el}`
+    return `"${el}"`
   }); 
   const cnOptions = cnNames.map((el, i) => {
     return `<option title=${cnDOptions[i]} value=${el}>${el}</option>`;
   });
   
-  document.getElementById("cn2Options").innerHTML = `<option disabled selected value>-- select -- </option> ${cnOptions}`
+  document.getElementById("cn2Options").innerHTML = `<option disabled selected value>-- select -- </option> ${cnOptions}<option title = "null"> null </option>`
 });
 }
 
@@ -80,12 +154,12 @@ fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/cons_practice.lum`)
   const consNames = getLanduseTypes(cleanConsData);
   const consDescriptions = getLUDescriptions(cleanConsData)
   const consDOptions = consDescriptions.map((el, i)=> {
-    return `${el}`
+    return `"${el}"`
   }); 
   const consOptions = consNames.map((el, i) => {
     return `<option title=${consDOptions[i]} value=${el}>${el}</option>`;
   });
-  document.getElementById("cons").innerHTML = `<option disabled selected value>-- select -- </option> ${consOptions}`
+  document.getElementById("cons").innerHTML = `<option disabled selected value>-- select -- </option> ${consOptions}<option title = "null"> null </option>`
 });
 }
 
@@ -102,7 +176,7 @@ fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/ovn_table.lum`)
   const nOptions = nNames.map((el, i) => {
     return `<option title=${manNDOptions[i]} value=${el}>${el}</option>`;
   });
-  document.getElementById("manN").innerHTML = `<option disabled selected value>-- select -- </option>  ${nOptions}`
+  document.getElementById("manN").innerHTML = `<option disabled selected value>-- select -- </option>  ${nOptions} <option title = "null"> null </option>`
 });
 }
 
@@ -114,7 +188,7 @@ export function getUrbanList(scenario){
     const urbanNames = getLanduseTypes(cleanUrban);
     const urbanDescription = getLUDescriptions(cleanUrban)
     const urbanDOptions = urbanDescription.map((el, i)=> {
-      return `${el}`
+      return `"${el}"`
     });
 
   const urbanOptions = urbanNames.map((el,i)=>{
@@ -175,10 +249,10 @@ export function landuseTypes() {
       document.getElementById("urbanLUList").innerHTML = `<option title="null" value="null" selected> null </option>`
       document.getElementById("urbRo").innerHTML = `<option title="null" value="null" selected> null </option>`
       // document.getElementById("urbanLU").style.background = "light-gray"
-      luName.value = plantCom.value.substring(0, 4);
+      luName.value = plantCom.value.substring(0, 4) + "_lum";
     } else {
-      document.getElementById("urbanLUList").innerHTML = `<option disabled selected value>-- select -- </option> ${getUrbanList(window.currentScenario)} <option title = "null"> null </option>`
-      document.getElementById("urbRo").innerHTML = `<option disabled selected value>-- select -- </option>
+      document.getElementById("urbanLUList").innerHTML = `<option disabled selected value>-- select -- </option>  ${getUrbanList(window.currentScenario)} <option title = "null"> null </option>`
+      document.getElementById("urbRo").innerHTML = `<option disabled selected value>-- select -- </option> 
       <option value="buildup_washoff">buildup_washoff</option>
       <option value="usgs_reg">usgs_reg</option>
       <option value="null">null</option>`
@@ -197,7 +271,7 @@ export function landuseTypes() {
       document.getElementById("luPlantCom").innerHTML = `<option title="null" value="null" selected> null </option>`
       luName.value = urban.value.substring(0, 4) +'_lum';
     } else {
-      document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option> ${getPlantComTypes(window.catchmentPlant)} <option title = "null"> null </option>`
+      document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option>  ${getPlantComTypes(window.catchmentPlant)} <option title = "null"> null </option>`
     }
   })
  
@@ -291,6 +365,10 @@ getConsPractice,
 getCurveNumer,
 getManN,
 getLanduseData,
-getUrbanList
+getUrbanList,
+getTileDrain,
+getSepticData,
+getFilterStrip,
+getGrassedWw,
 }
 

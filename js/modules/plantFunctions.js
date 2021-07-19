@@ -99,7 +99,7 @@ export function cleanPlant(data) {
       .replace(/^\t|\t$/gm, ''),
      
     );
-    console.log(clean)
+     console.log(clean)
     return clean
 
 }
@@ -137,7 +137,7 @@ const plantDOptions = plantDescriptions.map((el, i)=> {
 }); 
 //maps the plant names and assignes each to an option value for the datalist
   const plantOptions = plantTypeNames.map((el, i) => {
-    return `<option data-toggle="tooltip" title="${plantDOptions[i]}">${el +'_comm'}</option>`;
+    return `<option data-toggle="tooltip" title="${plantDOptions[i]}">${el}</option>`;
   
   });
   document.getElementById("plantNames").innerHTML = `<option disabled selected value>-- select --</option> ${plantOptions}`
@@ -188,22 +188,22 @@ export function newPlantType() {
 
 
   //defines all Plant form inputs as constants, adding default values to the input feilds
-  const plantComName = document.getElementById("plantNames");
-  plantComName.addEventListener('change', ()=>{
-    const plantComNameSlice = plantComName.value.slice(0,-5)
+  const plantName = document.getElementById("plantNames");
+  plantName.addEventListener('change', ()=>{
+    // const plantComNameSlice = plantComName.value
     
-     plantName.setAttribute('value', plantComNameSlice)
+    //  plantName.setAttribute('value', plantComNameSlice)
      //auto fills lu name with plant comm + _lum
     const luName = document.getElementById("luName") 
-    luName.setAttribute('value', plantComNameSlice +"_lum")
+    luName.setAttribute('value', plantName.value +"_lum")
     // const LuPlantCom = document.getElementById("luPlantCom")
     // LuPlantCom.setAttribute('value', plantComName)
   });
-  const plantCnt = document.getElementById("plt_cnt")
-  plantCnt.setAttribute('value', 1)
+  // const plantCnt = document.getElementById("plt_cnt")
+  // plantCnt.setAttribute('value', 1)
   const iniRotationYear = document.getElementById("rot_yr_ini")
   iniRotationYear.setAttribute('value', 1)
-  const plantName = document.getElementById("plt_name")
+  // const plantName = document.getElementById("plt_name")
   //cuts '_comm' of the ed of plantComName and asignes the string as plantName
  
   const landcoverStatus = document.getElementById("lc_status")
@@ -225,8 +225,8 @@ export function newPlantType() {
   //adds input values to new object when button is clicked
   newPlantTypeButton.addEventListener('click', () => {
     const newPlantSelection = new Object();
-    newPlantSelection.pcom_name = plantComName.value;
-    newPlantSelection.plt_cnt = plantCnt.value;
+    newPlantSelection.pcom_name = plantName.value + "_comm";
+    newPlantSelection.plt_cnt = 1
     newPlantSelection.rot_yr_ini = iniRotationYear.value;
     newPlantSelection.plt_name = plantName.value;
     newPlantSelection.lc_status = landcoverStatus.value;
@@ -259,7 +259,7 @@ export function newPlantType() {
   
     // console.log(selects)
            
-         if(!plantComName.value || !plantCnt.value || !iniRotationYear.value || !plantName.value || !landcoverStatus.value || !iniLai.value || !iniBm.value || !iniPhu.value || !iniYrs.value || !iniRsd.value || !plantPopulation.value ) {
+         if(  !iniRotationYear.value || !plantName.value || !landcoverStatus.value || !iniLai.value || !iniBm.value || !iniPhu.value || !iniYrs.value || !iniRsd.value || !plantPopulation.value ) {
           alert("Please fill all the inputs")
         }
         else {
@@ -271,7 +271,7 @@ export function newPlantType() {
   // DO SOME STUFF WITH THE RESPONSE.
  
 
-  alert('New plant comunity written: ' + plantComName.value)
+  alert('New plant comunity written: ' + plantName.value + "_comm")
         }
       }
 

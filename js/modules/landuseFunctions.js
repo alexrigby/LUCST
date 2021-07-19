@@ -187,9 +187,11 @@ export function getUrbanList(scenario){
     const cleanUrban = cleanLanduse(data);
     const urbanNames = getLanduseTypes(cleanUrban);
     const urbanDescription = getLUDescriptions(cleanUrban)
+    
     const urbanDOptions = urbanDescription.map((el, i)=> {
-      return `"${el}"`
+      return `${el}`
     });
+    console.log(cleanUrban)
 
   const urbanOptions = urbanNames.map((el,i)=>{
     return `<option data-toggle="tooltip" title="${urbanDOptions[i]}"> ${el +'_comm'}</option>`

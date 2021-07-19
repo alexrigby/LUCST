@@ -206,9 +206,23 @@ export function newPlantType() {
   // const plantName = document.getElementById("plt_name")
   //cuts '_comm' of the ed of plantComName and asignes the string as plantName
  
+  
   const landcoverStatus = document.getElementById("lc_status")
   const iniLai = document.getElementById("lai_init")
-  iniLai.setAttribute('value', 2)
+  //makes usre if there is no landcover there is no initial leaf area index
+landcoverStatus.addEventListener('change',()=>{
+  if (landcoverStatus.value !== "y"){
+   iniLai.setAttribute('value', 0)
+    iniLai.setAttribute('min', 0)
+    iniLai.setAttribute('max', 0)
+
+  } else {
+   iniLai.setAttribute('max', 300)
+    iniLai.setAttribute('min', 1)
+    iniLai.setAttribute('value', 1)
+  }
+})
+  
   const iniBm = document.getElementById("bm_init")
   iniBm.setAttribute('value', 20000)
   const iniPhu = document.getElementById("phu_init")

@@ -21,7 +21,7 @@ export function shpToGeoJSON(url) {
 //         if(layer.feature?.properties?.HRUS) {
 //             layer.bindPopup(Object.keys(layer.feature.properties).map(function (k, i) {
 //                 if(k === "Landuse") {
-//                     console.log(k, window.catchmentData[i].lu_mgt)
+//                     console.log(k, window.LLYFNIData[i].lu_mgt)
 //                     return k + ": " + window.catchmentData[i].lu_mgt.substr(0, 4).toUpperCase();
 //                 } else {
 //                     return k + ": " + layer.feature.properties[k];
@@ -124,7 +124,7 @@ export function updateTooltips(hruData, test) {
         if (layer.feature?.properties?.HRUS) {
             layer.bindPopup(Object.keys(layer.feature.properties).map(function (k, i) {
                 if (k === "Landuse") {
-                    return k + ": " + hruData[j].lu_mgt.substr(0, 4).toUpperCase();
+                    return k + ": " + hruData[j].lu_mgt.substr(0, hruData[j].lu_mgt.length -4).toUpperCase();
                 } else {
                     return k + ": " + layer.feature.properties[k];
                 }

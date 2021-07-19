@@ -329,6 +329,7 @@ export async function scenarioOptions() {
             runswatbuttonvis.setAttribute('class', 'runSwatButton')
 
             runswatbuttonvis.addEventListener('click', () => {
+              document.getElementById("hruTable").style.display = "none";
               document.querySelector('#vis').innerHTML = "";
               document.querySelector('#choro').innerHTML = "";
               // document.querySelector('#vis').innerHTML = `<div class="progressBarBorder"> 

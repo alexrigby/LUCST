@@ -254,9 +254,10 @@ margin-top: 20px;
 .hydrograph{
   background-color: white;
   margin: 3px 0px;
-  width:auto;
+  width:100%;
  display: flex;
- flex:2;
+ flex:1;
+ overflow-x: auto;
   border: solid black 2px;
 }
 

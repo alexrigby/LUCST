@@ -11,7 +11,7 @@ fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/landuse.lum`)
       const landuseTypes = getLanduseTypes(cleanLanduseData);
       window.catchmentLanduse = [...landuseTypes];
       window.catchmentLanduseEdit = [...cleanLanduseData];
-console.log(window.catchmentLanduseEdit)
+// console.log(window.catchmentLanduseEdit)
   });
 }
 
@@ -67,7 +67,7 @@ export function getGrassedWw(scenario){
     const manNDOptions = manNDescriptions.map((el, i)=> {
       return `"${el}"`
     }); 
-    console.log(manNDOptions)
+    // console.log(manNDOptions)
     const nOptions = nNames.map((el, i) => {
       return `<option title=${manNDOptions[i]} value=${el}>${el}</option>`;
     });
@@ -249,7 +249,7 @@ export function landuseTypes() {
       document.getElementById("urbanLUList").innerHTML = `<option title="null" value="null" selected> null </option>`
       document.getElementById("urbRo").innerHTML = `<option title="null" value="null" selected> null </option>`
       // document.getElementById("urbanLU").style.background = "light-gray"
-      luName.value = plantCom.value.substring(0, 4) + "_lum";
+      luName.value = plantCom.value.substr(0, plantCom.value.length -5) + "_lum";
     } else {
       document.getElementById("urbanLUList").innerHTML = `<option disabled selected value>-- select -- </option>  ${getUrbanList(window.currentScenario)} <option title = "null"> null </option>`
       document.getElementById("urbRo").innerHTML = `<option disabled selected value>-- select -- </option> 

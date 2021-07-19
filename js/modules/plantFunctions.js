@@ -96,11 +96,15 @@ export function cleanPlant(data) {
       // First, remove all spaces and replace with tabs
       .replace(/  +/gm, '\t')
       // Then remove all leading and trailing tabs
-      .replace(/^\t|\t$/gm, '')
+      .replace(/^\t|\t$/gm, ''),
+     
     );
+    console.log(clean)
     return clean
 
 }
+
+
 }
 
 

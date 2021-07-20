@@ -135,14 +135,18 @@ const plantDescriptions = getPlantDescriptions(cleanPlantTypes)
 const plantDOptions = plantDescriptions.map((el, i)=> {
   return `${el}`
 }); 
+
+window.plantDescriptions = [...plantDOptions]
 //maps the plant names and assignes each to an option value for the datalist
   const plantOptions = plantTypeNames.map((el, i) => {
     return `<option data-toggle="tooltip" title="${plantDOptions[i]}">${el}</option>`;
   
   });
   document.getElementById("plantNames").innerHTML = `<option disabled selected value>-- select --</option> ${plantOptions}`
+  // document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select --</option> ${plantOptions}`
 });
 }
+
 
 
 const convertToTSV = (data) => {
@@ -209,20 +213,34 @@ export function newPlantType() {
   
   const landcoverStatus = document.getElementById("lc_status")
   const iniLai = document.getElementById("lai_init")
+  iniLai.setAttribute('value', 0)
+
   //makes usre if there is no landcover there is no initial leaf area index
 landcoverStatus.addEventListener('change',()=>{
   if (landcoverStatus.value !== "y"){
    iniLai.setAttribute('value', 0)
     iniLai.setAttribute('min', 0)
     iniLai.setAttribute('max', 0)
+   
 
   } else {
    iniLai.setAttribute('max', 300)
     iniLai.setAttribute('min', 1)
     iniLai.setAttribute('value', 1)
+
   }
 })
-  
+document.getElementById("openPlantForm").addEventListener('click', () =>{
+if (landcoverStatus.value !== "y"){
+  iniLai.setAttribute('value', 0)
+   iniLai.setAttribute('min', 0)
+   iniLai.setAttribute('max', 0)
+ } else {
+  iniLai.setAttribute('max', 300)
+   iniLai.setAttribute('min', 1)
+   iniLai.setAttribute('value', 1)
+ }
+})
   const iniBm = document.getElementById("bm_init")
   iniBm.setAttribute('value', 20000)
   const iniPhu = document.getElementById("phu_init")
@@ -260,7 +278,7 @@ landcoverStatus.addEventListener('change',()=>{
 
     
 
-    console.log(newPlantSelection)
+    // console.log(newPlantSelection)
     //adds form data to plant.ini file
     
 
@@ -288,11 +306,11 @@ landcoverStatus.addEventListener('change',()=>{
   alert('New plant comunity written: ' + plantName.value + "_comm")
         }
       }
-
+      
     const pcomOptions = getPlantComTypes(window.catchmentPlant)
-    // console.log(pcomOptions)
+  
     const pcomTypesOptions = pcomOptions.map((el, i) => {
-      return `<option value=${el}>${el}</option>`;
+      return `<option data-toggle="tooltip" title=${window.plantDescriptions[i]} value=${el}>${el}</option>`;
     });
     document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option> ${pcomTypesOptions} <option title = "null"> null </option>`;
 

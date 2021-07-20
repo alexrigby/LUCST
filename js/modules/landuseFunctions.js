@@ -191,7 +191,8 @@ export function getUrbanList(scenario){
     const urbanDOptions = urbanDescription.map((el, i)=> {
       return `${el}`
     });
-    console.log(cleanUrban)
+    
+
 
   const urbanOptions = urbanNames.map((el,i)=>{
     return `<option data-toggle="tooltip" title="${urbanDOptions[i]}"> ${el +'_comm'}</option>`
@@ -203,7 +204,7 @@ export function getUrbanList(scenario){
 function getPlantComTypes(data) {
   const plantCom = data.map(record => record.pcom_name);
  const plantTypes = plantCom.map((el, i) => {
-  return `<option value=${el}>${el}</option>`;
+  return `<option title =${window.plantDescriptions[i]} value=${el}>${el}</option>`;
 });
 return plantTypes
 }
@@ -215,6 +216,7 @@ export function landuseTypes() {
   //makes luForm popup by pressing button and updates plant selection, close by clicking on body
   document.getElementById("openLuForm").addEventListener("click",()=>{
     const pcomOptions = getPlantComTypes(window.catchmentPlant)
+    // console.log(pcomOptions)
     document.getElementById("luForm").style.display = "block";
     document.getElementById("result").innerHTML = "";
    

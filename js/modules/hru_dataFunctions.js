@@ -141,15 +141,14 @@ export function populateTable(data) {
   const shpFileHrus = data.hrus.map(function(v){
     return parseInt(v);
   })
+ 
 // map HRUs(from shapefile) to id's from window.catchmentData to display correct hru lu_mgt in table
   const hruLuSelection = shpFileHrus.map(shpHru => {
     const obj = window.catchmentData.find(record => record.id == shpHru);
     return {...shpHru, ...obj };
+
   })
 
-
- 
-  
   
   let table = "";
 
@@ -173,8 +172,7 @@ export function populateTable(data) {
     table += `
               <tr>
                   <td>${data.hrus[i]}</td>
-                  <td>${hruLuSelection[i].lu_mgt}
-                  <button class="lulc-edit-button" data-hru=${data.hrus[i]}>Save</button>
+                  <td><span class="currentLu"> ${hruLuSelection[i].lu_mgt} </span> <button class="lulc-edit-button" data-hru=${data.hrus[i]}>Save</button>
                   </td>
                   <td class="newLanduse">
                   <select class ="landuseTypes" id="landuseDatalist">
@@ -215,12 +213,16 @@ export function populateTable(data) {
     el.addEventListener("click", () => {
       const landuseSelection = document.querySelectorAll(".landuseTypes");
       const newLanduse = landuseSelection[i].value;
-    
-  
+      console.log(newLanduse)
+      
       // UPDATE THE DATASET
       window.catchmentData[el.dataset.hru - 1].lu_mgt = `${newLanduse}`;
 
+      //assinges the new land use selection to the 'current landuse' collumn
+  const currentLu = document.querySelectorAll(".currentLu");
+  currentLu[i].innerHTML = newLanduse
 
+  
       // const newHruData = convertToTSV(window.catchmentData);
       downloadButton(window.catchmentData, 'hru-data.hru');
       updateTooltips(window.catchmentData)
@@ -232,6 +234,12 @@ export function populateTable(data) {
   lulcEditAllButton.addEventListener("click", () => {
     const allLanduseSelection = document.querySelector(".allLanduseTypes");
     const allNewLanduse = allLanduseSelection.value;
+//loops over all 'current landuse' feilds assigning the new selected laduse
+    const allCurrentLu = document.querySelectorAll(".currentLu");
+  allCurrentLu.forEach((el, i)=> {
+    el.innerHTML = allNewLanduse
+  })
+  
   //   document.querySelector(".allNewlanduse").innerHTML = `${allNewLanduse}`;
   //   document.querySelectorAll(".newLanduse").innerHTML = `${allNewLanduse}`;
 
@@ -244,6 +252,45 @@ export function populateTable(data) {
       window.catchmentData[parseInt(el) - 1].lu_mgt = `${allNewLanduse}`
      
     });
+  //   const hruLuSelection2 = shpFileHrus.map(shpHru => {
+  //     const obj = window.catchmentData.find(record => record.id == shpHru);
+  //     return {...shpHru, ...obj };
+  //   })
+  //   let table = "";
+
+  // table  +=
+  // `<tr class="hruSummary">
+  //      <td > ${data.hrus.length} of ${window.catchmentData.length} selected</br>
+       
+  //     </td>
+  //      <td> <button class="lulc-clear">CLEAR</button> <button class="lulc-editAll-button" data-hru=${data.hrus}> SAVE ALL </button></td>
+  //      <td class="allNewlanduse">
+  //      <select class="allLanduseTypes" id="allLanduseDatalist">
+  //      <option value="default" selected="selected" disabled></option>
+  //      ${landuseTypesOptions}
+  //       </select></td>
+  //  </tr>
+  //  `
+  // ;
+  // //loops over the data asigning new row each time
+  // //calls variable i assignes index 0 to it, row count has to be grater than i, increment i by 1 each time
+  // for (let i = 0; i < rowCount; i++) {
+  //   table += `
+  //             <tr>
+  //                 <td>${data.hrus[i]}</td>
+  //                 <td>${hruLuSelection2[i].lu_mgt}
+  //                 <button class="lulc-edit-button" data-hru=${data.hrus[i]}>Save</button>
+  //                 </td>
+  //                 <td class="newLanduse">
+  //                 <select class ="landuseTypes" id="landuseDatalist">
+  //                 <option value="default" selected="selected" disabled>
+  //                       </option>
+  //                 ${landuseTypesOptions}
+  //                  </select></td>
+  //             </tr>`;
+  //   //use`` to insert HTML elements straight from javascript, use ${} to input Javascript elements
+  // }
+  // document.getElementsById("result").innerHTML = table ;
     updateTooltips(window.catchmentData)
     // const newHruData = convertToTSV(window.catchmentData);
 

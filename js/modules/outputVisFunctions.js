@@ -173,7 +173,7 @@ export function hydrograph(scenario) {
           const plotDownloadButton = document.getElementById("downloadPlot")
           plotDownloadButton.addEventListener('click', () => {
          downloadHydrographCsv(plotDownload, outputOps +" for "+ chanOpts.value + " in " + window.currentScenario + ".csv")
-         console.log(plotDownload)
+        //  console.log(plotDownload)
           //  alert("Raw CSV " + '"'+outputOps +" for "+ chanOpts.value + '"' + " saved to " + '"'+window.currentScenario+'"'  )
         })
 

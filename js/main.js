@@ -8,8 +8,10 @@ import { hydrograph, scenarioOptions } from "/js/modules/outputVisFunctions.js";
 import choropleth from "/js/modules/choroplethFunctions.js";
 import { getLanduseData } from "/js/modules/landuseFunctions.js";
 
-
-
+const dev = new URL(window.location).searchParams.get('dev') === '1';
+export const HOST = dev ? 'localhost' : '78.105.154.157';
+//run for dev with ?dev=1
+//if ipv4 chnage change value 
 
 // TRYING TO ZIP SHAPE FILES----- UNFINISHED
 
@@ -400,7 +402,7 @@ createNewScenarioButton.addEventListener("click", async function (e) {
 
     let scenarioList = null;
     let scenarioExists = false;
-    await fetch('http://localhost:8000/getscenarios')
+    await fetch(`http://${HOST}:8000/getscenarios`)
         .then(response => response.json())
         .then(data => { 
             scenarioList = data;
@@ -417,7 +419,7 @@ createNewScenarioButton.addEventListener("click", async function (e) {
                 }
             });
             if (scenarioExists === false) {
-                await fetch(`http://localhost:8000/createScenario?scenario=${newScenario}`)
+                await fetch(`http://${HOST}:8000/createScenario?scenario=${newScenario}`)
                     .then(res => res.json())
                     .then(async data => {
                         if (data.code === 1) {

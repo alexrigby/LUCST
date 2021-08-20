@@ -1,3 +1,4 @@
+import { HOST } from "../main.js";
 import fetchData from "/js/modules/universalFunctions.js";
 
 // import * as d3 from "d3";
@@ -204,7 +205,7 @@ export function getUrbanList(scenario){
 function getPlantComTypes(data) {
   const plantCom = data.map(record => record.pcom_name);
  const plantTypes = plantCom.map((el, i) => {
-  return `<option title =${window.plantDescriptions[i]} value=${el}>${el}</option>`;
+  return `<option value=${el}>${el}</option>`;
 });
 return plantTypes
 }
@@ -353,7 +354,7 @@ export function landuseTypes() {
 //   document.getElementById('downloadLanduse').setAttribute('download', fileName);
 
 function sendLanduseFile(data) {
-  fetch('http://localhost:8000/sendlum', { method: "POST", headers: {
+  fetch(`http://${HOST}:8000/sendlum`, { method: "POST", headers: {
     'Content-Type': 'application/json' },
     body: JSON.stringify({lum: data, scenario: window.currentScenario})
   }).then(res => res.text()).then(data => console.log(data));

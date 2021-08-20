@@ -79,8 +79,11 @@ console.log(`SWAT Server Listening on Port ${config().server_port}`);
 // PRIVATE API METHODS
 // _getScenarios
 function _getScenarios() {
+    // console.log(readdir(path.resolve(__dirname, config().swat_scenarios)))
+    // console.log( readdirSync(path.resolve(__dirname, config().swat_scenarios), { withFileTypes: true }).filter(dirent => dirent.isDirectory()).map(dirent => dirent.name))
     return readdirSync(path.resolve(__dirname, config().swat_scenarios), { withFileTypes: true }).filter(dirent => dirent.isDirectory()).map(dirent => dirent.name);
 }
+// stats.birthtime
 
 // API METHOD: getScenarios
 // Get Scenarios

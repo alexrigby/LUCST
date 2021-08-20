@@ -1,14 +1,17 @@
 import {updateTooltips} from "/js/modules/mapFunctions.js";
-import fetchData from "/js/modules/universalFunctions.js"
+import fetchData from "/js/modules/universalFunctions.js";
+import {HOST} from "../main.js"
 //hru_data.hru//
 
 //making function dynamic means that catchment Data is wread from the correct HRU each time
 export function getHruData(scenario){
   fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/hru-data.hru`)
       .then(data => {
+        
       
           // Clean the dataset...
           const cleanHruData = cleanHru(data);
+         
           // Saving a copy of the dataset
   
           // Replace this with a state management solution
@@ -39,8 +42,10 @@ export function cleanHru(data) {
     .replace(/  +/gm, '\t')
     // Then remove all leading and trailing tabs
     .replace(/^\t|\t$/gm, '')
+    
   );
   return clean
+ 
   } else {
   const clean =  d3.tsvParse(data
       // First, remove all spaces and replace with tabs
@@ -260,7 +265,7 @@ function downloadButton(data, fileName) {
   // document.getElementById('download').setAttribute('href', window.URL.createObjectURL(myFile));
   // document.getElementById('download').setAttribute('download', fileName);
   // console.log(data);
-  fetch('http://localhost:8000/sendhru', { method: "POST", headers: {
+  fetch(`http://${HOST}:8000/sendhru`, { method: "POST", headers: {
     'Content-Type': 'application/json' },
     body: JSON.stringify({hru: data, scenario: window.currentScenario})
   }).then(res => res.text()).then(data => console.log(data));

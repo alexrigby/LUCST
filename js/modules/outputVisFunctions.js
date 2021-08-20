@@ -5,6 +5,7 @@ import { choropleth } from "/js/modules/choroplethFunctions.js";
 import { getSwatPlantList, getPlantData } from "/js/modules/plantFunctions.js";
 import { getConsPractice, getCurveNumer, getManN, getLanduseData, getUrbanList, getTileDrain, getSepticData, getFilterStrip, getGrassedWw} from "/js/modules/landuseFunctions.js";
 import {updateTooltips} from "/js/modules/mapFunctions.js"
+import {HOST} from "../main.js"
 
 
 
@@ -102,14 +103,22 @@ function getMainChan(data) {
 }
 
 
-async function downloadHydrographCsv(data, fileName) {
+// async function downloadHydrographCsv(data, fileName) {
+//   // var myFile = new Blob([data], { type: 'data:text/csv;charset=utf-8,' });
+//   // document.getElementById('downloadPlot').setAttribute('href', 'data:text/csv;charset=utf-8,'+escape(data));
+//   // document.getElementById('downloadPlot').setAttribute('download', fileName);
+//   await fetch(`http://${HOST}:8000/sendplotdata`, { method: "POST", headers: {
+//     'Content-Type': 'application/json' },
+//     body: JSON.stringify({plot: data, scenario: window.currentScenario, name: fileName})
+//   }).then(res => res.text()).then(data => console.log(data));
+// }
+
+function downloadHydrographCsv(data, fileName) {
   // var myFile = new Blob([data], { type: 'data:text/csv;charset=utf-8,' });
-  // document.getElementById('downloadPlot').setAttribute('href', 'data:text/csv;charset=utf-8,'+escape(data));
-  // document.getElementById('downloadPlot').setAttribute('download', fileName);
-  await fetch('http://localhost:8000/sendplotdata', { method: "POST", headers: {
-    'Content-Type': 'application/json' },
-    body: JSON.stringify({plot: data, scenario: window.currentScenario, name: fileName})
-  }).then(res => res.text()).then(data => console.log(data));
+  // console.log(myFile)
+  document.getElementById('downloadPlot').setAttribute('href', 'data:text/csv;charset=utf-8,'+escape(data));
+  document.getElementById('downloadPlot').setAttribute('download', fileName);
+
 }
 
 
@@ -134,7 +143,7 @@ export function hydrograph(scenario) {
         return `<option class="channelNames" value=${el}>${el}</option>`;
       });
       const chanOpts = document.getElementById("channel")
-      chanOpts.innerHTML = `${channelOptions}` + `<option class= "channelNames" value= ${window.MAINCHAN} selected> ${window.MAINCHAN}</option>`
+      chanOpts.innerHTML =`<option class= "channelNames" value= ${window.MAINCHAN}> ${window.MAINCHAN}</option>`+ `${channelOptions}` 
       // window.CHANOPS = [...channelOptions];
 
       // when user Selects channel or output filters the data and plots 
@@ -158,13 +167,14 @@ export function hydrograph(scenario) {
             }
           ));
           //download the data plotted as a csv
-          // const plotDownload = convertToCSV(plotData)
-          // console.log(plotDownload)
+          const plotDownload = convertToCSV(plotData)
+          
 
           const plotDownloadButton = document.getElementById("downloadPlot")
           plotDownloadButton.addEventListener('click', () => {
-         downloadHydrographCsv(plotData, outputOps +" for "+ chanOpts.value + " in " + window.currentScenario)
-           alert("Raw CSV " + '"'+outputOps +" for "+ chanOpts.value + '"' + " saved to " + '"'+window.currentScenario+'"'  )
+         downloadHydrographCsv(plotDownload, outputOps +" for "+ chanOpts.value + " in " + window.currentScenario + ".csv")
+         console.log(plotDownload)
+          //  alert("Raw CSV " + '"'+outputOps +" for "+ chanOpts.value + '"' + " saved to " + '"'+window.currentScenario+'"'  )
         })
 
           // const selectedOutput = channel.map(function (value, index) { return value[outputOps.value]; });
@@ -274,12 +284,12 @@ export function hydrograph(scenario) {
 
 
 export async function scenarioOptions() {
-  await fetch('http://localhost:8000/getscenarios')
+  await fetch(`http://${HOST}:8000/getscenarios`)
     .then(response => response.json())
     .then(data => {
       const scenarioCount = data.length;
       window.currentScenarioVersion = scenarioCount;
-
+// console.log(data)
       //loops over the scenario names asigning new button for each name
       //calls variable i assignes index 0 to it, button count has to be grater than i, increment i by 1 each time
       document.getElementById("scenarioTab").innerHTML = "";
@@ -288,6 +298,7 @@ export async function scenarioOptions() {
         button.classList.add('tablinks');
         button.innerHTML = data[i];
         button.dataset.scenario = data[i];
+        
 
         // Tab button event (click)
         button.addEventListener('click', () => {
@@ -339,7 +350,7 @@ export async function scenarioOptions() {
                 <div class="swatloadingspinner"></div>
                </div>`
               // swatProgressBar()
-              fetch(`http://localhost:8000/runswat?scenario=${data[i]}`).then((res) => {
+              fetch(`http://${HOST}:8000/runswat?scenario=${data[i]}`).then((res) => {
                 res.json().then((d) => {
                   if (d.code === 1) {
                     console.log(d.message);

@@ -1,4 +1,5 @@
 import fetchData from "/js/modules/universalFunctions.js"; 
+import {HOST} from "../main.js"
 
 
 export function getPlantData(scenario){
@@ -99,7 +100,7 @@ export function cleanPlant(data) {
       .replace(/^\t|\t$/gm, ''),
      
     );
-     console.log(clean)
+     
     return clean
 
 }
@@ -143,7 +144,7 @@ window.plantDescriptions = [...plantDOptions]
   
   });
   document.getElementById("plantNames").innerHTML = `<option disabled selected value>-- select --</option> ${plantOptions}`
-  // document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select --</option> ${plantOptions}`
+  document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select --</option> ${plantOptions}`
 });
 }
 
@@ -310,7 +311,7 @@ if (landcoverStatus.value !== "y"){
     const pcomOptions = getPlantComTypes(window.catchmentPlant)
   
     const pcomTypesOptions = pcomOptions.map((el, i) => {
-      return `<option data-toggle="tooltip" title=${window.plantDescriptions[i]} value=${el}>${el}</option>`;
+      return `<option data-toggle="tooltip" value=${el}>${el}</option>`;
     });
     document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option> ${pcomTypesOptions} <option title = "null"> null </option>`;
 
@@ -335,7 +336,7 @@ if (landcoverStatus.value !== "y"){
 // }
 
 function sendPlantFile(data) {
-  fetch('http://localhost:8000/sendplant', { method: "POST", headers: {
+  fetch(`http://${HOST}:8000/sendplant`, { method: "POST", headers: {
     'Content-Type': 'application/json' },
     body: JSON.stringify({plant: data, scenario: window.currentScenario})
   }).then(res => res.text()).then(data => console.log(data));

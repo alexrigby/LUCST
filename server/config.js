@@ -1,7 +1,7 @@
 module.exports = { 
     config: () => ({
         "server_port": 8000,
-        "swat_scenarios": `../catchment/Scenarios/`,
+        "swat_scenarios": "../catchment/Scenarios/",
         "swat_scenarios_root": "catchment/Scenarios/",
         "swat_default_scenario": "Default",
         "swat_models": "catchment/Scenarios/Default/TxtInOut/",

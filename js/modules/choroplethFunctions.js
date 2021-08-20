@@ -1,4 +1,5 @@
 import fetchData from "/js/modules/universalFunctions.js"
+import {HOST} from "../main.js"
 
 //Initially cleans the HRU-wb.csv file for maipulation
 function cleanCsvOutput(data) {
@@ -53,7 +54,7 @@ function getDisplayData(data, name) {
 
 export function choropleth(scenario) {
     //NEED TO SWAP FOR AN API OPTION
-    fetchData(`catchment/Scenarios/${scenario}/TxtInOut/hru_wb_mon.csv`)
+    fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/hru_wb_mon.csv`)
         .then(data => {
             const cleanOutput = cleanCsvOutput(data)
             const date = getShortDate(cleanOutput);
@@ -92,6 +93,7 @@ export function choropleth(scenario) {
                             [outputOps]: el[outputOps],
                         }
                     ));
+                    
                     // console.log(outputOps, " for ", monOpts.value, plotData)
 
                     //NEED TO SWAP FOR AN API OPTION

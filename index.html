@@ -4,10 +4,15 @@
 <head>
     <meta charset="utf-8">
     <title>LUCST</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
     <meta name="Authour" content="Alex Rigby">
+  
     <!-- <meta name="description" content="a test of how to use CSS"> -->
-    <meta name="keywords" content="CSS, HTML, Learning">
+    <!-- <meta name="keywords" content="CSS, HTML, Learning"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link rel="stylesheet" type="text/CSS" href="CSS/main.css" />
     <!--leaflet.css, always put before link to leaflet.js-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -101,95 +106,109 @@
        <div class="flex2">
             <div  class="pop-up-plant" id="plantForm">
                 <form title="New plant_comm">New plant Community<br><br>
-                    <label for="plant_name">Plant Name</label> <br>
+                    <label title="plt_name: SWAT+ plant types
+file: plant.ini" for="plant_name">Plant Name</label> <br>
                     <!-- <input list="plantNames" type="text" name="plantNamesDatalist" id="plantNamesDatalist"> -->
-                    <select id="plantNames">
-                       
+                    <select title="plt_name: SWAT+ plant types
+file: plant.ini" id="plantNames">
                     </select><br>
                     <!-- <label for="plt_cnt">Types of Plant in Community</label><br>
                     <input type="number" id="plt_cnt" name="plt_cnt"> <br> -->
-                    <label for="rot_yr_ini">Rotation Begining Year</label><br>
-                    <input type="number" id="rot_yr_ini" name="rot_yr_ini"> <br>
+                    <label title ="rot_yr_ini: year of simulation plant first comes into rotation" for="rot_yr_ini">Rotation Begining Year</label><br>
+                    <input title="rot_yr_ini: year of simulation plant first comes into rotation" type="number" id="rot_yr_ini" name="rot_yr_ini"> <br>
                     <!-- <label for="plt_name">Plant Name</label><br>
                     <input type="text" id="plt_name" name="plt_name"> <br> -->
-                    <label for="lc_status" class="lc_status">Landcover Status</label><br>
+                    <label title ="lc_status: do the plants provide land cover at the beginning of the simulation" for="lc_status" class="lc_status">Landcover Status</label><br>
                     <!-- <input list="lc_status" name="lc_status" id="lc_statusDatalist"> -->
-                    <select id="lc_status">
+                    <select title ="lc_status: do the plants provide land cover at the beginning of the simulation" id="lc_status">
                         <option value="y">y
                         <option value="n">n
                     </select> <br>
-                    <label for="lai_init">Initial Leaf Area Index</label><br>
-                    <input type="number" id="lai_init" name="lai_init"> <br>
-                    <label for="bm_init">Initial Dry Biomass</label><br>
-                    <input type="number" id="bm_init" name="bm_init"> <br>
-                    <label for="phu_init">Heat Units to Maturity</label><br>
-                    <input type="number" id="phu_init" name="phu_init"> <br>
-                    <label for="plnt_pop">Plant Population</label><br>
-                    <input type="number" id="plantPop" name="plnt_pop"> <br>
-                    <label for="yrs_init">Years to maturity</label><br>
-                    <input type="number" id="yrs_init" name="yrs_init"> <br>
-                    <label for="rsd_init">Initial Residue Cover</label><br>
-                    <input type="number" class="rsd_init" id="rsd_init" name="rsd_init"></input> <br> <br>
+                    <label title="lai_init: initial leaf area per unit of ground/trunk area of a plant" for="lai_init">Initial Leaf Area Index</label><br>
+                    <input title="lai_init: initial leaf area per unit of ground/trunk area of a plant" type="number" id="lai_init" name="lai_init"> <br>
+                    <label title="bm_init: initial dry biomass in kg/ha " for="bm_init">Initial Dry Biomass</label><br>
+                    <input title="bm_init: initial dry biomass in kg/ha " type="number" id="bm_init" name="bm_init"> <br>
+                    <label title="phu_init: number of growing degree days needed to bring plant to maturity " for="phu_init">Heat Units to Maturity</label><br>
+                    <input title="phu_init: number of growing degree days needed to bring plant to maturity " type="number" id="phu_init" name="phu_init"> <br>
+                    <label title= "plant_pop: plant population" for="plnt_pop">Plant Population</label><br>
+                    <input title= "plant_pop: plant population" type="number" id="plantPop" name="plnt_pop"> <br>
+                    <label title="yrs_init: number of years until plant is mature" for="yrs_init">Years to maturity</label><br>
+                    <input title="yrs_init: number of years until plant is mature" type="number" id="yrs_init" name="yrs_init"> <br>
+                    <label title="rsd_init: initial residue cover/stover in kg/ha" for="rsd_init">Initial Residue Cover</label><br>
+                    <input title="rsd_init: initial residue cover/stover in kg/ha" type="number" class="rsd_init" id="rsd_init" name="rsd_init"></input> <br> <br>
                     <button type="button" id="newPlantButton">Make</button>
                     <button type="reset" id="newPlantReset">Reset</button>
                 </form>
             </div>
             <div class="pop-up-lu" id="luForm">
                 <form title="New Landuse" id="landuseForm" >New Land Use<br><br>
-                    <label for="luName">Name</label><br>
-                    <input type="text" id="luName" name="name"> <br>
-                    <label for="calGroup">Calibration Group</label><br>
-                    <input type="text" id="calGroup" name="calGroup"> <br>
-                    <label for="luplantCom">Plant Comunity</label><br>
+                    <label title= "name: land use name, must have '_lum' suffix" for="luName">Name</label><br>
+                    <input title= "name: land use name, must have '_lum' suffix" type="text" id="luName" name="name"> <br>
+                    <label title= "cal_group: specify if land use belongs to specific calibration group" for="calGroup">Calibration Group</label><br>
+                    <input title= "cal_group: specify if land use belongs to specific calibration group" type="text" id="calGroup" name="calGroup"> <br>
+                    <label title="plnt_com: plant community present in land use, if urban select ‘null’ 
+file: plant.ini" for="luplantCom">Plant Comunity</label><br>
                     <!-- <input id="luPlantCom" list="luPlantComDatalist" name="plantCom"> -->
-                    
-                    <select id="luPlantCom" class="luRequired" required="">
-                       
+                    <select title="plnt_com: plant community present in land use, if urban select ‘null’ 
+file: plant.ini" id="luPlantCom" class="luRequired" required=""> 
                     </select> <br>
                 </input>
-                    <label for="mgt">Managment</label><br>
-                    <input type="text" id="luMgt" name="mgt"> <br>
-                    <label for="cn2">Curve Number</label><br>
+                    <label title ="mgt: management operations, leave as 'null' if no mgt operations are defined
+file: managment.sch" for="mgt">Managment</label><br>
+                    <input title ="mgt: management operations, leave as 'null' if no mgt operations are defined
+file: managment.sch" type="text" id="luMgt" name="mgt"> <br>
+                    <label title ="cn2: run-off curve number, parameter to predict direct run-off or infiltration from rainfall 
+file: cntable.lum" for="cn2">Curve Number</label><br>
                     <!-- <input list="cn2" id="cn2Datalist" name="cn2"> -->
-                    <select id="cn2Options" class="luRequired">
-                        
+                    <select title ="cn2: run-off curve number, parameter to predict direct run-off or infiltration from rainfall 
+file: cntable.lum" id="cn2Options" class="luRequired">
                     </select><br>
-                    <label for="cons_practice">Conservation Practice</label><br>
-                    <select id="cons" class="luRequired">
-                        
+                    <label title="cons_prac: code for conservation practices, uses USLE (universal soil equation)
+file: cons-practice.lum" for="cons_practice">Conservation Practice</label><br>
+                    <select title="cons_prac: code for conservation practices, uses USLE (universal soil equation)
+file: cons-practice.lum"id="cons" class="luRequired">
                     </select> <br>
-                    <label for="urban">Urban</label><br>
-                    <select name="urban" id="urbanLUList" class="luRequired">
-                        
+                    <label title= "urban: urban land use, if plant use is selected then urban must be 'null'
+file: urban.urb" for="urban">Urban</label><br>
+                    <select title= "urban: urban land use, if plant use is selected then urban must be 'null'
+file: urban.urb" name="urban" id="urbanLUList" class="luRequired">
                     </select> <br>
-                    <label for="urb_ro">Urban Run-Off</label><br>
-                    <select id="urbRo" name="urb_ro" class="luRequired"> 
+                    <label title= "urb_ro: determines how urban runoff is calculated, used to estimate sediment and nutrient loadings" for="urb_ro">Urban Run-Off</label><br>
+                    <select title= "urb_ro: determines how urban runoff is calculated, used to estimate sediment and nutrient loadings" id="urbRo" name="urb_ro" class="luRequired"> 
                             <option disabled selected value>-- select -- </option> 
                             <option value="usgs_reg">usgs_reg</option>
                             <option value="buildup_washoff">buildup_washoff</option>
                             <option value="null">null</option>
-                        
                         </select><br>
-
-                    <label for="ov_mann">Mannings n</label><br>
-                    <!-- <input list="ovMannDatalist" id="ovMann"><br> -->
-                    <select id="manN">
-                        
+                    <label title= "ov_mann: overland manning’s n value, estimate of flow over hillslope
+file: ovn_table.lum" for="ov_mann">Mannings n</label><br>
+                    <select title= "ov_mann: overland manning’s n value, estimate of flow over hillslope
+file: ovn_table.lum" id="manN">    
                     </select><br>
-                    <label for="tile">Tile Drainage</label><br>
-                    <select id="tile" name="tile" class="luRequired">
+                    <label title="tile: presence of tile drains/drainage of subsurface water, usually from agricultural land
+file: tiledrain.str" for="tile">Tile Drainage</label><br>
+                    <select title="tile: presence of tile drains/drainage of subsurface water, usually from agricultural land
+file: tiledrain.str"id="tile" name="tile" class="luRequired">
                         </select> <br>
-                    <label for="sep">Septic Tanks</label><br>
-                    <select  id="sep" name="sep" class="luRequired"> 
+                    <label title="sep: presence/type of onsite wastewater system
+file: septic.str" for="septic" for="sep">Septic Tanks</label><br>
+                    <select title="sep: presence/type of onsite wastewater system
+file: septic.str" for="septic"  id="sep" name="sep" class="luRequired"> 
                         </select><br>
-                    <label for="vfs">Filter Strip</label><br>
-                    <select id="vfs" name="vfs" class="luRequired"> 
+                    <label title= "vfs: presence/type of filter strip, strip of dense vegetation on hillslope to intercept run-off from upslope pollutant 
+file: filterstrip.str" for="vfs">Filter Strip</label><br>
+                    <select title= "vfs: presence/type of filter strip, strip of dense vegetation on hillslope to intercept run-off from upslope pollutant 
+file: filterstrip.str"id="vfs" name="vfs" class="luRequired"> 
                     </select><br>
-                    <label for="grww">Grassed Waterways</label><br>
-                    <select id="grww" name="grww" class="luRequired"> 
+                    <label title="grww: presence/type of grassed waterways, vegetation within channels 
+file: grassedww.str " for="grww">Grassed Waterways</label><br>
+                    <select title="grww: presence/type of grassed waterways, vegetation within channels 
+file: grassedww.str " id="grww" name="grww" class="luRequired"> 
                         </select><br>
-                    <label for="bmp">Best Managment Practices</label><br>
-                    <input type="text" id="bmp" name="bmp"> <br> <br>
+                    <label title="bmp: no built in SWAT+ options, allows removal of constituents from model based on user defined management practice 
+file: bmpuser.str" for="bmp">Best Managment Practices</label><br>
+                    <input title="bmp: no built in SWAT+ options, allows removal of constituents from model based on user defined management practice 
+file: bmpuser.str"type="text" id="bmp" name="bmp"> <br> <br>
                     <button type="button" id="newLuButton" >Make</button>
                     <button type="reset" id="newLuReset">Reset</button>
                 </form>

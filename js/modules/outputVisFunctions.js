@@ -97,10 +97,11 @@ function cleanTxtOutput(data) {
 }
 
 //finds channel with 0 out_tot in chandeg.con to find the main channel
-function getMainChan(data) {
-  const filteredData = data.filter(record => record.out_tot == 0);
-  return filteredData[0].name
-}
+// function getMainChan(data) {
+//   const filteredData = data.filter(record => record.out_tot == 0);
+//   // console.log(filteredData[0].name)
+//   return filteredData[0].name
+// }
 
 
 // async function downloadHydrographCsv(data, fileName) {
@@ -121,12 +122,21 @@ function downloadHydrographCsv(data, fileName) {
 
 }
 
+function getMainChan(){
+  fetchData(`/catchment/Scenarios/Default/TxtInOut/chandeg.con`)
+  .then(data => {
+    //clean txt file
+    const clean = cleanTxtOutput(data);
+    const filteredData = clean.filter(record => record.out_tot == 0);
+  // console.log(filteredData[0].name)
+ const mainChan = filteredData[0].name
+    window.MAINCHAN = mainChan
+  });
+}
 
-
-export function hydrograph(scenario) {
-
-
-  fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/channel_sd_day.csv`)
+getMainChan()
+export function getHydrographOptions(){
+  fetchData(`/catchment/Scenarios/Default/TxtInOut/channel_sd_day.csv`)
     .then(data => {
 
       const cleanOutput = cleanCsvOutput(data);
@@ -143,7 +153,33 @@ export function hydrograph(scenario) {
         return `<option class="channelNames" value=${el}>${el}</option>`;
       });
       const chanOpts = document.getElementById("channel")
-      chanOpts.innerHTML =`<option class= "channelNames" value= ${window.MAINCHAN}> ${window.MAINCHAN}</option>`+ `${channelOptions}` 
+      chanOpts.innerHTML =`<option style="background-color:grey" title="main channel" class= "channelNames" value= ${window.MAINCHAN}> ${window.MAINCHAN}</option>`+ `${channelOptions}` 
+    })
+  }
+
+  
+
+export function hydrograph(scenario) {
+
+
+  fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/channel_sd_day.csv`)
+    .then(data => {
+
+      const cleanOutput = cleanCsvOutput(data);
+      // console.log(cleanOutput)
+      //adds "date" to the array 
+      const date = getDate(cleanOutput);
+      for (var i = 0; i < cleanOutput.length; i++) {
+        cleanOutput[i]['date'] = date[i];
+      }
+
+  //     //gets the channel names and adds  them to the select list
+  //     const channelNames = getName(cleanOutput)
+  //     const channelOptions = channelNames.map((el, i) => {
+  //       return `<option class="channelNames" value=${el}>${el}</option>`;
+  //     });
+      const chanOpts = document.getElementById("channel")
+  //     chanOpts.innerHTML =`<option class= "channelNames" value= ${window.MAINCHAN}> ${window.MAINCHAN}</option>`+ `${channelOptions}` 
       // window.CHANOPS = [...channelOptions];
 
       // when user Selects channel or output filters the data and plots 
@@ -248,37 +284,6 @@ export function hydrograph(scenario) {
     });
 
 
-  fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/chandeg.con`)
-    .then(data => {
-      //clean txt file
-      const clean = cleanTxtOutput(data);
-      //finds name of the main channnel
-      const mainChan = getMainChan(clean)
-      //console.log('main channel name', mainChan)
-      window.MAINCHAN = mainChan
-      //channel select
-      // const channel = document.getElementById('channel')
-      // //output select
-      // const output = document.getElementById('output')
-      // //selects the main chanel to plot
-      // const mainChanButton = document.getElementById('mainChan')
-      // mainChanButton.addEventListener('click', () => {
-      //   channel.innerHTML = `<option value=${mainChan}>${mainChan}</option>`;
-      // });
-      // //selcets flo_out to plot
-      // const floOutButton = document.getElementById('floOut')
-      // floOutButton.addEventListener('click', () => {
-      //   output.innerHTML = `<option value=flo_out>flo_out</option>`;
-      // })
-
-      //resets both selections 
-      // const resetPlot = document.getElementById("resetPlot")
-      // resetPlot.addEventListener('click', () => {
-      //   channel.innerHTML = `${window.CHANOPS}`
-      //   output.innerHTML = `${window.OUTPUTOPS}`
-      // })
-    });
-
 }
 
 
@@ -288,6 +293,7 @@ export async function scenarioOptions() {
     .then(response => response.json())
     .then(data => {
       const scenarioCount = data.length;
+      
       window.currentScenarioVersion = scenarioCount;
 // console.log(data)
       //loops over the scenario names asigning new button for each name
@@ -297,14 +303,16 @@ export async function scenarioOptions() {
         let button = document.createElement('button');
         button.classList.add('tablinks');
         button.innerHTML = data[i];
+        
         button.dataset.scenario = data[i];
         
 
         // Tab button event (click)
         button.addEventListener('click', () => {
 
-
+          
           updateCurrentScenario(data[i]);
+          
           getPlantData(data[i]);
           // console.log(window.catchmentPlant)
           getSwatPlantList(data[i]);
@@ -399,7 +407,8 @@ export default {
   hydrograph,
   //newHydrograph,
   // graphTab,
-  scenarioOptions
+  scenarioOptions,
+  getHydrographOptions
 }
 
 

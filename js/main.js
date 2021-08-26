@@ -3,13 +3,13 @@ import { populateTable, cleanHru, getHru, updateHru, getHruData } from "/js/modu
 import { getPlantOptions, cleanPlant, newPlantType, getSwatPlantList, getPlantData} from "/js/modules/plantFunctions.js";
 import { cleanLanduse, getLanduseTypes, landuseTypes, getConsPractice, getCurveNumer, getManN, getUrbanList, getTileDrain, getSepticData, getFilterStrip, getGrassedWw} from "/js/modules/landuseFunctions.js";
 import { updateTooltips, makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection, makeOutdoorsMap, makeOsMap } from "/js/modules/mapFunctions.js";
-import { hydrograph, scenarioOptions } from "/js/modules/outputVisFunctions.js";
+import { hydrograph, scenarioOptions, getHydrographOptions} from "/js/modules/outputVisFunctions.js";
 // import { timeSim, printPrt } from "/js/modules/modelFunctions.js";
-import choropleth from "/js/modules/choroplethFunctions.js";
+import {choropleth, getChoroplethOptions} from "/js/modules/choroplethFunctions.js";
 import { getLanduseData } from "/js/modules/landuseFunctions.js";
 
 const dev = new URL(window.location).searchParams.get('dev') === '1';
-export const HOST = dev ? 'localhost' : '78.105.154.157';
+export const HOST = dev ? 'localhost' : '94.13.75.225';
 //run for dev with ?dev=1
 //if ipv4 chnage change value 
 
@@ -46,7 +46,8 @@ window.init = false;
 
 // printPrt()
 // timeSim()
-
+getHydrographOptions()
+getChoroplethOptions()
 await scenarioOptions()
 
 getPlantData('Default')
@@ -63,6 +64,7 @@ getTileDrain('Default')
 getSepticData('Default')
 getFilterStrip('Default')
 getGrassedWw('Default')
+
 await hydrograph('Default')
 
 //hides the hruTable by default

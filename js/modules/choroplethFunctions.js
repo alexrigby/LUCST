@@ -49,12 +49,8 @@ function getDisplayData(data, name) {
     return filteredData
 }
 
-
-
-
-export function choropleth(scenario) {
-    //NEED TO SWAP FOR AN API OPTION
-    fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/hru_wb_mon.csv`)
+export function getChoroplethOptions(){
+fetchData(`/catchment/Scenarios/Default/TxtInOut/hru_wb_mon.csv`)
         .then(data => {
             const cleanOutput = cleanCsvOutput(data)
             const date = getShortDate(cleanOutput);
@@ -70,6 +66,27 @@ export function choropleth(scenario) {
             });
             const monOpts = document.getElementById("month")
             monOpts.innerHTML = `${monOptions}`
+        })
+    }
+
+export function choropleth(scenario) {
+    //NEED TO SWAP FOR AN API OPTION
+    fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/hru_wb_mon.csv`)
+        .then(data => {
+            const cleanOutput = cleanCsvOutput(data)
+            const date = getShortDate(cleanOutput);
+            //gets the short date and adds it to hru_wb
+            for (var i = 0; i < cleanOutput.length; i++) {
+                cleanOutput[i]['date'] = date[i];
+            }
+
+    //         //gets the available months and adds  them to the select list
+    //         const monNames = getDate(cleanOutput)
+    //         const monOptions = monNames.map((el, i) => {
+    //             return `<option value=${el}>${el}</option>`;
+    //         });
+            const monOpts = document.getElementById("month")
+    //         monOpts.innerHTML = `${monOptions}`
 
             //when user chnages month or output plot changes for seletion
             const selectMonth = document.getElementById("month");
@@ -153,4 +170,7 @@ export function choropleth(scenario) {
 
 }
 
-export default choropleth
+export default {
+    choropleth,
+    getChoroplethOptions
+}

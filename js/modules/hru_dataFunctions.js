@@ -8,7 +8,7 @@ export function getHruData(scenario){
   fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/hru-data.hru`)
       .then(data => {
         
-      
+        // console.log(`/catchment/Scenarios/${scenario}/TxtInOut/hru-data.hru`)
           // Clean the dataset...
           const cleanHruData = cleanHru(data);
          
@@ -18,7 +18,7 @@ export function getHruData(scenario){
           window.catchmentData = [...cleanHruData];
           // console.log('chd', cleanHruData);
           updateTooltips(cleanHruData, 'test')
-          // console.log(window.catchmentData)
+       
       });
   }
 
@@ -141,7 +141,7 @@ export function populateTable(data) {
   const shpFileHrus = data.hrus.map(function(v){
     return parseInt(v);
   })
- 
+//  console.log(window.catchmentData)
 // map HRUs(from shapefile) to id's from window.catchmentData to display correct hru lu_mgt in table
   const hruLuSelection = shpFileHrus.map(shpHru => {
     const obj = window.catchmentData.find(record => record.id == shpHru);

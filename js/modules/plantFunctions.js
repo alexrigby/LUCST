@@ -247,7 +247,7 @@ if (landcoverStatus.value !== "y"){
   const iniPhu = document.getElementById("phu_init")
   iniPhu.setAttribute('value', 0)
   const plantPopulation = document.getElementById("plantPop")
-  plantPopulation.setAttribute('value', 1)
+  plantPopulation.setAttribute('value', 0)
   const iniYrs = document.getElementById("yrs_init")
   iniYrs.setAttribute('value', 1)
   const iniRsd = document.getElementById("rsd_init")

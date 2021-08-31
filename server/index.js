@@ -7,6 +7,7 @@ const cors = require('cors');
 const { config } = require('./config');
 const fs = require('fs');
 
+
 const app = express();
 
 app.use(cors());
@@ -50,6 +51,10 @@ app.get("/createscenario", (req, res) => {
 // }  
 // });
 
+app.post('/gethru', (req, res) => {
+    getHRU(req, res);
+})
+
 
 // - METHOD: sendHRU
 app.post("/sendhru", (req, res) => {
@@ -71,7 +76,16 @@ app.post("/sendplotdata", (req, res) => {
     savePlotData(req, res);
 });
 
+app.use(function (req,res,next){
+    // req.set('Cache-Control', 'no-cache, no-store, must-revalidate')
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate')
+    res.set('Cache-Control', 'must-revalidate')
+
+})
+
 const server = http.createServer(app);
+// server.writeHead({"Cache-Control": "max-age=0, no-cache, no-store, must-revalidate"})
+
 
 server.listen(config().server_port);
 console.log(`SWAT Server Listening on Port ${config().server_port}`);
@@ -89,6 +103,21 @@ function _getScenarios() {
 // Get Scenarios
 function getScenarios(res) {
     res.send(_getScenarios());
+}
+
+function getHRU(req, res) {
+    let scenario = req.body.scenario
+
+    if(_getScenarios().includes(scenario)) {
+        try{
+            const hru = fs.readFileSync(path.resolve(__dirname, `${config().swat_scenarios}${scenario}/TxtInOut/hru-data.hru`));
+            res.send({ code: 1, message: 'HRU sent', hru})
+        } catch {
+            res.send({ code: 0, message: 'HRU failed to send'})
+        }
+    } else {
+        res.send({ code: 0, message: "Invalid scenario"})
+    }
 }
 
 // API METHOD: saveHRU

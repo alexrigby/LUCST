@@ -1,11 +1,11 @@
 import fetchData from "/js/modules/universalFunctions.js";
-import {getHruData} from "/js/modules/hru_dataFunctions.js";
+import { getHruData } from "/js/modules/hru_dataFunctions.js";
 import { updateCurrentScenario } from "/js/main.js";
 import { choropleth } from "/js/modules/choroplethFunctions.js";
 import { getSwatPlantList, getPlantData } from "/js/modules/plantFunctions.js";
-import { getConsPractice, getCurveNumer, getManN, getLanduseData, getUrbanList, getTileDrain, getSepticData, getFilterStrip, getGrassedWw} from "/js/modules/landuseFunctions.js";
-import {updateTooltips} from "/js/modules/mapFunctions.js"
-import {HOST} from "../main.js"
+import { getConsPractice, getCurveNumer, getManN, getLanduseData, getUrbanList, getTileDrain, getSepticData, getFilterStrip, getGrassedWw } from "/js/modules/landuseFunctions.js";
+import { updateTooltips } from "/js/modules/mapFunctions.js"
+import { HOST } from "../main.js"
 
 
 
@@ -117,26 +117,28 @@ function cleanTxtOutput(data) {
 function downloadHydrographCsv(data, fileName) {
   // var myFile = new Blob([data], { type: 'data:text/csv;charset=utf-8,' });
   // console.log(myFile)
-  document.getElementById('downloadPlot').setAttribute('href', 'data:text/csv;charset=utf-8,'+escape(data));
+  document.getElementById('downloadPlot').setAttribute('href', 'data:text/csv;charset=utf-8,' + escape(data));
   document.getElementById('downloadPlot').setAttribute('download', fileName);
 
 }
 
-function getMainChan(){
-  fetchData(`/catchment/Scenarios/Default/TxtInOut/chandeg.con`)
-  .then(data => {
-    //clean txt file
-    const clean = cleanTxtOutput(data);
-    const filteredData = clean.filter(record => record.out_tot == 0);
-  // console.log(filteredData[0].name)
- const mainChan = filteredData[0].name
-    window.MAINCHAN = mainChan
-  });
+async function getMainChan() {
+  await fetchData(`/catchment/Scenarios/Default/TxtInOut/chandeg.con`)
+    .then(data => {
+      //clean txt file
+      const clean = cleanTxtOutput(data);
+      const filteredData = clean.filter(record => record.out_tot == 0);
+      // console.log(filteredData[0].name)
+      const mainChan = filteredData[0].name
+      window.MAINCHAN = mainChan
+    });
 }
 
-getMainChan()
-export function getHydrographOptions(){
-  fetchData(`/catchment/Scenarios/Default/TxtInOut/channel_sd_day.csv`)
+
+
+export async function getHydrographOptions() {
+  await getMainChan()
+  await fetchData(`/catchment/Scenarios/Default/TxtInOut/channel_sd_day.csv`)
     .then(data => {
 
       const cleanOutput = cleanCsvOutput(data);
@@ -153,17 +155,17 @@ export function getHydrographOptions(){
         return `<option class="channelNames" value=${el}>${el}</option>`;
       });
       const chanOpts = document.getElementById("channel")
-      chanOpts.innerHTML =`<option style="background-color:grey" title="main channel" class= "channelNames" value= ${window.MAINCHAN}> ${window.MAINCHAN}</option>`+ `${channelOptions}` 
+      chanOpts.innerHTML = `<option style="background-color:grey" title="main channel" class= "channelNames" value= ${window.MAINCHAN}> ${window.MAINCHAN}</option>` + `${channelOptions}`
     })
-  }
-
-  
-
-export function hydrograph(scenario) {
+}
 
 
-  fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/channel_sd_day.csv`)
-    .then(data => {
+
+export async function hydrograph(scenario) {
+
+
+  await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/channel_sd_day.csv`)
+    .then(async data => {
 
       const cleanOutput = cleanCsvOutput(data);
       // console.log(cleanOutput)
@@ -173,13 +175,13 @@ export function hydrograph(scenario) {
         cleanOutput[i]['date'] = date[i];
       }
 
-  //     //gets the channel names and adds  them to the select list
-  //     const channelNames = getName(cleanOutput)
-  //     const channelOptions = channelNames.map((el, i) => {
-  //       return `<option class="channelNames" value=${el}>${el}</option>`;
-  //     });
+      //     //gets the channel names and adds  them to the select list
+      //     const channelNames = getName(cleanOutput)
+      //     const channelOptions = channelNames.map((el, i) => {
+      //       return `<option class="channelNames" value=${el}>${el}</option>`;
+      //     });
       const chanOpts = document.getElementById("channel")
-  //     chanOpts.innerHTML =`<option class= "channelNames" value= ${window.MAINCHAN}> ${window.MAINCHAN}</option>`+ `${channelOptions}` 
+      //     chanOpts.innerHTML =`<option class= "channelNames" value= ${window.MAINCHAN}> ${window.MAINCHAN}</option>`+ `${channelOptions}` 
       // window.CHANOPS = [...channelOptions];
 
       // when user Selects channel or output filters the data and plots 
@@ -187,97 +189,97 @@ export function hydrograph(scenario) {
       const outputSelect = document.getElementById("output")
       const hydrographSelect = [channelSelect, outputSelect]
 
-     
 
-       function  plotHydrograph() {
-          const channel = getChannelData(cleanOutput, chanOpts.value);
-          // console.log('channel',channel)
-          const outputOps = document.getElementById("output").value;
-          // console.log(outputOps)
 
-          // function returns the values of selected output
-          const plotData = channel.map(el => (
-            {
-              date: el.date,
-              [outputOps]: el[outputOps],
-            }
-          ));
-          //download the data plotted as a csv
-          const plotDownload = convertToCSV(plotData)
-          
+      async function plotHydrograph() {
+        const channel = await getChannelData(cleanOutput, chanOpts.value);
+        // console.log('channel',channel)
+        const outputOps = document.getElementById("output").value;
+        // console.log(outputOps)
 
-          const plotDownloadButton = document.getElementById("downloadPlot")
-          plotDownloadButton.addEventListener('click', () => {
-         downloadHydrographCsv(plotDownload, outputOps +" for "+ chanOpts.value + " in " + window.currentScenario + ".csv")
-        //  console.log(plotDownload)
+        // function returns the values of selected output
+        const plotData = channel.map(el => (
+          {
+            date: el.date,
+            [outputOps]: el[outputOps],
+          }
+        ));
+        //download the data plotted as a csv
+        const plotDownload = convertToCSV(plotData)
+
+
+        const plotDownloadButton = document.getElementById("downloadPlot")
+        plotDownloadButton.addEventListener('click', () => {
+          downloadHydrographCsv(plotDownload, outputOps + " for " + chanOpts.value + " in " + window.currentScenario + ".csv")
+          //  console.log(plotDownload)
           //  alert("Raw CSV " + '"'+outputOps +" for "+ chanOpts.value + '"' + " saved to " + '"'+window.currentScenario+'"'  )
         })
 
-          // const selectedOutput = channel.map(function (value, index) { return value[outputOps.value]; });
+        // const selectedOutput = channel.map(function (value, index) { return value[outputOps.value]; });
 
-          // console.log(outputOps, " for ", chanOpts.value, " plotted")
+        // console.log(outputOps, " for ", chanOpts.value, " plotted")
 
-          var original = {
-            $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+        var original = {
+          $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
 
-            "title": outputOps + " for " + chanOpts.value,
-            "data": { "values": plotData },
+          "title": outputOps + " for " + chanOpts.value,
+          "data": { "values": plotData },
 
-            "vconcat": [{
+          "vconcat": [{
 
-              "width": "container",
-              "mark": "line",
-              "encoding": {
-                "x": {
-                  "timeUnit": "yearmonthdate",
-                  "field": "date",
-                  "title": "date",
-                  "type": "temporal",
-                  "scale": { "domain": { "param": "brush" } },
-                  "axis": { "title": "" }
-                },
-                "y": {
-                  "field": [outputOps],
-                  "type": "quantitative",
-                  // "title": "flow (m³/s)",
-                }
+            "width": "container",
+            "mark": "line",
+            "encoding": {
+              "x": {
+                "timeUnit": "yearmonthdate",
+                "field": "date",
+                "title": "date",
+                "type": "temporal",
+                "scale": { "domain": { "param": "brush" } },
+                "axis": { "title": "" }
+              },
+              "y": {
+                "field": [outputOps],
+                "type": "quantitative",
+                // "title": "flow (m³/s)",
               }
-            }, {
-              "width": "container",
-              "height": 60,
-              "mark": "line",
-              "params": [{
-                "name": "brush",
-                "select": { "type": "interval", "encodings": ["x"] }
-              }],
-              "encoding": {
-                "x": {
-                  "timeUnit": "yearmonthdate",
-                  "field": "date",
-                  "title": "date",
-                  "type": "temporal"
-                },
-                "y": {
-                  "field": [outputOps],
-                  "type": "quantitative",
-                  "axis": { "tickCount": 3, "grid": false },
-                }
+            }
+          }, {
+            "width": "container",
+            "height": 60,
+            "mark": "line",
+            "params": [{
+              "name": "brush",
+              "select": { "type": "interval", "encodings": ["x"] }
+            }],
+            "encoding": {
+              "x": {
+                "timeUnit": "yearmonthdate",
+                "field": "date",
+                "title": "date",
+                "type": "temporal"
+              },
+              "y": {
+                "field": [outputOps],
+                "type": "quantitative",
+                "axis": { "tickCount": 3, "grid": false },
               }
-            }]
-          }
-          vegaEmbed('#vis', original);
-
+            }
+          }]
         }
+        vegaEmbed('#vis', original);
 
-        //call plotHydrograph out side of an event listner so it plots when the page loads
-        plotHydrograph()
-        hydrographSelect.forEach(el => {
-          el.addEventListener('change', () => {
-            //call plotHydrograph so it is called when change is made in the select list
-            plotHydrograph()
-          })
+      }
+
+      //call plotHydrograph out side of an event listner so it plots when the page loads
+      await plotHydrograph()
+      hydrographSelect.forEach(el => {
+        el.addEventListener('change', async () => {
+          //call plotHydrograph so it is called when change is made in the select list
+          await plotHydrograph()
+        })
       })
-     
+
 
 
 
@@ -293,9 +295,9 @@ export async function scenarioOptions() {
     .then(response => response.json())
     .then(data => {
       const scenarioCount = data.length;
-      
+
       window.currentScenarioVersion = scenarioCount;
-// console.log(data)
+      // console.log(data)
       //loops over the scenario names asigning new button for each name
       //calls variable i assignes index 0 to it, button count has to be grater than i, increment i by 1 each time
       document.getElementById("scenarioTab").innerHTML = "";
@@ -303,36 +305,36 @@ export async function scenarioOptions() {
         let button = document.createElement('button');
         button.classList.add('tablinks');
         button.innerHTML = data[i];
-        
+
         button.dataset.scenario = data[i];
-        
+
 
         // Tab button event (click)
-        button.addEventListener('click', () => {
+        button.addEventListener('click', async () => {
 
-          
+
           updateCurrentScenario(data[i]);
-          
-          getPlantData(data[i]);
+
+          await getPlantData(data[i]);
           // console.log(window.catchmentPlant)
-          getSwatPlantList(data[i]);
-          getUrbanList(data[i]);
-          getConsPractice(data[i]);
-          getCurveNumer(data[i]);
-          getManN(data[i]);
-          getHruData(data[i]);
-          getLanduseData(data[i]);
-          getTileDrain(data[i]);
-          getSepticData(data[i]);
-          getFilterStrip(data[i]);
-          getGrassedWw(data[i]);
-         
-        //  updateTooltips()
-         
+          await getSwatPlantList(data[i]);
+          await getUrbanList(data[i]);
+          await getConsPractice(data[i]);
+          await getCurveNumer(data[i]);
+          await getManN(data[i]);
+          await getHruData(data[i]);
+          await getLanduseData(data[i]);
+          await getTileDrain(data[i]);
+          await getSepticData(data[i]);
+          await getFilterStrip(data[i]);
+          await getGrassedWw(data[i]);
+
+          //  updateTooltips(data[i])
+
           // Update vis panel
           if (data.includes(data[i])) {
-            hydrograph(data[i])
-            choropleth(data[i])
+            await hydrograph(data[i])
+            await choropleth(data[i])
           } else {
             document.querySelector('#vis').innerHTML = "";
             document.querySelector('#choro').innerHTML = "";
@@ -347,24 +349,24 @@ export async function scenarioOptions() {
             runswatbuttonvis.setAttribute('id', 'runswatbuttonvis');
             runswatbuttonvis.setAttribute('class', 'runSwatButton')
 
-            runswatbuttonvis.addEventListener('click', () => {
+            runswatbuttonvis.addEventListener('click', async () => {
               document.getElementById("hruTable").style.display = "none";
               document.querySelector('#vis').innerHTML = "";
               document.querySelector('#choro').innerHTML = "";
               // document.querySelector('#vis').innerHTML = `<div class="progressBarBorder"> 
               //  <div id="progressBar" class="swatProgressBar">0% </div>
               //  </div>`
-               document.querySelector('#vis').innerHTML = `<div class="swatrunning"> 
+              document.querySelector('#vis').innerHTML = `<div class="swatrunning"> 
                 <div class="swatloadingspinner"></div>
                </div>`
               // swatProgressBar()
-              fetch(`http://${HOST}:8000/runswat?scenario=${data[i]}`).then((res) => {
-                res.json().then((d) => {
+              await fetch(`http://${HOST}:8000/runswat?scenario=${data[i]}`).then(async (res) => {
+                await res.json().then(async (d) => {
                   if (d.code === 1) {
                     console.log(d.message);
                     //  console.log('swat ran', data[i])
-                    hydrograph(data[i])
-                    choropleth(data[i])
+                    await hydrograph(data[i])
+                    await choropleth(data[i])
                   }
                 })
               })

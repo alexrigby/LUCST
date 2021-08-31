@@ -1,22 +1,22 @@
-import fetchData from "/js/modules/universalFunctions.js"; 
-import {HOST} from "../main.js"
+import fetchData from "/js/modules/universalFunctions.js";
+import { HOST } from "../main.js"
 
 
-export function getPlantData(scenario){
-fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/plant.ini`)
+export async function getPlantData(scenario) {
+  await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/plant.ini`)
     .then(data => {
-        const cleanPlantData = cleanPlant(data);
-        
-        window.catchmentPlant = [...cleanPlantData];
-        // console.log(cleanPlantData)
+      const cleanPlantData = cleanPlant(data);
+
+      window.catchmentPlant = [...cleanPlantData];
+      // console.log(cleanPlantData)
 
     });
-  }
+}
 
 
 // Return an object array from cleaned TSV data with D3.tsvParse
 export function cleanPlants(data) {
-  if (hasWord(data, "written") === true){
+  if (hasWord(data, "written") === true) {
     const clean = d3.tsvParse(data
       // Remove the header line produced by SWAT+ Edito
       .substring(data.indexOf('\n') + 1)
@@ -26,15 +26,15 @@ export function cleanPlants(data) {
       .replace(/^\t|\t$/gm, '')
     );
     return clean
-    } else {
-    const clean =  d3.tsvParse(data
-        // First, remove all spaces and replace with tabs
-        .replace(/  +/gm, '\t')
-        // Then remove all leading and trailing tabs
-        .replace(/^\t|\t$/gm, '')
-      );
-      return clean
-    }
+  } else {
+    const clean = d3.tsvParse(data
+      // First, remove all spaces and replace with tabs
+      .replace(/  +/gm, '\t')
+      // Then remove all leading and trailing tabs
+      .replace(/^\t|\t$/gm, '')
+    );
+    return clean
+  }
 }
 
 
@@ -45,65 +45,65 @@ export function cleanPlants(data) {
 
 //checks for word in string 
 const hasWord = (str, word) =>
-str.split(/\s+/).includes(word);
+  str.split(/\s+/).includes(word);
 
 
 // Return an object array from cleaned TSV data with D3.tsvParse for plant.ini
 export function cleanPlant(data) {
-  if (hasWord(data, "SWAT+") == true){
-  // delete header line creted by SWAT+
-  data = data.substring(data.indexOf('\n') + 1);
+  if (hasWord(data, "SWAT+") == true) {
+    // delete header line creted by SWAT+
+    data = data.substring(data.indexOf('\n') + 1);
 
-  // Get data headers only
-  const dataHeaders = data
-    // Get the first line (replicated for some reason), index 0
-    .match(/^(.*)$/m)[0]
-    // Replace all spaces with tabs
-    .replace(/  +/g, '\t')
-    // Remove preceeding and trailing tabs
-    .replace(/^\t|\t$/gm, '');
+    // Get data headers only
+    const dataHeaders = data
+      // Get the first line (replicated for some reason), index 0
+      .match(/^(.*)$/m)[0]
+      // Replace all spaces with tabs
+      .replace(/  +/g, '\t')
+      // Remove preceeding and trailing tabs
+      .replace(/^\t|\t$/gm, '');
 
-  // Chop off the header we already extracted
-  const dataBody = data.substring(
-    // Go to the end of the first line
-    data.indexOf('\n') + 1)
-    // Replace all spaces with tabs
-    .replace(/  +/g, '\t')
-    // Remove preceeding and trailing tabs
-    .replace(/^\t|\t$/gm, '');
+    // Chop off the header we already extracted
+    const dataBody = data.substring(
+      // Go to the end of the first line
+      data.indexOf('\n') + 1)
+      // Replace all spaces with tabs
+      .replace(/  +/g, '\t')
+      // Remove preceeding and trailing tabs
+      .replace(/^\t|\t$/gm, '');
 
-  // Create an array of all strings delimited by the newline char
-  const fragmentedBody = dataBody.split("\n");
+    // Create an array of all strings delimited by the newline char
+    const fragmentedBody = dataBody.split("\n");
 
-  // A string to build up the body again
-  let cleanedBody = "";
+    // A string to build up the body again
+    let cleanedBody = "";
 
-  // Loop over every body fragment...
-  fragmentedBody.forEach((el, i) => {
-    // Remove the newline character from EVERY fragment
-    const cleanedEl = el.trim();
-    // Apply a tab to the end of every ODD fragment
-    if (i % 2 == 0) {
-      cleanedBody = cleanedBody + cleanedEl + "\t"
-      // Apply a new line char to the end of every EVEN fragment
-    } else {
-      cleanedBody = cleanedBody + cleanedEl + "\n"
-    }
-  })
-  // Return a d3 TSV parsed dataset (headers + newline + cleanedbody)
-  return d3.tsvParse(dataHeaders + "\n" + cleanedBody.trim());
-} else {
-  const clean =  d3.tsvParse(data
+    // Loop over every body fragment...
+    fragmentedBody.forEach((el, i) => {
+      // Remove the newline character from EVERY fragment
+      const cleanedEl = el.trim();
+      // Apply a tab to the end of every ODD fragment
+      if (i % 2 == 0) {
+        cleanedBody = cleanedBody + cleanedEl + "\t"
+        // Apply a new line char to the end of every EVEN fragment
+      } else {
+        cleanedBody = cleanedBody + cleanedEl + "\n"
+      }
+    })
+    // Return a d3 TSV parsed dataset (headers + newline + cleanedbody)
+    return d3.tsvParse(dataHeaders + "\n" + cleanedBody.trim());
+  } else {
+    const clean = d3.tsvParse(data
       // First, remove all spaces and replace with tabs
       .replace(/  +/gm, '\t')
       // Then remove all leading and trailing tabs
       .replace(/^\t|\t$/gm, ''),
-     
+
     );
-     
+
     return clean
 
-}
+  }
 
 
 }
@@ -123,29 +123,29 @@ function getPlantDescriptions(data) {
   return plants
 }
 
-export function getSwatPlantList(scenario){
-// auto fill name datalist from plants.plt, add _comm to planr name
-fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/plants.plt`)
-.then(function (data) {
-  const cleanPlantTypes = cleanPlants(data);
-  //gets the plant type names from plants.plt
-  const plantTypeNames = getPlantOptions(cleanPlantTypes);
-  //gets the plant descriptions from plant.plt
-const plantDescriptions = getPlantDescriptions(cleanPlantTypes)
-//returns the plant descriptions as a tooltip
-const plantDOptions = plantDescriptions.map((el, i)=> {
-  return `${el}`
-}); 
+export async function getSwatPlantList(scenario) {
+  // auto fill name datalist from plants.plt, add _comm to planr name
+  await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/plants.plt`)
+    .then(async function (data) {
+      const cleanPlantTypes = cleanPlants(data);
+      //gets the plant type names from plants.plt
+      const plantTypeNames = await getPlantOptions(cleanPlantTypes);
+      //gets the plant descriptions from plant.plt
+      const plantDescriptions = await getPlantDescriptions(cleanPlantTypes)
+      //returns the plant descriptions as a tooltip
+      const plantDOptions = plantDescriptions.map((el, i) => {
+        return `${el}`
+      });
 
-window.plantDescriptions = [...plantDOptions]
-//maps the plant names and assignes each to an option value for the datalist
-  const plantOptions = plantTypeNames.map((el, i) => {
-    return `<option data-toggle="tooltip" title="${plantDOptions[i]}">${el}</option>`;
-  
-  });
-  document.getElementById("plantNames").innerHTML = `<option disabled selected value>-- select --</option> ${plantOptions}`
-  document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select --</option> ${plantOptions}`
-});
+      window.plantDescriptions = [...plantDOptions]
+      //maps the plant names and assignes each to an option value for the datalist
+      const plantOptions = plantTypeNames.map((el, i) => {
+        return `<option data-toggle="tooltip" title="${plantDOptions[i]}">${el}</option>`;
+
+      });
+      document.getElementById("plantNames").innerHTML = `<option disabled selected value>-- select --</option> ${plantOptions}`
+      document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select --</option> ${plantOptions}`
+    });
 }
 
 
@@ -168,14 +168,14 @@ function getPlantComTypes(data) {
 }
 
 //exported to main.js to make the plant form
-export function newPlantType() {
+export async function newPlantType() {
 
   //creats pop up plant form, open with button, close with click on Body
   document.getElementById("openPlantForm").onclick = openPlantForm;
   document.getElementById("popUpClose").onmousedown = closePlantForm;
   function openPlantForm() {
     document.getElementById("plantForm").style.display = "block";
-    document.getElementById("result").innerHTML ="";
+    document.getElementById("result").innerHTML = "";
   }
   function closePlantForm() {
     document.getElementById("plantForm").style.display = "none";
@@ -189,18 +189,18 @@ export function newPlantType() {
   // });
   // document.getElementById("plantNames").innerHTML = `${plantOptions}`
 
-  
+
 
 
   //defines all Plant form inputs as constants, adding default values to the input feilds
   const plantName = document.getElementById("plantNames");
-  plantName.addEventListener('change', ()=>{
+  plantName.addEventListener('change', () => {
     // const plantComNameSlice = plantComName.value
-    
+
     //  plantName.setAttribute('value', plantComNameSlice)
-     //auto fills lu name with plant comm + _lum
-    const luName = document.getElementById("luName") 
-    luName.setAttribute('value', plantName.value +"_lum")
+    //auto fills lu name with plant comm + _lum
+    const luName = document.getElementById("luName")
+    luName.setAttribute('value', plantName.value + "_lum")
     // const LuPlantCom = document.getElementById("luPlantCom")
     // LuPlantCom.setAttribute('value', plantComName)
   });
@@ -210,44 +210,44 @@ export function newPlantType() {
   iniRotationYear.setAttribute('value', 1)
   // const plantName = document.getElementById("plt_name")
   //cuts '_comm' of the ed of plantComName and asignes the string as plantName
- 
-  
+
+
   const landcoverStatus = document.getElementById("lc_status")
   const iniLai = document.getElementById("lai_init")
   iniLai.setAttribute('value', 0)
 
   //makes usre if there is no landcover there is no initial leaf area index
-landcoverStatus.addEventListener('change',()=>{
-  if (landcoverStatus.value !== "y"){
-   iniLai.setAttribute('value', 0)
-    iniLai.setAttribute('min', 0)
-    iniLai.setAttribute('max', 0)
-   
+  landcoverStatus.addEventListener('change', () => {
+    if (landcoverStatus.value !== "y") {
+      iniLai.setAttribute('value', 0)
+      iniLai.setAttribute('min', 0)
+      iniLai.setAttribute('max', 0)
 
-  } else {
-   iniLai.setAttribute('max', 300)
-    iniLai.setAttribute('min', 1)
-    iniLai.setAttribute('value', 1)
 
-  }
-})
-document.getElementById("openPlantForm").addEventListener('click', () =>{
-if (landcoverStatus.value !== "y"){
-  iniLai.setAttribute('value', 0)
-   iniLai.setAttribute('min', 0)
-   iniLai.setAttribute('max', 0)
- } else {
-  iniLai.setAttribute('max', 300)
-   iniLai.setAttribute('min', 1)
-   iniLai.setAttribute('value', 1)
- }
-})
+    } else {
+      iniLai.setAttribute('max', 300)
+      iniLai.setAttribute('min', 1)
+      iniLai.setAttribute('value', 1)
+
+    }
+  })
+  document.getElementById("openPlantForm").addEventListener('click', () => {
+    if (landcoverStatus.value !== "y") {
+      iniLai.setAttribute('value', 0)
+      iniLai.setAttribute('min', 0)
+      iniLai.setAttribute('max', 0)
+    } else {
+      iniLai.setAttribute('max', 300)
+      iniLai.setAttribute('min', 1)
+      iniLai.setAttribute('value', 1)
+    }
+  })
   const iniBm = document.getElementById("bm_init")
   iniBm.setAttribute('value', 20000)
   const iniPhu = document.getElementById("phu_init")
   iniPhu.setAttribute('value', 0)
   const plantPopulation = document.getElementById("plantPop")
-  plantPopulation.setAttribute('value', 0)
+  plantPopulation.setAttribute('value', 1)
   const iniYrs = document.getElementById("yrs_init")
   iniYrs.setAttribute('value', 1)
   const iniRsd = document.getElementById("rsd_init")
@@ -256,7 +256,7 @@ if (landcoverStatus.value !== "y"){
 
   const newPlantTypeButton = document.getElementById("newPlantButton")
   //adds input values to new object when button is clicked
-  newPlantTypeButton.addEventListener('click', () => {
+  newPlantTypeButton.addEventListener('click', async () => {
     const newPlantSelection = new Object();
     newPlantSelection.pcom_name = plantName.value + "_comm";
     newPlantSelection.plt_cnt = 1
@@ -269,7 +269,7 @@ if (landcoverStatus.value !== "y"){
     newPlantSelection.plnt_pop = plantPopulation.value + '.00000';
     newPlantSelection.yrs_init = iniYrs.value + '.00000';
     newPlantSelection.rsd_init = iniRsd.value + '.00000';
-// console.log(plantPopulation.value)
+    // console.log(plantPopulation.value)
     // DO IT LIKE THIS!
     // const newPlantSelection = {
     //   pcom_name: plantComName.value,
@@ -277,39 +277,39 @@ if (landcoverStatus.value !== "y"){
     //   ...
     // }
 
-    
+
 
     // console.log(newPlantSelection)
     //adds form data to plant.ini file
-    
 
-   validateForm()
-   function validateForm(){
-      
-    // var form = document.getElementById("plantForm")
-    // var inputs = form.getElementsByTagName("input") 
-    // var selects = document.getElementById("plantNames")
-  
-    // console.log(selects)
-           
-         if(  !iniRotationYear.value || !plantName.value || !landcoverStatus.value || !iniLai.value || !iniBm.value || !iniPhu.value || !iniYrs.value || !iniRsd.value || !plantPopulation.value ) {
-          alert("Please fill all the inputs")
-        }
-        else {
-          window.catchmentPlant.push(newPlantSelection)
-          //converts file and links to download button 
-  // const newPlantTypeFile = convertToTSV(window.catchmentPlant)
-  // downloadPlantButton(newPlantTypeFile, "plant.ini")
-  sendPlantFile(window.catchmentPlant);
-  // DO SOME STUFF WITH THE RESPONSE.
- 
 
-  alert('New plant comunity written: ' + plantName.value + "_comm")
-        }
+   await validateForm()
+   async function validateForm() {
+
+      // var form = document.getElementById("plantForm")
+      // var inputs = form.getElementsByTagName("input") 
+      // var selects = document.getElementById("plantNames")
+
+      // console.log(selects)
+
+      if (!iniRotationYear.value || !plantName.value || !landcoverStatus.value || !iniLai.value || !iniBm.value || !iniPhu.value || !iniYrs.value || !iniRsd.value || !plantPopulation.value) {
+        alert("Please fill all the inputs")
       }
-      
+      else {
+        window.catchmentPlant.push(newPlantSelection)
+        //converts file and links to download button 
+        // const newPlantTypeFile = convertToTSV(window.catchmentPlant)
+        // downloadPlantButton(newPlantTypeFile, "plant.ini")
+        await sendPlantFile(window.catchmentPlant);
+        // DO SOME STUFF WITH THE RESPONSE.
+
+
+        alert('New plant comunity written: ' + plantName.value + "_comm")
+      }
+    }
+
     const pcomOptions = getPlantComTypes(window.catchmentPlant)
-  
+
     const pcomTypesOptions = pcomOptions.map((el, i) => {
       return `<option data-toggle="tooltip" value=${el}>${el}</option>`;
     });
@@ -317,8 +317,8 @@ if (landcoverStatus.value !== "y"){
 
 
 
-    
-    
+
+
 
   });
 }
@@ -335,10 +335,12 @@ if (landcoverStatus.value !== "y"){
 //   document.getElementById('downloadPlant').setAttribute('download', fileName);
 // }
 
-function sendPlantFile(data) {
-  fetch(`http://${HOST}:8000/sendplant`, { method: "POST", headers: {
-    'Content-Type': 'application/json' },
-    body: JSON.stringify({plant: data, scenario: window.currentScenario})
+async function sendPlantFile(data) {
+  await fetch(`http://${HOST}:8000/sendplant`, {
+    method: "POST", headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ plant: data, scenario: window.currentScenario })
   }).then(res => res.text()).then(data => console.log(data));
 }
 
@@ -349,7 +351,7 @@ export default {
   cleanPlant,
   getPlantOptions,
   getSwatPlantList,
-  
+
   getPlantData,
 }
 

@@ -4,12 +4,12 @@ import fetchData from "/js/modules/universalFunctions.js";
 // import * as d3 from "d3";
 //landuse.lum//
 
-export function getLanduseData(scenario){
-fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/landuse.lum`)
-  .then(data => {
+export async function getLanduseData(scenario){
+await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/landuse.lum`)
+  .then(async data => {
       const cleanLanduseData = cleanLanduse(data);
       // console.log(cleanLanduseData)
-      const landuseTypes = getLanduseTypes(cleanLanduseData);
+      const landuseTypes = await getLanduseTypes(cleanLanduseData);
       window.catchmentLanduse = [...landuseTypes];
       window.catchmentLanduseEdit = [...cleanLanduseData];
 // console.log(window.catchmentLanduseEdit)
@@ -56,15 +56,15 @@ export function getLanduseTypes(data) {
 
 
 
-export function getGrassedWw(scenario){
+export async function getGrassedWw(scenario){
   // auto fill mannings n datalist from ovn_mann.lum
-  fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/grassedww.str`)
-  .then(function (data) {
+ await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/grassedww.str`)
+  .then(async function (data) {
     const cleanNData = cleanLanduse(data);
     
-    const nNames = getLanduseTypes(cleanNData);
+    const nNames = await getLanduseTypes(cleanNData);
     
-    const manNDescriptions = getLUDescriptions(cleanNData)
+    const manNDescriptions = await getLUDescriptions(cleanNData)
     const manNDOptions = manNDescriptions.map((el, i)=> {
       return `"${el}"`
     }); 
@@ -78,12 +78,12 @@ export function getGrassedWw(scenario){
   }
 
 
-export function getFilterStrip(scenario){
-  fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/filterstrip.str`)
-  .then(function (data) {
+export async function getFilterStrip(scenario){
+  await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/filterstrip.str`)
+  .then(async function (data) {
     const cleanTileData = cleanLanduse(data);
-    const tileNames = getLanduseTypes(cleanTileData);
-    const tileDescriptions = getLUDescriptions(cleanTileData)
+    const tileNames = await getLanduseTypes(cleanTileData);
+    const tileDescriptions = await getLUDescriptions(cleanTileData)
     const tileDOptions = tileDescriptions.map((el, i)=> {
       return `"${el}"`
     }); 
@@ -95,12 +95,12 @@ export function getFilterStrip(scenario){
   });
 }
 
-export function getSepticData(scenario){
-  fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/septic.str`)
-  .then(function (data) {
+export async function getSepticData(scenario){
+  await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/septic.str`)
+  .then(async function (data) {
     const cleanTileData = cleanLanduse(data);
-    const tileNames = getLanduseTypes(cleanTileData);
-    const tileDescriptions = getLUDescriptions(cleanTileData)
+    const tileNames =await  getLanduseTypes(cleanTileData);
+    const tileDescriptions = await getLUDescriptions(cleanTileData)
     const tileDOptions = tileDescriptions.map((el, i)=> {
       return `"${el}"`
     }); 
@@ -112,12 +112,12 @@ export function getSepticData(scenario){
   });
 }
 
-export function getTileDrain(scenario){
-  fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/tiledrain.str`)
-  .then(function (data) {
+export async function getTileDrain(scenario){
+  await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/tiledrain.str`)
+  .then(async function (data) {
     const cleanTileData = cleanLanduse(data);
-    const tileNames = getLanduseTypes(cleanTileData);
-    const tileDescriptions = getLUDescriptions(cleanTileData)
+    const tileNames = await getLanduseTypes(cleanTileData);
+    const tileDescriptions = await getLUDescriptions(cleanTileData)
     const tileDOptions = tileDescriptions.map((el, i)=> {
       return `"${el}"`
     }); 
@@ -129,13 +129,13 @@ export function getTileDrain(scenario){
   });
 }
 
-export function getCurveNumer(scenario){
+export async function getCurveNumer(scenario){
 //auto fill cn number Datalist from cntable.lum
-fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/cntable.lum`)
-.then(function (data) {
+await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/cntable.lum`)
+.then(async function (data) {
   const cleanCnData = cleanLanduse(data);
-  const cnNames = getLanduseTypes(cleanCnData);
-  const cnDescriptions = getLUDescriptions(cleanCnData)
+  const cnNames =await  getLanduseTypes(cleanCnData);
+  const cnDescriptions = await getLUDescriptions(cleanCnData)
   const cnDOptions = cnDescriptions.map((el, i)=> {
     return `"${el}"`
   }); 
@@ -147,13 +147,13 @@ fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/cntable.lum`)
 });
 }
 
-export function getConsPractice(scenario){
+export async function getConsPractice(scenario){
 //auto fill  cons practice datalist from Cons_practice.lum
-fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/cons_practice.lum`)
-.then(function (data) {
+await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/cons_practice.lum`)
+.then(async function (data) {
   const cleanConsData = cleanLanduse(data);
-  const consNames = getLanduseTypes(cleanConsData);
-  const consDescriptions = getLUDescriptions(cleanConsData)
+  const consNames = await  getLanduseTypes(cleanConsData);
+  const consDescriptions =await  getLUDescriptions(cleanConsData)
   const consDOptions = consDescriptions.map((el, i)=> {
     return `"${el}"`
   }); 
@@ -164,13 +164,13 @@ fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/cons_practice.lum`)
 });
 }
 
-export function getManN(scenario){
+export async function getManN(scenario){
 // auto fill mannings n datalist from ovn_mann.lum
-fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/ovn_table.lum`)
-.then(function (data) {
+await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/ovn_table.lum`)
+.then(async function (data) {
   const cleanNData = cleanLanduse(data);
-  const nNames = getLanduseTypes(cleanNData);
-  const manNDescriptions = getLUDescriptions(cleanNData)
+  const nNames = await getLanduseTypes(cleanNData);
+  const manNDescriptions = await getLUDescriptions(cleanNData)
   const manNDOptions = manNDescriptions.map((el, i)=> {
     return `${el}`
   }); 
@@ -181,13 +181,13 @@ fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/ovn_table.lum`)
 });
 }
 
-export function getUrbanList(scenario){
+export async function getUrbanList(scenario){
   //gets the urban landuse
-  fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/urban.urb`)
-  .then(function(data){
+ await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/urban.urb`)
+  .then(async function(data){
     const cleanUrban = cleanLanduse(data);
-    const urbanNames = getLanduseTypes(cleanUrban);
-    const urbanDescription = getLUDescriptions(cleanUrban)
+    const urbanNames = await getLanduseTypes(cleanUrban);
+    const urbanDescription = await getLUDescriptions(cleanUrban)
     
     const urbanDOptions = urbanDescription.map((el, i)=> {
       return `${el}`
@@ -212,11 +212,11 @@ return plantTypes
 
 
 //exported to main.js to make the landuseform
-export function landuseTypes() {
+export async function landuseTypes() {
  
   //makes luForm popup by pressing button and updates plant selection, close by clicking on body
-  document.getElementById("openLuForm").addEventListener("click",()=>{
-    const pcomOptions = getPlantComTypes(window.catchmentPlant)
+  document.getElementById("openLuForm").addEventListener("click", async()=>{
+    const pcomOptions = await getPlantComTypes(window.catchmentPlant)
     // console.log(pcomOptions)
     document.getElementById("luForm").style.display = "block";
     document.getElementById("result").innerHTML = "";
@@ -249,14 +249,14 @@ export function landuseTypes() {
   luCalGroup.setAttribute('value', 'null')
   const plantCom = document.getElementById("luPlantCom")
 
-  plantCom.addEventListener("change", () =>{
+  plantCom.addEventListener("change", async () =>{
     if (plantCom.value !== "null"){
       document.getElementById("urbanLUList").innerHTML = `<option title="null" value="null" selected> null </option>`
       document.getElementById("urbRo").innerHTML = `<option title="null" value="null" selected> null </option>`
       // document.getElementById("urbanLU").style.background = "light-gray"
       luName.value = plantCom.value.substr(0, plantCom.value.length -5) + "_lum";
     } else {
-      document.getElementById("urbanLUList").innerHTML = `<option disabled selected value>-- select -- </option>  ${getUrbanList(window.currentScenario)} <option title = "null"> null </option>`
+      document.getElementById("urbanLUList").innerHTML = `<option disabled selected value>-- select -- </option>  ${await getUrbanList(window.currentScenario)} <option title = "null"> null </option>`
       document.getElementById("urbRo").innerHTML = `<option disabled selected value>-- select -- </option> 
       <option value="buildup_washoff">buildup_washoff</option>
       <option value="usgs_reg">usgs_reg</option>
@@ -271,12 +271,12 @@ export function landuseTypes() {
   // consPractice.setAttribute('value', 'up_down_slope')
   const urban = document.getElementById("urbanLUList")
   //stops a plant community being picked if urban landuse is chosen 
- urban.addEventListener("change", () =>{
+ urban.addEventListener("change", async () =>{
     if (urban.value !== "null"){
       document.getElementById("luPlantCom").innerHTML = `<option title="null" value="null" selected> null </option>`
       luName.value = urban.value.substring(0, 4) +'_lum';
     } else {
-      document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option>  ${getPlantComTypes(window.catchmentPlant)} <option title = "null"> null </option>`
+      document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option>  ${await getPlantComTypes(window.catchmentPlant)} <option title = "null"> null </option>`
     }
   })
  
@@ -299,7 +299,7 @@ export function landuseTypes() {
 
 
   //onclick of 'make' makes new landuse file
-  newLuButton.addEventListener('click', () => {
+  newLuButton.addEventListener('click', async () => {
 
     //new landuse object
     const newLu = new Object();
@@ -318,9 +318,9 @@ export function landuseTypes() {
     newLu.grww = grww.value;
     newLu.bmp = bmp.value;
 
-    validateForm()
+    await validateForm()
 
-    function validateForm(){
+    async function validateForm(){
       
       // var form = document.getElementById("luForm")
       // var inputs = form.getElementsByTagName("input") 
@@ -335,7 +335,7 @@ export function landuseTypes() {
           else {
             window.catchmentLanduseEdit.push(newLu)
     
-            sendLanduseFile(window.catchmentLanduseEdit);
+            await  sendLanduseFile(window.catchmentLanduseEdit);
             alert('New land use written: ' + luName.value)
           }
         }
@@ -353,8 +353,8 @@ export function landuseTypes() {
 //   document.getElementById('downloadLanduse').setAttribute('href', window.URL.createObjectURL(myFile));
 //   document.getElementById('downloadLanduse').setAttribute('download', fileName);
 
-function sendLanduseFile(data) {
-  fetch(`http://${HOST}:8000/sendlum`, { method: "POST", headers: {
+async function sendLanduseFile(data) {
+  await  fetch(`http://${HOST}:8000/sendlum`, { method: "POST", headers: {
     'Content-Type': 'application/json' },
     body: JSON.stringify({lum: data, scenario: window.currentScenario})
   }).then(res => res.text()).then(data => console.log(data));

@@ -49,8 +49,8 @@ function getDisplayData(data, name) {
     return filteredData
 }
 
-export function getChoroplethOptions(){
-fetchData(`/catchment/Scenarios/Default/TxtInOut/hru_wb_mon.csv`)
+export async function getChoroplethOptions(){
+await fetchData(`/catchment/Scenarios/Default/TxtInOut/hru_wb_mon.csv`)
         .then(data => {
             const cleanOutput = cleanCsvOutput(data)
             const date = getShortDate(cleanOutput);
@@ -69,9 +69,9 @@ fetchData(`/catchment/Scenarios/Default/TxtInOut/hru_wb_mon.csv`)
         })
     }
 
-export function choropleth(scenario) {
+export async function choropleth(scenario) {
     //NEED TO SWAP FOR AN API OPTION
-    fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/hru_wb_mon.csv`)
+    await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/hru_wb_mon.csv`)
         .then(data => {
             const cleanOutput = cleanCsvOutput(data)
             const date = getShortDate(cleanOutput);
@@ -93,11 +93,11 @@ export function choropleth(scenario) {
             const selectOutput = document.getElementById("wbOutput")
             const choroplethSelect = [selectMonth, selectOutput]
 
-            choroplethSelect.forEach(el => {
-                el.addEventListener('change', () => {
-                    plotChoropleth()
+            choroplethSelect.forEach(async el => {
+                el.addEventListener('change', async () => {
+                   await plotChoropleth()
                 })
-                function plotChoropleth() {
+              async function plotChoropleth() {
                     const month = getDisplayData(cleanOutput, monOpts.value);
 
                     const outputOps = document.getElementById("wbOutput").value;
@@ -115,7 +115,7 @@ export function choropleth(scenario) {
 
                     //NEED TO SWAP FOR AN API OPTION
                     //takes the shapefile and returns geojson object where we can access the properties 
-                    shp("catchment/Watershed/Shapes/hrus2.zip").then(function (geojson) {
+                   await shp("catchment/Watershed/Shapes/hrus2.zip").then(function (geojson) {
 
 
                         var choro = {
@@ -162,7 +162,7 @@ export function choropleth(scenario) {
                     })
 
                 }
-                plotChoropleth()
+               await plotChoropleth()
                 
             })
           

@@ -175,7 +175,7 @@ export async function populateTable(data) {
     const obj = window.catchmentData.find(record => record.id == shpHru);
     return { ...shpHru, ...obj };
   })
-// console.log(hruLuSelection)
+console.log(hruLuSelection)
 
   let table = "";
 

@@ -159,13 +159,53 @@ export async function getHydrographOptions() {
     })
 }
 
+//function to get the Default data to display as a background plot on  the time series
+async function getDefaultTimeSeriesData() {
+  await fetchData('/catchment/Scenarios/Default/TxtInOut/channel_sd_day.csv')
+    .then(data => {
+      const cleanOutput = cleanCsvOutput(data);
+
+      const date = getDate(cleanOutput);
+      for (var i = 0; i < cleanOutput.length; i++) {
+        cleanOutput[i]['date'] = date[i];
+      }
+
+      window.defaultPlotData = [...cleanOutput]
+
+      // const chanOpts = document.getElementById("channel")
+      // const channelSelect = document.getElementById("channel")
+      // const outputSelect = document.getElementById("output")
+      // const hydrographSelect = [channelSelect, outputSelect]
+
+
+      // hydrographSelect.forEach(el => {
+      //   el.addEventListener('change', async () => {
+      //     const outputOps = document.getElementById("output").value;
+      //     const defaultData = getChannelData(cleanOutput, chanOpts.value);
+
+      //     const plotData = defaultData.map(el => (
+      //       {
+      //         date: el.date,
+      //         [outputOps]: el[outputOps],
+      //       }
+      //     ));
+      //     console.log(plotData)
+      //     return plotData
+      //   })
+      // })
+    })
+}
+await getDefaultTimeSeriesData()
+
 
 
 export async function hydrograph(scenario) {
 
 
+
   await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/channel_sd_day.csv`)
     .then(async data => {
+
 
       const cleanOutput = cleanCsvOutput(data);
       // console.log(cleanOutput)
@@ -175,14 +215,7 @@ export async function hydrograph(scenario) {
         cleanOutput[i]['date'] = date[i];
       }
 
-      //     //gets the channel names and adds  them to the select list
-      //     const channelNames = getName(cleanOutput)
-      //     const channelOptions = channelNames.map((el, i) => {
-      //       return `<option class="channelNames" value=${el}>${el}</option>`;
-      //     });
       const chanOpts = document.getElementById("channel")
-      //     chanOpts.innerHTML =`<option class= "channelNames" value= ${window.MAINCHAN}> ${window.MAINCHAN}</option>`+ `${channelOptions}` 
-      // window.CHANOPS = [...channelOptions];
 
       // when user Selects channel or output filters the data and plots 
       const channelSelect = document.getElementById("channel")
@@ -191,21 +224,38 @@ export async function hydrograph(scenario) {
 
 
 
+
+
       async function plotHydrograph() {
-        const channel = await getChannelData(cleanOutput, chanOpts.value);
-        // console.log('channel',channel)
+        
         const outputOps = document.getElementById("output").value;
-        // console.log(outputOps)
+        //gets data from default scenario for comparison plot
+        const defaultChannel = await getChannelData(window.defaultPlotData, chanOpts.value)
+        const defaultPlotData = defaultChannel.map(el => (
+          {
+            date: el.date,
+            ["default_" + outputOps]: el[outputOps],
+          }
+        ));
+        // console.log(defaultPlotData)
+        const currentChannel = await getChannelData(cleanOutput, chanOpts.value);
 
         // function returns the values of selected output
-        const plotData = channel.map(el => (
+        const plotData = currentChannel.map(el => (
           {
             date: el.date,
             [outputOps]: el[outputOps],
           }
         ));
+
+        // maps default and current scenario plots together to get data to plot
+        const combinedPlotData = defaultPlotData.map((item, i) => Object.assign({}, item, plotData[i]));
+
+        // console.log(combinedPlotData)
+
         //download the data plotted as a csv
         const plotDownload = convertToCSV(plotData)
+
 
 
         const plotDownloadButton = document.getElementById("downloadPlot")
@@ -223,49 +273,71 @@ export async function hydrograph(scenario) {
           $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
 
           "title": outputOps + " for " + chanOpts.value,
-          "data": { "values": plotData },
+          "data": { "values": combinedPlotData },
+          "repeat": {
+            "layer": [outputOps, "default_" + outputOps]
+          },
 
-          "vconcat": [{
+          // "vconcat": [{
 
+          "spec": {
             "width": "container",
+            "height": "container",
             "mark": "line",
+            //  "transform":[{
+            //    "lookup": "date",
+            //    "from": {
+            //      "data": {
+            //        "values": defaultPlotData,
+            //      },
+            //      "key":"date",
+            //      "fields":[outputOps],
+            //     }
+            //  }],
+
             "encoding": {
               "x": {
                 "timeUnit": "yearmonthdate",
                 "field": "date",
                 "title": "date",
                 "type": "temporal",
-                "scale": { "domain": { "param": "brush" } },
+                // "scale": { "domain": { "param": "brush" } },
                 "axis": { "title": "" }
               },
               "y": {
-                "field": [outputOps],
+                "field": { "repeat": "layer" },
                 "type": "quantitative",
-                // "title": "flow (m³/s)",
-              }
-            }
-          }, {
-            "width": "container",
-            "height": 60,
-            "mark": "line",
-            "params": [{
-              "name": "brush",
-              "select": { "type": "interval", "encodings": ["x"] }
-            }],
-            "encoding": {
-              "x": {
-                "timeUnit": "yearmonthdate",
-                "field": "date",
-                "title": "date",
-                "type": "temporal"
+                "axis": { "title": "" }
               },
-              "y": {
-                "field": [outputOps],
-                "type": "quantitative",
-                "axis": { "tickCount": 3, "grid": false },
+              "color": {
+                "datum": { "repeat": "layer" },
+                "type": "nominal"
               }
             }
-          }]
+          }
+          // },
+          // {
+          //   "width": "container",
+          //   "height": 60,
+          //   "mark": "line",
+          //   "params": [{
+          //     "name": "brush",
+          //     "select": { "type": "interval", "encodings": ["x"] }
+          //   }],
+          //   "encoding": {
+          //     "x": {
+          //       "timeUnit": "yearmonthdate",
+          //       "field": "date",
+          //       "title": "date",
+          //       "type": "temporal"
+          //     },
+          //     "y": {
+          //       "field": [outputOps],
+          //       "type": "quantitative",
+          //       "axis": { "tickCount": 3, "grid": false },
+          //     }
+          //   }
+          // }]
         }
         vegaEmbed('#vis', original);
 

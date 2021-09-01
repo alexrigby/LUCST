@@ -229,14 +229,18 @@ export async function hydrograph(scenario) {
       async function plotHydrograph() {
         
         const outputOps = document.getElementById("output").value;
+        const defaultOutput = "default_" + outputOps
         //gets data from default scenario for comparison plot
         const defaultChannel = await getChannelData(window.defaultPlotData, chanOpts.value)
         const defaultPlotData = defaultChannel.map(el => (
           {
             date: el.date,
-            ["default_" + outputOps]: el[outputOps],
+            [defaultOutput]: el[outputOps],
           }
         ));
+
+       
+
         // console.log(defaultPlotData)
         const currentChannel = await getChannelData(cleanOutput, chanOpts.value);
 
@@ -248,10 +252,23 @@ export async function hydrograph(scenario) {
           }
         ));
 
+// calcumates the maximun value of that plot and sets the axis to theat value + 10%
+        const defaultplotvalues = defaultPlotData.map(record => record[defaultOutput]);
+        let maxDefault = Math.max(...defaultplotvalues)
+        const currentplotvalues = plotData.map(record => record[outputOps])
+        let maxCurrent = Math.max(...currentplotvalues)
+        let maxTotalValue = Math.max(...[maxCurrent, maxDefault])
+        let percentageOfTotal = (10/100)*maxTotalValue
+        let axisMax = maxTotalValue + percentageOfTotal
+        
+        
+
         // maps default and current scenario plots together to get data to plot
         const combinedPlotData = defaultPlotData.map((item, i) => Object.assign({}, item, plotData[i]));
 
-        // console.log(combinedPlotData)
+   
+        
+      
 
         //download the data plotted as a csv
         const plotDownload = convertToCSV(plotData)
@@ -275,7 +292,7 @@ export async function hydrograph(scenario) {
           "title": outputOps + " for " + chanOpts.value,
           "data": { "values": combinedPlotData },
           "repeat": {
-            "layer": [outputOps, "default_" + outputOps]
+            "layer": [outputOps, defaultOutput]
           },
 
           // "vconcat": [{
@@ -307,12 +324,20 @@ export async function hydrograph(scenario) {
               "y": {
                 "field": { "repeat": "layer" },
                 "type": "quantitative",
-                "axis": { "title": "" }
+                "axis": { "title": "" },
+                "scale": {"domain": [0, axisMax]}
               },
               "color": {
                 "datum": { "repeat": "layer" },
+                "type": "nominal",
+                "legend": {
+                  "orient": "top-right"
+                }
+              },
+              "strokeDash": {
+                "datum": {"repeat": "layer"},
                 "type": "nominal"
-              }
+              } 
             }
           }
           // },

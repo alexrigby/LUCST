@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "swat": "python -m http.server 8001",
+    "swat": "python serve.py",
     "swat-server": "node .\\server"
   },
   "repository": {

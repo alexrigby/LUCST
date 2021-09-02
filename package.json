@@ -1,0 +1,35 @@
+{
+  "name": "swat",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "swat": "python -m http.server 8001",
+    "swat-server": "node .\\server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexrigby/SWAT.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alexrigby/SWAT/issues"
+  },
+  "homepage": "https://github.com/alexrigby/SWAT#readme",
+  "dependencies": {
+    "catiline": "^2.9.3",
+    "cors": "^2.8.5",
+    "d3": "^6.5.0",
+    "express": "^4.17.1",
+    "fs-extra": "^10.0.0",
+    "jquery": "^3.5.1",
+    "jszip": "^3.6.0",
+    "leaflet": "^1.7.1",
+    "leaflet-lasso": "^2.2.3",
+    "shpjs": "^3.6.3",
+    "tsv": "^0.2.0"
+  }
+}

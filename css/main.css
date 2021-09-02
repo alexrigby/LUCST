@@ -1,8 +1,6 @@
 
-
 html {
   font-family: sans-serif;
-  background-image: radial-gradient(rgb(234, 234, 240), grey);
 }
 
 /*header */
@@ -10,11 +8,21 @@ html {
 header{
   height: 80px;
   line-height: 80px;
-  background-color: rgb(136, 136, 253);
+  background-color:#0068C1;
   font-weight: 450;
   font-size: 20pt;
   box-shadow: 0px 8px 8px 0px;
-  margin: 12px;
+  margin:8px 0px 8px 0px;
+  
+}
+
+.luDownload{
+  border-left: 2px solid white;
+  border-right: 2px solid white;
+}
+
+.plantDownload{
+  border-left: 4px solid white;
 }
 
 .logo{
@@ -24,6 +32,11 @@ header{
 
 nav{
   float: right;
+  margin-right: 15px;
+  font-size: 13pt;
+  line-height: 40px;
+  margin-top: 20px;
+  text-align: right;
 }
 
 Nav ul{
@@ -33,49 +46,90 @@ Nav ul{
 }
 
 Nav li{
-  float: left;
-  padding: 0px 15px;
+  float:right;
+  padding-left:  6px;
+  padding-right: 6px;
 }
-
-nav li:hover{
-  background-color: white;
-}
-
 
 header a {
   text-decoration: none;
   color:white;
 }
 
+header {
+  text-decoration: none;
+  color:white;
+}
+
+nav li:hover{
+  background-color: white;
+  color:#0068C1;
+  padding-bottom: 1px;
+}
+
 header a:hover{
   background-color: white;
-  color: rgb(136, 136,253);
+  color:#0068C1;
+}
+
+
+/*styles the upload popup*/
+.upload{
+  display: none;
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  z-index: 800;
+  margin: none;
+  height:20px;
+}
+
+#uploadButton{
+  cursor: pointer;
+}
+
+input[type="file"] {
+  color: #b8b8b8;
 }
 
 /*Main*/
-/*map*/
-.btn {
-  background-color:orange;
-  cursor:pointer;
-}
-.btn2 {
-  background-color:lightblue;
-  cursor:pointer;
-}
-.btn3 {
-  background-color:lightgrey;
-  cursor:pointer;
+
+.background {
+background: linear-gradient(to bottom, #fff, #ceefef);
+border-bottom: 1px solid rgba(5,176,228,0.3);
 }
 
-#mymap {
- flex: 7;
-}
 /*map*/
+
+#sidebar {
+  margin-left: 10px;
+}
+
+#map {
+  
+ flex: 6;
+ height: 600px;
+ z-index: 1;
+}
+/*map end*/
 
 #message-box > * {
   background-color: grey;
 }
 
+select{
+  width: 100%;
+}
+
+ .runSWAT  {
+display: flex;
+ } 
+
+ .visControls{
+   float:left;
+ }
+
+/* styles all forms  */
 form label{
   font-size: 8pt;
 }
@@ -98,6 +152,7 @@ form > input:focus{
   background-color: lightgray;
 }
 
+/* positions map and HRU table  */
 .flex1{
   display: flex;
   justify-content: space-around;
@@ -105,38 +160,35 @@ form > input:focus{
 }
 
 
-
-.landuse-form{
-  flex:1;
-}
-
-.plant-form{ 
-  flex:1;
-}
-
-.LULC-form{
-  flex:1;
-}
-
+/* styles HRU table when populated  */
 .changes{
-  flex:1;
+  display: block;
+  overflow-y: auto;
+  max-height: 600px;
 }
 
-.run{
-  flex: 2;
-  align-self: center;
+/* styles all tables  */
+th{
+  position: sticky;
+  top: 0;
+  background:#0068C1;
+  color:white;
 }
 
-.run-LULC{
-  display: flex;
-  align-items: flex-end;
-  flex-direction: column;
-}
+/* .hruSummary{
+  position: absolute;
+  /* position: sticky; s */
+  /* bottom : 0;
+  color:pink;
+} */ 
 
 table{
+  font-weight: 500;
+  font-size: 10pt;
   background-color: white;
-  font-size: 12px;
-  margin: 10px;
+  border: 2px solid black;
+  margin: 0px;
+  margin-left: 3px;
 }
 
 table, th, td{
@@ -148,37 +200,245 @@ th, td{
   padding:8px
 }
 
+a{
+  text-decoration: none;
+}
+
+/* #lassoControl{
+background-image: url('/data/images/lasso-control.png');
+background-size: 22px;
+height: 22px;
+width: 22px;
+} */
 
 /*footer*/
 
+footer {
+  display: flex;
+}
+
+/* stops tab sidebar getting wider */
+#scenarioTab{
+  width:90px;
+}
+/* makes sure choropleth snt pushed out when run SWAT Button is created */
+.runSwatButton{
+  cursor: pointer;
+width: 80px;
+height: 200px;
+opacity: 0.8;
+background: #0068C1;
+color: white;
+margin-top: 20px;
+
+
+}
+
+.runSwatButton:hover{
+  opacity: 1;
+}
+/* .runSwatContainer{
+  display: flex;
+} */
+
+/* possitions pop-up buttons and runn swat+ box  */
 .flex2{ 
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: flex-start;
   flex-wrap: wrap;
-  
+  flex-direction: column;
 }
 
+/* styles box which contains hydrograph  */
 .hydrograph{
   background-color: white;
-  margin: 10px;
-  height: 300px;
-  flex: 2;
+  margin: 3px 0px;
+  width:100%;
+ display: flex;
+ flex:1;
+ overflow-x: auto;
   border: solid black 2px;
 }
 
-.output-table{
-  background-color: white;
-  margin: 10px;
-  height: 300px;
- flex: 1;
- border: solid black 2px;
+.timeSeries{
+  display:flex;
+  width: 100%;
+  flex: 6;
 }
 
-.download{
-  background-color: white;
-  margin: 10px;
-  height: 300px;
-  flex: 1;
-  border: solid black 2px;
+.choropleth{
+  display:flex;
+  width: 100%;
+  flex: 4;
+}
+.progressBarBorder{
+ 
+  background-color: gray;
+  width: 700px;
+  height: 20px;
+}
+.swatProgressBar{
+
+  background-color: #0068C1;
+  height: 20px;
+  width: 0%;
+}
+
+#downloadPlot{
+  background-color:#555;
+  color: white;
+  cursor: pointer;
+  margin: 2px;
+  opacity: 0.8;
+  padding:3px;
+  border-radius: 2%;
+}
+
+#downloadPlot:hover{
+  opacity: 1;
+}
+
+/* styles pop up lU and plant form buttons */
+.openLuForm {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  margin:3px;
+  bottom: 23px;
+  right: 28px;
+  width: 240px;
+}
+
+.openPlantForm {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  margin:3px;
+  bottom: 23px;
+  left: 28px;
+  width: 240px;
+}
+/* styles LU and plant forms  */
+.pop-up-lu {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 225px;
+  z-index: 500;
+}
+
+.pop-up-plant {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left:15px;
+  z-index: 500;
+}
+
+ .openPlantForm:hover {
+  opacity: 1;
+}
+.openLuForm:hover {
+  opacity: 1;
+}
+ 
+
+.vega-bindings{
+  display: none;
+}
+
+/* styiling from W3 schools for hydrograph tabs */
+#vis2{
+  display: none;
+}
+
+/* Style the tab */
+.tab {
+  
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  font-size: 17px;
+  width:100%;
+  text-align: left;
+}
+
+.tab button.scenario-active {
+  background-color: #3cc43c;
+}
+
+.tab button.scenario-active:focus, .tab button.scenario-active:hover {
+  background-color: #209720;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+
+/* Create an active/current tablink class */
+.tab button:focus {
+  background-color: #ddd;
+}
+/* finished styling tabs */
+
+.swatrunning {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+
+.swatloadingspinner {
+  width: 100px;
+  min-width: 100px;
+  height: 100px;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  border-radius: 50%;
+  border-top: 10px solid rgba(0,0,0,0.2);
+  border-right: 10px solid rgba(0,0,0,0.2);
+  border-bottom: 10px solid rgba(0,0,0,0.2);
+  border-left: 10px solid rgba(0,0,0,1);
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: swat-spinner 1s infinite linear;
+  animation: swat-spinner 1s infinite linear;
+}
+
+.choroHide {
+  visibility: hidden !important; 
+}
+
+@keyframes swat-spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }

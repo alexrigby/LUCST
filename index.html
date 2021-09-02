@@ -3,246 +3,278 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Testing CSS4</title>
+    <title>LUCST</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <!-- <meta http-equiv="Expires" content="0"/> -->
     <meta name="Authour" content="Alex Rigby">
-    <meta name="description" content="a test of how to use CSS">
-    <meta name="keywords" content="CSS, HTML, Learning">
+  
+    <!-- <meta name="description" content="a test of how to use CSS"> -->
+    <!-- <meta name="keywords" content="CSS, HTML, Learning"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link rel="stylesheet" type="text/CSS" href="CSS/main.css" />
     <!--leaflet.css, always put before link to leaflet.js-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossorigin="" />
+    <!-- vega lite for visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.19.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.15.1"></script>
     <!-- leaflets.js for maps-->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin=""></script>
+    <!-- <script src="/js/plugins/Leaflet-Select-Polygons.js"></script> -->
+    <script src="/js/plugins/jquery.js"></script>
+    <!--leaflets plugin to lasso objects on map-->
+    <script src="https://unpkg.com/leaflet-lasso@2.2.3/dist/leaflet-lasso.umd.min.js"></script>
     <!-- leaflets plugins for reading Shapefiles-->
     <script src="/js/plugins/catiline.js"></script>
     <script src="/js/plugins/leaflet.shpfile.js"></script>
-    <script src="/js/plugins/jquerySelectAreaFeatures.js"></script>
-    <script src="/js/plugins/Leaflet.SelectAreaFeature.js"></script>
+    <script src="/js/plugins/shp.js"></script>
     <!--d3.js plugin for converting txt files to objects-->
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
+
+    <!-- plugin to zip files -->
+    <script src="/js/plugins/jszip.js"></script>
+    <source src="/js/plugins/FileSaver.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!--main js-->
+
     <script defer async type='module' src="js/main.js"></script>
 </head>
 
 <body class="wrapper">
-    <header>
-        <div class="logo"><a href="#">SWAT LULC</a></div>
-        <nav>
-            <ul>
-                <li><a href="#">page 1</a></li>
-                <li><a href="#">page 2</a></li>
-                <li><a href="#">page 3</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <div class="flex1">
-            <div id="mymap"></div>
-            <div style="width: 200px; height: 290px; margin:15px; float:left">
-                <button id="enable-button" class="btn2">enable</button>
-                <button id="disable-button" class="btn">disable</button><br /><br />
-                <button style="width: 200px" id="get-button-features-polygon" class="btn3">get polygon features</button>
-                <button style="width: 200px" id="set-color" class="btn3">set fill color to selected
-                    polygons</button><br /><br />
-                <button style="width: 200px" id="get-button-features" class="btn3">get all features</button>
-                <button style="width: 200px" id="set-line-weight" class="btn3">set weight 4 if feature is a
-                    line</button><br /><br />
-                <button style="width: 200px" id="get-button-latlng" class="btn3">get latlng of latest area
-                    drawn</button>
-                <button style="width: 200px" id="show-button-latlng" class="btn3">show latlng of latest area
-                    drawn</button><br /><br />
-                <button style="width: 200px" id="delete-button" class="btn3">delete last area drawn</button>
-                <button style="width: 200px" id="delete-button-all" class="btn3">delete all area(s)
-                    drawn</button><br /><br />
-            </div>
-            <div class="landuse-form">
-                <form title="New Landuse">New Landuse Type<br><br>
-                    <label for="Name">Name</label><br>
-                    <input type="text" id="name" name="name"> <br>
-                    <lable for="cal group">Calibration Group</lable><br>
-                    <input list="cal group" name="calGroup">
-                    <datalist id="calGroup">
-                        <option value="null">
-                    </datalist>
-                    </input><br>
-                    <label for="plant com">Plant Comunity</label><br>
-                    <input list="plant com" name="plantCom">
-                    <datalist id="plantCom">
-                        <option value="rnge_comm">
-                        <option value="rngb_comm">
-                        <option value="past_comm">
-                        <option value="shrb_comm">
-                        <option value="watr_comm">
-                        <option value="null">
-                    </datalist> <br>
-                    <label for="mgt">Managment</label><br>
-                    <input type="text" id="mgt" name="mgt"> <br>
-                    <label for="cn2">Curve Number</label><br>
-                    <input type="text" id="cn2" name="cn2"> <br>
-                    <label for="cons_practice">Conservation Practice</label><br>
-                    <input type="text" id="cons_practice" name="cons_practice"> <br>
-                    <label for="urban">Urban</label><br>
-                    <input type="text" id="urban" name="urban"> <br>
-                    <label for="urb_ro">Urban Run-Off</label><br>
-                    <input type="text" id="urb_ro" name="urb_ro"> <br>
-                    <label for="tile">Tile</label><br>
-                    <input type="text" id="tile" name="tile"> <br>
-                    <label for="sep">Septic Tanks</label><br>
-                    <input type="text" id="sep" name="sep"> <br>
-                    <label for="vfs">Filter Strip File</label><br>
-                    <input type="text" id="vfs" name="vfs"> <br>
-                    <label for="grww">Grassed Waterways</label><br>
-                    <input type="text" id="grww" name="grww"> <br>
-                    <label for="bmp">Best Managment Practices</label><br>
-                    <input type="text" id="bmp" name="bmp"> <br> <br>
-                    <button type="button" onclick="alert ('Writing New Landuse')">Make</button>
+    <div class="background">
+        <header>
+            <div class="logo"><a href="#">LUC SWAT+ Toolkit</a></div>
+            <div class="upload" id="upload">
+                <form >
+                    <input type="text" id="myFile" name="filePath">
+                    <button type="button" id="link" style="color:black"> link </button>
+                    
                 </form>
             </div>
-            <div class="plant-form">
-                <form title="New plant_comm">New plant Comunity<br><br>
-                    <label for="Name">Name (_comm)</label><br>
-                    <input type="text" id="name" name="name"> <br>
-                    <label for="plt_cnt">Plant Count</label><br>
-                    <input type="number" id="plt_cnt" name="plt_cnt"> <br>
-                    <label for="rot_yr_ini">Rotation Begining</label><br>
-                    <input type="number" id="rot_yr_ini" name="rot_yr_ini"> <br>
-                    <label for="plt_name">Plant Name</label><br>
-                    <input type="text" id="plt_name" name="plt_name"> <br>
-                    <lable for="lc_status">Landcover Status</lable><br>
-                    <input list="lc_status" name="lc_status">
-                    <datalist id="lc_status">
-                        <option value="y">
-                        <option value="n">
-                    </datalist> <br>
-                    <label for="lai_init">Initial Leaf Area Index</label><br>
-                    <input type="number" id="lai_init" name="lai_init"> <br>
-                    <label for="bm_init">Initial Dry Biomas</label><br>
-                    <input type="number" id="bm_init" name="bm_init"> <br>
-                    <label for="phu_init">Heat Units to Maturity</label><br>
-                    <input type="number" id="phu_init" name="phu_init"> <br>
-                    <label for="plnt_pop">Plant Population</label><br>
-                    <input type="number" id="plnt_pop" name="plnt_pop"> <br>
-                    <label for="yrs_init">Years to maturity</label><br>
-                    <input type="number" id="yrs_init" name="yrs_init"> <br>
-                    <label for="rsd_init">Initial Residue Cover</label><br>
-                    <input type="number" id="rsd_init" name="rsd_init"> <br> <br>
-                    <button type="button" onclick="alert ('Writing New Plant Community')">Make</button>
-                </form>
-            </div>
-            <div class="run-LULC">
-                <div class="LULC-form">
-                    <form name=lulc title="LULC Scenario" id='LULC'>LULC Chanage <br><br>
-                        <label for="hru">HRU:</label>
-                        <input type="text" id="hru" name="hru"> <br> <br>
-                        <label for="landuse">Landuse:</label><br>
-                        <input list="Landuse" id="landuse" name="landuse">
-                        <datalist id="Landuse">
-                            <option value="rnge_lum">
-                            <option value="rngb_lum">
-                            <option value="past_lum">
-                            <option value="frsd">
-                            <option value="watr_lum">
-                            <option value="barr_lum">
-                            <option value="New landuse">
-                        </datalist><br><br>
-                        <button type="button" id='lulcButton'>Apply</button>
-                        </input>
-                    </form>
+            <nav>
+                <ul>
+
+                    <!-- <li>
+                        <a href="" id="download" download>Download<br> hru-data.hru</a>
+                    </li>
+                    <li class="luDownload">
+                        <a href="" id="downloadLanduse" download>Dowload <br> landuse.lum</a>
+                    </li>
+                    <li class="plantDownload">
+                        <a href="" id="downloadPlant" download>Download <br> plant.ini</a>
+                    </li> -->
+                    <!-- <li>
+                        <div id="uploadButton">Link <br> Catchment</div>
+                    </li> -->
+                    <li class="createScenario">
+                        <a href="" id="createNewScenario">Create New Scenario</a>
+                    </li>
+                    
+                </ul>
+            </nav>
+
+
+        </header>
+        <main id="popUpClose">
+            <div class="flex1" id="popupClose">
+                <div id="map"></div>
+                <div id="lassoControl" ></div>
+                <div class="changes" id="hruChange">
+                    <table id="hruTable">
+                        <thead>
+                            <tr>
+                                <th>HRUs</th>
+                                <th>Current Landuse</th>
+                                <th>New Land Use</th>
+                            </tr>
+                        </thead>
+                        <tbody id='result' class='scrol'></tbody>
+                    </table>
                 </div>
-                <div class="changes">
-                    <Table>
-                        <tr>
-                            <th>#</th>
-                            <th>Landuse change</th>
-                            <th>Area</th>
-                        </tr>
-                        <tr>
-                            <th>#</th>
-                            <th>chnage</th>
-                            <th>latlong</th>
-                        </tr>
-                        <tr>
-                            <th>#</th>
-                            <th>.</th>
-                            <th>.</th>
-                        </tr>
-                        <tr>
-                            <th>#</th>
-                            <th>.</th>
-                            <th>.</th>
-                        </tr>
-                        <tr>
-                            <th>#</th>
-                            <th>.</th>
-                            <th>.</th>
-                        </tr>
-                        <tr>
-                            <th>#</th>
-                            <th>.</th>
-                            <th>.</th>
-                        </tr>
-                    </Table>
-                </div>
-                <div class="run">
-                    <form title="run SWAT"> Run SWAT <br><br>
-                        <label for="warm-up">Warm up Period:</label><br>
-                        <input type="number" id="warm-up" name="warm-up"> <br> <br>
-                        <label for="output">Output:</label><br>
-                        <input list="output" name="output">
-                        <datalist id="output">
-                            <option value="basin_wb">
-                            <option value="basin_nb">
-                            <option value="basin_ls">
-                            <option value="basin_pw">
-                            <option value="basin_aqu">
-                            <option value="basin_res">
-                            <option value="basin_sd_cha">
-                            <option value="basin_psc">
-                            <option value="isunit_psc">
-                            <option value="isunit_wb">
-                            <option value="isunit_nb">
-                            <option value="isunit_ls">
-                            <option value="isunit_pw">
-                            <option value="hru_wb">
-                            <option value="hru_nb">
-                            <option value="hru_ls">
-                            <option value="hru_pw">
-                            <option value="channel_sd">
-                            <option value="aquifer">
-                            <option value="resevoir">
-                            <option value="recall">
-                            <option value="hyd">
-                            <option value="ru">
-                        </datalist><br> <br>
-                        <label for="timestep">Timestep:</label><br>
-                        <input list="timestep" name="timestep">
-                        <datalist id="timestep">
-                            <option value="daily">
-                            <option value="weekly">
-                            <option value="monthly">
-                            <option value="annualy">
-                        </datalist><br><br>
-                        <button type="button" onclick="alert('SWAT is Running')">Run SWAT</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+    </div>
     </main>
+    </div>
     <footer>
-        <div class="flex2">
-            <div class="hydrograph">hydrograph
+       <div class="flex2">
+            <div  class="pop-up-plant" id="plantForm">
+                <form title="New plant_comm">New plant Community<br><br>
+                    <label title="plt_name: SWAT+ plant types
+file: plant.ini" for="plant_name">Plant Name</label> <br>
+                    <!-- <input list="plantNames" type="text" name="plantNamesDatalist" id="plantNamesDatalist"> -->
+                    <select title="plt_name: SWAT+ plant types
+file: plant.ini" id="plantNames">
+                    </select><br>
+                    <!-- <label for="plt_cnt">Types of Plant in Community</label><br>
+                    <input type="number" id="plt_cnt" name="plt_cnt"> <br> -->
+                    <label title ="rot_yr_ini: year of simulation plant first comes into rotation" for="rot_yr_ini">Rotation Begining Year</label><br>
+                    <input title="rot_yr_ini: year of simulation plant first comes into rotation" type="number" id="rot_yr_ini" name="rot_yr_ini"> <br>
+                    <!-- <label for="plt_name">Plant Name</label><br>
+                    <input type="text" id="plt_name" name="plt_name"> <br> -->
+                    <label title ="lc_status: do the plants provide land cover at the beginning of the simulation" for="lc_status" class="lc_status">Landcover Status</label><br>
+                    <!-- <input list="lc_status" name="lc_status" id="lc_statusDatalist"> -->
+                    <select title ="lc_status: do the plants provide land cover at the beginning of the simulation" id="lc_status">
+                        <option value="y">y
+                        <option value="n">n
+                    </select> <br>
+                    <label title="lai_init: initial leaf area per unit of ground/trunk area of a plant" for="lai_init">Initial Leaf Area Index</label><br>
+                    <input title="lai_init: initial leaf area per unit of ground/trunk area of a plant" type="number" id="lai_init" name="lai_init"> <br>
+                    <label title="bm_init: initial dry biomass in kg/ha " for="bm_init">Initial Dry Biomass</label><br>
+                    <input title="bm_init: initial dry biomass in kg/ha " type="number" id="bm_init" name="bm_init"> <br>
+                    <label title="phu_init: number of growing degree days needed to bring plant to maturity " for="phu_init">Heat Units to Maturity</label><br>
+                    <input title="phu_init: number of growing degree days needed to bring plant to maturity " type="number" id="phu_init" name="phu_init"> <br>
+                    <label title= "plant_pop: plant population" for="plnt_pop">Plant Population</label><br>
+                    <input title= "plant_pop: plant population" type="number" id="plantPop" name="plnt_pop"> <br>
+                    <label title="yrs_init: number of years until plant is mature" for="yrs_init">Years to maturity</label><br>
+                    <input title="yrs_init: number of years until plant is mature" type="number" id="yrs_init" name="yrs_init"> <br>
+                    <label title="rsd_init: initial residue cover/stover in kg/ha" for="rsd_init">Initial Residue Cover</label><br>
+                    <input title="rsd_init: initial residue cover/stover in kg/ha" type="number" class="rsd_init" id="rsd_init" name="rsd_init"></input> <br> <br>
+                    <button type="button" id="newPlantButton">Make</button>
+                    <button type="reset" id="newPlantReset">Reset</button>
+                </form>
             </div>
-            <div class="output-table">Output Table
+            <div class="pop-up-lu" id="luForm">
+                <form title="New Landuse" id="landuseForm" >New Land Use<br><br>
+                    <label title= "name: land use name, must have '_lum' suffix" for="luName">Name</label><br>
+                    <input title= "name: land use name, must have '_lum' suffix" type="text" id="luName" name="name"> <br>
+                    <label title= "cal_group: specify if land use belongs to specific calibration group" for="calGroup">Calibration Group</label><br>
+                    <input title= "cal_group: specify if land use belongs to specific calibration group" type="text" id="calGroup" name="calGroup"> <br>
+                    <label title="plnt_com: plant community present in land use, if urban select ‘null’ 
+file: plant.ini" for="luplantCom">Plant Comunity</label><br>
+                    <!-- <input id="luPlantCom" list="luPlantComDatalist" name="plantCom"> -->
+                    <select title="plnt_com: plant community present in land use, if urban select ‘null’ 
+file: plant.ini" id="luPlantCom" class="luRequired" required=""> 
+                    </select> <br>
+                </input>
+                    <label title ="mgt: management operations, leave as 'null' if no mgt operations are defined
+file: managment.sch" for="mgt">Managment</label><br>
+                    <input title ="mgt: management operations, leave as 'null' if no mgt operations are defined
+file: managment.sch" type="text" id="luMgt" name="mgt"> <br>
+                    <label title ="cn2: run-off curve number, parameter to predict direct run-off or infiltration from rainfall 
+file: cntable.lum" for="cn2">Curve Number</label><br>
+                    <!-- <input list="cn2" id="cn2Datalist" name="cn2"> -->
+                    <select title ="cn2: run-off curve number, parameter to predict direct run-off or infiltration from rainfall 
+file: cntable.lum" id="cn2Options" class="luRequired">
+                    </select><br>
+                    <label title="cons_prac: code for conservation practices, uses USLE (universal soil equation)
+file: cons-practice.lum" for="cons_practice">Conservation Practice</label><br>
+                    <select title="cons_prac: code for conservation practices, uses USLE (universal soil equation)
+file: cons-practice.lum"id="cons" class="luRequired">
+                    </select> <br>
+                    <label title= "urban: urban land use, if plant use is selected then urban must be 'null'
+file: urban.urb" for="urban">Urban</label><br>
+                    <select title= "urban: urban land use, if plant use is selected then urban must be 'null'
+file: urban.urb" name="urban" id="urbanLUList" class="luRequired">
+                    </select> <br>
+                    <label title= "urb_ro: determines how urban runoff is calculated, used to estimate sediment and nutrient loadings" for="urb_ro">Urban Run-Off</label><br>
+                    <select title= "urb_ro: determines how urban runoff is calculated, used to estimate sediment and nutrient loadings" id="urbRo" name="urb_ro" class="luRequired"> 
+                            <option disabled selected value>-- select -- </option> 
+                            <option value="usgs_reg">usgs_reg</option>
+                            <option value="buildup_washoff">buildup_washoff</option>
+                            <option value="null">null</option>
+                        </select><br>
+                    <label title= "ov_mann: overland manning’s n value, estimate of flow over hillslope
+file: ovn_table.lum" for="ov_mann">Mannings n</label><br>
+                    <select title= "ov_mann: overland manning’s n value, estimate of flow over hillslope
+file: ovn_table.lum" id="manN">    
+                    </select><br>
+                    <label title="tile: presence of tile drains/drainage of subsurface water, usually from agricultural land
+file: tiledrain.str" for="tile">Tile Drainage</label><br>
+                    <select title="tile: presence of tile drains/drainage of subsurface water, usually from agricultural land
+file: tiledrain.str"id="tile" name="tile" class="luRequired">
+                        </select> <br>
+                    <label title="sep: presence/type of onsite wastewater system
+file: septic.str" for="septic" for="sep">Septic Tanks</label><br>
+                    <select title="sep: presence/type of onsite wastewater system
+file: septic.str" for="septic"  id="sep" name="sep" class="luRequired"> 
+                        </select><br>
+                    <label title= "vfs: presence/type of filter strip, strip of dense vegetation on hillslope to intercept run-off from upslope pollutant 
+file: filterstrip.str" for="vfs">Filter Strip</label><br>
+                    <select title= "vfs: presence/type of filter strip, strip of dense vegetation on hillslope to intercept run-off from upslope pollutant 
+file: filterstrip.str"id="vfs" name="vfs" class="luRequired"> 
+                    </select><br>
+                    <label title="grww: presence/type of grassed waterways, vegetation within channels 
+file: grassedww.str " for="grww">Grassed Waterways</label><br>
+                    <select title="grww: presence/type of grassed waterways, vegetation within channels 
+file: grassedww.str " id="grww" name="grww" class="luRequired"> 
+                        </select><br>
+                    <label title="bmp: no built in SWAT+ options, allows removal of constituents from model based on user defined management practice 
+file: bmpuser.str" for="bmp">Best Managment Practices</label><br>
+                    <input title="bmp: no built in SWAT+ options, allows removal of constituents from model based on user defined management practice 
+file: bmpuser.str"type="text" id="bmp" name="bmp"> <br> <br>
+                    <button type="button" id="newLuButton" >Make</button>
+                    <button type="reset" id="newLuReset">Reset</button>
+                </form>
             </div>
-            <div class="download">Download Window
+            <div class="popups">
+                <button class="openPlantForm" id="openPlantForm">New Plant Community</button><br>
+                <button class="openLuForm" id="openLuForm"> New Land Use</button>
             </div>
-        </div>
-        <div id='container'></div>
-        <ol></ol>
+            <div class="runSWAT">
+                <div class = "visControls">
+                <form title="Channel select">Plot Time Series <br>
+                    <label for="channel">channel </label>
+                    <select name="channel" id="channel">
+                    </select> <br>
+                    <!-- <button id="mainChan" type="button">main</button><br> -->
+                    <label for="output">output   </label>
+                    <select name="output" id="output"> 
+                    </select> <br> <br>
+                    <!-- <button id="floOut" type="button">flo_out</button> <br> -->
+                    <a class = "downloadPlot" id="downloadPlot" >Download CSV </a> 
+                    <!-- <button id="resetPlot" type="reset">reset</button> -->
+                </form>
+                <form title="Choropleth">Plot Choropleth <br>
+                    <label for="month">month</label>
+                    <select name="month" id="month">
+                    </select> <br>
+                    <!-- <button id="aa" type="button">annual average</button> <br> -->
+                    <label for="wbOutput">output</label>
+                    <select name="wbOutput" id="wbOutput"> 
+                    </select>
+                    <!-- <button id="percip" type="button">percip</button><br> -->
+                    <!-- <button id="plotChloro" type="button">plot</button> -->
+                    <!-- <button id="resetChloroPlot" type="reset">reset</button> -->
+                </form>
+            </div>
+            <div class ="runSwatContainer">
+                <div id="runswatbuttonviscontainer">
+                </div>
+                </div>
+            
+                <!-- <form title="runSWAT" id="runSWATform">Run SWAT+ <br> <br> -->
+                    <!-- <label for="warmUp">warm up</label>
+                    <input type="number" id="warmUp" value="1"> <br> <br> -->
+                    <!-- <label for="routing">routing method</label>
+                    <input type="text" id="routing"> <br>
+                    <label for="PET">PET method</label>
+                    <input type="text" id="PET"> <br> -->
+                    <!-- <label for="startDate">start</label>
+                    <input type="date" id="startDate"> <br>
+                    <label for="endtDate">end</label>
+                    <input type="date" id="endDate"> <br><br>
+                    <button type="button" id="timeSimButton">set parameters</button><br>
+                    <button type="button"><a href=""id="prtDownload"> download print.prt</a></a> </button> <br>
+                    <button type="button"><a href="" id="simDownload">download time.sim</a></button> -->
+                <!-- </form> -->
+            </div>
+            </div>
+            <div class="hydrograph" id="vispanel">
+                <div class="tab" id="scenarioTab"></div>
+                <div id="vis" class ="timeSeries"></div>
+                <div id="vis2"class ="timeSeries"></div> 
+                <div id="choro"class ="choropleth"></div>
+               
+                
+            </div> <br>
+            
+            </div>
     </footer>
 </body>

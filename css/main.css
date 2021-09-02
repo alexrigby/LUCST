@@ -428,6 +428,10 @@ margin-top: 20px;
   animation: swat-spinner 1s infinite linear;
 }
 
+.choroHide {
+  visibility: hidden !important; 
+}
+
 @keyframes swat-spinner {
   0% {
     -webkit-transform: rotate(0deg);

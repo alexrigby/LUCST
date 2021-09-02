@@ -48,19 +48,31 @@ function cleanCsvOutput(data) {
     // Then remove all leading and trailing tabs
     //.replace(/^\t|\t$/gm)
   );
-  //Gets the names of the output values (column headers) and add them to a select 
-  //maybe better to delete unwanted headers by name? 
   const outputNames = clean.columns.splice(7)
-  //console.log('Output Names', outputNames)
-  const outputNameOptions = outputNames.map((el, i) => {
-    return `<option value=${el}>${el}</option>`;
-  });
-  const outputOps = document.getElementById("output")
-  outputOps.innerHTML = `${outputNameOptions}` + `<option value="flo_out" selected >flo_out</option>`
-  // window.OUTPUTOPS = [...outputNameOptions]
+  window.OUTPUTNAMES = [...outputNames]
+
   //removes the line which displays units from output data
   const noUnits = clean.filter(clean => clean.flo_out != 'm^03/s');
   return noUnits
+}
+
+function cleanDefaultCsvOutput(data) {
+
+  const clean = d3.csvParse(data
+    // Remove the header line produced by SWAT+ Editor
+    .substring(data.indexOf('\n') + 1)
+    // First, remove all spaces and replace with nothing
+    .replace(/ +/gm, '')
+    //might work, adds 0 in front of all single didgit numbers, test if vega-lite accepts it 
+    .replace(/\b(\d{1})\b/g, '0$1')
+    // Then remove all leading and trailing tabs
+    //.replace(/^\t|\t$/gm)
+  );
+  //removes the line which displays units from output data
+  const noUnits = clean.filter(clean => clean.flo_out != 'm^03/s');
+
+  return noUnits
+
 }
 
 //Combines the day, month and year to make a new feild; "date"
@@ -134,7 +146,23 @@ async function getMainChan() {
     });
 }
 
+export async function getHydrographOutputOptions() {
+  await fetchData(`/catchment/Scenarios/Default/TxtInOut/channel_sd_day.csv`)
+    .then(data => {
 
+      const cleanOutPut = cleanCsvOutput(data);
+     
+      //Gets the names of the output values (column headers) and add them to a select 
+      //maybe better to delete unwanted headers by name? 
+      // const outputNames = cleanOutPut.columns.splice(7)
+      //console.log('Output Names', outputNames)
+      const outputNameOptions = window.OUTPUTNAMES.map((el, i) => {
+        return `<option value=${el}>${el}</option>`;
+      })
+      const outputOps = document.getElementById("output")
+      outputOps.innerHTML = `<option style="background-color:grey" value="flo_out">flo_out</option>` + `${outputNameOptions}`
+    })
+}
 
 export async function getHydrographOptions() {
   await getMainChan()
@@ -163,7 +191,7 @@ export async function getHydrographOptions() {
 async function getDefaultTimeSeriesData() {
   await fetchData('/catchment/Scenarios/Default/TxtInOut/channel_sd_day.csv')
     .then(data => {
-      const cleanOutput = cleanCsvOutput(data);
+      const cleanOutput = cleanDefaultCsvOutput(data);
 
       const date = getDate(cleanOutput);
       for (var i = 0; i < cleanOutput.length; i++) {
@@ -172,30 +200,9 @@ async function getDefaultTimeSeriesData() {
 
       window.defaultPlotData = [...cleanOutput]
 
-      // const chanOpts = document.getElementById("channel")
-      // const channelSelect = document.getElementById("channel")
-      // const outputSelect = document.getElementById("output")
-      // const hydrographSelect = [channelSelect, outputSelect]
-
-
-      // hydrographSelect.forEach(el => {
-      //   el.addEventListener('change', async () => {
-      //     const outputOps = document.getElementById("output").value;
-      //     const defaultData = getChannelData(cleanOutput, chanOpts.value);
-
-      //     const plotData = defaultData.map(el => (
-      //       {
-      //         date: el.date,
-      //         [outputOps]: el[outputOps],
-      //       }
-      //     ));
-      //     console.log(plotData)
-      //     return plotData
-      //   })
-      // })
     })
 }
-await getDefaultTimeSeriesData()
+
 
 
 
@@ -206,7 +213,7 @@ export async function hydrograph(scenario) {
   await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/channel_sd_day.csv`)
     .then(async data => {
 
-
+      await getDefaultTimeSeriesData()
       const cleanOutput = cleanCsvOutput(data);
       // console.log(cleanOutput)
       //adds "date" to the array 
@@ -216,30 +223,26 @@ export async function hydrograph(scenario) {
       }
 
       const chanOpts = document.getElementById("channel")
-
       // when user Selects channel or output filters the data and plots 
-      const channelSelect = document.getElementById("channel")
-      const outputSelect = document.getElementById("output")
-      const hydrographSelect = [channelSelect, outputSelect]
-
-
-
+      // const channelSelect = document.getElementById("channel")
+      // const outputSelect = document.getElementById("output")
+      const outputOps = document.getElementById("output");
+      const hydrographSelect = [chanOpts, outputOps]
 
 
       async function plotHydrograph() {
-        
-        const outputOps = document.getElementById("output").value;
-        const defaultOutput = "default_" + outputOps
+
+
+        const defaultOutput = "default_" + outputOps.value
         //gets data from default scenario for comparison plot
         const defaultChannel = await getChannelData(window.defaultPlotData, chanOpts.value)
         const defaultPlotData = defaultChannel.map(el => (
           {
             date: el.date,
-            [defaultOutput]: el[outputOps],
+            [defaultOutput]: el[outputOps.value],
           }
         ));
 
-       
 
         // console.log(defaultPlotData)
         const currentChannel = await getChannelData(cleanOutput, chanOpts.value);
@@ -248,58 +251,51 @@ export async function hydrograph(scenario) {
         const plotData = currentChannel.map(el => (
           {
             date: el.date,
-            [outputOps]: el[outputOps],
+            [outputOps.value]: el[outputOps.value],
           }
         ));
 
-// calcumates the maximun value of that plot and sets the axis to theat value + 10%
+        // calcumates the maximun value of that plot and sets the axis to that value + 10% (may be usless)
         const defaultplotvalues = defaultPlotData.map(record => record[defaultOutput]);
         let maxDefault = Math.max(...defaultplotvalues)
-        const currentplotvalues = plotData.map(record => record[outputOps])
+        const currentplotvalues = plotData.map(record => record[outputOps.value])
         let maxCurrent = Math.max(...currentplotvalues)
         let maxTotalValue = Math.max(...[maxCurrent, maxDefault])
-        let percentageOfTotal = (10/100)*maxTotalValue
+        let percentageOfTotal = (10 / 100) * maxTotalValue
         let axisMax = maxTotalValue + percentageOfTotal
-        
-        
+
 
         // maps default and current scenario plots together to get data to plot
         const combinedPlotData = defaultPlotData.map((item, i) => Object.assign({}, item, plotData[i]));
 
-   
-        
-      
-
         //download the data plotted as a csv
         const plotDownload = convertToCSV(plotData)
 
-
-
         const plotDownloadButton = document.getElementById("downloadPlot")
         plotDownloadButton.addEventListener('click', () => {
-          downloadHydrographCsv(plotDownload, outputOps + " for " + chanOpts.value + " in " + window.currentScenario + ".csv")
+          downloadHydrographCsv(plotDownload, outputOps.value + " for " + chanOpts.value + " in " + window.currentScenario + ".csv")
           //  console.log(plotDownload)
           //  alert("Raw CSV " + '"'+outputOps +" for "+ chanOpts.value + '"' + " saved to " + '"'+window.currentScenario+'"'  )
         })
 
         // const selectedOutput = channel.map(function (value, index) { return value[outputOps.value]; });
 
-        // console.log(outputOps, " for ", chanOpts.value, " plotted")
 
         var original = {
           $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
 
-          "title": outputOps + " for " + chanOpts.value,
+          "title": outputOps.value + " for " + chanOpts.value,
           "data": { "values": combinedPlotData },
           "repeat": {
-            "layer": [outputOps, defaultOutput]
+            "layer": [outputOps.value, defaultOutput]
           },
+
 
           // "vconcat": [{
 
           "spec": {
             "width": "container",
-            "height": "container",
+            "height": "300",
             "mark": "line",
             //  "transform":[{
             //    "lookup": "date",
@@ -325,7 +321,7 @@ export async function hydrograph(scenario) {
                 "field": { "repeat": "layer" },
                 "type": "quantitative",
                 "axis": { "title": "" },
-                "scale": {"domain": [0, axisMax]}
+                "scale": { "domain": [0, axisMax] }
               },
               "color": {
                 "datum": { "repeat": "layer" },
@@ -335,9 +331,9 @@ export async function hydrograph(scenario) {
                 }
               },
               "strokeDash": {
-                "datum": {"repeat": "layer"},
+                "datum": { "repeat": "layer" },
                 "type": "nominal"
-              } 
+              }
             }
           }
           // },
@@ -365,12 +361,12 @@ export async function hydrograph(scenario) {
           // }]
         }
         vegaEmbed('#vis', original);
-
       }
 
       //call plotHydrograph out side of an event listner so it plots when the page loads
       await plotHydrograph()
       hydrographSelect.forEach(el => {
+
         el.addEventListener('change', async () => {
           //call plotHydrograph so it is called when change is made in the select list
           await plotHydrograph()
@@ -409,7 +405,10 @@ export async function scenarioOptions() {
         // Tab button event (click)
         button.addEventListener('click', async () => {
 
-
+          document.querySelector('#vis').innerHTML = `<div class="swatrunning"> 
+          <div class="swatloadingspinner"></div>
+         </div>`
+          document.querySelector('#choro').classList.add('choroHide')
           updateCurrentScenario(data[i]);
 
           await getPlantData(data[i]);
@@ -432,6 +431,7 @@ export async function scenarioOptions() {
           if (data.includes(data[i])) {
             await hydrograph(data[i])
             await choropleth(data[i])
+            document.querySelector('#choro').classList.remove('choroHide')
           } else {
             document.querySelector('#vis').innerHTML = "";
             document.querySelector('#choro').innerHTML = "";
@@ -507,7 +507,8 @@ export default {
   //newHydrograph,
   // graphTab,
   scenarioOptions,
-  getHydrographOptions
+  getHydrographOptions,
+  getHydrographOutputOptions
 }
 
 

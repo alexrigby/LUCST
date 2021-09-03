@@ -4,5 +4,5 @@ A toolkit to aid in implementing land use changes to the SWATPlus model by provi
 
 Full help documentation available in the documentation file
 
-![alt text](https://github.com/alexrigby/LUCST/blob/master/image.jpg?raw=true)
+![alt text](https://github.com/alexrigby/LUCST/blob/master/images/LUCST interface.png?raw=true)
 

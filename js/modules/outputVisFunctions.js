@@ -362,6 +362,97 @@ export async function hydrograph(scenario) {
         }
         vegaEmbed('#vis', original);
       }
+          //   var original = {
+      //     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+
+      //     "title": outputOps.value + " for " + chanOpts.value,
+      //     "data": { "values": combinedPlotData },
+
+      //     "vconcat": [
+      //       {
+      //         "height": 240,
+      //         "width": "container",
+      //         "encoding": {
+      //           "x": {
+      //             "timeUnit": "yearmonthdate",
+      //             "field": "date",
+      //             "title": "date",
+      //             "type": "temporal",
+      //             "scale": { "domain": { "param": "brush" } },
+      //             "axis": { "title": "" }
+      //           },
+      //         },
+      //         "layer": [
+      //           {
+      //             "mark": "line",
+      //             "encoding": {
+      //               "y": {
+      //                 "field": outputOps.value,
+      //                 "type": "quantitative",
+      //                 "axis": { "title": "" },
+      //                 // "scale": { "domain": [0, axisMax] }
+      //               },
+      //             }
+      //           },
+      //           {
+      //             "mark": "line",
+      //             "encoding": {
+      //               "y": {
+      //                 "field": defaultOutput,
+      //                 "type": "quantitative",
+      //                 "axis": { "title": "" },
+
+      //               }
+      //             }
+      //           }
+      //         ]
+      //       },
+      //       {
+      //         "height": 60,
+      //         "width": "container",
+      //         "params": [{
+      //                 "name": "brush",
+      //                 "select": { "type": "interval", "encodings": ["x"] }
+      //               }],
+      //         "encoding": {
+      //           "x": {
+      //             "timeUnit": "yearmonthdate",
+      //             "field": "date",
+      //             "title": "date",
+      //             "type": "temporal",
+      //             // "scale": { "domain": { "param": "brush" } },
+      //             "axis": { "title": "" }
+      //           },
+      //         },
+      //         "layer": [
+      //           {
+      //             "mark": "line",
+      //             "encoding": {
+      //               "y": {
+      //                 "field": outputOps.value,
+      //                 "type": "quantitative",
+      //                 "axis": { "title": "" },
+      //                 // "scale": { "domain": [0, axisMax] }
+      //               },
+      //             }
+      //           },
+      //           {
+      //             "mark": "line",
+      //             "encoding": {
+      //               "y": {
+      //                 "field": defaultOutput,
+      //                 "type": "quantitative",
+      //                 "axis": { "title": "" },
+
+      //               }
+      //             }
+      //           }
+      //         ]
+      //       }
+      //     ]
+      //   }
+      //   vegaEmbed('#vis', original);
+      // }
 
       //call plotHydrograph out side of an event listner so it plots when the page loads
       await plotHydrograph()

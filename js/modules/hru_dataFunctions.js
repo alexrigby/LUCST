@@ -1,4 +1,4 @@
-import { updateTooltips} from "/js/modules/mapFunctions.js";
+import { updateTooltips } from "/js/modules/mapFunctions.js";
 import fetchData from "/js/modules/universalFunctions.js";
 import { HOST } from "../main.js"
 
@@ -31,23 +31,23 @@ import { HOST } from "../main.js"
 //     });
 // }
 
-export async function getHruData(scenario){
+export async function getHruData(scenario) {
   await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/hru-data.hru`)
-      .then( async data => {
-        
-      
-          // Clean the dataset...
-          const cleanHruData = cleanHru(data);
-         
-          // Saving a copy of the dataset
-  
-          // Replace this with a state management solution
-          window.catchmentData = [...cleanHruData];
-          // console.log('chd', cleanHruData);
-            updateTooltips(cleanHruData)
-          // console.log(window.catchmentData)
-      });
-  }
+    .then(async data => {
+
+
+      // Clean the dataset...
+      const cleanHruData = cleanHru(data);
+
+      // Saving a copy of the dataset
+
+      // Replace this with a state management solution
+      window.catchmentData = [...cleanHruData];
+      // console.log('chd', cleanHruData);
+      updateTooltips(cleanHruData)
+      // console.log(window.catchmentData)
+    });
+}
 
 // Return an object array from cleaned TSV data with D3.tsvParse 
 /**
@@ -162,7 +162,7 @@ export async function populateTable(data) {
 
 
   const rowCount = data.hrus.length;
-  
+
   // convert HRUS to integr to be passed by map
   const shpFileHrus = data.hrus.map(function (v) {
     return parseInt(v);
@@ -171,11 +171,11 @@ export async function populateTable(data) {
   //  console.log(window.catchmentData)
   // map HRUs(from shapefile) to id's from window.catchmentData to display correct hru lu_mgt in table
   const hruLuSelection = shpFileHrus.map(shpHru => {
-    
+
     const obj = window.catchmentData.find(record => record.id == shpHru);
     return { ...shpHru, ...obj };
   })
-console.log(hruLuSelection)
+  console.log(hruLuSelection)
 
   let table = "";
 
@@ -187,7 +187,7 @@ console.log(hruLuSelection)
        <td> <button class="lulc-clear">CLEAR</button> <button class="lulc-editAll-button" data-hru=${data.hrus}> SAVE ALL </button></td>
        <td class="allNewlanduse">
        <select class="allLanduseTypes" id="allLanduseDatalist">
-       <option value="default" selected="selected" disabled></option>
+       <option selected="selected" disabled></option>
        ${landuseTypesOptions}
         </select></td>
    </tr>
@@ -203,7 +203,7 @@ console.log(hruLuSelection)
                   </td>
                   <td class="newLanduse">
                   <select class ="landuseTypes" id="landuseDatalist">
-                  <option value="default" selected="selected" disabled>
+                  <option selected="selected" disabled>
                         </option>
                   ${landuseTypesOptions}
                    </select></td>
@@ -241,18 +241,22 @@ console.log(hruLuSelection)
       const landuseSelection = document.querySelectorAll(".landuseTypes");
       const newLanduse = landuseSelection[i].value;
       console.log(newLanduse)
+      if (!newLanduse) {
+        alert("Please select land use");
+      }
+      else {
+        // UPDATE THE DATASET
+        window.catchmentData[el.dataset.hru - 1].lu_mgt = `${newLanduse}`;
 
-      // UPDATE THE DATASET
-      window.catchmentData[el.dataset.hru - 1].lu_mgt = `${newLanduse}`;
-
-      //assinges the new land use selection to the 'current landuse' collumn
-      const currentLu = document.querySelectorAll(".currentLu");
-      currentLu[i].innerHTML = newLanduse
+        //assinges the new land use selection to the 'current landuse' collumn
+        const currentLu = document.querySelectorAll(".currentLu");
+        currentLu[i].innerHTML = newLanduse
 
 
-      // const newHruData = convertToTSV(window.catchmentData);
-     await downloadButton(window.catchmentData, 'hru-data.hru');
-      updateTooltips(window.catchmentData)
+        // const newHruData = convertToTSV(window.catchmentData);
+        await downloadButton(window.catchmentData, 'hru-data.hru');
+        updateTooltips(window.catchmentData)
+      }
     })
   })
 
@@ -261,69 +265,76 @@ console.log(hruLuSelection)
   lulcEditAllButton.addEventListener("click", async () => {
     const allLanduseSelection = document.querySelector(".allLanduseTypes");
     const allNewLanduse = allLanduseSelection.value;
-    //loops over all 'current landuse' feilds assigning the new selected laduse
     const allCurrentLu = document.querySelectorAll(".currentLu");
-    allCurrentLu.forEach((el, i) => {
-      el.innerHTML = allNewLanduse
-    })
+    if (!allNewLanduse) {
+      alert("Please select land use");
+    }
+    else {
 
-    //   document.querySelector(".allNewlanduse").innerHTML = `${allNewLanduse}`;
-    //   document.querySelectorAll(".newLanduse").innerHTML = `${allNewLanduse}`;
+      //loops over all 'current landuse' feilds assigning the new selected laduse
 
-    // Converts a comma delimited string to an array of strings (ids).
-    const hrusToUpdate = lulcEditAllButton.dataset.hru.split(",");
-    //console.log(hrusToUpdate);
+      allCurrentLu.forEach((el, i) => {
+        el.innerHTML = allNewLanduse
+      })
+
+      //   document.querySelector(".allNewlanduse").innerHTML = `${allNewLanduse}`;
+      //   document.querySelectorAll(".newLanduse").innerHTML = `${allNewLanduse}`;
+
+      // Converts a comma delimited string to an array of strings (ids).
+      const hrusToUpdate = lulcEditAllButton.dataset.hru.split(",");
+      //console.log(hrusToUpdate);
 
 
-    hrusToUpdate.forEach((el, i, arr) => {
-      window.catchmentData[parseInt(el) - 1].lu_mgt = `${allNewLanduse}`
+      hrusToUpdate.forEach((el, i, arr) => {
+        window.catchmentData[parseInt(el) - 1].lu_mgt = `${allNewLanduse}`
 
-    });
-    //   const hruLuSelection2 = shpFileHrus.map(shpHru => {
-    //     const obj = window.catchmentData.find(record => record.id == shpHru);
-    //     return {...shpHru, ...obj };
-    //   })
-    //   let table = "";
+      });
+      //   const hruLuSelection2 = shpFileHrus.map(shpHru => {
+      //     const obj = window.catchmentData.find(record => record.id == shpHru);
+      //     return {...shpHru, ...obj };
+      //   })
+      //   let table = "";
 
-    // table  +=
-    // `<tr class="hruSummary">
-    //      <td > ${data.hrus.length} of ${window.catchmentData.length} selected</br>
+      // table  +=
+      // `<tr class="hruSummary">
+      //      <td > ${data.hrus.length} of ${window.catchmentData.length} selected</br>
 
-    //     </td>
-    //      <td> <button class="lulc-clear">CLEAR</button> <button class="lulc-editAll-button" data-hru=${data.hrus}> SAVE ALL </button></td>
-    //      <td class="allNewlanduse">
-    //      <select class="allLanduseTypes" id="allLanduseDatalist">
-    //      <option value="default" selected="selected" disabled></option>
-    //      ${landuseTypesOptions}
-    //       </select></td>
-    //  </tr>
-    //  `
-    // ;
-    // //loops over the data asigning new row each time
-    // //calls variable i assignes index 0 to it, row count has to be grater than i, increment i by 1 each time
-    // for (let i = 0; i < rowCount; i++) {
-    //   table += `
-    //             <tr>
-    //                 <td>${data.hrus[i]}</td>
-    //                 <td>${hruLuSelection2[i].lu_mgt}
-    //                 <button class="lulc-edit-button" data-hru=${data.hrus[i]}>Save</button>
-    //                 </td>
-    //                 <td class="newLanduse">
-    //                 <select class ="landuseTypes" id="landuseDatalist">
-    //                 <option value="default" selected="selected" disabled>
-    //                       </option>
-    //                 ${landuseTypesOptions}
-    //                  </select></td>
-    //             </tr>`;
-    //   //use`` to insert HTML elements straight from javascript, use ${} to input Javascript elements
-    // }
-    // document.getElementsById("result").innerHTML = table ;
-     updateTooltips(window.catchmentData)
-    // const newHruData = convertToTSV(window.catchmentData);
+      //     </td>
+      //      <td> <button class="lulc-clear">CLEAR</button> <button class="lulc-editAll-button" data-hru=${data.hrus}> SAVE ALL </button></td>
+      //      <td class="allNewlanduse">
+      //      <select class="allLanduseTypes" id="allLanduseDatalist">
+      //      <option value="default" selected="selected" disabled></option>
+      //      ${landuseTypesOptions}
+      //       </select></td>
+      //  </tr>
+      //  `
+      // ;
+      // //loops over the data asigning new row each time
+      // //calls variable i assignes index 0 to it, row count has to be grater than i, increment i by 1 each time
+      // for (let i = 0; i < rowCount; i++) {
+      //   table += `
+      //             <tr>
+      //                 <td>${data.hrus[i]}</td>
+      //                 <td>${hruLuSelection2[i].lu_mgt}
+      //                 <button class="lulc-edit-button" data-hru=${data.hrus[i]}>Save</button>
+      //                 </td>
+      //                 <td class="newLanduse">
+      //                 <select class ="landuseTypes" id="landuseDatalist">
+      //                 <option value="default" selected="selected" disabled>
+      //                       </option>
+      //                 ${landuseTypesOptions}
+      //                  </select></td>
+      //             </tr>`;
+      //   //use`` to insert HTML elements straight from javascript, use ${} to input Javascript elements
+      // }
+      // document.getElementsById("result").innerHTML = table ;
+      updateTooltips(window.catchmentData)
+      // const newHruData = convertToTSV(window.catchmentData);
 
-    // downloadButton(newHruData, 'hru-data.hru');
-    await downloadButton(window.catchmentData, 'hru-data.hru');
-    alert('New hru_data file writen')
+      // downloadButton(newHruData, 'hru-data.hru');
+      await downloadButton(window.catchmentData, 'hru-data.hru');
+      alert('New hru_data file writen')
+    }
   });
 
   const lulcClearButton = document.querySelector(".lulc-clear");

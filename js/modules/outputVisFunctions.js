@@ -151,7 +151,7 @@ export async function getHydrographOutputOptions() {
     .then(data => {
 
       const cleanOutPut = cleanCsvOutput(data);
-     
+
       //Gets the names of the output values (column headers) and add them to a select 
       //maybe better to delete unwanted headers by name? 
       // const outputNames = cleanOutPut.columns.splice(7)
@@ -281,188 +281,190 @@ export async function hydrograph(scenario) {
         // const selectedOutput = channel.map(function (value, index) { return value[outputOps.value]; });
 
 
-        var original = {
-          $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+          var original = {
+            $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
 
-          "title": outputOps.value + " for " + chanOpts.value,
-          "data": { "values": combinedPlotData },
-          "repeat": {
-            "layer": [outputOps.value, defaultOutput]
-          },
+            "title": outputOps.value + " for " + chanOpts.value,
+            "data": { "values": combinedPlotData },
+            "repeat": {
+              "layer": [outputOps.value, defaultOutput]
+            },
 
 
-          // "vconcat": [{
+            // "vconcat": [{
 
-          "spec": {
-            "width": "container",
-            "height": "300",
-            "mark": "line",
-            //  "transform":[{
-            //    "lookup": "date",
-            //    "from": {
-            //      "data": {
-            //        "values": defaultPlotData,
-            //      },
-            //      "key":"date",
-            //      "fields":[outputOps],
-            //     }
-            //  }],
+            "spec": {
+              "width": "container",
+              "height": "300",
+              "mark": "line",
+              //  "transform":[{
+              //    "lookup": "date",
+              //    "from": {
+              //      "data": {
+              //        "values": defaultPlotData,
+              //      },
+              //      "key":"date",
+              //      "fields":[outputOps],
+              //     }
+              //  }],
 
-            "encoding": {
-              "x": {
-                "timeUnit": "yearmonthdate",
-                "field": "date",
-                "title": "date",
-                "type": "temporal",
-                // "scale": { "domain": { "param": "brush" } },
-                "axis": { "title": "" }
-              },
-              "y": {
-                "field": { "repeat": "layer" },
-                "type": "quantitative",
-                "axis": { "title": "" },
-                "scale": { "domain": [0, axisMax] }
-              },
-              "color": {
-                "datum": { "repeat": "layer" },
-                "type": "nominal",
-                "legend": {
-                  "orient": "top-right"
+              "encoding": {
+                "x": {
+                  "timeUnit": "yearmonthdate",
+                  "field": "date",
+                  "title": "date",
+                  "type": "temporal",
+                  // "scale": { "domain": { "param": "brush" } },
+                  "axis": { "title": "" }
+                },
+                "y": {
+                  "field": { "repeat": "layer" },
+                  "type": "quantitative",
+                  "axis": { "title": "" },
+                  "scale": { "domain": [0, axisMax] }
+                },
+                "color": {
+                  "datum": { "repeat": "layer" },
+                  "type": "nominal",
+                  "legend": {
+                    "orient": "top-right"
+                  }
+                },
+                "strokeDash": {
+                  "datum": { "repeat": "layer" },
+                  "type": "nominal"
                 }
-              },
-              "strokeDash": {
-                "datum": { "repeat": "layer" },
-                "type": "nominal"
               }
             }
+            // },
+            // {
+            //   "width": "container",
+            //   "height": 60,
+            //   "mark": "line",
+            //   "params": [{
+            //     "name": "brush",
+            //     "select": { "type": "interval", "encodings": ["x"] }
+            //   }],
+            //   "encoding": {
+            //     "x": {
+            //       "timeUnit": "yearmonthdate",
+            //       "field": "date",
+            //       "title": "date",
+            //       "type": "temporal"
+            //     },
+            //     "y": {
+            //       "field": [outputOps],
+            //       "type": "quantitative",
+            //       "axis": { "tickCount": 3, "grid": false },
+            //     }
+            //   }
+            // }]
           }
-          // },
-          // {
-          //   "width": "container",
-          //   "height": 60,
-          //   "mark": "line",
-          //   "params": [{
-          //     "name": "brush",
-          //     "select": { "type": "interval", "encodings": ["x"] }
-          //   }],
-          //   "encoding": {
-          //     "x": {
-          //       "timeUnit": "yearmonthdate",
-          //       "field": "date",
-          //       "title": "date",
-          //       "type": "temporal"
-          //     },
-          //     "y": {
-          //       "field": [outputOps],
-          //       "type": "quantitative",
-          //       "axis": { "tickCount": 3, "grid": false },
-          //     }
-          //   }
-          // }]
+          vegaEmbed('#vis', original);
         }
-        vegaEmbed('#vis', original);
-      }
-          //   var original = {
-      //     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+    //     var original = {
+    //       $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
 
-      //     "title": outputOps.value + " for " + chanOpts.value,
-      //     "data": { "values": combinedPlotData },
+    //       "title": outputOps.value + " for " + chanOpts.value,
+    //       "data": { "values": combinedPlotData },
 
-      //     "vconcat": [
-      //       {
-      //         "height": 240,
-      //         "width": "container",
-      //         "encoding": {
-      //           "x": {
-      //             "timeUnit": "yearmonthdate",
-      //             "field": "date",
-      //             "title": "date",
-      //             "type": "temporal",
-      //             "scale": { "domain": { "param": "brush" } },
-      //             "axis": { "title": "" }
-      //           },
-      //         },
-      //         "layer": [
-      //           {
-      //             "mark": "line",
-      //             "encoding": {
-      //               "y": {
-      //                 "field": outputOps.value,
-      //                 "type": "quantitative",
-      //                 "axis": { "title": "" },
-      //                 // "scale": { "domain": [0, axisMax] }
-      //               },
-      //             }
-      //           },
-      //           {
-      //             "mark": "line",
-      //             "encoding": {
-      //               "y": {
-      //                 "field": defaultOutput,
-      //                 "type": "quantitative",
-      //                 "axis": { "title": "" },
+    //       "vconcat": [
+    //         {
+    //           "height": 240,
+    //           "width": "container",
+    //           "encoding": {
+    //             "x": {
+    //               "scale": { "extent": { "param": "brush", "encoding": "x" } },
+    //               "timeUnit": "yearmonthdate",
+    //               "field": "date",
+    //               "title": "date",
+    //               "type": "temporal",
 
-      //               }
-      //             }
-      //           }
-      //         ]
-      //       },
-      //       {
-      //         "height": 60,
-      //         "width": "container",
-      //         "params": [{
-      //                 "name": "brush",
-      //                 "select": { "type": "interval", "encodings": ["x"] }
-      //               }],
-      //         "encoding": {
-      //           "x": {
-      //             "timeUnit": "yearmonthdate",
-      //             "field": "date",
-      //             "title": "date",
-      //             "type": "temporal",
-      //             // "scale": { "domain": { "param": "brush" } },
-      //             "axis": { "title": "" }
-      //           },
-      //         },
-      //         "layer": [
-      //           {
-      //             "mark": "line",
-      //             "encoding": {
-      //               "y": {
-      //                 "field": outputOps.value,
-      //                 "type": "quantitative",
-      //                 "axis": { "title": "" },
-      //                 // "scale": { "domain": [0, axisMax] }
-      //               },
-      //             }
-      //           },
-      //           {
-      //             "mark": "line",
-      //             "encoding": {
-      //               "y": {
-      //                 "field": defaultOutput,
-      //                 "type": "quantitative",
-      //                 "axis": { "title": "" },
+    //               "axis": { "title": "" }
+    //             },
+    //           },
+    //           "layer": [
+    //             {
+    //               "mark": "line",
+    //               "encoding": {
+    //                 "y": {
+    //                   "field": outputOps.value,
+    //                   "type": "quantitative",
+    //                   "axis": { "title": "" },
+    //                   // "scale": { "domain": [0, axisMax] }
+    //                 },
+    //               }
+    //             },
+    //             {
+    //               "mark": "line",
+    //               "encoding": {
+    //                 "y": {
+    //                   "field": defaultOutput,
+    //                   "type": "quantitative",
+    //                   "axis": { "title": "" },
 
-      //               }
-      //             }
-      //           }
-      //         ]
-      //       }
-      //     ]
-      //   }
-      //   vegaEmbed('#vis', original);
-      // }
+    //                 }
+    //               }
+    //             },
+    //           ],
+    //         },
+    //       {
+    //         "height": 60,
+    //         "width": "container",
+    //         "mark":"line",
+    //         "params": [{
+    //           "name": "brush",
+    //           "select": { "type": "interval", "encodings": ["x"] },
+    //         }],
+    //         "encoding": {
+    //           "x": {
+    //             "field": "date",
+    //             "timeUnit": "yearmonthdate",
+    //             "title": "date",
+    //             "type": "temporal",
+    //             "axis": { "title": "" },
+                
+    //           },
+    //         },
+    //         "layer": [
+    //           {
+    //             "mark": "line",
+    //             "encoding": {
+    //               "y": {
+    //                 "field": outputOps.value,
+    //                 "type": "quantitative",
+    //                 "axis": { "title": "" },
+    //                 // "scale": { "domain": [0, axisMax] }
+    //               },
+    //             }
+    //           },
+    //           {
+    //             "mark": "line",
+    //             "encoding": {
+    //               "y": {
+    //                 "field": defaultOutput,
+    //                 "type": "quantitative",
+    //                 "axis": { "title": "" },
+
+    //               }
+    //             }
+    //           }
+    //         ]
+    //       }
+    //       ]
+    //   }
+    //   vegaEmbed('#vis', original);
+    // }
 
       //call plotHydrograph out side of an event listner so it plots when the page loads
       await plotHydrograph()
       hydrographSelect.forEach(el => {
 
-        el.addEventListener('change', async () => {
-          //call plotHydrograph so it is called when change is made in the select list
-          await plotHydrograph()
-        })
+      el.addEventListener('change', async () => {
+        //call plotHydrograph so it is called when change is made in the select list
+        await plotHydrograph()
       })
+    })
 
 
 
@@ -495,6 +497,7 @@ export async function scenarioOptions() {
 
         // Tab button event (click)
         button.addEventListener('click', async () => {
+          document.getElementById("hruTable").style.display = "none";
 
           document.querySelector('#vis').innerHTML = `<div class="swatrunning"> 
           <div class="swatloadingspinner"></div>

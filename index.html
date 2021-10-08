@@ -5,14 +5,14 @@
     <meta charset="utf-8">
     <title>LUCST</title>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
-    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Pragma" content="no-cache" />
     <!-- <meta http-equiv="Expires" content="0"/> -->
     <meta name="Authour" content="Alex Rigby">
-  
+
     <!-- <meta name="description" content="a test of how to use CSS"> -->
     <!-- <meta name="keywords" content="CSS, HTML, Learning"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link rel="stylesheet" type="text/CSS" href="CSS/main.css" />
     <!--leaflet.css, always put before link to leaflet.js-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -40,7 +40,8 @@
 
     <!-- plugin to zip files -->
     <script src="/js/plugins/jszip.js"></script>
-    <source src="/js/plugins/FileSaver.js"></script>
+    <source src="/js/plugins/FileSaver.js">
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!--main js-->
@@ -53,10 +54,10 @@
         <header>
             <div class="logo"><a href="#">LUC SWAT+ Toolkit</a></div>
             <div class="upload" id="upload">
-                <form >
+                <form>
                     <input type="text" id="myFile" name="filePath">
                     <button type="button" id="link" style="color:black"> link </button>
-                    
+
                 </form>
             </div>
             <nav>
@@ -77,7 +78,7 @@
                     <li class="createScenario">
                         <a href="" id="createNewScenario">Create New Scenario</a>
                     </li>
-                    
+
                 </ul>
             </nav>
 
@@ -86,7 +87,7 @@
         <main id="popUpClose">
             <div class="flex1" id="popupClose">
                 <div id="map"></div>
-                <div id="lassoControl" ></div>
+                <div id="lassoControl"></div>
                 <div class="changes" id="hruChange">
                     <table id="hruTable">
                         <thead>
@@ -99,117 +100,138 @@
                         <tbody id='result' class='scrol'></tbody>
                     </table>
                 </div>
-    </div>
-    </main>
+            </div>
+        </main>
     </div>
     <footer>
-       <div class="flex2">
-            <div  class="pop-up-plant" id="plantForm">
+        <div class="flex2">
+            <div class="pop-up-plant" id="plantForm">
                 <form title="New plant_comm">New plant Community<br><br>
                     <label title="plt_name: SWAT+ plant types
-file: plant.ini" for="plant_name">Plant Name</label> <br>
-                    <!-- <input list="plantNames" type="text" name="plantNamesDatalist" id="plantNamesDatalist"> -->
+                    file: plant.ini" for="plant_name">Plant Name</label> <br>
                     <select title="plt_name: SWAT+ plant types
-file: plant.ini" id="plantNames">
+                    file: plant.ini" id="plantNames">
                     </select><br>
+                    <label title="pcom_name: Name of the plant community">Plant Community Name</lable> <br>
+                    <input  type="text" name="plantComName" id="plantComName"> <br>
                     <!-- <label for="plt_cnt">Types of Plant in Community</label><br>
                     <input type="number" id="plt_cnt" name="plt_cnt"> <br> -->
-                    <label title ="rot_yr_ini: year of simulation plant first comes into rotation" for="rot_yr_ini">Rotation Begining Year</label><br>
-                    <input title="rot_yr_ini: year of simulation plant first comes into rotation" type="number" id="rot_yr_ini" name="rot_yr_ini"> <br>
+                    <label title="rot_yr_ini: year of simulation plant first comes into rotation"
+                        for="rot_yr_ini">Rotation Begining Year</label><br>
+                    <input title="rot_yr_ini: year of simulation plant first comes into rotation" type="number"
+                        id="rot_yr_ini" name="rot_yr_ini"> <br>
                     <!-- <label for="plt_name">Plant Name</label><br>
                     <input type="text" id="plt_name" name="plt_name"> <br> -->
-                    <label title ="lc_status: do the plants provide land cover at the beginning of the simulation" for="lc_status" class="lc_status">Landcover Status</label><br>
+                    <label title="lc_status: do the plants provide land cover at the beginning of the simulation"
+                        for="lc_status" class="lc_status">Landcover Status</label><br>
                     <!-- <input list="lc_status" name="lc_status" id="lc_statusDatalist"> -->
-                    <select title ="lc_status: do the plants provide land cover at the beginning of the simulation" id="lc_status">
+                    <select title="lc_status: do the plants provide land cover at the beginning of the simulation"
+                        id="lc_status">
                         <option value="y">y
                         <option value="n">n
                     </select> <br>
-                    <label title="lai_init: initial leaf area per unit of ground/trunk area of a plant" for="lai_init">Initial Leaf Area Index</label><br>
-                    <input title="lai_init: initial leaf area per unit of ground/trunk area of a plant" type="number" id="lai_init" name="lai_init"> <br>
+                    <label title="lai_init: initial leaf area per unit of ground/trunk area of a plant"
+                        for="lai_init">Initial Leaf Area Index</label><br>
+                    <input title="lai_init: initial leaf area per unit of ground/trunk area of a plant" type="number"
+                        id="lai_init" name="lai_init"> <br>
                     <label title="bm_init: initial dry biomass in kg/ha " for="bm_init">Initial Dry Biomass</label><br>
-                    <input title="bm_init: initial dry biomass in kg/ha " type="number" id="bm_init" name="bm_init"> <br>
-                    <label title="phu_init: number of growing degree days needed to bring plant to maturity " for="phu_init">Heat Units to Maturity</label><br>
-                    <input title="phu_init: number of growing degree days needed to bring plant to maturity " type="number" id="phu_init" name="phu_init"> <br>
-                    <label title= "plant_pop: plant population" for="plnt_pop">Plant Population</label><br>
-                    <input title= "plant_pop: plant population" type="number" id="plantPop" name="plnt_pop"> <br>
-                    <label title="yrs_init: number of years until plant is mature" for="yrs_init">Years to maturity</label><br>
-                    <input title="yrs_init: number of years until plant is mature" type="number" id="yrs_init" name="yrs_init"> <br>
-                    <label title="rsd_init: initial residue cover/stover in kg/ha" for="rsd_init">Initial Residue Cover</label><br>
-                    <input title="rsd_init: initial residue cover/stover in kg/ha" type="number" class="rsd_init" id="rsd_init" name="rsd_init"></input> <br> <br>
+                    <input title="bm_init: initial dry biomass in kg/ha " type="number" id="bm_init" name="bm_init">
+                    <br>
+                    <label title="phu_init: number of growing degree days needed to bring plant to maturity "
+                        for="phu_init">Heat Units to Maturity</label><br>
+                    <input title="phu_init: number of growing degree days needed to bring plant to maturity "
+                        type="number" id="phu_init" name="phu_init"> <br>
+                    <label title="plant_pop: plant population" for="plnt_pop">Plant Population</label><br>
+                    <input title="plant_pop: plant population" type="number" id="plantPop" name="plnt_pop"> <br>
+                    <label title="yrs_init: number of years until plant is mature" for="yrs_init">Years to
+                        maturity</label><br>
+                    <input title="yrs_init: number of years until plant is mature" type="number" id="yrs_init"
+                        name="yrs_init"> <br>
+                    <label title="rsd_init: initial residue cover/stover in kg/ha" for="rsd_init">Initial Residue
+                        Cover</label><br>
+                    <input title="rsd_init: initial residue cover/stover in kg/ha" type="number" class="rsd_init"
+                        id="rsd_init" name="rsd_init"></input> <br> <br>
                     <button type="button" id="newPlantButton">Make</button>
                     <button type="reset" id="newPlantReset">Reset</button>
                 </form>
             </div>
             <div class="pop-up-lu" id="luForm">
-                <form title="New Landuse" id="landuseForm" >New Land Use<br><br>
-                    <label title= "name: land use name, must have '_lum' suffix" for="luName">Name</label><br>
-                    <input title= "name: land use name, must have '_lum' suffix" type="text" id="luName" name="name"> <br>
-                    <label title= "cal_group: specify if land use belongs to specific calibration group" for="calGroup">Calibration Group</label><br>
-                    <input title= "cal_group: specify if land use belongs to specific calibration group" type="text" id="calGroup" name="calGroup"> <br>
+                <form title="New Landuse" id="landuseForm">New Land Use<br><br>
+                    <label title="name: land use name, must have '_lum' suffix" for="luName">Name</label><br>
+                    <input title="name: land use name, must have '_lum' suffix" type="text" id="luName" name="name">
+                    <br>
+                    <label title="cal_group: specify if land use belongs to specific calibration group"
+                        for="calGroup">Calibration Group</label><br>
+                    <input title="cal_group: specify if land use belongs to specific calibration group" type="text"
+                        id="calGroup" name="calGroup"> <br>
                     <label title="plnt_com: plant community present in land use, if urban select ‘null’ 
 file: plant.ini" for="luplantCom">Plant Comunity</label><br>
                     <!-- <input id="luPlantCom" list="luPlantComDatalist" name="plantCom"> -->
                     <select title="plnt_com: plant community present in land use, if urban select ‘null’ 
-file: plant.ini" id="luPlantCom" class="luRequired" required=""> 
+file: plant.ini" id="luPlantCom" class="luRequired" required="">
                     </select> <br>
-                </input>
-                    <label title ="mgt: management operations, leave as 'null' if no mgt operations are defined
+                    </input>
+                    <label title="mgt: management operations, leave as 'null' if no mgt operations are defined
 file: managment.sch" for="mgt">Managment</label><br>
-                    <input title ="mgt: management operations, leave as 'null' if no mgt operations are defined
+                    <input title="mgt: management operations, leave as 'null' if no mgt operations are defined
 file: managment.sch" type="text" id="luMgt" name="mgt"> <br>
-                    <label title ="cn2: run-off curve number, parameter to predict direct run-off or infiltration from rainfall 
+                    <label title="cn2: run-off curve number, parameter to predict direct run-off or infiltration from rainfall 
 file: cntable.lum" for="cn2">Curve Number</label><br>
                     <!-- <input list="cn2" id="cn2Datalist" name="cn2"> -->
-                    <select title ="cn2: run-off curve number, parameter to predict direct run-off or infiltration from rainfall 
+                    <select title="cn2: run-off curve number, parameter to predict direct run-off or infiltration from rainfall 
 file: cntable.lum" id="cn2Options" class="luRequired">
                     </select><br>
                     <label title="cons_prac: code for conservation practices, uses USLE (universal soil equation)
 file: cons-practice.lum" for="cons_practice">Conservation Practice</label><br>
                     <select title="cons_prac: code for conservation practices, uses USLE (universal soil equation)
-file: cons-practice.lum"id="cons" class="luRequired">
+file: cons-practice.lum" id="cons" class="luRequired">
                     </select> <br>
-                    <label title= "urban: urban land use, if plant use is selected then urban must be 'null'
+                    <label title="urban: urban land use, if plant use is selected then urban must be 'null'
 file: urban.urb" for="urban">Urban</label><br>
-                    <select title= "urban: urban land use, if plant use is selected then urban must be 'null'
+                    <select title="urban: urban land use, if plant use is selected then urban must be 'null'
 file: urban.urb" name="urban" id="urbanLUList" class="luRequired">
                     </select> <br>
-                    <label title= "urb_ro: determines how urban runoff is calculated, used to estimate sediment and nutrient loadings" for="urb_ro">Urban Run-Off</label><br>
-                    <select title= "urb_ro: determines how urban runoff is calculated, used to estimate sediment and nutrient loadings" id="urbRo" name="urb_ro" class="luRequired"> 
-                            <option disabled selected value>-- select -- </option> 
-                            <option value="usgs_reg">usgs_reg</option>
-                            <option value="buildup_washoff">buildup_washoff</option>
-                            <option value="null">null</option>
-                        </select><br>
-                    <label title= "ov_mann: overland manning’s n value, estimate of flow over hillslope
+                    <label
+                        title="urb_ro: determines how urban runoff is calculated, used to estimate sediment and nutrient loadings"
+                        for="urb_ro">Urban Run-Off</label><br>
+                    <select
+                        title="urb_ro: determines how urban runoff is calculated, used to estimate sediment and nutrient loadings"
+                        id="urbRo" name="urb_ro" class="luRequired">
+                        <option disabled selected value>-- select -- </option>
+                        <option value="usgs_reg">usgs_reg</option>
+                        <option value="buildup_washoff">buildup_washoff</option>
+                        <option value="null">null</option>
+                    </select><br>
+                    <label title="ov_mann: overland manning’s n value, estimate of flow over hillslope
 file: ovn_table.lum" for="ov_mann">Mannings n</label><br>
-                    <select title= "ov_mann: overland manning’s n value, estimate of flow over hillslope
-file: ovn_table.lum" id="manN">    
+                    <select title="ov_mann: overland manning’s n value, estimate of flow over hillslope
+file: ovn_table.lum" id="manN">
                     </select><br>
                     <label title="tile: presence of tile drains/drainage of subsurface water, usually from agricultural land
 file: tiledrain.str" for="tile">Tile Drainage</label><br>
                     <select title="tile: presence of tile drains/drainage of subsurface water, usually from agricultural land
-file: tiledrain.str"id="tile" name="tile" class="luRequired">
-                        </select> <br>
+file: tiledrain.str" id="tile" name="tile" class="luRequired">
+                    </select> <br>
                     <label title="sep: presence/type of onsite wastewater system
 file: septic.str" for="septic" for="sep">Septic Tanks</label><br>
                     <select title="sep: presence/type of onsite wastewater system
-file: septic.str" for="septic"  id="sep" name="sep" class="luRequired"> 
-                        </select><br>
-                    <label title= "vfs: presence/type of filter strip, strip of dense vegetation on hillslope to intercept run-off from upslope pollutant 
+file: septic.str" for="septic" id="sep" name="sep" class="luRequired">
+                    </select><br>
+                    <label title="vfs: presence/type of filter strip, strip of dense vegetation on hillslope to intercept run-off from upslope pollutant 
 file: filterstrip.str" for="vfs">Filter Strip</label><br>
-                    <select title= "vfs: presence/type of filter strip, strip of dense vegetation on hillslope to intercept run-off from upslope pollutant 
-file: filterstrip.str"id="vfs" name="vfs" class="luRequired"> 
+                    <select title="vfs: presence/type of filter strip, strip of dense vegetation on hillslope to intercept run-off from upslope pollutant 
+file: filterstrip.str" id="vfs" name="vfs" class="luRequired">
                     </select><br>
                     <label title="grww: presence/type of grassed waterways, vegetation within channels 
 file: grassedww.str " for="grww">Grassed Waterways</label><br>
                     <select title="grww: presence/type of grassed waterways, vegetation within channels 
-file: grassedww.str " id="grww" name="grww" class="luRequired"> 
-                        </select><br>
+file: grassedww.str " id="grww" name="grww" class="luRequired">
+                    </select><br>
                     <label title="bmp: no built in SWAT+ options, allows removal of constituents from model based on user defined management practice 
 file: bmpuser.str" for="bmp">Best Managment Practices</label><br>
                     <input title="bmp: no built in SWAT+ options, allows removal of constituents from model based on user defined management practice 
-file: bmpuser.str"type="text" id="bmp" name="bmp"> <br> <br>
-                    <button type="button" id="newLuButton" >Make</button>
+file: bmpuser.str" type="text" id="bmp" name="bmp"> <br> <br>
+                    <button type="button" id="newLuButton">Make</button>
                     <button type="reset" id="newLuReset">Reset</button>
                 </form>
             </div>
@@ -218,45 +240,45 @@ file: bmpuser.str"type="text" id="bmp" name="bmp"> <br> <br>
                 <button class="openLuForm" id="openLuForm"> New Land Use</button>
             </div>
             <div class="runSWAT">
-                <div class = "visControls">
-                <form title="Channel select">Plot Time Series <br>
-                    <label for="channel">channel </label>
-                    <select name="channel" id="channel">
-                    </select> <br>
-                    <!-- <button id="mainChan" type="button">main</button><br> -->
-                    <label for="output">output   </label>
-                    <select name="output" id="output"> 
-                    </select> <br> <br>
-                    <!-- <button id="floOut" type="button">flo_out</button> <br> -->
-                    <a class = "downloadPlot" id="downloadPlot" >Download CSV </a> 
-                    <!-- <button id="resetPlot" type="reset">reset</button> -->
-                </form>
-                <form title="Choropleth">Plot Choropleth <br>
-                    <label for="month">month</label>
-                    <select name="month" id="month">
-                    </select> <br>
-                    <!-- <button id="aa" type="button">annual average</button> <br> -->
-                    <label for="wbOutput">output</label>
-                    <select name="wbOutput" id="wbOutput"> 
-                    </select>
-                    <!-- <button id="percip" type="button">percip</button><br> -->
-                    <!-- <button id="plotChloro" type="button">plot</button> -->
-                    <!-- <button id="resetChloroPlot" type="reset">reset</button> -->
-                </form>
-            </div>
-            <div class ="runSwatContainer">
-                <div id="runswatbuttonviscontainer">
+                <div class="visControls">
+                    <form title="Channel select">Plot Time Series <br>
+                        <label for="channel">channel </label>
+                        <select name="channel" id="channel">
+                        </select> <br>
+                        <!-- <button id="mainChan" type="button">main</button><br> -->
+                        <label for="output">output </label>
+                        <select name="output" id="output">
+                        </select> <br> <br>
+                        <!-- <button id="floOut" type="button">flo_out</button> <br> -->
+                        <a class="downloadPlot" id="downloadPlot">Download CSV </a>
+                        <!-- <button id="resetPlot" type="reset">reset</button> -->
+                    </form>
+                    <form title="Choropleth">Plot Choropleth <br>
+                        <label for="month">month</label>
+                        <select name="month" id="month">
+                        </select> <br>
+                        <!-- <button id="aa" type="button">annual average</button> <br> -->
+                        <label for="wbOutput">output</label>
+                        <select name="wbOutput" id="wbOutput">
+                        </select>
+                        <!-- <button id="percip" type="button">percip</button><br> -->
+                        <!-- <button id="plotChloro" type="button">plot</button> -->
+                        <!-- <button id="resetChloroPlot" type="reset">reset</button> -->
+                    </form>
                 </div>
+                <div class="runSwatContainer">
+                    <div id="runswatbuttonviscontainer">
+                    </div>
                 </div>
-            
+
                 <!-- <form title="runSWAT" id="runSWATform">Run SWAT+ <br> <br> -->
-                    <!-- <label for="warmUp">warm up</label>
+                <!-- <label for="warmUp">warm up</label>
                     <input type="number" id="warmUp" value="1"> <br> <br> -->
-                    <!-- <label for="routing">routing method</label>
+                <!-- <label for="routing">routing method</label>
                     <input type="text" id="routing"> <br>
                     <label for="PET">PET method</label>
                     <input type="text" id="PET"> <br> -->
-                    <!-- <label for="startDate">start</label>
+                <!-- <label for="startDate">start</label>
                     <input type="date" id="startDate"> <br>
                     <label for="endtDate">end</label>
                     <input type="date" id="endDate"> <br><br>
@@ -265,16 +287,16 @@ file: bmpuser.str"type="text" id="bmp" name="bmp"> <br> <br>
                     <button type="button"><a href="" id="simDownload">download time.sim</a></button> -->
                 <!-- </form> -->
             </div>
-            </div>
-            <div class="hydrograph" id="vispanel">
-                <div class="tab" id="scenarioTab"></div>
-                <div id="vis" class ="timeSeries"></div>
-                <div id="vis2"class ="timeSeries"></div> 
-                <div id="choro"class ="choropleth"></div>
-               
-                
-            </div> <br>
-            
-            </div>
+        </div>
+        <div class="hydrograph" id="vispanel">
+            <div class="tab" id="scenarioTab"></div>
+            <div id="vis" class="timeSeries"></div>
+            <div id="vis2" class="timeSeries"></div>
+            <div id="choro" class="choropleth"></div>
+
+
+        </div> <br>
+
+        </div>
     </footer>
 </body>

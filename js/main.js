@@ -9,7 +9,7 @@ import { choropleth, getChoroplethOptions } from "/js/modules/choroplethFunction
 import { getLanduseData } from "/js/modules/landuseFunctions.js";
 
 const dev = new URL(window.location).searchParams.get('dev') === '1';
-export const HOST = dev ? 'localhost' : '94.13.75.225';
+export const HOST = dev ? 'localhost' : '5.67.118.6';
 //run for dev with ?dev=1
     //if ipv4 chnage change value 
 // console.log('test');
@@ -249,12 +249,15 @@ export const HOST = dev ? 'localhost' : '94.13.75.225';
 
     async function setSelectedLayers(layers) {
         resetSelectedState();
+
         layers.forEach(layer => {
+            if (layer.feature?.properties?.HRUS) {
             if (layer instanceof L.Marker) {
                 layer.setIcon(new L.Icon.Default({ className: 'selected ' }));
             } else if (layer instanceof L.Path) {
                 layer.setStyle({ color: '#ff4620' });
             }
+        }
         });
 
         var hrus = onMapSelection(layers)

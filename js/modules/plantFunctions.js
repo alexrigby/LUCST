@@ -190,13 +190,14 @@ export async function newPlantType() {
   // document.getElementById("plantNames").innerHTML = `${plantOptions}`
 
 
+ const plantComName = document.getElementById("plantComName");
 
 
   //defines all Plant form inputs as constants, adding default values to the input feilds
   const plantName = document.getElementById("plantNames");
   plantName.addEventListener('change', () => {
     // const plantComNameSlice = plantComName.value
-
+   plantComName.setAttribute('value', plantName.value + "_comm")
     //  plantName.setAttribute('value', plantComNameSlice)
     //auto fills lu name with plant comm + _lum
     const luName = document.getElementById("luName")
@@ -249,7 +250,7 @@ export async function newPlantType() {
   const plantPopulation = document.getElementById("plantPop")
   plantPopulation.setAttribute('value', 1)
   const iniYrs = document.getElementById("yrs_init")
-  iniYrs.setAttribute('value', 1)
+  iniYrs.setAttribute('value', 0)
   const iniRsd = document.getElementById("rsd_init")
   iniRsd.setAttribute('value', 10000)
   iniRsd.setAttribute('step', 10000)
@@ -258,7 +259,7 @@ export async function newPlantType() {
   //adds input values to new object when button is clicked
   newPlantTypeButton.addEventListener('click', async () => {
     const newPlantSelection = new Object();
-    newPlantSelection.pcom_name = plantName.value + "_comm";
+    newPlantSelection.pcom_name = plantComName.value;
     newPlantSelection.plt_cnt = 1
     newPlantSelection.rot_yr_ini = iniRotationYear.value;
     newPlantSelection.plt_name = plantName.value;

@@ -190,13 +190,13 @@ export async function getUrbanList(scenario){
     const urbanDescription = await getLUDescriptions(cleanUrban)
     
     const urbanDOptions = urbanDescription.map((el, i)=> {
+      // console.log(el)
       return `${el}`
+      
     });
     
-
-
   const urbanOptions = urbanNames.map((el,i)=>{
-    return `<option data-toggle="tooltip" title="${urbanDOptions[i]}"> ${el +'_comm'}</option>`
+    return `<option data-toggle="tooltip" title="${urbanDOptions[i]}" value = ${el}> ${el +'_comm'}</option>`
   });
   document.getElementById("urbanLUList").innerHTML = `<option disabled selected value>-- select -- </option> ${urbanOptions} <option title = "null"> null </option>`
   });
@@ -249,20 +249,7 @@ export async function landuseTypes() {
   luCalGroup.setAttribute('value', 'null')
   const plantCom = document.getElementById("luPlantCom")
 
-  plantCom.addEventListener("change", async () =>{
-    if (plantCom.value !== "null"){
-      document.getElementById("urbanLUList").innerHTML = `<option title="null" value="null" selected> null </option>`
-      document.getElementById("urbRo").innerHTML = `<option title="null" value="null" selected> null </option>`
-      // document.getElementById("urbanLU").style.background = "light-gray"
-      luName.value = plantCom.value.substr(0, plantCom.value.length -5) + "_lum";
-    } else {
-      document.getElementById("urbanLUList").innerHTML = `<option disabled selected value>-- select -- </option>  ${await getUrbanList(window.currentScenario)} <option title = "null"> null </option>`
-      document.getElementById("urbRo").innerHTML = `<option disabled selected value>-- select -- </option> 
-      <option value="buildup_washoff">buildup_washoff</option>
-      <option value="usgs_reg">usgs_reg</option>
-      <option value="null">null</option>`
-    }
-  })
+  
 
   const luMgt = document.getElementById("luMgt")
   luMgt.setAttribute('value', 'null')
@@ -277,6 +264,20 @@ export async function landuseTypes() {
       luName.value = urban.value.substring(0, 4) +'_lum';
     } else {
       document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option>  ${await getPlantComTypes(window.catchmentPlant)} <option title = "null"> null </option>`
+    }
+  })
+  plantCom.addEventListener("change", async () =>{
+    if (plantCom.value !== "null"){
+      document.getElementById("urbanLUList").innerHTML = `<option title="null" value="null" selected> null </option>`
+      document.getElementById("urbRo").innerHTML = `<option title="null" value="null" selected> null </option>`
+      // document.getElementById("urbanLU").style.background = "light-gray"
+      luName.value = plantCom.value.substr(0, plantCom.value.length -5) + "_lum";
+    } else {
+      await getUrbanList(window.currentScenario)
+      document.getElementById("urbRo").innerHTML = `<option disabled selected value>-- select -- </option> 
+      <option value="buildup_washoff">buildup_washoff</option>
+      <option value="usgs_reg">usgs_reg</option>
+      <option value="null">null</option>`
     }
   })
  

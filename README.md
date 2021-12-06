@@ -4,5 +4,5 @@ LUCST is an interface for managing SWATPlus input and output files to aid in imp
 
 Full help documentation available in the documentation folder
 
-![LUCST interface1](https://github.com/alexrigby/LUCST/blob/master/images/LUCST%20interface.PNG)
+![LUCST interface](https://github.com/alexrigby/LUCST/blob/master/images/LUCST%20interface.PNG)
 

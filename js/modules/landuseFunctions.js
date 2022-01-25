@@ -301,33 +301,27 @@ export async function landuseTypes() {
 
   //onclick of 'make' makes new landuse file
   newLuButton.addEventListener('click', async () => {
-
     //new landuse object
-    const newLu = new Object();
-    newLu.name = luName.value;
-    newLu.cal_group = luCalGroup.value;
-    newLu.plnt_com = plantCom.value;
-    newLu.mgt = luMgt.value;
-    newLu.cn2 = cn2.value;
-    newLu.cons_prac = consPractice.value;
-    newLu.urban = urban.value;
-    newLu.urb_ro = urbRo.value;
-    newLu.ov_mann = ovMann.value
-    newLu.tile = tile.value;
-    newLu.sep = sep.value;
-    newLu.vfs = vfs.value;
-    newLu.grww = grww.value;
-    newLu.bmp = bmp.value;
+    const newLu = {
+    name: luName.value,
+    cal_group: luCalGroup.value,
+    plnt_com: plantCom.value,
+    mgt: luMgt.value,
+    cn2: cn2.value,
+    cons_prac: consPractice.value,
+    urban: urban.value,
+    urb_ro: urbRo.value,
+    ov_mann: ovMann.value,
+    tile: tile.value,
+    sep: sep.value,
+    vfs: vfs.value,
+    grww: grww.value,
+    bmp: bmp.value
+    }
 
     await validateForm()
 
     async function validateForm(){
-      
-      // var form = document.getElementById("luForm")
-      // var inputs = form.getElementsByTagName("input") 
-      // var selects = document.querySelectorAll(".luRequired")
-    
-      // console.log(selects)
              
            if(!luName.value || !luCalGroup.value || !plantCom.value || !luMgt.value || !cn2.value || !consPractice.value || !urban.value || !urbRo.value || !ovMann.value || !tile.value || !sep.value || !vfs.value || !grww.value || !bmp.value) {
             alert("Please fill all the inputs");

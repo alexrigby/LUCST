@@ -256,85 +256,45 @@ export async function newPlantType() {
   iniRsd.setAttribute('step', 10000)
 
   const newPlantTypeButton = document.getElementById("newPlantButton")
-  //adds input values to new object when button is clicked
-  newPlantTypeButton.addEventListener('click', async () => {
-    const newPlantSelection = new Object();
-    newPlantSelection.pcom_name = plantComName.value;
-    newPlantSelection.plt_cnt = 1
-    newPlantSelection.rot_yr_ini = iniRotationYear.value;
-    newPlantSelection.plt_name = plantName.value;
-    newPlantSelection.lc_status = landcoverStatus.value;
-    newPlantSelection.lai_init = iniLai.value + '.00000';
-    newPlantSelection.bm_init = iniBm.value + '.00000';
-    newPlantSelection.phu_init = iniPhu.value + '.00000';
-    newPlantSelection.plnt_pop = plantPopulation.value + '.00000';
-    newPlantSelection.yrs_init = iniYrs.value + '.00000';
-    newPlantSelection.rsd_init = iniRsd.value + '.00000';
-    // console.log(plantPopulation.value)
-    // DO IT LIKE THIS!
-    // const newPlantSelection = {
-    //   pcom_name: plantComName.value,
-    //   plt_cnt: plantCnt.value,
-    //   ...
-    // }
-
-
-
-    // console.log(newPlantSelection)
-    //adds form data to plant.ini file
-
-
+  //adds form values to object 'newPlantSelection' when 'make' is clicked
+  newPlantTypeButton.addEventListener('click', async () => { 
+    const newPlantSelection = {
+      pcom_name: plantComName.value,
+      plt_cnt: 1,
+      rot_yr_ini: iniRotationYear.value,
+      plt_name: plantName.value,
+      lc_status: landcoverStatus.value,
+      lai_init: iniLai.value + '.00000',
+      bm_init: iniBm.value + '.00000',
+      phu_init: iniPhu.value + '.00000',
+      plnt_pop: plantPopulation.value + '.00000',
+      yrs_init: iniYrs.value + '.00000',
+      rsd_init: iniRsd.value + '.00000'
+    }
+   
+// Makes sure all input feilds have values before the new plant type is saved to 'plant.ini'
    await validateForm()
    async function validateForm() {
-
-      // var form = document.getElementById("plantForm")
-      // var inputs = form.getElementsByTagName("input") 
-      // var selects = document.getElementById("plantNames")
-
-      // console.log(selects)
-
       if (!iniRotationYear.value || !plantName.value || !landcoverStatus.value || !iniLai.value || !iniBm.value || !iniPhu.value || !iniYrs.value || !iniRsd.value || !plantPopulation.value) {
         alert("Please fill all the inputs")
       }
       else {
+        //adds new plant community to the window plant comm file
         window.catchmentPlant.push(newPlantSelection)
-        //converts file and links to download button 
-        // const newPlantTypeFile = convertToTSV(window.catchmentPlant)
-        // downloadPlantButton(newPlantTypeFile, "plant.ini")
+        //sends catchmentPlant to server to be downloaded
         await sendPlantFile(window.catchmentPlant);
-        // DO SOME STUFF WITH THE RESPONSE.
-
-
         alert('New plant comunity written: ' + plantName.value + "_comm")
       }
     }
 
+    // gets the new plant community and adds it to plant cselect list in landuse form
     const pcomOptions = getPlantComTypes(window.catchmentPlant)
-
     const pcomTypesOptions = pcomOptions.map((el, i) => {
       return `<option data-toggle="tooltip" value=${el}>${el}</option>`;
     });
     document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option> ${pcomTypesOptions} <option title = "null"> null </option>`;
-
-
-
-
-
-
   });
 }
-
-
-
-
-
-
-
-//  function downloadPlantButton(data, fileName) {
-//   var myFile = new Blob([data], { type: 'text/plain' });
-//   document.getElementById('downloadPlant').setAttribute('href', window.URL.createObjectURL(myFile));
-//   document.getElementById('downloadPlant').setAttribute('download', fileName);
-// }
 
 async function sendPlantFile(data) {
   await fetch(`http://${HOST}:8000/sendplant`, {
@@ -352,7 +312,14 @@ export default {
   cleanPlant,
   getPlantOptions,
   getSwatPlantList,
-
   getPlantData,
 }
 
+
+
+// OLD DOWNLOAD BUTTON FUNCTION< DOWNLOADS PLAIN TEXT FLES TO 'DOWNLOADS' FOLDER
+//  function downloadPlantButton(data, fileName) {
+//   var myFile = new Blob([data], { type: 'text/plain' });
+//   document.getElementById('downloadPlant').setAttribute('href', window.URL.createObjectURL(myFile));
+//   document.getElementById('downloadPlant').setAttribute('download', fileName);
+// }

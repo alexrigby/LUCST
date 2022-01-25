@@ -1,4 +1,4 @@
-import fetchData from "/js/modules/universalFunctions.js"
+import fetchData from "/js/modules/fetchData.js"
 import {HOST} from "../main.js"
 
 //Initially cleans the HRU-wb.csv file for maipulation

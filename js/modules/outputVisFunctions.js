@@ -1,11 +1,12 @@
-import fetchData from "/js/modules/universalFunctions.js";
+import fetchData from "/js/modules/fetchData.js";
 import { getHruData } from "/js/modules/hru_dataFunctions.js";
 import { updateCurrentScenario } from "/js/main.js";
 import { choropleth } from "/js/modules/choroplethFunctions.js";
-import { getSwatPlantList, getPlantData } from "/js/modules/plantFunctions.js";
+import { getPlantData } from "/js/modules/getPlantData.js";
 import { getConsPractice, getCurveNumer, getManN, getLanduseData, getUrbanList, getTileDrain, getSepticData, getFilterStrip, getGrassedWw } from "/js/modules/landuseFunctions.js";
 import { updateTooltips } from "/js/modules/mapFunctions.js"
 import { HOST } from "../main.js"
+import { getSwatPlantList } from "./getSwatPlantList.js"
 
 
 

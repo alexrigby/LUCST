@@ -1,5 +1,5 @@
 // import cleanHru from "/js/modules/hru_dataFunctions.js";
-// import fetchData from "/js/modules/universalFunctions.js";
+// import fetchData from "/js/modules/fetchData.js";
 
 
 

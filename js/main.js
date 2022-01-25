@@ -1,10 +1,11 @@
-import fetchData from "/js/modules/universalFunctions.js";
-import { populateTable, cleanHru, getHru, updateHru, getHruData } from "/js/modules/hru_dataFunctions.js";
-import { getPlantOptions, cleanPlant, newPlantType, getSwatPlantList, getPlantData } from "/js/modules/plantFunctions.js";
-import { cleanLanduse, getLanduseTypes, landuseTypes, getConsPractice, getCurveNumer, getManN, getUrbanList, getTileDrain, getSepticData, getFilterStrip, getGrassedWw } from "/js/modules/landuseFunctions.js";
+import fetchData from "/js/modules/fetchData.js";
+import { populateTable, getHru, updateHru, getHruData } from "/js/modules/hru_dataFunctions.js";
+import { newPlantCommunityForm } from "/js/modules/newPlantCommunityForm.js";
+import { getPlantData } from "/js/modules/getPlantData.js";
+import { landuseTypes, getConsPractice, getCurveNumer, getManN, getUrbanList, getTileDrain, getSepticData, getFilterStrip, getGrassedWw } from "/js/modules/landuseFunctions.js";
 import { updateTooltips, makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection, makeOutdoorsMap, makeOsMap } from "/js/modules/mapFunctions.js";
 import { hydrograph, scenarioOptions, getHydrographOptions, getHydrographOutputOptions} from "/js/modules/outputVisFunctions.js";
-// import { timeSim, printPrt } from "/js/modules/modelFunctions.js";
+import { getSwatPlantList, getPlantOptions } from "./modules/getSwatPlantList.js";
 import { choropleth, getChoroplethOptions } from "/js/modules/choroplethFunctions.js";
 import { getLanduseData } from "/js/modules/landuseFunctions.js";
 
@@ -305,7 +306,7 @@ export const HOST = dev ? 'localhost' : '5.67.118.6';
     )
 
 
-    await newPlantType()
+    await newPlantCommunityForm()
     await landuseTypes()
 
 

@@ -1,6 +1,8 @@
 import { updateTooltips } from "/js/modules/mapFunctions.js";
-import fetchData from "/js/modules/universalFunctions.js";
+import fetchData from "/js/modules/fetchData.js";
 import { HOST } from "../main.js"
+import { cleanTsvSwatFiles } from "./cleanTsvSwatFiles.js"
+
 
 //hru_data.hru//
 
@@ -34,13 +36,8 @@ import { HOST } from "../main.js"
 export async function getHruData(scenario) {
   await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/hru-data.hru`)
     .then(async data => {
-
-
       // Clean the dataset...
-      const cleanHruData = cleanHru(data);
-
-      // Saving a copy of the dataset
-
+      const cleanHruData = cleanTsvSwatFiles(data);
       // Replace this with a state management solution
       window.catchmentData = [...cleanHruData];
       // console.log('chd', cleanHruData);
@@ -56,35 +53,6 @@ export async function getHruData(scenario) {
  */
 
 
-export function cleanHru(data) {
-  //checks to see if the SWAT+ editor header line is on file (has word "written") 
-  //if true deletes first line, if not neeps first line
-  if (hasWord(data, "written") === true) {
-    const clean = d3.tsvParse(data
-      // Remove the header line produced by SWAT+ Edito
-      .substring(data.indexOf('\n') + 1)
-      // First, remove all spaces and replace with tabs
-      .replace(/  +/gm, '\t')
-      // Then remove all leading and trailing tabs
-      .replace(/^\t|\t$/gm, '')
-
-    );
-    return clean
-
-  } else {
-    const clean = d3.tsvParse(data
-      // First, remove all spaces and replace with tabs
-      .replace(/  +/gm, '\t')
-      // Then remove all leading and trailing tabs
-      .replace(/^\t|\t$/gm, '')
-    );
-    return clean
-  }
-
-}
-//checks for word in string 
-const hasWord = (str, word) =>
-  str.split(/\s+/).includes(word);
 
 //Select HRU's lu_mgt by its id
 //e.g(console.log(getHru(cleanHruData250))
@@ -118,7 +86,7 @@ export async function getUrbanList(scenario) {
   //gets the urban landuse
   await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/urban.urb`)
     .then(async function (data) {
-      const cleanUrban = cleanPlants(data);
+      const cleanUrban = cleanTsvSwatFiles(data);
       const urbanNames = await getPlantOptions(cleanUrban);
       const urbanDescription = await getPlantDescriptions(cleanUrban)
       const urbanDOptions = urbanDescription.map((el, i) => {
@@ -363,7 +331,7 @@ async function downloadButton(data, fileName) {
 
 export default {
   populateTable,
-  cleanHru,
+  // cleanHru,
   getHru,
   updateHru,
   getHruData,

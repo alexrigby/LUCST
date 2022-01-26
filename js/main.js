@@ -1,23 +1,25 @@
 import fetchData from "/js/modules/fetchData.js";
-import { populateTable, getHru, updateHru, getHruData } from "/js/modules/hru_dataFunctions.js";
+import { populateTable, getHru, updateHru} from "/js/modules/hru_dataFunctions.js";
 import { newPlantCommunityForm } from "/js/modules/newPlantCommunityForm.js";
-import { getPlantData } from "/js/modules/getPlantData.js";
-import { landuseTypes, getConsPractice, getCurveNumer, getManN, getUrbanList, getTileDrain, getSepticData, getFilterStrip, getGrassedWw } from "/js/modules/landuseFunctions.js";
-import { updateTooltips, makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection, makeOutdoorsMap, makeOsMap } from "/js/modules/mapFunctions.js";
-import { hydrograph, scenarioOptions, getHydrographOptions, getHydrographOutputOptions} from "/js/modules/outputVisFunctions.js";
+import { makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection, makeOutdoorsMap, makeOsMap } from "/js/modules/mapFunctions.js";
+import { hydrograph, scenarioOptions, getHydrographOptions, getHydrographOutputOptions } from "/js/modules/outputVisFunctions.js";
 import { getSwatPlantList, getPlantOptions } from "./modules/getSwatPlantList.js";
 import { choropleth, getChoroplethOptions } from "/js/modules/choroplethFunctions.js";
-import { getLanduseData } from "/js/modules/landuseFunctions.js";
+import { getTsvFileOptions } from "./modules/getTsvFileOptions.js";
+import { cleanPlantIni } from "./modules/cleanPlantIni.js";
+import { getInputFileData, getLanduseData, getHruData } from "./modules/getInputFileData.js";
+import { cleanTsvSwatFiles } from "./modules/cleanTsvSwatFiles.js";
+import { newLanduseForm } from "./modules/NewLandUseForm.js";
 
 const dev = new URL(window.location).searchParams.get('dev') === '1';
 export const HOST = dev ? 'localhost' : '5.67.118.6';
 //run for dev with ?dev=1
-    //if ipv4 chnage change value 
+//if ipv4 chnage change value 
 // console.log('test');
 
 (async () => {
     console.log('domcontent loaded')
-    
+
 
     // TRYING TO ZIP SHAPE FILES----- UNFINISHED
 
@@ -52,28 +54,28 @@ export const HOST = dev ? 'localhost' : '5.67.118.6';
 
     // printPrt()
     // timeSim()
-   await getHydrographOutputOptions()
+    await getHydrographOutputOptions()
     await getHydrographOptions()
     await getChoroplethOptions()
     await scenarioOptions()
 
-    await getPlantData('Default')
+    await getInputFileData('Default')
     await getLanduseData('Default')
 
     // graphTab()
     await choropleth('Default')
     await getSwatPlantList('Default')
-    await getUrbanList('Default')
-    await getConsPractice('Default')
-    await getCurveNumer('Default')
-    await getManN('Default')
-    await getTileDrain('Default')
-    await getSepticData('Default')
-    await getFilterStrip('Default')
-    await getGrassedWw('Default')
-
+    await getTsvFileOptions("default", "grassedww.str", "grww")
+    await getTsvFileOptions("default", "urban.urb", "urbanLUList")
+    await getTsvFileOptions("default", "ovn_table.lum", "manN")
+    await getTsvFileOptions("default", "cons_practice.lum", "cons")
+    await getTsvFileOptions("default", "cntable.lum", "cn2Options")
+    await getTsvFileOptions("default", "tiledrain.str", "tile")
+    await getTsvFileOptions("default", "septic.str", "sep")
+    await getTsvFileOptions("default", "filterstrip.str", "vfs")
     await hydrograph('Default')
-    
+ 
+
     //hides the hruTable by default
     document.getElementById("hruTable").style.display = "none";
     // getLanduseData(window.currentScenario)
@@ -253,12 +255,12 @@ export const HOST = dev ? 'localhost' : '5.67.118.6';
 
         layers.forEach(layer => {
             if (layer.feature?.properties?.HRUS) {
-            if (layer instanceof L.Marker) {
-                layer.setIcon(new L.Icon.Default({ className: 'selected ' }));
-            } else if (layer instanceof L.Path) {
-                layer.setStyle({ color: '#ff4620' });
+                if (layer instanceof L.Marker) {
+                    layer.setIcon(new L.Icon.Default({ className: 'selected ' }));
+                } else if (layer instanceof L.Path) {
+                    layer.setStyle({ color: '#ff4620' });
+                }
             }
-        }
         });
 
         var hrus = onMapSelection(layers)
@@ -307,7 +309,7 @@ export const HOST = dev ? 'localhost' : '5.67.118.6';
 
 
     await newPlantCommunityForm()
-    await landuseTypes()
+    await newLanduseForm()
 
 
     //creats the upload popup

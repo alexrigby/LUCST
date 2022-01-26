@@ -1,13 +1,12 @@
 import fetchData from "/js/modules/fetchData.js";
-import { getHruData } from "/js/modules/hru_dataFunctions.js";
 import { updateCurrentScenario } from "/js/main.js";
 import { choropleth } from "/js/modules/choroplethFunctions.js";
-import { getPlantData } from "/js/modules/getPlantData.js";
-import { getConsPractice, getCurveNumer, getManN, getLanduseData, getUrbanList, getTileDrain, getSepticData, getFilterStrip, getGrassedWw } from "/js/modules/landuseFunctions.js";
-import { updateTooltips } from "/js/modules/mapFunctions.js"
 import { HOST } from "../main.js"
 import { getSwatPlantList } from "./getSwatPlantList.js"
-
+import { getTsvFileOptions } from "./getTsvFileOptions.js"
+import { cleanPlantIni } from "./cleanPlantIni.js"
+import { getInputFileData, getLanduseData, getHruData } from "./getInputFileData.js";
+import { cleanTsvSwatFiles } from "./cleanTsvSwatFiles.js";
 
 
 
@@ -282,190 +281,190 @@ export async function hydrograph(scenario) {
         // const selectedOutput = channel.map(function (value, index) { return value[outputOps.value]; });
 
 
-          var original = {
-            $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+        var original = {
+          $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
 
-            "title": outputOps.value + " for " + chanOpts.value,
-            "data": { "values": combinedPlotData },
-            "repeat": {
-              "layer": [outputOps.value, defaultOutput]
-            },
+          "title": outputOps.value + " for " + chanOpts.value,
+          "data": { "values": combinedPlotData },
+          "repeat": {
+            "layer": [outputOps.value, defaultOutput]
+          },
 
 
-            // "vconcat": [{
+          // "vconcat": [{
 
-            "spec": {
-              "width": "container",
-              "height": "300",
-              "mark": "line",
-              //  "transform":[{
-              //    "lookup": "date",
-              //    "from": {
-              //      "data": {
-              //        "values": defaultPlotData,
-              //      },
-              //      "key":"date",
-              //      "fields":[outputOps],
-              //     }
-              //  }],
+          "spec": {
+            "width": "container",
+            "height": "300",
+            "mark": "line",
+            //  "transform":[{
+            //    "lookup": "date",
+            //    "from": {
+            //      "data": {
+            //        "values": defaultPlotData,
+            //      },
+            //      "key":"date",
+            //      "fields":[outputOps],
+            //     }
+            //  }],
 
-              "encoding": {
-                "x": {
-                  "timeUnit": "yearmonthdate",
-                  "field": "date",
-                  "title": "date",
-                  "type": "temporal",
-                  // "scale": { "domain": { "param": "brush" } },
-                  "axis": { "title": "" }
-                },
-                "y": {
-                  "field": { "repeat": "layer" },
-                  "type": "quantitative",
-                  "axis": { "title": "" },
-                  "scale": { "domain": [0, axisMax] }
-                },
-                "color": {
-                  "datum": { "repeat": "layer" },
-                  "type": "nominal",
-                  "legend": {
-                    "orient": "top-right"
-                  }
-                },
-                "strokeDash": {
-                  "datum": { "repeat": "layer" },
-                  "type": "nominal"
+            "encoding": {
+              "x": {
+                "timeUnit": "yearmonthdate",
+                "field": "date",
+                "title": "date",
+                "type": "temporal",
+                // "scale": { "domain": { "param": "brush" } },
+                "axis": { "title": "" }
+              },
+              "y": {
+                "field": { "repeat": "layer" },
+                "type": "quantitative",
+                "axis": { "title": "" },
+                "scale": { "domain": [0, axisMax] }
+              },
+              "color": {
+                "datum": { "repeat": "layer" },
+                "type": "nominal",
+                "legend": {
+                  "orient": "top-right"
                 }
+              },
+              "strokeDash": {
+                "datum": { "repeat": "layer" },
+                "type": "nominal"
               }
             }
-            // },
-            // {
-            //   "width": "container",
-            //   "height": 60,
-            //   "mark": "line",
-            //   "params": [{
-            //     "name": "brush",
-            //     "select": { "type": "interval", "encodings": ["x"] }
-            //   }],
-            //   "encoding": {
-            //     "x": {
-            //       "timeUnit": "yearmonthdate",
-            //       "field": "date",
-            //       "title": "date",
-            //       "type": "temporal"
-            //     },
-            //     "y": {
-            //       "field": [outputOps],
-            //       "type": "quantitative",
-            //       "axis": { "tickCount": 3, "grid": false },
-            //     }
-            //   }
-            // }]
           }
-          vegaEmbed('#vis', original);
+          // },
+          // {
+          //   "width": "container",
+          //   "height": 60,
+          //   "mark": "line",
+          //   "params": [{
+          //     "name": "brush",
+          //     "select": { "type": "interval", "encodings": ["x"] }
+          //   }],
+          //   "encoding": {
+          //     "x": {
+          //       "timeUnit": "yearmonthdate",
+          //       "field": "date",
+          //       "title": "date",
+          //       "type": "temporal"
+          //     },
+          //     "y": {
+          //       "field": [outputOps],
+          //       "type": "quantitative",
+          //       "axis": { "tickCount": 3, "grid": false },
+          //     }
+          //   }
+          // }]
         }
-    //     var original = {
-    //       $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+        vegaEmbed('#vis', original);
+      }
+      //     var original = {
+      //       $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
 
-    //       "title": outputOps.value + " for " + chanOpts.value,
-    //       "data": { "values": combinedPlotData },
+      //       "title": outputOps.value + " for " + chanOpts.value,
+      //       "data": { "values": combinedPlotData },
 
-    //       "vconcat": [
-    //         {
-    //           "height": 240,
-    //           "width": "container",
-    //           "encoding": {
-    //             "x": {
-    //               "scale": { "extent": { "param": "brush", "encoding": "x" } },
-    //               "timeUnit": "yearmonthdate",
-    //               "field": "date",
-    //               "title": "date",
-    //               "type": "temporal",
+      //       "vconcat": [
+      //         {
+      //           "height": 240,
+      //           "width": "container",
+      //           "encoding": {
+      //             "x": {
+      //               "scale": { "extent": { "param": "brush", "encoding": "x" } },
+      //               "timeUnit": "yearmonthdate",
+      //               "field": "date",
+      //               "title": "date",
+      //               "type": "temporal",
 
-    //               "axis": { "title": "" }
-    //             },
-    //           },
-    //           "layer": [
-    //             {
-    //               "mark": "line",
-    //               "encoding": {
-    //                 "y": {
-    //                   "field": outputOps.value,
-    //                   "type": "quantitative",
-    //                   "axis": { "title": "" },
-    //                   // "scale": { "domain": [0, axisMax] }
-    //                 },
-    //               }
-    //             },
-    //             {
-    //               "mark": "line",
-    //               "encoding": {
-    //                 "y": {
-    //                   "field": defaultOutput,
-    //                   "type": "quantitative",
-    //                   "axis": { "title": "" },
+      //               "axis": { "title": "" }
+      //             },
+      //           },
+      //           "layer": [
+      //             {
+      //               "mark": "line",
+      //               "encoding": {
+      //                 "y": {
+      //                   "field": outputOps.value,
+      //                   "type": "quantitative",
+      //                   "axis": { "title": "" },
+      //                   // "scale": { "domain": [0, axisMax] }
+      //                 },
+      //               }
+      //             },
+      //             {
+      //               "mark": "line",
+      //               "encoding": {
+      //                 "y": {
+      //                   "field": defaultOutput,
+      //                   "type": "quantitative",
+      //                   "axis": { "title": "" },
 
-    //                 }
-    //               }
-    //             },
-    //           ],
-    //         },
-    //       {
-    //         "height": 60,
-    //         "width": "container",
-    //         "mark":"line",
-    //         "params": [{
-    //           "name": "brush",
-    //           "select": { "type": "interval", "encodings": ["x"] },
-    //         }],
-    //         "encoding": {
-    //           "x": {
-    //             "field": "date",
-    //             "timeUnit": "yearmonthdate",
-    //             "title": "date",
-    //             "type": "temporal",
-    //             "axis": { "title": "" },
-                
-    //           },
-    //         },
-    //         "layer": [
-    //           {
-    //             "mark": "line",
-    //             "encoding": {
-    //               "y": {
-    //                 "field": outputOps.value,
-    //                 "type": "quantitative",
-    //                 "axis": { "title": "" },
-    //                 // "scale": { "domain": [0, axisMax] }
-    //               },
-    //             }
-    //           },
-    //           {
-    //             "mark": "line",
-    //             "encoding": {
-    //               "y": {
-    //                 "field": defaultOutput,
-    //                 "type": "quantitative",
-    //                 "axis": { "title": "" },
+      //                 }
+      //               }
+      //             },
+      //           ],
+      //         },
+      //       {
+      //         "height": 60,
+      //         "width": "container",
+      //         "mark":"line",
+      //         "params": [{
+      //           "name": "brush",
+      //           "select": { "type": "interval", "encodings": ["x"] },
+      //         }],
+      //         "encoding": {
+      //           "x": {
+      //             "field": "date",
+      //             "timeUnit": "yearmonthdate",
+      //             "title": "date",
+      //             "type": "temporal",
+      //             "axis": { "title": "" },
 
-    //               }
-    //             }
-    //           }
-    //         ]
-    //       }
-    //       ]
-    //   }
-    //   vegaEmbed('#vis', original);
-    // }
+      //           },
+      //         },
+      //         "layer": [
+      //           {
+      //             "mark": "line",
+      //             "encoding": {
+      //               "y": {
+      //                 "field": outputOps.value,
+      //                 "type": "quantitative",
+      //                 "axis": { "title": "" },
+      //                 // "scale": { "domain": [0, axisMax] }
+      //               },
+      //             }
+      //           },
+      //           {
+      //             "mark": "line",
+      //             "encoding": {
+      //               "y": {
+      //                 "field": defaultOutput,
+      //                 "type": "quantitative",
+      //                 "axis": { "title": "" },
+
+      //               }
+      //             }
+      //           }
+      //         ]
+      //       }
+      //       ]
+      //   }
+      //   vegaEmbed('#vis', original);
+      // }
 
       //call plotHydrograph out side of an event listner so it plots when the page loads
       await plotHydrograph()
       hydrographSelect.forEach(el => {
 
-      el.addEventListener('change', async () => {
-        //call plotHydrograph so it is called when change is made in the select list
-        await plotHydrograph()
+        el.addEventListener('change', async () => {
+          //call plotHydrograph so it is called when change is made in the select list
+          await plotHydrograph()
+        })
       })
-    })
 
 
 
@@ -506,20 +505,21 @@ export async function scenarioOptions() {
           document.querySelector('#choro').classList.add('choroHide')
           updateCurrentScenario(data[i]);
 
-          await getPlantData(data[i]);
-          // console.log(window.catchmentPlant)
+          await getHruData(data[i])
+          await getInputFileData(data[i])
+          await getLanduseData(data[i])
           await getSwatPlantList(data[i]);
-          await getUrbanList(data[i]);
-          await getConsPractice(data[i]);
-          await getCurveNumer(data[i]);
-          await getManN(data[i]);
-          await getHruData(data[i]);
-          await getLanduseData(data[i]);
-          await getTileDrain(data[i]);
-          await getSepticData(data[i]);
-          await getFilterStrip(data[i]);
-          await getGrassedWw(data[i]);
 
+
+          await getTsvFileOptions(data[i], "grassedww.str", "grww")
+          await getTsvFileOptions(data[i], "urban.urb", "urbanLUList", "_comm")
+          await getTsvFileOptions(data[i], "ovn_table.lum", "manN")
+          await getTsvFileOptions(data[i], "cons_practice.lum", "cons")
+          await getTsvFileOptions(data[i], "cntable.lum", "cn2Options")
+          await getTsvFileOptions(data[i], "tiledrain.str", "tile")
+          await getTsvFileOptions(data[i], "septic.str", "sep")
+          await getTsvFileOptions(data[i], "filterstrip.str", "vfs")
+          await getTsvFileOptions(data[i], "grassedww.str", "grww")
           //  updateTooltips(data[i])
 
           // Update vis panel

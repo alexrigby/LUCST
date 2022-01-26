@@ -1,7 +1,7 @@
 //OPENS PLANT FORM AND CREATES NEW PLANT COMMUNITY ADDED TO PLANT.INI WITH FORM INPUT DATA
 
 import { HOST } from "../main.js";
-import { getNames } from "./getNamesAndDescriptions.js"
+import { getPlantComNames } from "./getNamesAndDescriptions.js"
 
 //exported to main.js to make the plant form
 export async function newPlantCommunityForm() {
@@ -21,22 +21,16 @@ export async function newPlantCommunityForm() {
   const plantComName = document.getElementById("plantComName");
   const plantName = document.getElementById("plantNames");
   plantName.addEventListener('change', () => {
-    // const plantComNameSlice = plantComName.value
    plantComName.setAttribute('value', plantName.value + "_comm")
-    //  plantName.setAttribute('value', plantComNameSlice)
     //auto fills lu name with plant comm + _lum
     const luName = document.getElementById("luName")
     luName.setAttribute('value', plantName.value + "_lum")
-    // const LuPlantCom = document.getElementById("luPlantCom")
-    // LuPlantCom.setAttribute('value', plantComName)
   });
   // const plantCnt = document.getElementById("plt_cnt")
   // plantCnt.setAttribute('value', 1)
   const iniRotationYear = document.getElementById("rot_yr_ini")
   iniRotationYear.setAttribute('value', 1)
-  // const plantName = document.getElementById("plt_name")
   //cuts '_comm' of the ed of plantComName and asignes the string as plantName
-
 
   const landcoverStatus = document.getElementById("lc_status")
   const iniLai = document.getElementById("lai_init")
@@ -113,11 +107,8 @@ export async function newPlantCommunityForm() {
     }
 
     // gets the new plant community and adds it to plant cselect list in landuse form
-    const pcomOptions = getNames(window.catchmentPlant)
-    const pcomTypesOptions = pcomOptions.map((el, i) => {
-      return `<option data-toggle="tooltip" value=${el}>${el}</option>`;
-    });
-    document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option> ${pcomTypesOptions} <option title = "null"> null </option>`;
+    const pcomNames = getPlantComNames(window.catchmentPlant)
+    document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option> ${pcomNames} <option title = "null"> null </option>`;
   });
 }
 

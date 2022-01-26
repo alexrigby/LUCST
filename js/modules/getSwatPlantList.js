@@ -1,3 +1,7 @@
+//CHECK IF CAN BE DITCHED AND USE GETtSVfILEoPTIONS INSTEAD
+
+
+
 import { fetchData } from "./fetchData.js"
 import { cleanTsvSwatFiles } from "./cleanTsvSwatFiles.js"
 import { getDescriptions } from "./getNamesAndDescriptions.js";

@@ -1,45 +1,9 @@
 import { updateTooltips } from "./updateTooltips.js";
-import fetchData from "/js/modules/fetchData.js";
 import { HOST } from "../main.js"
-import { cleanTsvSwatFiles } from "./cleanTsvSwatFiles.js"
 import { getNames } from "./getNamesAndDescriptions.js"
 
 
-
-export function getHru(data, id) {
-  const filteredData = data.filter(record => record.id == id);
-  return filteredData[0].lu_mgt
-}
-
-// Update selected HRU lu_mgt
-/**
- * @name updateHru
- * @param {*} data // dataset
- * @param {*} id // id of HRU
- * @param {*} lu_mgt // Selects lu_mgt(can change to any variable in dataset)
- */
-export function updateHru(data, id, lu_mgt) {
-  const newData = [...data];
-  newData[id - 1] = {
-    ...newData[id - 1],
-    lu_mgt
-  }
-  return newData;
-}
-
-
-
-function getLanduseTooltip(data) {
-  const landuses = data.map(record =>
-    `Plant Community: ${record.plnt_com}
-  Curve Number: ${record.cn2}
-  Conservation Practice: ${record.cons_prac}
-  Manning's n: ${record.ov_mann}`);
-  // console.log(landuses);
-  return landuses
-}
-
-export async function populateTable(data) {
+export async function populateLanduseTable(data) {
   const landuseTypes = await getNames(window.catchmentLanduseEdit)
   const landuseTooltip = await getLanduseTooltip(window.catchmentLanduseEdit)
   const landuseTypesOptions = landuseTypes.map((el, i) => {
@@ -172,6 +136,16 @@ export async function populateTable(data) {
 
 }
 
+function getLanduseTooltip(data) {
+  const landuses = data.map(record =>
+  `Plant Community: ${record.plnt_com}
+  Curve Number: ${record.cn2}
+  Conservation Practice: ${record.cons_prac}
+  Manning's n: ${record.ov_mann}`);
+  // console.log(landuses);
+  return landuses
+}
+
 
 async function downloadButton(data, fileName) {
   // var myFile = new Blob([data], { type: 'text/plain' });
@@ -190,10 +164,25 @@ async function downloadButton(data, fileName) {
 
 
 export default {
-  populateTable,
-  getHru,
-  updateHru,
+  populateLanduseTable,
 }
+
+// // NOT USED BUT GOOD FOR FUTURE REFERENCE
+// // Update selected HRU lu_mgt
+// export function updateHru(data, id, lu_mgt) {
+//   const newData = [...data];
+//   newData[id - 1] = {
+//     ...newData[id - 1],
+//     lu_mgt
+//   }
+//   return newData;
+// }
+
+//NOT USED BUT GOOD FOR FUTURE REFERENCE
+// function getHru(data, id) {
+//   const filteredData = data.filter(record => record.id == id);
+//   return filteredData[0].lu_mgt
+// }
 
 //HOW DATA SHOULD BE UPLOADED TO SERVER WITH GET REQUEST, NOT STRAIGHT FROM DISK LOCATION
 //making function dynamic means that catchment Data is wread from the correct HRU each time

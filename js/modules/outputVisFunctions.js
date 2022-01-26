@@ -1,29 +1,10 @@
 import fetchData from "/js/modules/fetchData.js";
-import { updateCurrentScenario } from "/js/main.js";
 import { choropleth } from "/js/modules/choroplethFunctions.js";
 import { HOST } from "../main.js"
 import { getSwatPlantList } from "./getSwatPlantList.js"
 import { getTsvFileOptions } from "./getTsvFileOptions.js"
-import { cleanPlantIni } from "./cleanPlantIni.js"
 import { getInputFileData, getLanduseData, getHruData } from "./getInputFileData.js";
-import { cleanTsvSwatFiles } from "./cleanTsvSwatFiles.js";
-
-
-
-function cleanTxt(data) {
-
-  const clean = d3.tsvParse(data
-    // Remove the header line produced by SWAT+ Editor
-    .substring(data.indexOf('\n') + 1)
-    // First, remove all spaces and replace with tabs
-    .replace(/  +/gm, '\t')
-    // Then remove all leading and trailing tabs
-    .replace(/^\t|\t$/gm, '')
-  );
-  //removes the line which displays units from output data
-  const noUnits = clean.filter(clean => clean.jday != 'ha');
-  return noUnits
-}
+import {updateCurrentScenario } from "./updateCurentScenario.js"
 
 const convertToCSV = (data) => {
   // Convert dataset to TSV and print
@@ -108,27 +89,8 @@ function cleanTxtOutput(data) {
   );
 }
 
-//finds channel with 0 out_tot in chandeg.con to find the main channel
-// function getMainChan(data) {
-//   const filteredData = data.filter(record => record.out_tot == 0);
-//   // console.log(filteredData[0].name)
-//   return filteredData[0].name
-// }
-
-
-// async function downloadHydrographCsv(data, fileName) {
-//   // var myFile = new Blob([data], { type: 'data:text/csv;charset=utf-8,' });
-//   // document.getElementById('downloadPlot').setAttribute('href', 'data:text/csv;charset=utf-8,'+escape(data));
-//   // document.getElementById('downloadPlot').setAttribute('download', fileName);
-//   await fetch(`http://${HOST}:8000/sendplotdata`, { method: "POST", headers: {
-//     'Content-Type': 'application/json' },
-//     body: JSON.stringify({plot: data, scenario: window.currentScenario, name: fileName})
-//   }).then(res => res.text()).then(data => console.log(data));
-// }
 
 function downloadHydrographCsv(data, fileName) {
-  // var myFile = new Blob([data], { type: 'data:text/csv;charset=utf-8,' });
-  // console.log(myFile)
   document.getElementById('downloadPlot').setAttribute('href', 'data:text/csv;charset=utf-8,' + escape(data));
   document.getElementById('downloadPlot').setAttribute('download', fileName);
 
@@ -223,9 +185,7 @@ export async function hydrograph(scenario) {
       }
 
       const chanOpts = document.getElementById("channel")
-      // when user Selects channel or output filters the data and plots 
-      // const channelSelect = document.getElementById("channel")
-      // const outputSelect = document.getElementById("output")
+   
       const outputOps = document.getElementById("output");
       const hydrographSelect = [chanOpts, outputOps]
 

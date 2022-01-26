@@ -21,7 +21,7 @@ export async function newPlantCommunityForm() {
   const plantComName = document.getElementById("plantComName");
   const plantName = document.getElementById("plantNames");
   plantName.addEventListener('change', () => {
-   plantComName.setAttribute('value', plantName.value + "_comm")
+    plantComName.setAttribute('value', plantName.value + "_comm")
     //auto fills lu name with plant comm + _lum
     const luName = document.getElementById("luName")
     luName.setAttribute('value', plantName.value + "_lum")
@@ -76,7 +76,7 @@ export async function newPlantCommunityForm() {
 
   const newPlantTypeButton = document.getElementById("newPlantButton")
   //adds form values to object 'newPlantSelection' when 'make' is clicked
-  newPlantTypeButton.addEventListener('click', async () => { 
+  newPlantTypeButton.addEventListener('click', async () => {
     const newPlantSelection = {
       pcom_name: plantComName.value,
       plt_cnt: 1,
@@ -90,10 +90,10 @@ export async function newPlantCommunityForm() {
       yrs_init: iniYrs.value + '.00000',
       rsd_init: iniRsd.value + '.00000'
     }
-   
-// Makes sure all input feilds have values before the new plant type is saved to 'plant.ini'
-   await validateForm()
-   async function validateForm() {
+
+    // Makes sure all input feilds have values before the new plant type is saved to 'plant.ini'
+    await validateForm()
+    async function validateForm() {
       if (!iniRotationYear.value || !plantName.value || !landcoverStatus.value || !iniLai.value || !iniBm.value || !iniPhu.value || !iniYrs.value || !iniRsd.value || !plantPopulation.value) {
         alert("Please fill all the inputs")
       }

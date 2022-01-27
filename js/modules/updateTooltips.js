@@ -6,8 +6,6 @@ export function updateTooltips(hruData) {
     // let j = 0;
 
     window.map.eachLayer((layer) => {
-        
-
         if (layer.feature?.properties?.HRUS) {
 
             //gets the name HRUS from the layers and uses it to select the lu_mgt but index as the layesr dont load in the same orders as the raw data

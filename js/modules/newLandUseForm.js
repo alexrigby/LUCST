@@ -29,9 +29,20 @@ export async function newLanduseForm() {
   const luCalGroup = document.getElementById("calGroup")
   luCalGroup.setAttribute('value', 'null')
   const plantCom = document.getElementById("luPlantCom")
-
-
-
+  plantCom.addEventListener("change", async () => {
+    if (plantCom.value !== "null") {
+      document.getElementById("urbanLUList").innerHTML = `<option title="null" value="null" selected> null </option>`
+      document.getElementById("urbRo").innerHTML = `<option title="null" value="null" selected> null </option>`
+      // document.getElementById("urbanLU").style.background = "light-gray"
+      luName.value = plantCom.value.substr(0, plantCom.value.length - 5) + "_lum";
+    } else {
+      await getUrbanList(window.currentScenario)
+      document.getElementById("urbRo").innerHTML = `<option disabled selected value>-- select -- </option> 
+      <option value="buildup_washoff">buildup_washoff</option>
+      <option value="usgs_reg">usgs_reg</option>
+      <option value="null">null</option>`
+    }
+  })
   const luMgt = document.getElementById("luMgt")
   luMgt.setAttribute('value', 'null')
   const cn2 = document.getElementById("cn2Options")
@@ -47,20 +58,7 @@ export async function newLanduseForm() {
       document.getElementById("luPlantCom").innerHTML = `<option disabled selected value>-- select -- </option>  ${await getPlantComNames(window.catchmentPlant)} <option title = "null"> null </option>`
     }
   })
-  plantCom.addEventListener("change", async () => {
-    if (plantCom.value !== "null") {
-      document.getElementById("urbanLUList").innerHTML = `<option title="null" value="null" selected> null </option>`
-      document.getElementById("urbRo").innerHTML = `<option title="null" value="null" selected> null </option>`
-      // document.getElementById("urbanLU").style.background = "light-gray"
-      luName.value = plantCom.value.substr(0, plantCom.value.length - 5) + "_lum";
-    } else {
-      await getUrbanList(window.currentScenario)
-      document.getElementById("urbRo").innerHTML = `<option disabled selected value>-- select -- </option> 
-      <option value="buildup_washoff">buildup_washoff</option>
-      <option value="usgs_reg">usgs_reg</option>
-      <option value="null">null</option>`
-    }
-  })
+  
 
   const urbRo = document.getElementById("urbRo")
   urbRo.setAttribute('value', 'null')
@@ -103,14 +101,11 @@ export async function newLanduseForm() {
     await validateForm()
 
     async function validateForm() {
-
       if (!luName.value || !luCalGroup.value || !plantCom.value || !luMgt.value || !cn2.value || !consPractice.value || !urban.value || !urbRo.value || !ovMann.value || !tile.value || !sep.value || !vfs.value || !grww.value || !bmp.value) {
         alert("Please fill all the inputs");
-
       }
       else {
         window.catchmentLanduseEdit.push(newLu)
-
         await sendLanduseFile(window.catchmentLanduseEdit);
         alert('New land use written: ' + luName.value)
       }

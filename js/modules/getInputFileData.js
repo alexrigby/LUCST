@@ -29,6 +29,15 @@ export async function getHruData(scenario) {
     });
 }
 
+
+// export async function getLanduseData(scenario, file, cleaner, windowName) {
+//   await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/${file}`)
+//     .then(async data => {
+//       const cleanLanduseData = cleaner(data);
+//       windowName = [...cleanLanduseData];
+//     });
+// }
+
 export default {
   getInputFileData,
   getLanduseData, 

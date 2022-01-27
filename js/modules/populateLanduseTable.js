@@ -60,17 +60,6 @@ export async function populateLanduseTable(data) {
 
   document.getElementById("result").innerHTML = table;
 
-  const convertToTSV = (data) => {
-    // Convert dataset to TSV and print
-    const headers = Object.keys(data[0]);
-    const tsv = [
-      headers.join('\t'),
-      ...data.map(row => headers.map(fieldName => row[fieldName]).join('\t'))
-    ].join('\r\n');
-
-    return tsv;
-  }
-
   //assignes the butons called above to a variable
   const lulcEditButtons = document.querySelectorAll(".lulc-edit-button");
 
@@ -133,9 +122,10 @@ export async function populateLanduseTable(data) {
   lulcClearButton.addEventListener('click', () => {
     document.getElementById("hruTable").style.display = "none";
   });
-
 }
 
+
+//gets data from 'hru-data.hru' and adds it to a tooltip for the landuses in the new landuse table
 function getLanduseTooltip(data) {
   const landuses = data.map(record =>
   `Plant Community: ${record.plnt_com}
@@ -148,10 +138,6 @@ function getLanduseTooltip(data) {
 
 
 async function downloadButton(data, fileName) {
-  // var myFile = new Blob([data], { type: 'text/plain' });
-  // document.getElementById('download').setAttribute('href', window.URL.createObjectURL(myFile));
-  // document.getElementById('download').setAttribute('download', fileName);
-  // console.log(data);
   await fetch(`http://${HOST}:8000/sendhru`, {
     method: "POST", headers: {
       'Content-Type': 'application/json'

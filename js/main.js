@@ -1,13 +1,16 @@
 import { populateLanduseTable } from "/js/modules/populateLanduseTable.js";
 import { newPlantCommunityForm } from "/js/modules/newPlantCommunityForm.js";
-import { makeSatelliteMap, shpToGeoJSON, makeStreetMap, onMapSelection, makeOutdoorsMap, makeOsMap } from "/js/modules/mapFunctions.js";
-import { hydrograph, scenarioOptions, getHydrographOptions, getHydrographOutputOptions } from "/js/modules/outputVisFunctions.js";
+import { onMapSelection } from "/js/modules/onMapSelection.js";
+import { hydrograph, getHydrographOptions, getHydrographOutputOptions } from "/js/modules/outputVisFunctions.js";
 import { getSwatPlantList, getPlantOptions } from "./modules/getSwatPlantList.js";
 import { choropleth, getChoroplethOptions } from "/js/modules/choroplethFunctions.js";
 import { getTsvFileOptions } from "./modules/getTsvFileOptions.js";
 import { getInputFileData, getLanduseData, getHruData } from "./modules/getInputFileData.js";
 import { newLanduseForm } from "./modules/NewLandUseForm.js";
 import { updateCurrentScenario } from "./modules/updateCurentScenario.js";
+import { shpToGeoJSON } from "./modules/shpToGeoJSON.js";
+import { backgroundMap } from "./modules/backgroundMap.js";
+import { scenarioOptions } from "./modules/sceanrioOptions.js";
 
 const dev = new URL(window.location).searchParams.get('dev') === '1';
 export const HOST = dev ? 'localhost' : '5.67.118.6';
@@ -57,9 +60,9 @@ export const HOST = dev ? 'localhost' : '5.67.118.6';
     // leaflet.js
     // Initialize the map and set its view to hru1 coordinates, zoom, default layers
     window.map = L.map('map').setView(HRU1Coordinates, 11, [streets]);
-    var satellite = makeSatelliteMap();
-    var streets = makeStreetMap().addTo(map);
-    var outdoors = makeOutdoorsMap()
+    var satellite = backgroundMap('mapbox/satellite-v9');
+    var streets = backgroundMap('mapbox/streets-v11').addTo(map);
+    var outdoors = backgroundMap('mapbox/outdoors-v11')
     //calling function from mapFunctions.js to convert the ziped shape files into geoJSON files  
     // only add HRUs2 (1 is 'Actual HRUs')
 

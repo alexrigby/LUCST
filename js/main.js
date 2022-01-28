@@ -2,7 +2,6 @@ import { populateLanduseTable } from "/js/modules/populateLanduseTable.js";
 import { newPlantCommunityForm } from "/js/modules/newPlantCommunityForm.js";
 import { onMapSelection } from "/js/modules/onMapSelection.js";
 import { hydrograph } from "/js/modules/hydrograph.js";
-import { getSwatPlantList, getPlantOptions } from "./modules/getSwatPlantList.js";
 import { choropleth } from "/js/modules/choropleth.js";
 import { getTsvFileOptions } from "./modules/getTsvFileOptions.js";
 import { getInputFileData, getLanduseData, getHruData } from "./modules/getInputFileData.js";
@@ -31,17 +30,16 @@ export const HOST = dev ? 'localhost' : '5.67.118.6';
 
     await getInputFileData('Default')
     await getLanduseData('Default')
-
     await choropleth('Default')
-    await getSwatPlantList('Default')
-    await getTsvFileOptions("default", "grassedww.str", "grww")
-    await getTsvFileOptions("default", "urban.urb", "urbanLUList")
-    await getTsvFileOptions("default", "ovn_table.lum", "manN")
-    await getTsvFileOptions("default", "cons_practice.lum", "cons")
-    await getTsvFileOptions("default", "cntable.lum", "cn2Options")
-    await getTsvFileOptions("default", "tiledrain.str", "tile")
-    await getTsvFileOptions("default", "septic.str", "sep")
-    await getTsvFileOptions("default", "filterstrip.str", "vfs")
+    await getTsvFileOptions('Default', "plants.plt", "plantNames")
+    await getTsvFileOptions("Default", "grassedww.str", "grww")
+    await getTsvFileOptions("Default", "urban.urb", "urbanLUList")
+    await getTsvFileOptions("Default", "ovn_table.lum", "manN")
+    await getTsvFileOptions("Default", "cons_practice.lum", "cons")
+    await getTsvFileOptions("Default", "cntable.lum", "cn2Options")
+    await getTsvFileOptions("Default", "tiledrain.str", "tile")
+    await getTsvFileOptions("Default", "septic.str", "sep")
+    await getTsvFileOptions("Default", "filterstrip.str", "vfs")
     await hydrograph('Default')
 
     //hides the hruTable by default

@@ -1,24 +1,30 @@
+//CLEANS CURRENTSCENARIO CVS CHANNEL_SD_DAY DATA AND PLOTS IT ON THE TIME SERIES ALONG WITH DEFAULT DATA
+
 import fetchData from "/js/modules/fetchData.js";
 import { TsvOrCsvConverter } from "./TsvOrCsvConverter.js"
 import { cleanCsvOutput } from "./cleanCsvOutput.js";
 import { getDate } from "./defaultChannelData.js"
 
+
+
 export async function hydrograph(scenario) {
   await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/channel_sd_day.csv`)
     .then(async data => {
-
+      // clean and parse the csv file 
       const cleanChannelOutput = cleanCsvOutput(data);
       const channelData = cleanChannelOutput.csvData
 
-      //adds "date" to the array 
+      //adds day, mon and year together to make "date", date column added to the JSON
       const date = getDate(channelData);
       for (var i = 0; i < channelData.length; i++) {
         channelData[i]['date'] = date[i];
       }
 
-      const chanOpts = document.getElementById("channel")   
+      //gets the selected channel number and output name 
+      const chanOpts = document.getElementById("channel")
       const outputOps = document.getElementById("output");
       const hydrographSelect = [chanOpts, outputOps]
+
 
       async function plotHydrograph() {
         const defaultOutput = "default_" + outputOps.value
@@ -63,7 +69,7 @@ export async function hydrograph(scenario) {
           //  alert("Raw CSV " + '"'+outputOps +" for "+ chanOpts.value + '"' + " saved to " + '"'+window.currentScenario+'"'  )
         })
 
-    
+
 
         var original = {
           $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
@@ -260,7 +266,7 @@ function getChannelData(data, name) {
   return filteredData
 }
 
-
+//makes button to download csv file to downloads folder
 function downloadHydrographCsv(data, fileName) {
   document.getElementById('downloadPlot').setAttribute('href', 'data:text/csv;charset=utf-8,' + escape(data));
   document.getElementById('downloadPlot').setAttribute('download', fileName);

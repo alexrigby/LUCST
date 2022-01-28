@@ -1,16 +1,16 @@
 
-
+//UPDATES THE MAP POPUP WITH THE NEW LANDUSE
 
 
 export function updateTooltips(hruData) {
     // let j = 0;
 
     window.map.eachLayer((layer) => {
+        //if the layer has a feature which has a properties which has HRUS then it is a HRU.............
         if (layer.feature?.properties?.HRUS) {
 
-            //gets the name HRUS from the layers and uses it to select the lu_mgt but index as the layesr dont load in the same orders as the raw data
+            //gets the name HRUS from the layers and uses it to select the lu_mgt by index as the layesr dont load in the same orders as the raw data
             let hru = parseInt(layer.feature.properties.HRUS)
-           
             let hruLUM = hruData[hru - 1].lu_mgt.substr(0, hruData[hru-1].lu_mgt.length - 4).toUpperCase()
             layer.bindPopup(Object.keys(layer.feature.properties).map(function (k, i) {
                 if (k === "Landuse") {

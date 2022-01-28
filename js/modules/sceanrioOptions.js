@@ -1,6 +1,5 @@
 import { choropleth } from "/js/modules/choropleth.js";
 import { HOST } from "../main.js"
-import { getSwatPlantList } from "./getSwatPlantList.js"
 import { getTsvFileOptions } from "./getTsvFileOptions.js"
 import { getInputFileData, getLanduseData, getHruData } from "./getInputFileData.js";
 import { updateCurrentScenario } from "./updateCurentScenario.js"
@@ -37,9 +36,7 @@ export async function scenarioOptions() {
             await getHruData(data[i])
             await getInputFileData(data[i])
             await getLanduseData(data[i])
-            await getSwatPlantList(data[i]);
-  
-  
+            await getTsvFileOptions(data[i], "plants.plt", "plantNames")
             await getTsvFileOptions(data[i], "grassedww.str", "grww")
             await getTsvFileOptions(data[i], "urban.urb", "urbanLUList", "_comm")
             await getTsvFileOptions(data[i], "ovn_table.lum", "manN")

@@ -1,7 +1,7 @@
 // CLEANS PLANT.INI FILE 
 
 //checks for word in string 
-const hasWord = (str, word) =>
+export const hasWord = (str, word) =>
   str.split(/\s+/).includes(word);
 
 // Return an object array from cleaned TSV data with D3.tsvParse for plant.ini
@@ -66,5 +66,6 @@ export function cleanPlantIni(data) {
 }
 
 export default {
-  cleanPlantIni
+  cleanPlantIni,
+  hasWord
 }

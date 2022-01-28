@@ -1,128 +1,26 @@
 import fetchData from "/js/modules/fetchData.js";
-import { choropleth } from "/js/modules/choroplethFunctions.js";
-import { HOST } from "../main.js"
-import { getSwatPlantList } from "./getSwatPlantList.js"
-import { getTsvFileOptions } from "./getTsvFileOptions.js"
-import { getInputFileData, getLanduseData, getHruData } from "./getInputFileData.js";
-import { updateCurrentScenario } from "./updateCurentScenario.js"
 import { TsvOrCsvConverter } from "./TsvOrCsvConverter.js"
-import { cleanTsvSwatFiles } from "./cleanTsvSwatFiles.js";
-import { cleanCsvOutput, cleanDefaultCsvOutput } from "./cleanCsvOutputFiles.js";
-import { getNames } from "./getNamesAndDescriptions.js"
-
-
-//Combines the day, month and year to make a new feild; "date"
-function getDate(data) {
-  const date = data.map(record => record.yr + '-' + record.mon + '-' + record.day);
-  //  console.log('new date collumn', date);
-  return date
-}
-
-//Gets the data for the selected channels 
-function getChannelData(data, name) {
-  const filteredData = data.filter(record => record.name === name);
-  //console.log("selected channel Data", filteredData);
-  return filteredData
-}
-
-
-function downloadHydrographCsv(data, fileName) {
-  document.getElementById('downloadPlot').setAttribute('href', 'data:text/csv;charset=utf-8,' + escape(data));
-  document.getElementById('downloadPlot').setAttribute('download', fileName);
-}
-
-async function getMainChan() {
-  await fetchData(`/catchment/Scenarios/Default/TxtInOut/chandeg.con`)
-    .then(data => {
-      //clean txt file
-      const clean = cleanTsvSwatFiles(data);
-      const filteredData = clean.filter(record => record.out_tot == 0);
-      // console.log(filteredData[0].name)
-      const mainChan = filteredData[0].name
-      window.MAINCHAN = mainChan
-    });
-}
-
-export async function getHydrographOutputOptions() {
-  await fetchData(`/catchment/Scenarios/Default/TxtInOut/channel_sd_day.csv`)
-    .then(data => {
-     cleanCsvOutput(data);
-      const outputNameOptions = window.OUTPUTNAMES.map((el, i) => {
-        return `<option value=${el}>${el}</option>`;
-      })
-      const outputOps = document.getElementById("output")
-      outputOps.innerHTML = `<option style="background-color:grey" value="flo_out">flo_out</option>` + `${outputNameOptions}`
-    })
-}
-
-export async function getHydrographOptions() {
-  await getMainChan()
-  await fetchData(`/catchment/Scenarios/Default/TxtInOut/channel_sd_day.csv`)
-    .then(data => {
-
-      const cleanOutput = cleanCsvOutput(data);
-      // console.log(cleanOutput)
-      //adds "date" to the array 
-      const date = getDate(cleanOutput);
-      for (var i = 0; i < cleanOutput.length; i++) {
-        cleanOutput[i]['date'] = date[i];
-      }
-
-      
-      //gets the channel names and adds  them to the select list
-      const channelNumbers = getNames(cleanOutput)
-      const uniqueNumbers = new Set([...channelNumbers])
-      const uniqueNumbersArray = Array.from(uniqueNumbers)
-      const channelOptions = uniqueNumbersArray.map((el, i) => {
-        return `<option class="channelNames" value=${el}>${el}</option>`;
-      });
-      const chanOpts = document.getElementById("channel")
-      chanOpts.innerHTML = `<option style="background-color:grey" title="main channel" class= "channelNames" value= ${window.MAINCHAN}> ${window.MAINCHAN}</option>` + `${channelOptions}`
-    })
-}
-
-
-//function to get the Default data to display as a background plot on  the time series
-async function getDefaultTimeSeriesData() {
-  await fetchData('/catchment/Scenarios/Default/TxtInOut/channel_sd_day.csv')
-    .then(data => {
-      const cleanOutput = cleanDefaultCsvOutput(data);
-
-      const date = getDate(cleanOutput);
-      for (var i = 0; i < cleanOutput.length; i++) {
-        cleanOutput[i]['date'] = date[i];
-      }
-
-      window.defaultPlotData = [...cleanOutput]
-
-    })
-}
-
-
-
+import { cleanCsvOutput } from "./cleanCsvOutput.js";
+import { getDate } from "./defaultChannelData.js"
 
 export async function hydrograph(scenario) {
   await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/channel_sd_day.csv`)
     .then(async data => {
 
-      await getDefaultTimeSeriesData()
-      const cleanOutput = cleanCsvOutput(data);
-      // console.log(cleanOutput)
+      const cleanChannelOutput = cleanCsvOutput(data);
+      const channelData = cleanChannelOutput.csvData
+
       //adds "date" to the array 
-      const date = getDate(cleanOutput);
-      for (var i = 0; i < cleanOutput.length; i++) {
-        cleanOutput[i]['date'] = date[i];
+      const date = getDate(channelData);
+      for (var i = 0; i < channelData.length; i++) {
+        channelData[i]['date'] = date[i];
       }
 
-      const chanOpts = document.getElementById("channel")
-   
+      const chanOpts = document.getElementById("channel")   
       const outputOps = document.getElementById("output");
       const hydrographSelect = [chanOpts, outputOps]
 
-
       async function plotHydrograph() {
-
-
         const defaultOutput = "default_" + outputOps.value
         //gets data from default scenario for comparison plot
         const defaultChannel = await getChannelData(window.defaultPlotData, chanOpts.value)
@@ -132,10 +30,7 @@ export async function hydrograph(scenario) {
             [defaultOutput]: el[outputOps.value],
           }
         ));
-
-
-        // console.log(defaultPlotData)
-        const currentChannel = await getChannelData(cleanOutput, chanOpts.value);
+        const currentChannel = await getChannelData(channelData, chanOpts.value);
 
         // function returns the values of selected output
         const plotData = currentChannel.map(el => (
@@ -168,8 +63,7 @@ export async function hydrograph(scenario) {
           //  alert("Raw CSV " + '"'+outputOps +" for "+ chanOpts.value + '"' + " saved to " + '"'+window.currentScenario+'"'  )
         })
 
-        // const selectedOutput = channel.map(function (value, index) { return value[outputOps.value]; });
-
+    
 
         var original = {
           $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
@@ -360,148 +254,19 @@ export async function hydrograph(scenario) {
 
 
 
-export default {
-  hydrograph,
-  getHydrographOptions,
-  getHydrographOutputOptions
+//Gets the data for the selected channels 
+function getChannelData(data, name) {
+  const filteredData = data.filter(record => record.name === name);
+  return filteredData
 }
 
 
+function downloadHydrographCsv(data, fileName) {
+  document.getElementById('downloadPlot').setAttribute('href', 'data:text/csv;charset=utf-8,' + escape(data));
+  document.getElementById('downloadPlot').setAttribute('download', fileName);
+}
 
 
-
-
-
-// export function hydrograph() {
-//   // Assign the specification to a local variable vlSpec.
-//   var origional = {
-//     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-
-
-//     "data": {
-//       "url": "/data/TxtInOut/channel_sd_day.csv"
-//     },
-
-//     "vconcat": [{
-
-//       "width": "1350",
-//       "mark": "line",
-//       "encoding": {
-//         "x": {
-//           "timeUnit": "yearmonthdate",
-//           "field": "date",
-//           "title": "date",
-//           "type": "temporal",
-//           "scale": { "domain": { "param": "brush" } },
-//           "axis": { "title": "" }
-//         },
-//         "y": {
-//           "field": "flo_out",
-//           "type": "quantitative",
-//           "title": "flow (m³/s)",
-//         }
-//       }
-//     }, {
-//       "width": "1350",
-//       "height": 60,
-//       "mark": "line",
-//       "params": [{
-//         "name": "brush",
-//         "select": { "type": "interval", "encodings": ["x"] }
-//       }],
-//       "encoding": {
-//         "x": {
-//           "timeUnit": "yearmonthdate",
-//           "field": "date",
-//           "title": "date",
-//           "type": "temporal"
-//         },
-//         "y": {
-//           "field": "flo_out",
-//           "type": "quantitative",
-//           "axis": { "tickCount": 3, "grid": false },
-//           "title": "flow (m³/s)",
-//         }
-//       }
-//     }]
-//   }
-
-//   vegaEmbed('#vis', origional);
-// };
-
-// export function newHydrograph() {
-//   // Assign the specification to a local variable vlSpec.
-//   var origional = {
-//     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-
-
-//     "data": {
-//       "url": "/data/TxtInOut/output/channel_sd_day.csv"
-//     },
-
-//     "vconcat": [{
-
-//       "width": "1350",
-//       "mark": {
-//         "type": "line",
-//         "color": "red"
-//       },
-//       "encoding": {
-//         "x": {
-//           "timeUnit": "yearmonthdate",
-//           "field": "date",
-//           "title": "date",
-//           "type": "temporal",
-//           "scale": { "domain": { "param": "brush" } },
-//           "axis": { "title": "" }
-//         },
-//         "y": {
-//           "field": "flo_out",
-//           "type": "quantitative",
-//           "title": "flow (m³/s)",
-//         }
-//       }
-//     }, {
-//       "width": "1350",
-//       "height": 60,
-//       "mark": {
-//         "type": "line",
-//         "color": "red"
-//       },
-//       "params": [{
-//         "name": "brush",
-//         "select": { "type": "interval", "encodings": ["x"] }
-//       }],
-//       "encoding": {
-//         "x": {
-//           "timeUnit": "yearmonthdate",
-//           "field": "date",
-//           "title": "date",
-//           "type": "temporal"
-//         },
-//         "y": {
-//           "field": "flo_out",
-//           "type": "quantitative",
-//           "axis": { "tickCount": 3, "grid": false },
-//           "title": "flow (m³/s)",
-//         }
-//       }
-//     }]
-//   }
-
-//   vegaEmbed('#vis2', origional);
-// };
-
-// export function graphTab() {
-//   //opens and closes the hydrograph tabs
-//   document.getElementById("scenario1Tab").onmousedown = openScenario1;
-//   document.getElementById("defaultTab").onmousedown = openDefault;
-//   function openDefault() {
-//     document.getElementById("vis").style.display = "block";
-//     document.getElementById("vis2").style.display = "none";
-//   }
-//   function openScenario1() {
-//     document.getElementById("vis2").style.display = "block";
-//     document.getElementById("vis").style.display = "none";
-//   }
-// };
+export default {
+  hydrograph,
+}

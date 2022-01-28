@@ -1,9 +1,10 @@
+
 import { fetchData } from "./fetchData.js";
 import { cleanPlantIni } from "./cleanPlantIni.js";
 import { cleanTsvSwatFiles } from "./cleanTsvSwatFiles.js";
 import { updateTooltips } from "./updateTooltips.js";
 
-
+//GETS PLANT.INI, CLEANS DATA AND MAKES WINDOW OBJECT
 export async function getInputFileData(scenario) {
   await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/plant.ini`)
     .then(data => {
@@ -12,6 +13,7 @@ export async function getInputFileData(scenario) {
     });
 }
 
+//GETS LANDUSE.LUM, CLEANS DATA AND MAKES WINDOW OBJECT
 export async function getLanduseData(scenario) {
   await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/landuse.lum`)
     .then(async data => {
@@ -20,6 +22,7 @@ export async function getLanduseData(scenario) {
     });
 }
 
+//GETS HRU-DATA.HRU, CLEANS DATA, MAKES WINDOW OBJECT AND UPDATES TOOLTIPS ON THE MAP
 export async function getHruData(scenario) {
   await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/hru-data.hru`)
     .then(async data => {
@@ -30,6 +33,7 @@ export async function getHruData(scenario) {
 }
 
 
+//ATEMPT TO CONBINE FUNCTIONS, BUT WONT ACCEPT WINDOW AS ARGUMENT FOR FUNCTION............... REVISIT
 // export async function getLanduseData(scenario, file, cleaner, windowName) {
 //   await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/${file}`)
 //     .then(async data => {
@@ -40,7 +44,7 @@ export async function getHruData(scenario) {
 
 export default {
   getInputFileData,
-  getLanduseData, 
+  getLanduseData,
   getHruData
 }
 

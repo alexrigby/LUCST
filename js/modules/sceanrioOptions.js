@@ -1,10 +1,10 @@
-import { choropleth } from "/js/modules/choroplethFunctions.js";
+import { choropleth } from "/js/modules/choropleth.js";
 import { HOST } from "../main.js"
 import { getSwatPlantList } from "./getSwatPlantList.js"
 import { getTsvFileOptions } from "./getTsvFileOptions.js"
 import { getInputFileData, getLanduseData, getHruData } from "./getInputFileData.js";
 import { updateCurrentScenario } from "./updateCurentScenario.js"
-import { hydrograph } from "./outputVisFunctions.js";
+import { hydrograph } from "./hydrograph.js";
 
 
 export async function scenarioOptions() {

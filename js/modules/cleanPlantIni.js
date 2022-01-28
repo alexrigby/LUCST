@@ -1,14 +1,13 @@
 // CLEANS PLANT.INI FILE 
 
-
-
 //checks for word in string 
 const hasWord = (str, word) =>
   str.split(/\s+/).includes(word);
 
-
 // Return an object array from cleaned TSV data with D3.tsvParse for plant.ini
 export function cleanPlantIni(data) {
+  // if the file has the word "SWAT+" it means it has been produced by SWAT+ editor i.e 'default' scenario therfore it will be in an irregular format and 
+  //needs cleaning
   if (hasWord(data, "SWAT+") == true) {
     // delete header line creted by SWAT+
     data = data.substring(data.indexOf('\n') + 1);
@@ -51,6 +50,9 @@ export function cleanPlantIni(data) {
     })
     // Return a d3 TSV parsed dataset (headers + newline + cleanedbody)
     return d3.tsvParse(dataHeaders + "\n" + cleanedBody.trim());
+
+
+    //if the file dosent have the word "SWAT+" it has already been cleaned by LUCST and only needs parsing from TSV to JSON
   } else {
     const clean = d3.tsvParse(data
       // First, remove all spaces and replace with tabs
@@ -64,5 +66,5 @@ export function cleanPlantIni(data) {
 }
 
 export default {
-    cleanPlantIni
+  cleanPlantIni
 }

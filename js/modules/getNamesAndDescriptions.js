@@ -13,7 +13,7 @@ export function getNames(data) {
   return landuses
 }
 
-
+//TRIED TO COMBINE TO ONE FUNCTION BUT MAP WONT ACCEPT RECORD.**** AS ITS ARGUMENT.............. REVISIT
 // export function getColumn(data, column) {
 //   const landuses = data.map(record => record.column);
 //   // console.log(landuses);

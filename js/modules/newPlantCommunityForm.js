@@ -1,21 +1,14 @@
 //OPENS PLANT FORM AND CREATES NEW PLANT COMMUNITY ADDED TO PLANT.INI WITH FORM INPUT DATA
-
 import { HOST } from "../main.js";
 import { getPlantComNames } from "./getNamesAndDescriptions.js"
+import { openCloseForm } from "./openCloseForm.js";
+
+
 
 //exported to main.js to make the plant form
 export async function newPlantCommunityForm() {
 
-  //creats pop up plant form, open with button, close with click on Body
-  document.getElementById("openPlantForm").onclick = openPlantForm;
-  document.getElementById("popUpClose").onmousedown = closePlantForm;
-  function openPlantForm() {
-    document.getElementById("plantForm").style.display = "block";
-    document.getElementById("result").innerHTML = "";
-  }
-  function closePlantForm() {
-    document.getElementById("plantForm").style.display = "none";
-  }
+  openCloseForm("openPlantForm", "plantForm","result","popUpClose")
 
   //defines all Plant form inputs as constants, adding default values to the input feilds
   const plantComName = document.getElementById("plantComName");

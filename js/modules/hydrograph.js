@@ -27,9 +27,11 @@ export async function hydrograph(scenario) {
 
 
       async function plotHydrograph() {
+        ///////making default plot data
         const defaultOutput = "default_" + outputOps.value
-        //gets data from default scenario for comparison plot
+        //gets  default all default data for selected channel
         const defaultChannel = await getChannelData(window.defaultPlotData, chanOpts.value)
+        //makes object from the selected channel output name (defaultOutput) and the date 
         const defaultPlotData = defaultChannel.map(el => (
           {
             date: el.date,
@@ -38,6 +40,7 @@ export async function hydrograph(scenario) {
         ));
         const currentChannel = await getChannelData(channelData, chanOpts.value);
 
+        ////////makes current scenario plot data
         // function returns the values of selected output
         const plotData = currentChannel.map(el => (
           {
@@ -56,55 +59,34 @@ export async function hydrograph(scenario) {
         let axisMax = maxTotalValue + percentageOfTotal
 
 
-        // maps default and current scenario plots together to get data to plot
+        // maps default and current scenario plots together to gmake one dataset to plot; 'combinedPlotData
         const combinedPlotData = defaultPlotData.map((item, i) => Object.assign({}, item, plotData[i]));
 
         //download the data plotted as a csv
         const plotDownload = TsvOrCsvConverter(plotData, ',')
-
         const plotDownloadButton = document.getElementById("downloadPlot")
         plotDownloadButton.addEventListener('click', () => {
           downloadHydrographCsv(plotDownload, outputOps.value + " for " + chanOpts.value + " in " + window.currentScenario + ".csv")
-          //  console.log(plotDownload)
-          //  alert("Raw CSV " + '"'+outputOps +" for "+ chanOpts.value + '"' + " saved to " + '"'+window.currentScenario+'"'  )
         })
 
-
-
+        //vega-lite used to plot the time series
         var original = {
           $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-
           "title": outputOps.value + " for " + chanOpts.value,
           "data": { "values": combinedPlotData },
           "repeat": {
             "layer": [outputOps.value, defaultOutput]
           },
-
-
-          // "vconcat": [{
-
           "spec": {
             "width": "container",
             "height": "300",
             "mark": "line",
-            //  "transform":[{
-            //    "lookup": "date",
-            //    "from": {
-            //      "data": {
-            //        "values": defaultPlotData,
-            //      },
-            //      "key":"date",
-            //      "fields":[outputOps],
-            //     }
-            //  }],
-
             "encoding": {
               "x": {
                 "timeUnit": "yearmonthdate",
                 "field": "date",
                 "title": "date",
                 "type": "temporal",
-                // "scale": { "domain": { "param": "brush" } },
                 "axis": { "title": "" }
               },
               "y": {
@@ -126,32 +108,46 @@ export async function hydrograph(scenario) {
               }
             }
           }
-          // },
-          // {
-          //   "width": "container",
-          //   "height": 60,
-          //   "mark": "line",
-          //   "params": [{
-          //     "name": "brush",
-          //     "select": { "type": "interval", "encodings": ["x"] }
-          //   }],
-          //   "encoding": {
-          //     "x": {
-          //       "timeUnit": "yearmonthdate",
-          //       "field": "date",
-          //       "title": "date",
-          //       "type": "temporal"
-          //     },
-          //     "y": {
-          //       "field": [outputOps],
-          //       "type": "quantitative",
-          //       "axis": { "tickCount": 3, "grid": false },
-          //     }
-          //   }
-          // }]
         }
         vegaEmbed('#vis', original);
       }
+
+      //call plotHydrograph out side of an event listner so it plots when the page loads
+      await plotHydrograph()
+      hydrographSelect.forEach(el => {
+
+        el.addEventListener('change', async () => {
+          //call plotHydrograph so it is called when change is made in the select list
+          await plotHydrograph()
+        })
+      })
+    });
+}
+
+
+
+//Gets the data for the selected channels 
+function getChannelData(data, name) {
+  const filteredData = data.filter(record => record.name === name);
+  return filteredData
+}
+
+//makes button to download csv file to downloads folder
+function downloadHydrographCsv(data, fileName) {
+  document.getElementById('downloadPlot').setAttribute('href', 'data:text/csv;charset=utf-8,' + escape(data));
+  document.getElementById('downloadPlot').setAttribute('download', fileName);
+}
+
+
+export default {
+  hydrograph,
+}
+
+
+
+
+///TRYING TO GET BRUSH PARAMATER TO WRK WITH 2 DATASETS
+
       //     var original = {
       //       $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
 
@@ -245,34 +241,3 @@ export async function hydrograph(scenario) {
       //   }
       //   vegaEmbed('#vis', original);
       // }
-
-      //call plotHydrograph out side of an event listner so it plots when the page loads
-      await plotHydrograph()
-      hydrographSelect.forEach(el => {
-
-        el.addEventListener('change', async () => {
-          //call plotHydrograph so it is called when change is made in the select list
-          await plotHydrograph()
-        })
-      })
-    });
-}
-
-
-
-//Gets the data for the selected channels 
-function getChannelData(data, name) {
-  const filteredData = data.filter(record => record.name === name);
-  return filteredData
-}
-
-//makes button to download csv file to downloads folder
-function downloadHydrographCsv(data, fileName) {
-  document.getElementById('downloadPlot').setAttribute('href', 'data:text/csv;charset=utf-8,' + escape(data));
-  document.getElementById('downloadPlot').setAttribute('download', fileName);
-}
-
-
-export default {
-  hydrograph,
-}

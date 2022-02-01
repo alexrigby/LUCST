@@ -18,8 +18,8 @@ export function cleanCsvOutput(data) {
     const columnHeaders = clean.columns.splice(7)
     // window.OUTPUTNAMES = [...outputNames]
 
-    //removes the line which displays units from output data
-    const noUnits = clean.filter(clean => clean.precip != 'mm');
+    //removes the line which displays units from output data (where there is no name)
+    const noUnits = clean.filter(clean => clean.name != "");
 
     return {
         "csvData": noUnits,

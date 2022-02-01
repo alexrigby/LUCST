@@ -8,7 +8,7 @@ export function TsvOrCsvConverter(data, seperator) {
     // Convert dataset to TSV and print
     const headers = Object.keys(data[0]);
     const csv = [
-      headers.join(','),
+      headers.join(seperator),
       ...data.map(row => headers.map(fieldName => row[fieldName]).join(seperator))
     ].join('\r\n');
     return csv;

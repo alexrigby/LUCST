@@ -18,6 +18,7 @@ export async function defaultChannelData() {
             const outputNameOptions = channelParamaters.map((el, i) => {
                 return `<option value=${el}>${el}</option>`;
             })
+    
             const outputOps = document.getElementById("output")
             outputOps.innerHTML = `<option style="background-color:grey" value="flo_out">flo_out</option>` + `${outputNameOptions}`
 
@@ -25,6 +26,7 @@ export async function defaultChannelData() {
             const channelNumbers = getNames(channelData)
             const uniqueNumbers = new Set([...channelNumbers])
             const uniqueNumbersArray = Array.from(uniqueNumbers)
+           
             const channelNumbersSelect = uniqueNumbersArray.map((el, i) => {
                 return `<option class="channelNames" value=${el}>${el}</option>`;
             });

@@ -1,6 +1,6 @@
+//USES LEAFLETS.SHPFILE PLUGIN TO CONVERT SHAPEFILES.ZIP TO GEOJSON 
 
-
-//using leaflets.shpfiles plugin to convert .shapefiles.zip to geoJSON
+// shpToGeoJSON("zip file url")
 export async function shpToGeoJSON(url) {
     return await new L.Shapefile(url, {
         onEachFeature: function (feature, layer) {

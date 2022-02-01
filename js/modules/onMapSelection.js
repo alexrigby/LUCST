@@ -11,7 +11,9 @@ export function onMapSelection(layers) {
     layers.forEach(layer => {
         //if layer has property 'HRUS' it is a HRU
         if (layer.feature.properties.hasOwnProperty("HRUS")) {
+            //creates array of HRU IDs
             selectedHRULayerIDs.push(layer.feature.properties.HRUS);
+            //creates array of HRU landuses
             selectedHRULanduses.push(layer.feature.properties.Landuse);
             // If a layer isn't an HRU (or if it has ChannelR- for use if ), it is a river
             // } else if(layer.feature.properties.hasOwnProperty("ChannelR")) {
@@ -27,7 +29,6 @@ export function onMapSelection(layers) {
         // rivers: selectedRiverLayerIDs
     };
 }
-
 
 
 

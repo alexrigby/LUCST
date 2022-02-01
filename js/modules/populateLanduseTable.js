@@ -1,3 +1,5 @@
+//GENERATES AND POPULATES THE LANDUSE CHNAGE TABLE WHEN MAP SELECTION IS MADE, WRITES NEW HRU_DATA.HRU FILE
+
 import { updateTooltips } from "./updateTooltips.js";
 import { HOST } from "../main.js"
 import { getNames } from "./getNamesAndDescriptions.js"
@@ -6,12 +8,12 @@ import { getNames } from "./getNamesAndDescriptions.js"
 export async function populateLanduseTable(data) {
   const landuseTypes = await getNames(window.catchmentLanduseEdit)
   const landuseTooltip = await getLanduseTooltip(window.catchmentLanduseEdit)
+  //adds all available land use names to select list with landuse.lum tooltips
   const landuseTypesOptions = landuseTypes.map((el, i) => {
     return `<option title="${landuseTooltip[i]}" value=${el}>${el}</option>`;
   });
 
   const rowCount = data.hrus.length;
-
   // convert HRUS to integr to be passed by map
   const shpFileHrus = data.hrus.map(function (v) {
     return parseInt(v);
@@ -19,14 +21,12 @@ export async function populateLanduseTable(data) {
 
   // map HRUs(from shapefile) to id's from window.catchmentData to display correct hru lu_mgt in table
   const hruLuSelection = shpFileHrus.map(shpHru => {
-
     const obj = window.catchmentData.find(record => record.id == shpHru);
     return { ...shpHru, ...obj };
   })
 
-
+   //creates table
   let table = "";
-
   table +=
     `<tr class="hruSummary">
        <td > ${data.hrus.length} of ${window.catchmentData.length} selected</br>
@@ -58,37 +58,37 @@ export async function populateLanduseTable(data) {
               </tr>`;
   }
 
+//adds the newly generated table to html element 'result'
   document.getElementById("result").innerHTML = table;
 
   //assignes the butons called above to a variable
   const lulcEditButtons = document.querySelectorAll(".lulc-edit-button");
-
+ //when each button is clicked.....
   lulcEditButtons.forEach((el, i, arr) => {
     el.addEventListener("click", async () => {
       const landuseSelection = document.querySelectorAll(".landuseTypes");
       const newLanduse = landuseSelection[i].value;
-      console.log(newLanduse)
+      //if there is no landuse selected a alert is called.......
       if (!newLanduse) {
         alert("Please select land use");
       }
+      //if there is a landuse selected it is saved to the hru_data.hru  window object and downloaded
       else {
         // UPDATE THE DATASET
         window.catchmentData[el.dataset.hru - 1].lu_mgt = `${newLanduse}`;
-
         //assinges the new land use selection to the 'current landuse' collumn
         const currentLu = document.querySelectorAll(".currentLu");
         currentLu[i].innerHTML = newLanduse
-
-
-        // const newHruData = convertToTSV(window.catchmentData);
+        //downloads thefile to the current scenario 
         await downloadButton(window.catchmentData, 'hru-data.hru');
         updateTooltips(window.catchmentData)
       }
     })
   })
-
+  
+  //assignes the editAll button to a variable
   const lulcEditAllButton = document.querySelector(".lulc-editAll-button");
-
+  //when the edit all butto is clicked, if a landuse is selected then it will be saved to the current scenarios 'hru_data.hru' file
   lulcEditAllButton.addEventListener("click", async () => {
     const allLanduseSelection = document.querySelector(".allLanduseTypes");
     const allNewLanduse = allLanduseSelection.value;
@@ -97,19 +97,14 @@ export async function populateLanduseTable(data) {
       alert("Please select land use");
     }
     else {
-
       //loops over all 'current landuse' feilds assigning the new selected laduse
-
       allCurrentLu.forEach((el, i) => {
         el.innerHTML = allNewLanduse
       })
-
       // Converts a comma delimited string to an array of strings (ids).
       const hrusToUpdate = lulcEditAllButton.dataset.hru.split(",");
- 
       hrusToUpdate.forEach((el, i, arr) => {
         window.catchmentData[parseInt(el) - 1].lu_mgt = `${allNewLanduse}`
-
       });
      
       updateTooltips(window.catchmentData)
@@ -117,7 +112,8 @@ export async function populateLanduseTable(data) {
       alert('New hru_data file writen')
     }
   });
-
+  
+  //clears the table when button is clicked
   const lulcClearButton = document.querySelector(".lulc-clear");
   lulcClearButton.addEventListener('click', () => {
     document.getElementById("hruTable").style.display = "none";

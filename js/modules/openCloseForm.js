@@ -1,5 +1,7 @@
-import { getPlantComNames } from "./getNamesAndDescriptions.js";
+//CONTROLS WHAT HTML ELEMENT IS OPENED AND CLOSED BY THERE ID'S
 
+// openCloseForm("id  of open button", "id of html element to be opend", "id of html element to be hidden", "id of button to close form")
+import { getPlantComNames } from "./getNamesAndDescriptions.js"
 //opens and closes plant and landuse forms
 export function openCloseForm(openId, formId, hideId, closeId) {
     //when landuse form button is clicked.............

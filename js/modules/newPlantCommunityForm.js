@@ -7,65 +7,63 @@ import { openCloseForm } from "./openCloseForm.js";
 
 //exported to main.js to make the plant form
 export async function newPlantCommunityForm() {
+  // controlds the plant form open and closing 
+  openCloseForm("openPlantForm", "plantForm", "result", "popUpClose")
 
-  openCloseForm("openPlantForm", "plantForm","result","popUpClose")
-
-  //defines all Plant form inputs as constants, adding default values to the input feilds
+  //gets all plant form input values from html document
   const plantComName = document.getElementById("plantComName");
   const plantName = document.getElementById("plantNames");
+  const iniRotationYear = document.getElementById("rot_yr_ini")
+  const landcoverStatus = document.getElementById("lc_status")
+  const iniLai = document.getElementById("lai_init")
+  const iniBm = document.getElementById("bm_init")
+  const iniPhu = document.getElementById("phu_init")
+  const plantPopulation = document.getElementById("plantPop")
+  const iniYrs = document.getElementById("yrs_init")
+  const iniRsd = document.getElementById("rsd_init")
+
+  // adds default values to some plant input feilds
+  iniRotationYear.setAttribute('value', 1)
+  iniLai.setAttribute('value', 0)
+  iniBm.setAttribute('value', 20000)
+  iniPhu.setAttribute('value', 0)
+  plantPopulation.setAttribute('value', 1)
+  iniYrs.setAttribute('value', 0)
+  iniRsd.setAttribute('value', 10000)
+  iniRsd.setAttribute('step', 10000)
+
+  //When a new plant is selected, the plant community names is chnaged to that plant name with the "_comm" suffix and the lu name is auto filled with "_lum" suffix
   plantName.addEventListener('change', () => {
     plantComName.setAttribute('value', plantName.value + "_comm")
     //auto fills lu name with plant comm + _lum
     const luName = document.getElementById("luName")
     luName.setAttribute('value', plantName.value + "_lum")
   });
-  // const plantCnt = document.getElementById("plt_cnt")
-  // plantCnt.setAttribute('value', 1)
-  const iniRotationYear = document.getElementById("rot_yr_ini")
-  iniRotationYear.setAttribute('value', 1)
-  //cuts '_comm' of the ed of plantComName and asignes the string as plantName
 
-  const landcoverStatus = document.getElementById("lc_status")
-  const iniLai = document.getElementById("lai_init")
-  iniLai.setAttribute('value', 0)
-
-  //makes usre if there is no landcover there is no initial leaf area index
+  //sets plant.ini rules when landcover status is chnaged
   landcoverStatus.addEventListener('change', () => {
-    if (landcoverStatus.value !== "y") {
-      iniLai.setAttribute('value', 0)
-      iniLai.setAttribute('min', 0)
-      iniLai.setAttribute('max', 0)
-
-
-    } else {
-      iniLai.setAttribute('max', 300)
-      iniLai.setAttribute('min', 1)
-      iniLai.setAttribute('value', 1)
-
-    }
+    setLaiValue()
   })
+  //sets plant.ini rules when form is opened
   document.getElementById("openPlantForm").addEventListener('click', () => {
+    setLaiValue()
+  })
+  // makes sure all SWAT+ plant rules are followed
+  function setLaiValue() {
     if (landcoverStatus.value !== "y") {
       iniLai.setAttribute('value', 0)
       iniLai.setAttribute('min', 0)
       iniLai.setAttribute('max', 0)
+      iniBm.setAttribute('value', 0)
+      iniPhu.setAttribute('value', 0)
     } else {
       iniLai.setAttribute('max', 300)
       iniLai.setAttribute('min', 1)
       iniLai.setAttribute('value', 1)
+      iniBm.setAttribute('value', 20000)
+      iniPhu.setAttribute('value', 1)
     }
-  })
-  const iniBm = document.getElementById("bm_init")
-  iniBm.setAttribute('value', 20000)
-  const iniPhu = document.getElementById("phu_init")
-  iniPhu.setAttribute('value', 0)
-  const plantPopulation = document.getElementById("plantPop")
-  plantPopulation.setAttribute('value', 1)
-  const iniYrs = document.getElementById("yrs_init")
-  iniYrs.setAttribute('value', 0)
-  const iniRsd = document.getElementById("rsd_init")
-  iniRsd.setAttribute('value', 10000)
-  iniRsd.setAttribute('step', 10000)
+  }
 
   const newPlantTypeButton = document.getElementById("newPlantButton")
   //adds form values to object 'newPlantSelection' when 'make' is clicked

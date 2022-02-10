@@ -4,5 +4,6 @@ module.exports = {
   getHRU: require("./getHRU"),
   saveHRU: require("./saveHRU"),
   savePlotData: require("./getScenarios"),
-  savePlant: require("./savePlant")
+  savePlant: require("./savePlant"), 
+  saveLum: require("./saveLum"),
 };

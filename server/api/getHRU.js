@@ -1,5 +1,7 @@
 const fs = require("fs");
 const getScenarios = require("./getScenarios")
+const path = require("path");
+const { config } = require("./config");
 
 module.exports = (req, res) => {
     let scenario = req.body.scenario;

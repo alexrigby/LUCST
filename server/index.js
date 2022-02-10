@@ -40,27 +40,9 @@ app.post("/sendlum", saveLum)
 
 //METHOD: sendplotData //NOT USED ATM
 app.post("/sendplotdata", savePlotData);
-
-
-// PRIVATE METHOD: createScenario
-app.get("/createscenario", (req, res) => {
-  // Get scenario param
-  let scenario = req.query.scenario;
-  if (scenario !== null && scenario !== "Default") {
-    createScenario(res, scenario);
-  } else {
-    res.send({
-      code: 0,
-      message:
-        scenario === "Default"
-          ? "Scenario cannot be named Default"
-          : "Invalid scenario name",
-    });
-  }
-});
-
-
-
+ 
+// - METHOD: createScenario
+app.get("/createscenario", createScenario)
 
 
 

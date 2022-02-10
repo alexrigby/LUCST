@@ -6,7 +6,7 @@ const express = require("express");
 const cors = require("cors");
 const { config } = require("./config");
 const fs = require("fs");
-const { runSwat, getScenarios, getHRU, saveHRU } = require("./api");
+const { runSwat, getScenarios, getHRU, saveHRU, savePlotData } = require("./api");
 
 
 const app = express();
@@ -59,10 +59,9 @@ app.post("/sendlum", (req, res) => {
   saveLum(req, res);
 });
 
-//METHOD: sendplotData
-app.post("/sendplotdata", (req, res) => {
-  savePlotData(req, res);
-});
+
+//METHOD: sendplotData //NOT USED ATM
+app.post("/sendplotdata", savePlotData);
 
 app.use(function (req, res, next) {
   // req.set('Cache-Control', 'no-cache, no-store, must-revalidate')
@@ -139,29 +138,29 @@ console.log(`SWAT Server Listening on Port ${config().server_port}`);
 //   }
 // }
 
-// API METHOD: savePlotData
-function savePlotData(req, res) {
-  let scenario = req.body.scenario;
-  let csv = convertToCSV(req.body.plot);
-  let name = req.body.name;
+// // API METHOD: savePlotData
+// function savePlotData(req, res) {
+//   let scenario = req.body.scenario;
+//   let csv = convertToCSV(req.body.plot);
+//   let name = req.body.name;
 
-  if (getScenarios().includes(scenario)) {
-    try {
-      fs.writeFileSync(
-        path.resolve(
-          __dirname,
-          `${config().swat_scenarios}${scenario}/${name}.csv`
-        ),
-        csv
-      );
-      res.send({ code: 1, massage: `Raw plot data saved to scenario` });
-    } catch {
-      res.send({ code: 0, message: "Failed to save" });
-    }
-  } else {
-    res.send({ code: 0, messgae: "Error" });
-  }
-}
+//   if (getScenarios().includes(scenario)) {
+//     try {
+//       fs.writeFileSync(
+//         path.resolve(
+//           __dirname,
+//           `${config().swat_scenarios}${scenario}/${name}.csv`
+//         ),
+//         csv
+//       );
+//       res.send({ code: 1, massage: `Raw plot data saved to scenario` });
+//     } catch {
+//       res.send({ code: 0, message: "Failed to save" });
+//     }
+//   } else {
+//     res.send({ code: 0, messgae: "Error" });
+//   }
+// }
 
 // API METHOD: SavePlant
 // Save plant file to disk
@@ -261,13 +260,4 @@ const convertToTSV = (data) => {
   return tsv;
 };
 
-const convertToCSV = (data) => {
-  // Convert dataset to TSV and print
-  const headers = Object.keys(data[0]);
-  const csv = [
-    headers.join(","),
-    ...data.map((row) => headers.map((fieldName) => row[fieldName]).join(",")),
-  ].join("\r\n");
 
-  return csv;
-};

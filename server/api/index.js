@@ -3,4 +3,5 @@ module.exports = {
   getScenarios: require("./getScenarios"),
   getHRU: require("./getHRU"),
   saveHRU: require("./saveHRU"),
+  savePlotData: require("./getScenarios"),
 };

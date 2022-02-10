@@ -1,3 +1,4 @@
+
 module.exports = {
   runSwat: require("./runSwat"),
   getScenarios: require("./getScenarios"),
@@ -6,4 +7,5 @@ module.exports = {
   savePlotData: require("./getScenarios"),
   savePlant: require("./savePlant"), 
   saveLum: require("./saveLum"),
+  createScenario: require("./createScenario"),
 };

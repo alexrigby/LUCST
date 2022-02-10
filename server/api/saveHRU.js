@@ -1,8 +1,9 @@
-// const { convertToTSV } = require("/server/convertToTSV");
+const convertToTSV = require("./convertToTSV")
 const fs = require("fs");
 const getScenarios = require("./getScenarios");
 const { config } = require("./config");
 const path = require("path");
+
 
 module.exports = (req, res) => {
     let scenario = req.body.scenario;
@@ -26,13 +27,3 @@ module.exports = (req, res) => {
     }
 }
 
-const convertToTSV = (data) => {
-    // Convert dataset to TSV and print
-    const headers = Object.keys(data[0]);
-    const tsv = [
-        headers.join("\t"),
-        ...data.map((row) => headers.map((fieldName) => row[fieldName]).join("\t")),
-    ].join("\r\n");
-
-    return tsv;
-};

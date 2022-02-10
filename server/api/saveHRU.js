@@ -1,8 +1,8 @@
 // const { convertToTSV } = require("/server/convertToTSV");
 const fs = require("fs");
-const getScenarios = require("./getScenarios")
-const { config } = require("./config")
-const path = require("path")
+const getScenarios = require("./getScenarios");
+const { config } = require("./config");
+const path = require("path");
 
 module.exports = (req, res) => {
     let scenario = req.body.scenario;

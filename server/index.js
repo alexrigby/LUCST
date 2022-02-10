@@ -6,7 +6,7 @@ const express = require("express");
 const cors = require("cors");
 const { config } = require("./config");
 const fs = require("fs");
-const { runSwat, getScenarios, getHRU, saveHRU, savePlotData } = require("./api");
+const { runSwat, getScenarios, getHRU, saveHRU, savePlotData, savePlant } = require("./api");
 
 
 const app = express();
@@ -50,9 +50,8 @@ app.get("/createscenario", (req, res) => {
 app.post("/savehru", saveHRU);
 
 // - METHOD: sendPlant
-app.post("/sendplant", (req, res) => {
-  savePlant(req, res);
-});
+app.post("/sendplant", savePlant)
+
 
 // - METHOD: sendLum
 app.post("/sendlum", (req, res) => {
@@ -162,29 +161,29 @@ console.log(`SWAT Server Listening on Port ${config().server_port}`);
 //   }
 // }
 
-// API METHOD: SavePlant
-// Save plant file to disk
-function savePlant(req, res) {
-  let scenario = req.body.scenario;
-  let tsv = convertToTSV(req.body.plant);
+// // API METHOD: SavePlant
+// // Save plant file to disk
+// function savePlant(req, res) {
+//   let scenario = req.body.scenario;
+//   let tsv = convertToTSV(req.body.plant);
 
-  if (getScenarios().includes(scenario) && scenario !== "Default") {
-    try {
-      fs.writeFileSync(
-        path.resolve(
-          __dirname,
-          `${config().swat_scenarios}${scenario}/TxtInOut/plant.ini`
-        ),
-        tsv
-      );
-      res.send({ code: 1, message: `Successfully saved plant file to disk` });
-    } catch {
-      res.send({ code: 0, message: "Plant file failed to save" });
-    }
-  } else {
-    res.send({ code: 0, message: "Requested invalid scenario" });
-  }
-}
+//   if (getScenarios().includes(scenario) && scenario !== "Default") {
+//     try {
+//       fs.writeFileSync(
+//         path.resolve(
+//           __dirname,
+//           `${config().swat_scenarios}${scenario}/TxtInOut/plant.ini`
+//         ),
+//         tsv
+//       );
+//       res.send({ code: 1, message: `Successfully saved plant file to disk` });
+//     } catch {
+//       res.send({ code: 0, message: "Plant file failed to save" });
+//     }
+//   } else {
+//     res.send({ code: 0, message: "Requested invalid scenario" });
+//   }
+// }
 
 // API METHOD: SaveLum
 // Save landuse file to disk

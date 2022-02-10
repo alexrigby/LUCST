@@ -134,7 +134,7 @@ function getLanduseTooltip(data) {
 
 
 async function downloadButton(data, fileName) {
-  await fetch(`http://${HOST}:8000/sendhru`, {
+  await fetch(`http://${HOST}:8000/savehru`, {
     method: "POST", headers: {
       'Content-Type': 'application/json'
     },

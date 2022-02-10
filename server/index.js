@@ -6,7 +6,8 @@ const express = require("express");
 const cors = require("cors");
 const { config } = require("./config");
 const fs = require("fs");
-const { runSwat, getScenarios } = require("./api");
+const { runSwat, getScenarios, getHRU, saveHRU } = require("./api");
+
 
 const app = express();
 
@@ -21,6 +22,11 @@ app.get("/runswat", runSwat);
 app.get("/getscenarios", (_, res) => {
   res.send(getScenarios());
 });
+
+// - METHOD: getHRU
+app.post("/gethru", (req, res) => {
+    getHRU(req, res);
+  });
 
 // PRIVATE METHOD: createScenario
 app.get("/createscenario", (req, res) => {
@@ -39,25 +45,9 @@ app.get("/createscenario", (req, res) => {
   }
 });
 
-// - METHOD: deleteScenario
-// TODO: Make this soft-delete instead (flags in a file to track soft-deleted scenarios)
-// app.get("/deletescenario",(req, res)=>{
-//   let scenario = req.query.scenario;
-//   if(scenario !== null) {
-//     deleteScenario(res, scenario);
-// } else {
-//     res.send({ "code": 0 });
-// }
-// });
 
-app.post("/gethru", (req, res) => {
-  getHRU(req, res);
-});
-
-// - METHOD: sendHRU
-app.post("/sendhru", (req, res) => {
-  saveHRU(req, res);
-});
+// - METHOD: saveHRU
+app.post("/savehru", saveHRU);
 
 // - METHOD: sendPlant
 app.post("/sendplant", (req, res) => {
@@ -105,49 +95,49 @@ console.log(`SWAT Server Listening on Port ${config().server_port}`);
 //   res.send(getScenarios());
 // }
 
-function getHRU(req, res) {
-  let scenario = req.body.scenario;
+// function getHRU(req, res) {
+//   let scenario = req.body.scenario;
 
-  if (getScenarios().includes(scenario)) {
-    try {
-      const hru = fs.readFileSync(
-        path.resolve(
-          __dirname,
-          `${config().swat_scenarios}${scenario}/TxtInOut/hru-data.hru`
-        )
-      );
-      res.send({ code: 1, message: "HRU sent", hru });
-    } catch {
-      res.send({ code: 0, message: "HRU failed to send" });
-    }
-  } else {
-    res.send({ code: 0, message: "Invalid scenario" });
-  }
-}
+//   if (getScenarios().includes(scenario)) {
+//     try {
+//       const hru = fs.readFileSync(
+//         path.resolve(
+//           __dirname,
+//           `${config().swat_scenarios}${scenario}/TxtInOut/hru-data.hru`
+//         )
+//       );
+//       res.send({ code: 1, message: "HRU sent", hru });
+//     } catch {
+//       res.send({ code: 0, message: "HRU failed to send" });
+//     }
+//   } else {
+//     res.send({ code: 0, message: "Invalid scenario" });
+//   }
+// }
 
 // API METHOD: saveHRU
-// Save HRU to disk
-function saveHRU(req, res) {
-  let scenario = req.body.scenario;
-  let tsv = convertToTSV(req.body.hru);
+// // Save HRU to disk
+// function saveHRU(req, res) {
+//   let scenario = req.body.scenario;
+//   let tsv = convertToTSV(req.body.hru);
 
-  if (getScenarios().includes(scenario) && scenario !== "Default") {
-    try {
-      fs.writeFileSync(
-        path.resolve(
-          __dirname,
-          `${config().swat_scenarios}${scenario}/TxtInOut/hru-data.hru`
-        ),
-        tsv
-      );
-      res.send({ code: 1, message: `Successfully saved hru to disk` });
-    } catch {
-      res.send({ code: 0, message: "HRU failed to save" });
-    }
-  } else {
-    res.send({ code: 0, message: "Requested invalid scenario" });
-  }
-}
+//   if (getScenarios().includes(scenario) && scenario !== "Default") {
+//     try {
+//       fs.writeFileSync(
+//         path.resolve(
+//           __dirname,
+//           `${config().swat_scenarios}${scenario}/TxtInOut/hru-data.hru`
+//         ),
+//         tsv
+//       );
+//       res.send({ code: 1, message: `Successfully saved hru to disk` });
+//     } catch {
+//       res.send({ code: 0, message: "HRU failed to save" });
+//     }
+//   } else {
+//     res.send({ code: 0, message: "Requested invalid scenario" });
+//   }
+// }
 
 // API METHOD: savePlotData
 function savePlotData(req, res) {

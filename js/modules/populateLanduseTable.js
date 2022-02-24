@@ -1,13 +1,12 @@
 //GENERATES AND POPULATES THE LANDUSE CHNAGE TABLE WHEN MAP SELECTION IS MADE, WRITES NEW HRU_DATA.HRU FILE
 
 import { updateTooltips } from "./updateTooltips.js";
-import { HOST } from "../main.js"
-import { getNames } from "./getNamesAndDescriptions.js"
-
+import { HOST } from "../main.js";
+import { getNames } from "./getNamesAndDescriptions.js";
 
 export async function populateLanduseTable(data) {
-  const landuseTypes = await getNames(window.catchmentLanduseEdit)
-  const landuseTooltip = await getLanduseTooltip(window.catchmentLanduseEdit)
+  const landuseTypes = await getNames(window.catchmentLanduseEdit);
+  const landuseTooltip = await getLanduseTooltip(window.catchmentLanduseEdit);
   //adds all available land use names to select list with landuse.lum tooltips
   const landuseTypesOptions = landuseTypes.map((el, i) => {
     return `<option title="${landuseTooltip[i]}" value=${el}>${el}</option>`;
@@ -17,18 +16,17 @@ export async function populateLanduseTable(data) {
   // convert HRUS to integr to be passed by map
   const shpFileHrus = data.hrus.map(function (v) {
     return parseInt(v);
-  })
+  });
 
   // map HRUs(from shapefile) to id's from window.catchmentData to display correct hru lu_mgt in table
-  const hruLuSelection = shpFileHrus.map(shpHru => {
-    const obj = window.catchmentData.find(record => record.id == shpHru);
+  const hruLuSelection = shpFileHrus.map((shpHru) => {
+    const obj = window.catchmentData.find((record) => record.id == shpHru);
     return { ...shpHru, ...obj };
-  })
+  });
 
-   //creates table
+  //creates table
   let table = "";
-  table +=
-    `<tr class="hruSummary">
+  table += `<tr class="hruSummary">
        <td > ${data.hrus.length} of ${window.catchmentData.length} selected</br>
        
       </td>
@@ -39,8 +37,7 @@ export async function populateLanduseTable(data) {
        ${landuseTypesOptions}
         </select></td>
    </tr>
-   `
-    ;
+   `;
   //loops over the data asigning new row each time
   //calls variable i assignes index 0 to it, row count has to be grater than i, increment i by 1 each time
   for (let i = 0; i < rowCount; i++) {
@@ -58,12 +55,12 @@ export async function populateLanduseTable(data) {
               </tr>`;
   }
 
-//adds the newly generated table to html element 'result'
+  //adds the newly generated table to html element 'result'
   document.getElementById("result").innerHTML = table;
 
   //assignes the butons called above to a variable
   const lulcEditButtons = document.querySelectorAll(".lulc-edit-button");
- //when each button is clicked.....
+  //when each button is clicked.....
   lulcEditButtons.forEach((el, i, arr) => {
     el.addEventListener("click", async () => {
       const landuseSelection = document.querySelectorAll(".landuseTypes");
@@ -78,14 +75,14 @@ export async function populateLanduseTable(data) {
         window.catchmentData[el.dataset.hru - 1].lu_mgt = `${newLanduse}`;
         //assinges the new land use selection to the 'current landuse' collumn
         const currentLu = document.querySelectorAll(".currentLu");
-        currentLu[i].innerHTML = newLanduse
-        //downloads thefile to the current scenario 
-        await downloadButton(window.catchmentData, 'hru-data.hru');
-        updateTooltips(window.catchmentData)
+        currentLu[i].innerHTML = newLanduse;
+        //downloads thefile to the current scenario
+        await downloadButton(window.catchmentData, "hru-data.hru");
+        updateTooltips(window.catchmentData);
       }
-    })
-  })
-  
+    });
+  });
+
   //assignes the editAll button to a variable
   const lulcEditAllButton = document.querySelector(".lulc-editAll-button");
   //when the edit all butto is clicked, if a landuse is selected then it will be saved to the current scenarios 'hru_data.hru' file
@@ -95,59 +92,58 @@ export async function populateLanduseTable(data) {
     const allCurrentLu = document.querySelectorAll(".currentLu");
     if (!allNewLanduse) {
       alert("Please select land use");
-    }
-    else {
+    } else {
       //loops over all 'current landuse' feilds assigning the new selected laduse
       allCurrentLu.forEach((el, i) => {
-        el.innerHTML = allNewLanduse
-      })
+        el.innerHTML = allNewLanduse;
+      });
       // Converts a comma delimited string to an array of strings (ids).
       const hrusToUpdate = lulcEditAllButton.dataset.hru.split(",");
       hrusToUpdate.forEach((el, i, arr) => {
-        window.catchmentData[parseInt(el) - 1].lu_mgt = `${allNewLanduse}`
+        window.catchmentData[parseInt(el) - 1].lu_mgt = `${allNewLanduse}`;
       });
-     
-      updateTooltips(window.catchmentData)
-      await downloadButton(window.catchmentData, 'hru-data.hru');
-      alert('New hru_data file writen')
+
+      updateTooltips(window.catchmentData);
+      await downloadButton(window.catchmentData, "hru-data.hru");
+      alert("New hru_data file writen");
     }
   });
-  
+
   //clears the table when button is clicked
   const lulcClearButton = document.querySelector(".lulc-clear");
-  lulcClearButton.addEventListener('click', () => {
+  lulcClearButton.addEventListener("click", () => {
     document.getElementById("hruTable").style.display = "none";
   });
 }
 
-
 //gets data from 'hru-data.hru' and adds it to a tooltip for the landuses in the new landuse table
 function getLanduseTooltip(data) {
-  const landuses = data.map(record =>
-  `Plant Community: ${record.plnt_com}
+  const landuses = data.map(
+    (record) =>
+      `Plant Community: ${record.plnt_com}
   Curve Number: ${record.cn2}
   Conservation Practice: ${record.cons_prac}
-  Manning's n: ${record.ov_mann}`);
+  Manning's n: ${record.ov_mann}`
+  );
   // console.log(landuses);
-  return landuses
+  return landuses;
 }
-
 
 async function downloadButton(data, fileName) {
   await fetch(`http://${HOST}:8000/savehru`, {
-    method: "POST", headers: {
-      'Content-Type': 'application/json'
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ hru: data, scenario: window.currentScenario })
-  }).then(res => res.text()).then(data => console.log(data));
-
+    body: JSON.stringify({ hru: data, scenario: window.currentScenario }),
+  })
+    .then((res) => res.text())
+    .then((data) => console.log(data));
 }
-
-
 
 export default {
   populateLanduseTable,
-}
+};
 
 // // NOT USED BUT GOOD FOR FUTURE REFERENCE
 // // Update selected HRU lu_mgt

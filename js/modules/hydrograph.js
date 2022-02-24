@@ -24,6 +24,7 @@ export async function hydrograph(scenario) {
       const chanOpts = document.getElementById("channel")
       const outputOps = document.getElementById("output");
       const hydrographSelect = [chanOpts, outputOps]
+      
 
 
       async function plotHydrograph() {
@@ -39,7 +40,6 @@ export async function hydrograph(scenario) {
           }
         ));
         const currentChannel = await getChannelData(channelData, chanOpts.value);
-
         ////////makes current scenario plot data
         // function returns the values of selected output
         const plotData = currentChannel.map(el => (

@@ -20,11 +20,30 @@ export const HOST = "localhost";
 //run for dev with ?dev=1
 //if ipv4 chnage change value
 
+
+export async function getHruData(scenario) {
+  console.log('getHRUData', scenario)
+  // await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/hru-data.hru`)
+  // const test = await fetch(`http://${HOST}:8000/test`).then(res => res.text()).then(data => console.log(data))
+   await fetch(`http://${HOST}:8000/getHRUData`).then(res => res.text()).then(data => console.log(data))
+//  return await fetch(`http://${HOST}:8000/getHRUData`, {
+//     method: 'POST', headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify({ scenario: window.currentScenario })
+//   }).then(res => res.json()).then(data => data)
+
+}
+
+
+
 // Has the page loaded fully yet?
 window.init = false;
 
 await defaultChannelData();
 await scenarioOptions();
+const hrudata = await getHruData('Default')
+console.log(hrudata)
 await getInputFileData("Default");
 await getLanduseData("Default");
 await choropleth("Default");

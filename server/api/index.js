@@ -8,4 +8,5 @@ module.exports = {
   savePlant: require("./savePlant"), 
   saveLum: require("./saveLum"),
   createScenario: require("./createScenario"),
+  getHRUData: require("./getHRUData")
 };

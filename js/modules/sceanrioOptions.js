@@ -2,11 +2,12 @@
 import { choropleth } from "/js/modules/choropleth.js";
 import { HOST } from "../main.js";
 import { getTsvFileOptions } from "./getTsvFileOptions.js";
-import { getInputFileData, getLanduseData } from "./getInputFileData.js";
 import { getHRUData } from "./getHRUData.js";
 import { updateCurrentScenario } from "./updateCurentScenario.js";
 import { hydrograph } from "./hydrograph.js";
 import { lassoSelectionControl } from "./lassoControl.js";
+import { getLanduseData } from "./getLanduseData.js";
+import { getPlantData } from "./getPlantData.js";
 import api from "../api.js";
 
 export async function scenarioOptions() {
@@ -44,7 +45,7 @@ export async function scenarioOptions() {
 
           //calls each functions that take data from scenarios so the correct scenario data is displayed
           await getHRUData(data[i]);
-          await getInputFileData(data[i]);
+          await getPlantData(data[i]);
           await getLanduseData(data[i]);
           await getTsvFileOptions(data[i], "plants.plt", "plantNames");
           await getTsvFileOptions(data[i], "grassedww.str", "grww");

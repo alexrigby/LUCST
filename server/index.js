@@ -16,6 +16,8 @@ const {
   saveLum,
   createScenario,
   getHRUData,
+  getLanduseData,
+  getPlantData,
 } = require("./api");
 
 const app = express();
@@ -23,17 +25,25 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 
-app.get("/test", (req, res) => {
-  console.log("test"), res.send("test");
-});
+// app.get("/test", (req, res) => {
+//   console.log("test"), res.send("test");
+// });
 
 // - METHOD: RunSWAT
 app.get("/runswat", runSwat);
 
 app.post("/getHRUData", (req, res) => {
-  console.log("getHRUData");
   getHRUData(req, res);
 });
+
+app.post("/getlandusedata", (req, res) => {
+  getLanduseData(req, res);
+});
+
+app.post("/getplantdata", (req, res) =>{
+  getPlantData(req, res);
+});
+
 
 // - METHOD: getScenarios
 app.get("/getscenarios", (_, res) => {

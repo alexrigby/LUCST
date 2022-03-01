@@ -3,24 +3,24 @@ import { cleanPlantIni } from "./cleanPlantIni.js";
 import { cleanTsvSwatFiles } from "./cleanTsvSwatFiles.js";
 
 //GETS PLANT.INI, CLEANS DATA AND MAKES WINDOW OBJECT
-export async function getInputFileData(scenario) {
-  await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/plant.ini`).then(
-    (data) => {
-      const cleanPlantData = cleanPlantIni(data);
-      window.catchmentPlant = [...cleanPlantData];
-    }
-  );
-}
+// export async function getInputFileData(scenario) {
+//   await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/plant.ini`).then(
+//     (data) => {
+//       const cleanPlantData = cleanPlantIni(data);
+//       window.catchmentPlant = [...cleanPlantData];
+//     }
+//   );
+// }
 
-//GETS LANDUSE.LUM, CLEANS DATA AND MAKES WINDOW OBJECT
-export async function getLanduseData(scenario) {
-  await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/landuse.lum`).then(
-    async (data) => {
-      const cleanLanduseData = cleanTsvSwatFiles(data);
-      window.catchmentLanduseEdit = [...cleanLanduseData];
-    }
-  );
-}
+// //GETS LANDUSE.LUM, CLEANS DATA AND MAKES WINDOW OBJECT
+// export async function getLanduseData(scenario) {
+//   await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/landuse.lum`).then(
+//     async (data) => {
+//       const cleanLanduseData = cleanTsvSwatFiles(data);
+//       window.catchmentLanduseEdit = [...cleanLanduseData];
+//     }
+//   );
+// }
 
 //GETS HRU-DATA.HRU, CLEANS DATA, MAKES WINDOW OBJECT AND UPDATES TOOLTIPS ON THE MAP
 // export async function getHruData(scenario) {
@@ -41,7 +41,7 @@ export async function getLanduseData(scenario) {
 //     });
 // }
 
-export default {
-  getInputFileData,
-  getLanduseData,
-};
+// export default {
+//   // getInputFileData,
+//   // getLanduseData,
+// };

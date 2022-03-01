@@ -2,6 +2,7 @@
 import { HOST } from "../main.js";
 import { getPlantComNames } from "./getNamesAndDescriptions.js";
 import { openCloseForm } from "./openCloseForm.js";
+import { getTsvFileOptions } from "./getTsvFileOptions.js";
  
 
 //exported to main.js to make the landuseform
@@ -38,7 +39,7 @@ export async function newLanduseForm() {
       // document.getElementById("urbanLU").style.background = "light-gray"
       luName.value = plantCom.value.substr(0, plantCom.value.length - 5) + "_lum";
     } else {
-      await getUrbanList(window.currentScenario)
+      await getTsvFileOptions(window.currentScenario, "urban.urb", "urbanLUList");
       document.getElementById("urbRo").innerHTML = `<option disabled selected value>-- select -- </option> 
       <option value="buildup_washoff">buildup_washoff</option>
       <option value="usgs_reg">usgs_reg</option>

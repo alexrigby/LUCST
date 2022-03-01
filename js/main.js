@@ -2,10 +2,6 @@ import { newPlantCommunityForm } from "/js/modules/newPlantCommunityForm.js";
 import { hydrograph } from "/js/modules/hydrograph.js";
 import { choropleth } from "/js/modules/choropleth.js";
 import { getTsvFileOptions } from "./modules/getTsvFileOptions.js";
-import {
-  getInputFileData,
-  getLanduseData,
-} from "./modules/getInputFileData.js";
 import { newLanduseForm } from "./modules/NewLandUseForm.js";
 import { updateCurrentScenario } from "./modules/updateCurentScenario.js";
 import { scenarioOptions } from "./modules/sceanrioOptions.js";
@@ -13,6 +9,8 @@ import { defaultChannelData } from "./modules/defaultChannelData.js";
 import { generateMap } from "./modules/generateMap.js";
 import { lassoSelectionControl } from "./modules/lassoControl.js";
 import { createNewScenarioButton } from "./modules/createNewScenarioButton.js";
+import { getLanduseData } from "./modules/getLanduseData.js";
+import { getPlantData } from "./modules/getPlantData.js";
 
 // TODO:
 // Replace all occurences of HOST with an import from api.
@@ -28,7 +26,7 @@ window.init = false;
 
 await defaultChannelData();
 await scenarioOptions();
-await getInputFileData("Default");
+await getPlantData("Default");
 await getLanduseData("Default");
 await choropleth("Default");
 await getTsvFileOptions("Default", "plants.plt", "plantNames");

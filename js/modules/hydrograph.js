@@ -1,24 +1,16 @@
 //CLEANS CURRENTSCENARIO CVS CHANNEL_SD_DAY DATA AND PLOTS IT ON THE TIME SERIES ALONG WITH DEFAULT DATA
 
-import fetchData from "/js/modules/fetchData.js";
 import { TsvOrCsvConverter } from "./TsvOrCsvConverter.js";
 import { cleanCsvOutput } from "./cleanCsvOutput.js";
 import { getDate } from "./getDefaultChannelData.js";
-// import { getChannelData } from "./getChannelData.js";
-import api from "../api.js";
+import { getChannelData } from "./getChannelData.js";
+
 
 
 //NEED TO SEPERATE GETCHANNELDATA
 export async function hydrograph(scenario) {
-  // await getChannelData(scenario)
-  await fetch(api.getChannelData, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ scenario }),
-  })
-    .then((res) => res.text())
+  await getChannelData(scenario)
+ 
     .then(async (data) => {
       // clean and parse the csv file
       const cleanChannelOutput = cleanCsvOutput(data);

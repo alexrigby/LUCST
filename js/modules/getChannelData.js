@@ -3,7 +3,7 @@
 import api from "../api.js";
 
 export async function getChannelData(scenario) {
-  await fetch(api.getChannelData, {
+  return await fetch(api.getChannelData, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -11,10 +11,6 @@ export async function getChannelData(scenario) {
     body: JSON.stringify({ scenario }),
   })
     .then((res) => res.text())
-    .then((data) => {
-      const resText = [...data];
-      return resText;
-    })
 }
 
 export default getChannelData;

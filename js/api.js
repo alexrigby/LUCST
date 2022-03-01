@@ -7,7 +7,8 @@ export const getLanduseData = `http://${HOST}:${serverPort}/getlandusedata`;
 export const getPlantData = `http://${HOST}:${serverPort}/getplantdata`;
 export const getDefaultChannelData = `http://${HOST}:${serverPort}/getdefaultchanneldata`;
 export const getTsvFileOptions = `http://${HOST}:${serverPort}/gettsvfileoptions`;
-
+export const getChannelData = `http://${HOST}:${serverPort}/getchanneldata`;
+export const getHruWbData = `http://${HOST}:${serverPort}/gethruwbdata`;
 
 
 export default {
@@ -17,5 +18,7 @@ export default {
   HOST,
   getPlantData,
   getDefaultChannelData,
-  getTsvFileOptions
+  getTsvFileOptions, 
+  getChannelData,
+  getHruWbData,
 };

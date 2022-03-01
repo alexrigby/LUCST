@@ -13,4 +13,6 @@ module.exports = {
   getPlantData: require("./getPlantData"),
   getDefaultChannelData: require("./getDefaultChannelData"),
   getTsvFileOptions: require("./getTsvFileOptions"),
+  getChannelData: require("./getChannelData"),
+  getHruWbData: require("./getHruWbData"),
 };

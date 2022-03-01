@@ -20,6 +20,8 @@ const {
   getPlantData,
   getDefaultChannelData,
   getTsvFileOptions,
+  getChannelData,
+  getHruWbData,
 } = require("./api");
 
 const app = express();
@@ -55,7 +57,13 @@ app.post("/gettsvfileoptions", (req, res) => {
   getTsvFileOptions(req, res);
 });
 
+app.post("/getchanneldata", (res, req) =>{
+  getChannelData(res, req);
+});
 
+app.post("/gethruwbdata", (res, req) =>{
+  getHruWbData(res, req);
+});
 
 // - METHOD: getScenarios
 app.get("/getscenarios", (_, res) => {

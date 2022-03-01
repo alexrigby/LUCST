@@ -1,11 +1,17 @@
-import fetchData from "/js/modules/fetchData.js"
-import { HOST } from "../main.js"
-import { cleanCsvOutput } from "./cleanCsvOutput.js";
 
+import { cleanCsvOutput } from "./cleanCsvOutput.js";
+import api from "../api.js";
 
 export async function choropleth(scenario) {
     //NEED TO SWAP FOR AN API OPTION
-    await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/hru_wb_mon.csv`)
+    await fetch(api.getHruWbData, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ scenario }),
+    })
+        .then((res) => res.text())
         .then(data => {
             //clean HRU_data.hru csv file, into headers and data
             const cleanHRUOutput = cleanCsvOutput(data)

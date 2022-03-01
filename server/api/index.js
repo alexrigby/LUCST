@@ -11,4 +11,6 @@ module.exports = {
   getHRUData: require("./getHRUData"), 
   getLanduseData: require("./getLanduseData"),
   getPlantData: require("./getPlantData"),
+  getDefaultChannelData: require("./getDefaultChannelData"),
+  getTsvFileOptions: require("./getTsvFileOptions"),
 };

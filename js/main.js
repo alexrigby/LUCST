@@ -5,7 +5,7 @@ import { getTsvFileOptions } from "./modules/getTsvFileOptions.js";
 import { newLanduseForm } from "./modules/NewLandUseForm.js";
 import { updateCurrentScenario } from "./modules/updateCurentScenario.js";
 import { scenarioOptions } from "./modules/sceanrioOptions.js";
-import { defaultChannelData } from "./modules/defaultChannelData.js";
+import { defaultChannelData } from "./modules/getDefaultChannelData.js";
 import { generateMap } from "./modules/generateMap.js";
 import { lassoSelectionControl } from "./modules/lassoControl.js";
 import { createNewScenarioButton } from "./modules/createNewScenarioButton.js";
@@ -24,7 +24,7 @@ export const HOST = _HOST;
 // Has the page loaded fully yet?
 window.init = false;
 
-await defaultChannelData();
+await defaultChannelData("Default");
 await scenarioOptions();
 await getPlantData("Default");
 await getLanduseData("Default");

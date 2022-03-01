@@ -1,3 +1,4 @@
+//FETCHES RESPONSE FROM SERVER WITH PLANT.INI CONTENT, CLEANS DATA AND CREATES WINDOW OBJECT 
 import api from "../api.js";
 import { cleanPlantIni } from "./cleanPlantIni.js";
 

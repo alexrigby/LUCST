@@ -4,10 +4,20 @@
 import { cleanTsvSwatFiles } from "./cleanTsvSwatFiles.js";
 import { getNames } from "./getNamesAndDescriptions.js";
 import { getDescriptions } from "./getNamesAndDescriptions.js";
-import { fetchData } from "./fetchData.js"
+import api from "../api.js";
+
+
 
 export async function getTsvFileOptions(scenario, file, id) {
-    await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/${file}`)
+  await fetch(api.getTsvFileOptions, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ scenario, file }),
+  })
+  .then((res) => res.text())
+    // await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/${file}`)
       .then(async function (data) {
         const cleanData = cleanTsvSwatFiles(data);
         const names = await getNames(cleanData);

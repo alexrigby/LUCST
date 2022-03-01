@@ -1,5 +1,6 @@
 import { HOST } from "../main.js";
 import { scenarioOptions } from "./sceanrioOptions.js";
+import api from "../api.js";
 
 export function createNewScenarioButton(){
 const createNewScenarioButton = document.getElementById("createNewScenario");
@@ -15,7 +16,7 @@ createNewScenarioButton.addEventListener("click", async function (e) {
 
     let scenarioList = null;
     let scenarioExists = false;
-    await fetch(`http://${HOST}:8000/getscenarios`)
+    await fetch(api.getScenarios)
         .then(response => response.json())
         .then(data => {
             scenarioList = data;

@@ -1,3 +1,5 @@
+//FETCHES RESPONSE FROM SERVER WITH HRU-DATA.HRU CONTENT, CLEANS DATA AND CREATES WINDOW OBJECT 
+
 import { cleanTsvSwatFiles } from "./cleanTsvSwatFiles.js";
 import { updateTooltips } from "./updateTooltips.js";
 import api from "../api.js";

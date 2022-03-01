@@ -1,3 +1,4 @@
+//FETCHES RESPONSE FROM SERVER WITH LANDUSE.LUM CONTENT, CLEANS DATA AND CREATES WINDOW OBJECT 
 import { cleanTsvSwatFiles } from "./cleanTsvSwatFiles.js";
 import api from "../api.js";
 

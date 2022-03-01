@@ -3,7 +3,7 @@
 import fetchData from "/js/modules/fetchData.js";
 import { TsvOrCsvConverter } from "./TsvOrCsvConverter.js";
 import { cleanCsvOutput } from "./cleanCsvOutput.js";
-import { getDate } from "./defaultChannelData.js";
+import { getDate } from "./getDefaultChannelData.js";
 
 export async function hydrograph(scenario) {
   await fetchData(

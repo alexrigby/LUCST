@@ -10,8 +10,6 @@ export function cleanCsvOutput(data) {
         .substring(data.indexOf('\n') + 1)
         // First, remove all spaces and replace with nothing
         .replace(/ +/gm, '')
-        //might work, adds 0 in front of all single didgit numbers, test if vega-lite accepts it 
-        .replace(/\b(\d{1})\b/g, '0$1')
         // Then remove all leading and trailing tabs
         // .replace(/^\t|\t$/gm)
     );

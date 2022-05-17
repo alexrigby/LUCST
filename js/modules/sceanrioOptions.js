@@ -16,6 +16,7 @@ export async function scenarioOptions() {
     .then((response) => response.json())
     //uses the JSON of scenarios to do stuff.....
     .then((data) => {
+      console.log(data)
       //find number of scenarios
       const scenarioCount = data.length;
       window.currentScenarioVersion = scenarioCount;

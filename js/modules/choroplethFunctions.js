@@ -1,5 +1,4 @@
 import fetchData from "/js/modules/universalFunctions.js"
-import {HOST} from "../main.js"
 
 //Initially cleans the HRU-wb.csv file for maipulation
 function cleanCsvOutput(data) {
@@ -9,8 +8,6 @@ function cleanCsvOutput(data) {
         .substring(data.indexOf('\n') + 1)
         // First, remove all spaces and replace with nothing
         .replace(/ +/gm, '')
-        //   might work, adds 0 in front of all single didgit numbers, test if vega-lite accepts it 
-        .replace(/\b(\d{1})\b/g, '0$1')
         // Then remove all leading and trailing tabs
         .replace(/^\t|\t$/gm)
     );
@@ -49,8 +46,8 @@ function getDisplayData(data, name) {
     return filteredData
 }
 
-export async function getChoroplethOptions(){
-await fetchData(`/catchment/Scenarios/Default/TxtInOut/hru_wb_mon.csv`)
+export async function getChoroplethOptions() {
+    await fetchData(`/catchment/Scenarios/Default/TxtInOut/hru_wb_mon.csv`)
         .then(data => {
             const cleanOutput = cleanCsvOutput(data)
             const date = getShortDate(cleanOutput);
@@ -67,7 +64,7 @@ await fetchData(`/catchment/Scenarios/Default/TxtInOut/hru_wb_mon.csv`)
             const monOpts = document.getElementById("month")
             monOpts.innerHTML = `${monOptions}`
         })
-    }
+}
 
 export async function choropleth(scenario) {
     //NEED TO SWAP FOR AN API OPTION
@@ -80,13 +77,13 @@ export async function choropleth(scenario) {
                 cleanOutput[i]['date'] = date[i];
             }
 
-    //         //gets the available months and adds  them to the select list
-    //         const monNames = getDate(cleanOutput)
-    //         const monOptions = monNames.map((el, i) => {
-    //             return `<option value=${el}>${el}</option>`;
-    //         });
+            //         //gets the available months and adds  them to the select list
+            //         const monNames = getDate(cleanOutput)
+            //         const monOptions = monNames.map((el, i) => {
+            //             return `<option value=${el}>${el}</option>`;
+            //         });
             const monOpts = document.getElementById("month")
-    //         monOpts.innerHTML = `${monOptions}`
+            //         monOpts.innerHTML = `${monOptions}`
 
             //when user chnages month or output plot changes for seletion
             const selectMonth = document.getElementById("month");
@@ -95,9 +92,9 @@ export async function choropleth(scenario) {
 
             choroplethSelect.forEach(async el => {
                 el.addEventListener('change', async () => {
-                   await plotChoropleth()
+                    await plotChoropleth()
                 })
-              async function plotChoropleth() {
+                async function plotChoropleth() {
                     const month = getDisplayData(cleanOutput, monOpts.value);
 
                     const outputOps = document.getElementById("wbOutput").value;
@@ -110,12 +107,12 @@ export async function choropleth(scenario) {
                             [outputOps]: el[outputOps],
                         }
                     ));
-                    
+
                     // console.log(outputOps, " for ", monOpts.value, plotData)
 
                     //NEED TO SWAP FOR AN API OPTION
                     //takes the shapefile and returns geojson object where we can access the properties 
-                   await shp("catchment/Watershed/Shapes/hrus2.zip").then(function (geojson) {
+                    await shp("catchment/Watershed/Shapes/hrus2.zip").then(function (geojson) {
 
 
                         var choro = {
@@ -158,14 +155,14 @@ export async function choropleth(scenario) {
                         }
                         vegaEmbed('#choro', choro);
                         window.HRU1Coordinates = geojson.features[0].geometry.bbox
-                        
+
                     })
 
                 }
-               await plotChoropleth()
-                
+                await plotChoropleth()
+
             })
-          
+
         });
 
 }

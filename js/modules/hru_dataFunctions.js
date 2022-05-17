@@ -2,35 +2,6 @@ import { updateTooltips } from "/js/modules/mapFunctions.js";
 import fetchData from "/js/modules/universalFunctions.js";
 import { HOST } from "../main.js"
 
-//hru_data.hru//
-
-//making function dynamic means that catchment Data is wread from the correct HRU each time
-// export async function getHruData(scenario) {
-//   console.log('getHRUData', scenario)
-//   await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/hru-data.hru`)
-//   // await fetch(`http://${HOST}:8000/gethru`, {
-//   //   method: 'POST', headers: {
-//   //     'Content-Type': 'application/json'
-//   //   },
-//   //   body: JSON.stringify({ scenario: window.currentScenario })
-//   // })
-
-//     .then(res => res.text()).then(data => {
-//       console.log('Got HRU Data',data)
-//       // console.log(`/catchment/Scenarios/${scenario}/TxtInOut/hru-data.hru`)
-//       // Clean the dataset...
-//       const cleanHruData = cleanHru(data);
-
-//       // Saving a copy of the dataset
-
-//       // Replace this with a state management solution
-//       window.catchmentData = [...cleanHruData];
-//       // console.log('chd', cleanHruData);
-//       updateTooltips(cleanHruData, 'test')
-
-//     });
-// }
-
 export async function getHruData(scenario) {
   await fetchData(`/catchment/Scenarios/${scenario}/TxtInOut/hru-data.hru`)
     .then(async data => {
@@ -48,12 +19,6 @@ export async function getHruData(scenario) {
       // console.log(window.catchmentData)
     });
 }
-
-// Return an object array from cleaned TSV data with D3.tsvParse 
-/**
- * 
- * @param {*} data 
- */
 
 
 export function cleanHru(data) {
@@ -86,25 +51,13 @@ export function cleanHru(data) {
 const hasWord = (str, word) =>
   str.split(/\s+/).includes(word);
 
-//Select HRU's lu_mgt by its id
-//e.g(console.log(getHru(cleanHruData250))
-/**
- * @name getHru
- * @param {*} data // A dataset
- * @param {*} id // An ID
- */
+
 export function getHru(data, id) {
   const filteredData = data.filter(record => record.id == id);
   return filteredData[0].lu_mgt
 }
 
-// Update selected HRU lu_mgt
-/**
- * @name updateHru
- * @param {*} data // dataset
- * @param {*} id // id of HRU
- * @param {*} lu_mgt // Selects lu_mgt(can change to any variable in dataset)
- */
+
 export function updateHru(data, id, lu_mgt) {
   const newData = [...data];
   newData[id - 1] = {
@@ -277,9 +230,6 @@ export async function populateTable(data) {
         el.innerHTML = allNewLanduse
       })
 
-      //   document.querySelector(".allNewlanduse").innerHTML = `${allNewLanduse}`;
-      //   document.querySelectorAll(".newLanduse").innerHTML = `${allNewLanduse}`;
-
       // Converts a comma delimited string to an array of strings (ids).
       const hrusToUpdate = lulcEditAllButton.dataset.hru.split(",");
       //console.log(hrusToUpdate);
@@ -289,45 +239,7 @@ export async function populateTable(data) {
         window.catchmentData[parseInt(el) - 1].lu_mgt = `${allNewLanduse}`
 
       });
-      //   const hruLuSelection2 = shpFileHrus.map(shpHru => {
-      //     const obj = window.catchmentData.find(record => record.id == shpHru);
-      //     return {...shpHru, ...obj };
-      //   })
-      //   let table = "";
 
-      // table  +=
-      // `<tr class="hruSummary">
-      //      <td > ${data.hrus.length} of ${window.catchmentData.length} selected</br>
-
-      //     </td>
-      //      <td> <button class="lulc-clear">CLEAR</button> <button class="lulc-editAll-button" data-hru=${data.hrus}> SAVE ALL </button></td>
-      //      <td class="allNewlanduse">
-      //      <select class="allLanduseTypes" id="allLanduseDatalist">
-      //      <option value="default" selected="selected" disabled></option>
-      //      ${landuseTypesOptions}
-      //       </select></td>
-      //  </tr>
-      //  `
-      // ;
-      // //loops over the data asigning new row each time
-      // //calls variable i assignes index 0 to it, row count has to be grater than i, increment i by 1 each time
-      // for (let i = 0; i < rowCount; i++) {
-      //   table += `
-      //             <tr>
-      //                 <td>${data.hrus[i]}</td>
-      //                 <td>${hruLuSelection2[i].lu_mgt}
-      //                 <button class="lulc-edit-button" data-hru=${data.hrus[i]}>Save</button>
-      //                 </td>
-      //                 <td class="newLanduse">
-      //                 <select class ="landuseTypes" id="landuseDatalist">
-      //                 <option value="default" selected="selected" disabled>
-      //                       </option>
-      //                 ${landuseTypesOptions}
-      //                  </select></td>
-      //             </tr>`;
-      //   //use`` to insert HTML elements straight from javascript, use ${} to input Javascript elements
-      // }
-      // document.getElementsById("result").innerHTML = table ;
       updateTooltips(window.catchmentData)
       // const newHruData = convertToTSV(window.catchmentData);
 
@@ -345,11 +257,7 @@ export async function populateTable(data) {
 }
 
 
-async function downloadButton(data, fileName) {
-  // var myFile = new Blob([data], { type: 'text/plain' });
-  // document.getElementById('download').setAttribute('href', window.URL.createObjectURL(myFile));
-  // document.getElementById('download').setAttribute('download', fileName);
-  // console.log(data);
+async function downloadButton(data) {
   await fetch(`http://${HOST}:8000/sendhru`, {
     method: "POST", headers: {
       'Content-Type': 'application/json'

@@ -17,18 +17,18 @@ app.use(express.json({ limit: '50mb' }));
 // - METHOD: RunSWAT
 app.get("/runswat", (req, res) => {
     let scenario = req.query.scenario;
-    // console.log(scenario);
-    // res.send(scenario);
     if (scenario !== null && scenario !== 'Default') {
         runSWAT(res, scenario);
     } else {
         res.send({ "code": 0, "message": scenario === 'Default' ? "Scenario cannot be named Default" : "Invalid scenario name" });
     }
 });
+
 // - METHOD: getScenarios
 app.get("/getscenarios", (req, res) => {
     getScenarios(res);
 })
+
 // PRIVATE METHOD: createScenario
 app.get("/createscenario", (req, res) => {
     // Get scenario param
@@ -40,16 +40,6 @@ app.get("/createscenario", (req, res) => {
     }
 });
 
-// - METHOD: deleteScenario
-// TODO: Make this soft-delete instead (flags in a file to track soft-deleted scenarios)
-// app.get("/deletescenario",(req, res)=>{
-//   let scenario = req.query.scenario;
-//   if(scenario !== null) {
-//     deleteScenario(res, scenario);
-// } else {
-//     res.send({ "code": 0 });
-// }  
-// });
 
 app.post('/gethru', (req, res) => {
     getHRU(req, res);
@@ -76,7 +66,7 @@ app.post("/sendplotdata", (req, res) => {
     savePlotData(req, res);
 });
 
-app.use(function (req,res,next){
+app.use(function (req, res, next) {
     // req.set('Cache-Control', 'no-cache, no-store, must-revalidate')
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate')
     res.set('Cache-Control', 'must-revalidate')
@@ -84,7 +74,6 @@ app.use(function (req,res,next){
 })
 
 const server = http.createServer(app);
-// server.writeHead({"Cache-Control": "max-age=0, no-cache, no-store, must-revalidate"})
 
 
 server.listen(config().server_port);
@@ -93,11 +82,9 @@ console.log(`SWAT Server Listening on Port ${config().server_port}`);
 // PRIVATE API METHODS
 // _getScenarios
 function _getScenarios() {
-    // console.log(readdir(path.resolve(__dirname, config().swat_scenarios)))
-    // console.log( readdirSync(path.resolve(__dirname, config().swat_scenarios), { withFileTypes: true }).filter(dirent => dirent.isDirectory()).map(dirent => dirent.name))
     return readdirSync(path.resolve(__dirname, config().swat_scenarios), { withFileTypes: true }).filter(dirent => dirent.isDirectory()).map(dirent => dirent.name);
 }
-// stats.birthtime
+
 
 // API METHOD: getScenarios
 // Get Scenarios
@@ -108,15 +95,15 @@ function getScenarios(res) {
 function getHRU(req, res) {
     let scenario = req.body.scenario
 
-    if(_getScenarios().includes(scenario)) {
-        try{
+    if (_getScenarios().includes(scenario)) {
+        try {
             const hru = fs.readFileSync(path.resolve(__dirname, `${config().swat_scenarios}${scenario}/TxtInOut/hru-data.hru`));
-            res.send({ code: 1, message: 'HRU sent', hru})
+            res.send({ code: 1, message: 'HRU sent', hru })
         } catch {
-            res.send({ code: 0, message: 'HRU failed to send'})
+            res.send({ code: 0, message: 'HRU failed to send' })
         }
     } else {
-        res.send({ code: 0, message: "Invalid scenario"})
+        res.send({ code: 0, message: "Invalid scenario" })
     }
 }
 
@@ -146,16 +133,16 @@ function savePlotData(req, res) {
     let csv = convertToCSV(req.body.plot);
     let name = req.body.name;
 
-    if (_getScenarios().includes(scenario)){
-    try {
-        fs.writeFileSync(path.resolve(__dirname, `${config().swat_scenarios}${scenario}/${name}.csv`), csv);
-        res.send({ code: 1, massage: `Raw plot data saved to scenario` })
-    } catch {
-        res.send({ code: 0, message: "Failed to save" })
+    if (_getScenarios().includes(scenario)) {
+        try {
+            fs.writeFileSync(path.resolve(__dirname, `${config().swat_scenarios}${scenario}/${name}.csv`), csv);
+            res.send({ code: 1, massage: `Raw plot data saved to scenario` })
+        } catch {
+            res.send({ code: 0, message: "Failed to save" })
+        }
+    } else {
+        res.send({ code: 0, messgae: "Error" })
     }
-}else {
-    res.send({ code: 0, messgae: "Error"})
-}
 }
 
 // API METHOD: SavePlant

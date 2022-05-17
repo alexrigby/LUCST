@@ -38,11 +38,6 @@ export function cleanPlants(data) {
 }
 
 
-// import * as d3 from "d3";
-// import d3 from "d3";
-// plant.ini//
-
-
 //checks for word in string 
 const hasWord = (str, word) =>
   str.split(/\s+/).includes(word);
@@ -150,18 +145,6 @@ export async function getSwatPlantList(scenario) {
 
 
 
-const convertToTSV = (data) => {
-  // Convert dataset to TSV and print
-  const headers = Object.keys(data[0]);
-  const tsv = [
-    headers.join('\t'),
-    ...data.map(row => headers.map(fieldName => row[fieldName]).join('\t'))
-  ].join('\r\n');
-
-  return tsv;
-}
-
-
 function getPlantComTypes(data) {
   const plantCom = data.map(record => record.pcom_name);
   return plantCom
@@ -182,35 +165,19 @@ export async function newPlantType() {
   }
 
 
-  // const plantsOptionsList = getPlantOptions(window.PLANToptions);
-  // console.log(plantsOptionsList)
-  // const plantOptions = plantsOptionsList.map((el, i) => {
-  //   return `<option value=${el}></option>`;
-  // });
-  // document.getElementById("plantNames").innerHTML = `${plantOptions}`
-
-
- const plantComName = document.getElementById("plantComName");
+  const plantComName = document.getElementById("plantComName");
 
 
   //defines all Plant form inputs as constants, adding default values to the input feilds
   const plantName = document.getElementById("plantNames");
   plantName.addEventListener('change', () => {
-    // const plantComNameSlice = plantComName.value
-   plantComName.setAttribute('value', plantName.value + "_comm")
-    //  plantName.setAttribute('value', plantComNameSlice)
-    //auto fills lu name with plant comm + _lum
+    plantComName.setAttribute('value', plantName.value + "_comm")
     const luName = document.getElementById("luName")
     luName.setAttribute('value', plantName.value + "_lum")
-    // const LuPlantCom = document.getElementById("luPlantCom")
-    // LuPlantCom.setAttribute('value', plantComName)
   });
-  // const plantCnt = document.getElementById("plt_cnt")
-  // plantCnt.setAttribute('value', 1)
   const iniRotationYear = document.getElementById("rot_yr_ini")
   iniRotationYear.setAttribute('value', 1)
-  // const plantName = document.getElementById("plt_name")
-  //cuts '_comm' of the ed of plantComName and asignes the string as plantName
+
 
 
   const landcoverStatus = document.getElementById("lc_status")
@@ -270,41 +237,18 @@ export async function newPlantType() {
     newPlantSelection.plnt_pop = plantPopulation.value + '.00000';
     newPlantSelection.yrs_init = iniYrs.value + '.00000';
     newPlantSelection.rsd_init = iniRsd.value + '.00000';
-    // console.log(plantPopulation.value)
-    // DO IT LIKE THIS!
-    // const newPlantSelection = {
-    //   pcom_name: plantComName.value,
-    //   plt_cnt: plantCnt.value,
-    //   ...
-    // }
 
 
-
-    // console.log(newPlantSelection)
-    //adds form data to plant.ini file
-
-
-   await validateForm()
-   async function validateForm() {
-
-      // var form = document.getElementById("plantForm")
-      // var inputs = form.getElementsByTagName("input") 
-      // var selects = document.getElementById("plantNames")
-
-      // console.log(selects)
+    await validateForm()
+    async function validateForm() {
 
       if (!iniRotationYear.value || !plantName.value || !landcoverStatus.value || !iniLai.value || !iniBm.value || !iniPhu.value || !iniYrs.value || !iniRsd.value || !plantPopulation.value) {
         alert("Please fill all the inputs")
       }
       else {
         window.catchmentPlant.push(newPlantSelection)
-        //converts file and links to download button 
-        // const newPlantTypeFile = convertToTSV(window.catchmentPlant)
-        // downloadPlantButton(newPlantTypeFile, "plant.ini")
+
         await sendPlantFile(window.catchmentPlant);
-        // DO SOME STUFF WITH THE RESPONSE.
-
-
         alert('New plant comunity written: ' + plantName.value + "_comm")
       }
     }
@@ -324,17 +268,6 @@ export async function newPlantType() {
   });
 }
 
-
-
-
-
-
-
-//  function downloadPlantButton(data, fileName) {
-//   var myFile = new Blob([data], { type: 'text/plain' });
-//   document.getElementById('downloadPlant').setAttribute('href', window.URL.createObjectURL(myFile));
-//   document.getElementById('downloadPlant').setAttribute('download', fileName);
-// }
 
 async function sendPlantFile(data) {
   await fetch(`http://${HOST}:8000/sendplant`, {

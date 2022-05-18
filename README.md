@@ -6,7 +6,6 @@ Video intro [here](https://youtu.be/QygBidYr4cQ)
 
 ![LUCST interface](https://github.com/alexrigby/LUCST/blob/master/images/LUCST%20interface.PNG)
 
-Full help documentation available in the [documentation](https://github.com/alexrigby/LUCST/blob/master/documentation/LUCST%20walkthrough%20v1.2.pdf) folder
 
 ## Software Requirements
 * Windows 10
@@ -18,6 +17,8 @@ Full help documentation available in the [documentation](https://github.com/alex
 * Python 3.9.7 
 
 ## Basic Usage
+
+Full help documentation available in the [documentation](https://github.com/alexrigby/LUCST/blob/master/documentation/LUCST%20walkthrough%20v1.2.pdf) folder
 
 ### Input Data
 
@@ -43,9 +44,15 @@ SWAT+ modelled catchment prep must be done correctly before any LULC change inve
 * Edit print options and simulation runtime
 
 ### Install Dependencies 
-In CMD run *npm install*
+In CMD run #npm install#
 
 ### Set Up Servers
+In separate CMD run: 
+* #nmp run swat-server# (back end)
+* #npm run swat# (front end)
+
+### Open Toolkit
+In the browser navigate to the url: http://localhost:8001/?dev=1 
 
 
 

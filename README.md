@@ -19,6 +19,8 @@ Full help documentation available in the [documentation](https://github.com/alex
 
 ## Basic Usage
 
+### Input Data
+
 As its input data, the toolkit requires:
 * A properly calibrated SWAT+ catchment model
 * The catchments associated shape files produced in QSWAT+
@@ -31,6 +33,16 @@ If you are not familiar with SWAT+ please visit the links bellow:
 ***IMPORTANT:** The accuracy of the toolkit’s outputs are fully reliant on the accuracy of the original
 input SWAT+ model. To ensure an acceptable accuracy only properly calibrated catchments with an 
 acceptable NSE (Nash Sutcliffe Efficiency) of 0.5 and above should be studied using the toolkit.* 
+
+### Catchment Preperation
+
+SWAT+ modelled catchment prep must be done correctly before any LULC change investigation: 
+* Copy the SWAT+ catchment directory and SWAT+ model exe files to the LUCST directory
+* Zip shape files
+* Edit run times
+* Edit print options and simulation runtime
+
+### Set Up Servers
 
 
 

@@ -24,7 +24,7 @@ As its input data, the toolkit requires:
 * The catchments associated shape files produced in QSWAT+
 
 If you are not familiar with SWAT+ please visit the links bellow:
-* SWAT+ download: Installation - SWAT+ Documentation (gitbook.io)
+* [SWAT+ download](https://swatplus.gitbook.io/docs/installation)
 * [A Useful short video series on getting started with SWAT+](https://youtu.be/dBARtcejaPM)
 * [A useful SWAT+ calibration tool is SWAT+ Toolbox, download and documentation](celray.github.io/docs/swatplus_toolbox/introduction.html)
 

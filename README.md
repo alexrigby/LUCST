@@ -4,6 +4,8 @@ LUCST is an interface for managing SWATPlus input and output files to aid in imp
 
 Video intro [here](https://youtu.be/QygBidYr4cQ)
 
+![LUCST interface](https://github.com/alexrigby/LUCST/blob/master/images/LUCST%20interface.PNG)
+
 Full help documentation available in the [documentation](https://github.com/alexrigby/LUCST/blob/master/documentation/LUCST%20walkthrough%20v1.2.pdf) folder
 
 ## Software Requirements
@@ -15,7 +17,19 @@ Full help documentation available in the [documentation](https://github.com/alex
 
 * Python 3.9.7 
 
+## Basic Usage
+
+As its input data, the toolkit requires:
+* A properly calibrated SWAT+ catchment model
+* The catchments associated shape files produced in QSWAT+
+If you are not familiar with SWAT+ please visit the links bellow:
+* SWAT+ download: Installation - SWAT+ Documentation (gitbook.io)
+* [A Useful short video series on getting started with SWAT+](https://youtu.be/dBARtcejaPM)
+* [A useful SWAT+ calibration tool is SWAT+ Toolbox, download and documentation](celray.github.io/docs/swatplus_toolbox/introduction.html)
+
+***IMPORTANT:** The accuracy of the toolkit’s outputs are fully reliant on the accuracy of the original
+input SWAT+ model. To ensure an acceptable accuracy only properly calibrated catchments with an 
+acceptable NSE (Nash Sutcliffe Efficiency) of 0.5 and above should be studied using the toolkit.* 
 
 
-![LUCST interface](https://github.com/alexrigby/LUCST/blob/master/images/LUCST%20interface.PNG)
 

@@ -7,13 +7,13 @@ Video intro [here](https://youtu.be/QygBidYr4cQ)
 Full help documentation available in the [documentation](https://github.com/alexrigby/LUCST/blob/master/documentation/LUCST%20walkthrough%20v1.2.pdf) folder
 
 ## Software Requirements
-*Windows 10
+* Windows 10
 
-*NPM >8.1.2
+* NPM >8.1.2
 
-*NodeJS >14.15.4 
+* NodeJS >14.15.4 
 
-*Python 3.9.7 
+* Python 3.9.7 
 
 
 

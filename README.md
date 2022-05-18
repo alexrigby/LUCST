@@ -38,9 +38,12 @@ acceptable NSE (Nash Sutcliffe Efficiency) of 0.5 and above should be studied us
 
 SWAT+ modelled catchment prep must be done correctly before any LULC change investigation: 
 * Copy the SWAT+ catchment directory and SWAT+ model exe files to the LUCST directory
-* Zip shape files
+* Zipped shape files
 * Edit run times
 * Edit print options and simulation runtime
+
+### Install Dependencies 
+In CMD run *npm install*
 
 ### Set Up Servers
 

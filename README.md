@@ -43,12 +43,12 @@ SWAT+ modelled catchment prep must be done correctly before any LULC change inve
 * Edit model print options and simulation runtime
 
 ### Install Dependencies 
-In CMD run #npm install#
+In CMD run # npm install
 
 ### Set Up Servers
 In separate CMD run: 
-* #nmp run swat-server# (back end)
-* #npm run swat# (front end)
+* # npm run swat-server (back end)
+* # npm run swat (front end)
 
 ### Open Toolkit
 In the browser navigate to the url: http://localhost:8001/?dev=1 

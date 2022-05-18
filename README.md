@@ -28,7 +28,7 @@ As its input data, the toolkit requires:
 
 If you are not familiar with SWAT+ please visit the links bellow:
 * [SWAT+ download](https://swatplus.gitbook.io/docs/installation)
-* [A Useful short video series on getting started with SWAT+](https://youtu.be/dBARtcejaPM)
+* A Useful short video series on [getting started with SWAT+](https://youtu.be/dBARtcejaPM)
 * A useful SWAT+ calibration tool is SWAT+ Toolbox: [download and documentation](celray.github.io/docs/swatplus_toolbox/introduction.html)
 
 ***IMPORTANT:** The accuracy of the toolkit’s outputs are fully reliant on the accuracy of the original

@@ -46,7 +46,7 @@ SWAT+ modelled catchment prep must be done correctly before any LULC change inve
 In CMD run `npm install`
 
 ### Set Up Servers
-In separate CMD run: 
+In separate CMD windows run: 
 * `npm run swat-server` (back end)
 * `npm run swat` (front end)
 

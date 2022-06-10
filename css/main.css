@@ -1,36 +1,35 @@
-
 html {
   font-family: sans-serif;
 }
 
 /*header */
 
-header{
+header {
   height: 80px;
   line-height: 80px;
-  background-color:#0068C1;
+  background-color: #0068C1;
   font-weight: 450;
   font-size: 20pt;
   box-shadow: 0px 8px 8px 0px;
-  margin:8px 0px 8px 0px;
-  
+  margin: 8px 0px 8px 0px;
+
 }
 
-.luDownload{
+.luDownload {
   border-left: 2px solid white;
   border-right: 2px solid white;
 }
 
-.plantDownload{
+.plantDownload {
   border-left: 4px solid white;
 }
 
-.logo{
+.logo {
   float: left;
   padding: 0px 15px;
 }
 
-nav{
+nav {
   float: right;
   margin-right: 15px;
   font-size: 13pt;
@@ -39,52 +38,52 @@ nav{
   text-align: right;
 }
 
-Nav ul{
+Nav ul {
   margin: 0px;
   padding: 0px;
   list-style-type: none;
 }
 
-Nav li{
-  float:right;
-  padding-left:  6px;
+Nav li {
+  float: right;
+  padding-left: 6px;
   padding-right: 6px;
 }
 
 header a {
   text-decoration: none;
-  color:white;
+  color: white;
 }
 
 header {
   text-decoration: none;
-  color:white;
+  color: white;
 }
 
-nav li:hover{
+nav li:hover {
   background-color: white;
-  color:#0068C1;
+  color: #0068C1;
   padding-bottom: 1px;
 }
 
-header a:hover{
+header a:hover {
   background-color: white;
-  color:#0068C1;
+  color: #0068C1;
 }
 
 
 /*styles the upload popup*/
-.upload{
+.upload {
   display: none;
   position: fixed;
   top: 10%;
   left: 50%;
   z-index: 800;
   margin: none;
-  height:20px;
+  height: 20px;
 }
 
-#uploadButton{
+#uploadButton {
   cursor: pointer;
 }
 
@@ -95,8 +94,8 @@ input[type="file"] {
 /*Main*/
 
 .background {
-background: linear-gradient(to bottom, #fff, #ceefef);
-border-bottom: 1px solid rgba(5,176,228,0.3);
+  background: linear-gradient(to bottom, #fff, #ceefef);
+  border-bottom: 1px solid rgba(5, 176, 228, 0.3);
 }
 
 /*map*/
@@ -106,35 +105,36 @@ border-bottom: 1px solid rgba(5,176,228,0.3);
 }
 
 #map {
-  
- flex: 6;
- height: 600px;
- z-index: 1;
+
+  flex: 6;
+  height: 600px;
+  z-index: 1;
 }
+
 /*map end*/
 
-#message-box > * {
+#message-box>* {
   background-color: grey;
 }
 
-select{
+select {
   width: 100%;
 }
 
- .runSWAT  {
-display: flex;
- } 
+.runSWAT {
+  display: flex;
+}
 
- .visControls{
-   float:left;
- }
+.visControls {
+  float: left;
+}
 
 /* styles all forms  */
-form label{
+form label {
   font-size: 8pt;
 }
 
-form{
+form {
   font-weight: 700;
   font-size: 10pt;
   background-color: white;
@@ -144,16 +144,16 @@ form{
   padding: 5px;
 }
 
-form > input:hover{
+form>input:hover {
   background-color: lightgray;
 }
 
-form > input:focus{
+form>input:focus {
   background-color: lightgray;
 }
 
 /* positions map and HRU table  */
-.flex1{
+.flex1 {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
@@ -161,28 +161,28 @@ form > input:focus{
 
 
 /* styles HRU table when populated  */
-.changes{
+.changes {
   display: block;
   overflow-y: auto;
   max-height: 600px;
 }
 
 /* styles all tables  */
-th{
+th {
   position: sticky;
   top: 0;
-  background:#0068C1;
-  color:white;
+  background: #0068C1;
+  color: white;
 }
 
 /* .hruSummary{
   position: absolute;
   /* position: sticky; s */
-  /* bottom : 0;
+/* bottom : 0;
   color:pink;
-} */ 
+} */
 
-table{
+table {
   font-weight: 500;
   font-size: 10pt;
   background-color: white;
@@ -191,16 +191,19 @@ table{
   margin-left: 3px;
 }
 
-table, th, td{
+table,
+th,
+td {
   border: 1px solid black;
   border-collapse: collapse;
 }
 
-th, td{
-  padding:8px
+th,
+td {
+  padding: 8px
 }
 
-a{
+a {
   text-decoration: none;
 }
 
@@ -218,31 +221,33 @@ footer {
 }
 
 /* stops tab sidebar getting wider */
-#scenarioTab{
-  width:90px;
+#scenarioTab {
+  width: 90px;
 }
+
 /* makes sure choropleth snt pushed out when run SWAT Button is created */
-.runSwatButton{
+.runSwatButton {
   cursor: pointer;
-width: 80px;
-height: 200px;
-opacity: 0.8;
-background: #0068C1;
-color: white;
-margin-top: 20px;
+  width: 80px;
+  height: 200px;
+  opacity: 0.8;
+  background: #0068C1;
+  color: white;
+  margin-top: 20px;
 
 
 }
 
-.runSwatButton:hover{
+.runSwatButton:hover {
   opacity: 1;
 }
+
 /* .runSwatContainer{
   display: flex;
 } */
 
 /* possitions pop-up buttons and runn swat+ box  */
-.flex2{ 
+.flex2 {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -251,51 +256,53 @@ margin-top: 20px;
 }
 
 /* styles box which contains hydrograph  */
-.hydrograph{
+.hydrograph {
   background-color: white;
   margin: 3px 0px;
-  width:100%;
- display: flex;
- flex:1;
- overflow-x: auto;
+  width: 100%;
+  display: flex;
+  flex: 1;
+  overflow-x: auto;
   border: solid black 2px;
 }
 
-.timeSeries{
-  display:flex;
+.timeSeries {
+  display: flex;
   width: 100%;
   flex: 6;
 }
 
-.choropleth{
-  display:flex;
+.choropleth {
+  display: flex;
   width: 100%;
   flex: 4;
 }
-.progressBarBorder{
- 
+
+.progressBarBorder {
+
   background-color: gray;
   width: 700px;
   height: 20px;
 }
-.swatProgressBar{
+
+.swatProgressBar {
 
   background-color: #0068C1;
   height: 20px;
   width: 0%;
 }
 
-#downloadPlot{
-  background-color:#555;
+#downloadPlot {
+  background-color: #555;
   color: white;
   cursor: pointer;
   margin: 2px;
   opacity: 0.8;
-  padding:3px;
+  padding: 3px;
   border-radius: 2%;
 }
 
-#downloadPlot:hover{
+#downloadPlot:hover {
   opacity: 1;
 }
 
@@ -307,7 +314,7 @@ margin-top: 20px;
   border: none;
   cursor: pointer;
   opacity: 0.8;
-  margin:3px;
+  margin: 3px;
   bottom: 23px;
   right: 28px;
   width: 240px;
@@ -320,11 +327,12 @@ margin-top: 20px;
   border: none;
   cursor: pointer;
   opacity: 0.8;
-  margin:3px;
+  margin: 3px;
   bottom: 23px;
   left: 28px;
   width: 240px;
 }
+
 /* styles LU and plant forms  */
 .pop-up-lu {
   display: none;
@@ -338,30 +346,31 @@ margin-top: 20px;
   display: none;
   position: fixed;
   bottom: 0;
-  left:15px;
+  left: 15px;
   z-index: 500;
 }
 
- .openPlantForm:hover {
+.openPlantForm:hover {
   opacity: 1;
 }
+
 .openLuForm:hover {
   opacity: 1;
 }
- 
 
-.vega-bindings{
+
+.vega-bindings {
   display: none;
 }
 
 /* styiling from W3 schools for hydrograph tabs */
-#vis2{
+#vis2 {
   display: none;
 }
 
 /* Style the tab */
 .tab {
-  
+
   border: 1px solid #ccc;
   background-color: #f1f1f1;
 }
@@ -375,7 +384,7 @@ margin-top: 20px;
   cursor: pointer;
   padding: 14px 16px;
   font-size: 17px;
-  width:100%;
+  width: 100%;
   text-align: left;
 }
 
@@ -383,7 +392,8 @@ margin-top: 20px;
   background-color: #3cc43c;
 }
 
-.tab button.scenario-active:focus, .tab button.scenario-active:hover {
+.tab button.scenario-active:focus,
+.tab button.scenario-active:hover {
   background-color: #209720;
 }
 
@@ -397,6 +407,7 @@ margin-top: 20px;
 .tab button:focus {
   background-color: #ddd;
 }
+
 /* finished styling tabs */
 
 .swatrunning {
@@ -417,10 +428,10 @@ margin-top: 20px;
   justify-content: center;
   margin: auto;
   border-radius: 50%;
-  border-top: 10px solid rgba(0,0,0,0.2);
-  border-right: 10px solid rgba(0,0,0,0.2);
-  border-bottom: 10px solid rgba(0,0,0,0.2);
-  border-left: 10px solid rgba(0,0,0,1);
+  border-top: 10px solid rgba(0, 0, 0, 0.2);
+  border-right: 10px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 10px solid rgba(0, 0, 0, 0.2);
+  border-left: 10px solid rgba(0, 0, 0, 1);
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
   transform: translateZ(0);
@@ -429,7 +440,7 @@ margin-top: 20px;
 }
 
 .choroHide {
-  visibility: hidden !important; 
+  visibility: hidden !important;
 }
 
 @keyframes swat-spinner {
@@ -437,6 +448,7 @@ margin-top: 20px;
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);

@@ -53,5 +53,7 @@ In separate CMD windows run:
 ### Open Toolkit
 In the browser navigate to the url: http://localhost:8001/?dev=1 
 
+## Relevant Citation
+Rigby, A.M.F., Butcher, P.W., Ritsos, P.D. and Patil, S.D., 2022. LUCST: A novel toolkit for Land Use Land Cover change assessment in SWAT+ to support flood management decisions. Environmental Modelling & Software, p.105469, https://doi.org/10.1016/j.envsoft.2022.105469.
 
 

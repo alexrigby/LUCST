@@ -208,7 +208,7 @@ export async function newPlantType() {
   // const plantCnt = document.getElementById("plt_cnt")
   // plantCnt.setAttribute('value', 1)
   const iniRotationYear = document.getElementById("rot_yr_ini")
-  iniRotationYear.setAttribute('value', 1)
+  iniRotationYear.setAttribute('value', 0)
   // const plantName = document.getElementById("plt_name")
   //cuts '_comm' of the ed of plantComName and asignes the string as plantName
 
